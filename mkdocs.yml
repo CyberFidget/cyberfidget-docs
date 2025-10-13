@@ -40,6 +40,3 @@ extra:
   social:
     - icon: fontawesome/brands/instagram
       link: https://www.instagram.com/thesamsteele
-  analytics:
-    provider: google
-    property: G-KWMLRGR9E0
