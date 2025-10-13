@@ -17,7 +17,6 @@ nav:
   - Getting started:
     - Overview: getting-started/overview.md
     - First flash (Arduino): getting-started/first-flash-arduino.md
-    - First flash (CircuitPython): getting-started/first-flash-circuitpython.md
   - Hardware:
     - Specs: hardware/specs.md
     - Pinout: hardware/pinout.md
