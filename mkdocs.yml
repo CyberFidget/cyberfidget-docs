@@ -35,9 +35,6 @@ nav:
     - Storage & SD: software/storage.md
     - OTA / Builder: software/ota-builder.md
   - Contribute: contribute.md
-  - Examples:
-    - Single Picture Guide: examples/sample-index.md
-    - Multi Picture Guide: examples/sample-multi.md
 markdown_extensions:
   - admonition
   - attr_list
