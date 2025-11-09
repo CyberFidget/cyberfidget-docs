@@ -1,0 +1,12 @@
+/* guide.css — minimal styles for annotated images and print-friendly steps */
+.cf-annot-wrap { position: relative; display: inline-block; }
+.cf-annot-overlay { pointer-events: none; }
+
+/* Optional: callout legend list */
+.cf-legend { margin: 8px 0 16px; padding-left: 1.2em; }
+.cf-legend li { margin: 4px 0; }
+
+/* Print: keep images with annotations intact; avoid page breaks inside steps */
+@media print {
+  .step { break-inside: avoid; page-break-inside: avoid; }
+}

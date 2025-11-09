@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CF Guide Studio (Folder Mode)</title>
+<style>
+  :root { --pad: 12px; }
+  html, body { height:100%; margin:0; font-family: system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif; }
+  header { padding: var(--pad); border-bottom:1px solid #ddd; display:flex; gap:8px; align-items:center; }
+  .wrap { display:grid; grid-template-columns: 320px 1fr 360px; gap:12px; height: calc(100% - 52px); padding: var(--pad); box-sizing: border-box; }
+  .col { border:1px solid #eee; border-radius:10px; overflow:auto; background:#fff; }
+  .col h4 { margin:0; padding:10px; border-bottom:1px solid #eee; background:#fafafa; display:flex; align-items:center; justify-content:space-between; }
+  .tree { padding:8px; }
+  .tree ul { list-style:none; padding-left:14px; }
+  .tree li { margin:4px 0; }
+  .tree .dir { cursor:pointer; }
+  .tree .active { font-weight:600; }
+  .children { margin-left:8px; }
+  .toolbar { display:flex; gap:8px; padding:8px; border-bottom:1px solid #eee; align-items:center; flex-wrap:wrap; }
+  .canvas-wrap { position:relative; overflow:auto; background:#f8f8f8; height: calc(100% - 48px); }
+  #img { max-width:none; display:block; image-rendering: pixelated; }
+  svg.overlay { position:absolute; top:0; left:0; pointer-events:auto; }
+  button { padding:8px 10px; font-size:14px; cursor:pointer; }
+  input[type="text"], input[type="number"], textarea { padding:8px; width:100%; box-sizing:border-box; }
+  .right { resize: horizontal; min-width: 280px; }
+  .right .row { padding:8px; border-bottom:1px solid #f0f0f0; }
+  .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; border:1px solid #ccc; border-bottom-width:2px; padding:1px 4px; border-radius:4px; background:#fafafa; }
+  .muted { color:#666; font-size:12px; }
+  .stack label { font-size:12px; color:#555; margin-top:6px; display:block; }
+  .handles circle { fill:#fff; stroke:#e53935; stroke-width:2; cursor:pointer; }
+  .dragging { cursor: grabbing !important; }
+  .seg { border:1px solid #ccc; border-radius:8px; overflow:hidden; display:inline-flex; }
+  .seg button { border:0; padding:8px 10px; background:#fafafa; }
+  .seg button + button { border-left:1px solid #ddd; }
+  .seg button.active { background:#111; color:#fff; }
+  .thumbs { display:flex; gap:8px; padding:8px; overflow-x:auto; border-bottom:1px solid #eee; }
+  .thumbs img { height:64px; border:2px solid transparent; border-radius:6px; cursor:pointer; }
+  .thumbs img.active { border-color:#111; }
+</style>
+</head>
+<body>
+<header>
+  <strong>CF Guide Studio</strong>
+  <span class="muted">Pick the parent folder (e.g. <code>assembly/</code>), then choose a step to annotate.</span>
+  <div style="margin-left:auto; display:flex; gap:8px;">
+    <button id="btnPick">Pick Folder</button>
+    <button id="btnUseSaved" style="display:none;">Use Remembered Folder</button>
+    <button id="btnReload">Reload</button>
+    <button id="btnBuildGuide">Build Full guide.md</button>
+    <button id="btnSaveAll">Save All</button>
+    <label style="display:inline-flex;align-items:center;gap:6px;">
+      <input type="checkbox" id="chkOverwrite"> Overwrite existing JSONs
+    </label>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="col left">
+    <h4><span>Folder Tree</span><span id="folderName" class="muted" style="font-weight:normal;"></span></h4>
+    <div class="tree" id="tree"></div>
+  </div>
+
+  <div class="col mid">
+    <div class="toolbar">
+      <span id="imgInfo" class="muted">No image</span>
+      <div class="seg" role="group" aria-label="Mode">
+        <button id="modePin" title="Pin (P)">Pin</button>
+        <button id="modeBox" title="Box (B)">Box</button>
+        <button id="modeCircle" title="Circle (C)">Circle</button>
+        <button id="modeArrow" title="Arrow (A)">Arrow</button>
+      </div>
+      <button id="btnUndo">Undo</button>
+      <button id="btnRedo">Redo</button>
+      <label class="muted">Width <input type="number" id="normWidth" value="1024" style="width:80px"></label>
+      <button id="btnFit">Fit</button>
+      <button id="btnOne">1:1</button>
+      <label><input type="checkbox" id="chkNumbers" checked> Number pins</label>
+      <button id="btnSaveJson">Save JSON</button>
+    </div>
+    <div id="thumbBar" class="thumbs"></div>
+    <div class="canvas-wrap" id="canvasWrap">
+      <img id="img" alt="">
+      <svg class="overlay" id="overlay">
+        <defs>
+          <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#e53935"></polygon>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+  </div>
+
+  <div class="col right">
+    <h4>Inspector & Generator</h4>
+
+    <div class="row stack">
+      <label>Step title (shown in site nav)</label>
+      <input type="text" id="txtStepTitle" placeholder="e.g. Install the backplate">
+    </div>
+
+    <div class="row stack">
+      <label>Major step description (shown on page)</label>
+      <textarea id="txtStepDesc" rows="3" placeholder="Describe this major step…"></textarea>
+    </div>
+
+    <div class="row stack">
+      <label>Selected label</label>
+      <input type="text" id="txtLabel" placeholder="Label…">
+      <label>X</label><input type="number" step="0.001" id="numX" placeholder="x">
+      <label>Y</label><input type="number" step="0.001" id="numY" placeholder="y">
+      <label>W</label><input type="number" step="0.001" id="numW" placeholder="w">
+      <label>H / R</label><input type="number" step="0.001" id="numH" placeholder="h/r">
+      <div class="muted">Delete = remove; Ctrl/Cmd+C & Ctrl/Cmd+V = clone; Arrow keys = nudge (Shift for larger).</div>
+    </div>
+
+    <div class="row stack">
+      <label>Tools (comma separated)</label>
+      <input type="text" id="metaTools" placeholder="T6 Torx, Tweezers, ESD Mat">
+      <label>Parts (comma separated)</label>
+      <input type="text" id="metaParts" placeholder="Backplate, M2x6 SHCS (x6)">
+    </div>
+
+    <div class="row">
+      <button id="btnGenerateMD">Generate step.md</button>
+      <div class="muted">Creates/overwrites <code>step.md</code> for the selected major step.</div>
+    </div>
+
+    <div class="row">
+      <div id="log" class="muted"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(async function(){
+  const supportsFS = 'showDirectoryPicker' in window;
+  const log = (msg) => document.getElementById('log').innerText = msg;
+
+  // Minimal IndexedDB helpers for storing directory handles
+  const DB_NAME = 'cf-guide-db', STORE = 'handles';
+  function idbOpen() {
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open(DB_NAME, 1);
+      req.onupgradeneeded = () => { req.result.createObjectStore(STORE); };
+      req.onsuccess = ()=> resolve(req.result);
+      req.onerror = ()=> reject(req.error);
+    });
+  }
+  async function idbGet(key){
+    const db = await idbOpen();
+    return new Promise((resolve, reject)=>{
+      const tx = db.transaction(STORE, 'readonly'); const st = tx.objectStore(STORE); const r = st.get(key);
+      r.onsuccess = ()=> resolve(r.result); r.onerror = ()=> reject(r.error);
+    });
+  }
+  async function idbSet(key, val){
+    const db = await idbOpen();
+    return new Promise((resolve, reject)=>{
+      const tx = db.transaction(STORE, 'readwrite'); const st = tx.objectStore(STORE); const r = st.put(val, key);
+      r.onsuccess = ()=> resolve(true); r.onerror = ()=> reject(r.error);
+    });
+  }
+
+  // Persistent UI settings
+  const LS = {
+    get: (k, d)=> { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } },
+    set: (k, v)=> localStorage.setItem(k, JSON.stringify(v))
+  };
+
+  // Elements
+  const txtStepTitle = document.getElementById('txtStepTitle');
+  const treeEl = document.getElementById('tree');
+  const btnPick = document.getElementById('btnPick');
+  const btnUseSaved = document.getElementById('btnUseSaved');
+  const btnReload = document.getElementById('btnReload');
+  const btnBuildGuide = document.getElementById('btnBuildGuide');
+  const folderNameEl = document.getElementById('folderName');
+
+  const img = document.getElementById('img');
+  const overlay = document.getElementById('overlay');
+  const imgInfo = document.getElementById('imgInfo');
+  const modePin = document.getElementById('modePin');
+  const modeBox = document.getElementById('modeBox');
+  const modeCircle = document.getElementById('modeCircle');
+  const modeArrow = document.getElementById('modeArrow');
+  const btnUndo = document.getElementById('btnUndo');
+  const btnRedo = document.getElementById('btnRedo');
+  const normWidth = document.getElementById('normWidth');
+  const btnFit = document.getElementById('btnFit');
+  const btnOne = document.getElementById('btnOne');
+  const chkNumbers = document.getElementById('chkNumbers');
+  const txtLabel = document.getElementById('txtLabel');
+  const numX = document.getElementById('numX');
+  const numY = document.getElementById('numY');
+  const numW = document.getElementById('numW');
+  const numH = document.getElementById('numH');
+  const txtStepDesc = document.getElementById('txtStepDesc');
+  const metaTools = document.getElementById('metaTools');
+  const metaParts = document.getElementById('metaParts');
+  const btnSaveJson = document.getElementById('btnSaveJson'); // present in toolbar
+  const btnGenerateMD = document.getElementById('btnGenerateMD');
+
+  // Allow Shift+Enter to insert a newline; plain Enter blurs the field
+  txtStepDesc.addEventListener('keydown', (e)=>{
+    if (e.key === 'Enter') {
+      if (e.shiftKey) {
+        e.stopPropagation(); e.preventDefault();
+        const ta = e.target;
+        const start = ta.selectionStart, end = ta.selectionEnd;
+        ta.value = ta.value.slice(0,start) + "\n" + ta.value.slice(end);
+        ta.selectionStart = ta.selectionEnd = start + 1;
+      } else {
+        e.preventDefault();
+        e.currentTarget.blur();
+      }
+    }
+  });
+
+  // Save All button
+  document.getElementById('btnSaveAll').onclick = async ()=>{
+    if(!currentDirHandle){ alert('Pick a step folder'); return; }
+    // save current image’s state first
+    if (currentImage){
+      const base = currentImage.name.replace(/\.[^.]+$/, '');
+      await writeText(currentDirHandle, base+'.annot.json', JSON.stringify(normalizeState(state,currentImage.name), null, 2));
+    }
+    await saveStepMeta(); // tools/parts/caption/title
+
+    // ensure every other image at least has a stub JSON
+    for (const f of files){
+      const base = f.name.replace(/\.[^.]+$/, '');
+      const existing = await tryLoadJSONSibling(currentDirHandle, f.name);
+      const stub = normalizeState(existing || { image: f.name }, f.name);
+      await writeText(currentDirHandle, base+'.annot.json', JSON.stringify(stub, null, 2));
+    }
+
+    // Overwrite JSON Checkbox
+    const overwrite = document.getElementById('chkOverwrite').checked;
+
+    for (const f of files){
+      const base = f.name.replace(/\.[^.]+$/, '');
+      const existing = await tryLoadJSONSibling(currentDirHandle, f.name);
+      if (!existing || overwrite){
+        const stub = normalizeState(existing || { image: f.name }, f.name);
+        await writeText(currentDirHandle, base+'.annot.json', JSON.stringify(stub, null, 2));
+      }
+    }
+
+    log(`Saved ${files.length} annot.json files and step.meta.json`);
+  };
+
+  // Restore settings
+  normWidth.value = LS.get('cf.normWidth', 1024);
+  chkNumbers.checked = LS.get('cf.numberPins', true);
+  normWidth.addEventListener('change', ()=>LS.set('cf.normWidth', parseInt(normWidth.value)||1024));
+  chkNumbers.addEventListener('change', ()=>LS.set('cf.numberPins', chkNumbers.checked));
+
+  let rootHandle = null;       // assembly folder
+  let currentDirHandle = null; // selected major step folder
+  let files = [];              // images in selected folder
+  let currentImage = null;
+
+  // Annotation state (per image)
+  let mode = 'pin'; // pin|box|circle|arrow
+  let selection = null;
+  let drawingBox = null;
+  let drawingCircle = null;
+  let drawingArrow = null;
+  let dragging = null; // pin|box|circle or arrowpt
+  let state = { image: '', pins: [], boxes: [], circles: [], arrows: [] };
+  
+  function normalizeState(s, imageName){
+  s = s || {};
+  s.image   = s.image   || imageName || '';
+  s.pins    = Array.isArray(s.pins)    ? s.pins    : [];
+  s.boxes   = Array.isArray(s.boxes)   ? s.boxes   : [];
+  s.circles = Array.isArray(s.circles) ? s.circles : [];
+  s.arrows  = Array.isArray(s.arrows)  ? s.arrows  : [];
+  return s;
+}
+
+
+  // Clipboard
+  let clip = null;
+
+  const history = []; let histIndex = -1;
+  function pushHistory(){ history.splice(histIndex+1); history.push(JSON.stringify(state)); if(history.length>400) history.shift(); histIndex = history.length-1; }
+  function applyHistory(i){ if(i<0||i>=history.length) return; state = JSON.parse(history[i]); histIndex=i; selection=null; render(); }
+  const undo=()=>{ if(histIndex>0) applyHistory(histIndex-1);};
+  const redo=()=>{ if(histIndex<history.length-1) applyHistory(histIndex+1);};
+
+  function setMode(m){
+    mode=m;
+    [modePin,modeBox,modeCircle,modeArrow].forEach(b=>b.classList.remove('active'));
+    (m==='pin'?modePin:m==='box'?modeBox:m==='circle'?modeCircle:modeArrow).classList.add('active');
+  }
+  setMode('pin');
+  modePin.onclick=()=>setMode('pin');
+  modeBox.onclick=()=>setMode('box');
+  modeCircle.onclick=()=>setMode('circle');
+  modeArrow.onclick=()=>setMode('arrow');
+  btnUndo.onclick=undo; btnRedo.onclick=redo;
+
+  function resizeOverlay(){
+    overlay.setAttribute('width', img.clientWidth);
+    overlay.setAttribute('height', img.clientHeight);
+    overlay.style.width = img.clientWidth + 'px';
+    overlay.style.height = img.clientHeight + 'px';
+    overlay.style.left = img.offsetLeft + 'px';
+    overlay.style.top = img.offsetTop + 'px';
+  }
+  window.addEventListener('resize', resizeOverlay);
+  function round(v){ return Math.round(v*1000)/1000; }
+  function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
+  function imgPointFromEvent(ev){
+    const rect = img.getBoundingClientRect();
+    const xpx = ev.clientX - rect.left, ypx = ev.clientY - rect.top;
+    return { x: clamp(xpx/rect.width,0,1), y: clamp(ypx/rect.height,0,1) };
+  }
+
+  // Typing guard
+  let typingInInput = false;
+  function guard(el, {allowNewlines=false} = {}){
+    let original = '';
+    el.addEventListener('focus', ()=>{ typingInInput = true; original = el.value; });
+    el.addEventListener('blur',  ()=>{ typingInInput = false; });
+
+    el.addEventListener('keydown', (e)=>{
+      // ESC = revert & blur for both input and textarea
+      if (e.key === 'Escape'){
+        e.preventDefault();
+        el.value = original;
+        el.blur();
+        return;
+      }
+
+      if (e.key === 'Enter'){
+        if (allowNewlines && e.shiftKey){
+          // Shift+Enter inserts a newline (textarea only)
+          e.preventDefault();
+          const ta = el;
+          const start = ta.selectionStart, end = ta.selectionEnd;
+          ta.value = ta.value.slice(0,start) + '\n' + ta.value.slice(end);
+          ta.selectionStart = ta.selectionEnd = start + 1;
+          return;
+        }
+        // Plain Enter = save + blur
+        e.preventDefault();
+        el.blur();
+        return;
+      }
+
+      // Prevent tool shortcuts while typing
+      e.stopPropagation();
+    });
+  }
+  [txtLabel, metaTools, metaParts].forEach(el => guard(el, {allowNewlines:false}));
+
+  // For the description textarea (Shift+Enter = newline)
+  guard(txtStepDesc, {allowNewlines:true});
+
+  // ---- Persist / restore root folder handle
+  async function tryRestoreRoot(){
+    try {
+      const saved = await idbGet('rootHandle');
+      if (!saved){ btnUseSaved.style.display='none'; return; }
+
+      let perm = await saved.queryPermission({mode:'readwrite'});
+      if (perm === 'granted'){
+        rootHandle = saved;
+        await buildTree();
+        btnUseSaved.style.display='none';
+        return;
+      }
+
+      // Needs a user gesture to regrant
+      btnUseSaved.style.display='inline-block';
+      btnUseSaved.onclick = async ()=>{
+        let p = await saved.requestPermission({mode:'readwrite'});
+        if (p === 'granted'){ rootHandle = saved; await buildTree(); btnUseSaved.style.display='none'; }
+        else alert('Permission denied. Please use Pick Folder.');
+      };
+    } catch(e){
+      btnUseSaved.style.display='none';
+    }
+
+    if (navigator.storage && navigator.storage.persist) {
+      try { await navigator.storage.persist(); } catch {}
+    }
+  }
+  await tryRestoreRoot();
+
+  // Folder tree build
+  btnPick.onclick = async ()=>{
+    if (!supportsFS){ alert('Use Chrome/Edge for folder access.'); return; }
+    rootHandle = await showDirectoryPicker({mode:'readwrite'});
+    await idbSet('rootHandle', rootHandle);
+    await buildTree();
+  };
+  btnReload.onclick = async ()=>{ if(rootHandle){ await buildTree(); } };
+  btnBuildGuide.onclick = async () => {
+    if (!rootHandle) { alert('Pick the parent folder first.'); return; }
+
+    const steps = await listMajorSteps(rootHandle);
+
+    // util: escape for regex
+    const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+    function relToGuide(stepDir, text) {
+      // 1) strip YAML FM + the first H2
+      text = text.replace(/^---[\s\S]*?---\s*/m, '');
+      text = text.replace(/^##\s+.*\n/m, '');
+
+      // 2) rewrite any local paths that start with "./"
+      //    (covers <img src>, <a href>, and data-annot-src)
+      text = text.replace(/(\s(?:src|href|data-annot-src)=["'])\.\//g, `$1../${stepDir}/`);
+
+      // 3) leave anything already absolute or starting with ../ as-is
+      return text.trim();
+    }
+
+    let out = '# Assembly Guide\n\n';
+
+    for (const {handle, name} of steps){
+      const meta = await readText(handle,'step.meta.json').then(JSON.parse).catch(()=>({}));
+      const title = meta.title || name;
+      const md = await readText(handle,'step.md').catch(()=> '_No step.md yet._');
+      out += `\n\n## ${title}\n\n` + relToGuide(name, md) + '\n';
+    }
+    await writeText(rootHandle, 'guide.md', out);
+
+    log('Wrote guide.md in the selected folder (paths rewritten to ../<step>/...).');
+  };
+
+
+  async function buildTree(){
+    treeEl.innerHTML = '';
+    folderNameEl.textContent = rootHandle?.name || '';
+    const ul = document.createElement('ul');
+    const rootLi = document.createElement('li');
+    rootLi.innerHTML = `<span class="dir active">📁 ${await getHandleName(rootHandle)}</span>`;
+    const children = document.createElement('ul'); children.className='children';
+    const steps = await listMajorSteps(rootHandle);
+    for (const {handle, name} of steps){
+      const li = document.createElement('li');
+      const span = document.createElement('span');
+      span.className = 'dir';
+      span.textContent = `📁 ${name}`;
+      span.addEventListener('click', async ()=>{
+        Array.from(treeEl.querySelectorAll('.active')).forEach(n=>n.classList.remove('active'));
+        span.classList.add('active');
+        currentDirHandle = handle;
+        await loadImagesForCurrentDir();
+        await loadStepMeta();
+      });
+      li.appendChild(span);
+      children.appendChild(li);
+    }
+    rootLi.appendChild(children);
+    ul.appendChild(rootLi);
+    treeEl.appendChild(ul);
+    if (steps.length){
+      currentDirHandle = steps[0].handle;
+      const firstSpan = children.querySelector('.dir');
+      if (firstSpan) firstSpan.classList.add('active');
+      await loadImagesForCurrentDir();
+      await loadStepMeta();
+    } else {
+      files = []; currentImage=null; state = { image:'', pins:[], boxes:[], circles:[], arrows:[] }; render();
+      log('No step folders found (expecting numeric names like "1", "Step1", "Step 1", etc.).');
+    }
+  }
+
+  function extractStepNumber(name){
+    const m = String(name).match(/(\d+(?:\.\d+)?)/);
+    return m ? parseFloat(m[1]) : null;
+  }
+
+  async function listMajorSteps(dirHandle){
+    const out = [];
+    for await (const entry of dirHandle.values()){
+      if (entry.kind==='directory'){
+        const n = extractStepNumber(entry.name);
+        if (n !== null) out.push({handle: entry, name: entry.name, num: n});
+      }
+    }
+    out.sort((a,b)=> a.num===b.num ? a.name.localeCompare(b.name) : a.num - b.num);
+    return out;
+  }
+  async function getHandleName(h){ return h?.name || ''; }
+
+  async function loadImagesForCurrentDir(){
+    files = [];
+    for await (const entry of currentDirHandle.values()){
+      if (entry.kind==='file'){
+        const ext = entry.name.toLowerCase().split('.').pop();
+        if (['png','jpg','jpeg','webp'].includes(ext)){
+          files.push({name: entry.name, handle: entry});
+        }
+      }
+    }
+    files.sort((a,b)=> a.name.localeCompare(b.name, undefined, {numeric:true}));
+    if (files.length) await selectImage(files[0]);
+    await rebuildThumbBar();
+    log(`Loaded ${files.length} images from ${currentDirHandle.name}.`);
+  }
+
+  async function rebuildThumbBar(){
+    const bar = document.getElementById('thumbBar');
+    bar.innerHTML = '';
+    for (const f of files){
+      const file = await f.handle.getFile();
+      const url = URL.createObjectURL(file);
+      const im = document.createElement('img');
+      im.src = url; im.alt = f.name;
+      im.title = f.name;
+      if (currentImage && currentImage.name === f.name) im.classList.add('active');
+      im.onclick = async ()=>{ await selectImage(f); highlightActiveThumb(); };
+      bar.appendChild(im);
+    }
+  }
+  function highlightActiveThumb(){
+    const bar = document.getElementById('thumbBar');
+    [...bar.querySelectorAll('img')].forEach(img=>{
+      img.classList.toggle('active', currentImage && img.alt === currentImage.name);
+    });
+  }
+
+  async function loadStepMeta(){
+    try{
+      const f = await currentDirHandle.getFileHandle('step.meta.json');
+      const meta = JSON.parse(await (await f.getFile()).text());
+      txtStepTitle.value = meta.title || '';            // <—
+      txtStepDesc.value  = meta.caption || '';
+      metaTools.value = (meta.tools||[]).join(', ');
+      metaParts.value = (meta.parts||[]).join(', ');
+    } catch {
+      txtStepTitle.value = '';
+      txtStepDesc.value = '';
+      metaTools.value = '';
+      metaParts.value = '';
+    }
+  }
+
+  async function saveStepMeta(){
+    const meta = {
+      title:  txtStepTitle.value || '',                 // <—
+      caption: txtStepDesc.value || '',
+      tools: metaTools.value.split(',').map(s=>s.trim()).filter(Boolean),
+      parts: metaParts.value.split(',').map(s=>s.trim()).filter(Boolean),
+    };
+    await writeText(currentDirHandle, 'step.meta.json', JSON.stringify(meta, null, 2));
+  }
+
+  async function selectImage(fileEntry){
+    const file = await fileEntry.handle.getFile();
+    const url = URL.createObjectURL(file);
+    img.onload = async ()=> {
+      const loaded = await tryLoadJSONSibling(currentDirHandle, fileEntry.name);
+      state = normalizeState(loaded, fileEntry.name);
+      selection = null; // clear any stale selection
+      pushHistory(); fitView(); render(); highlightActiveThumb();
+    };
+    img.src = url;
+    currentImage = { name:fileEntry.name, url, handle:fileEntry.handle };
+  }
+
+  async function tryLoadJSONSibling(dirHandle, fileName){
+    const base = fileName.replace(/\.[^.]+$/, '');
+    const jsonName = base + '.annot.json';
+    try {
+      const h = await dirHandle.getFileHandle(jsonName, {create:false});
+      const f = await h.getFile();
+      const txt = await f.text();
+      return JSON.parse(txt);
+    } catch(e){ return null; }
+  }
+  async function writeText(dirHandle, name, text){
+    const h = await dirHandle.getFileHandle(name, {create:true});
+    const w = await h.createWritable(); await w.write(text); await w.close();
+  }
+  async function readText(dirHandle, name){
+    const h = await dirHandle.getFileHandle(name, {create:false});
+    const f = await h.getFile(); return await f.text();
+  }
+
+  // Mouse & keyboard
+  overlay.addEventListener('click', (ev)=>{
+    if(!img.src || typingInInput) return;
+    const pt = imgPointFromEvent(ev);
+    if(mode==='pin' && !drawingBox && !drawingCircle && !drawingArrow){
+      state.pins.push({x:round(pt.x), y:round(pt.y), label:`Pin ${state.pins.length+1}`});
+      selection = {kind:'pin', index:state.pins.length-1};
+      pushHistory(); render();
+    } else if (mode==='arrow'){
+      if(!drawingArrow) drawingArrow = { points:[pt] }; else drawingArrow.points.push(pt);
+      render();
+    }
+  });
+
+  overlay.addEventListener('mousedown', (ev)=>{
+    if(!img.src || typingInInput) return;
+    const pt = imgPointFromEvent(ev);
+
+    // First: try to drag an existing item
+    const hit = hitTest(pt);
+    if (hit){
+      dragging = hit;
+      selection = (hit.kind==='arrowpt') ? {kind:'arrow', index:hit.arrowIndex} : hit;
+      document.body.classList.add('dragging'); ev.preventDefault(); return;
+    }
+
+    // Otherwise, begin drawing shapes for the current mode
+    if(mode==='box' && ev.button===0){
+      drawingBox = {start: pt, current:null}; document.body.classList.add('dragging'); ev.preventDefault(); return;
+    }
+    if(mode==='circle' && ev.button===0){
+      drawingCircle = {start: pt, current:null}; document.body.classList.add('dragging'); ev.preventDefault(); return;
+    }
+  });
+
+  window.addEventListener('mousemove', (ev)=>{
+    if(drawingBox){ drawingBox.current = imgPointFromEvent(ev); render(); }
+    if(drawingCircle){ drawingCircle.current = imgPointFromEvent(ev); render(); }
+    if(dragging){
+      const pt = imgPointFromEvent(ev);
+      if (dragging.kind==='pin'){
+        const p = state.pins[dragging.index]; p.x = clamp(pt.x,0,1); p.y = clamp(pt.y,0,1);
+      } else if (dragging.kind==='box'){
+        const b = state.boxes[dragging.index];
+        const w=b.w, h=b.h; b.x = clamp(pt.x - w/2, 0, 1-w); b.y = clamp(pt.y - h/2, 0, 1-h);
+      } else if (dragging.kind==='circle'){
+        const c = state.circles[dragging.index];
+        c.cx = clamp(pt.x,0,1); c.cy = clamp(pt.y,0,1);
+      } else if (dragging.kind==='arrowpt'){
+        const a = state.arrows[dragging.arrowIndex];
+        a.points[dragging.pointIndex] = {x:clamp(pt.x,0,1), y:clamp(pt.y,0,1)};
+      }
+      render();
+    }
+  });
+
+  window.addEventListener('mouseup', ()=>{
+    if(drawingBox){
+      const a=drawingBox.start, b=drawingBox.current||a;
+      const x=round(Math.min(a.x,b.x)), y=round(Math.min(a.y,b.y));
+      const w=round(Math.abs(a.x-b.x)), h=round(Math.abs(a.y-b.y));
+      if(w>0.002 && h>0.002){ state.boxes.push({x,y,w,h,label:`Box ${state.boxes.length+1}`}); pushHistory(); }
+      drawingBox=null; document.body.classList.remove('dragging'); render();
+    }
+    if(drawingCircle){
+      const a=drawingCircle.start, b=drawingCircle.current||a;
+      const cx = a.x, cy = a.y;
+      const r = Math.hypot((b.x-cx),(b.y-cy));
+      if (r>0.004){ state.circles.push({cx:round(cx), cy:round(cy), r:round(r), label:`Circle ${state.circles.length+1}`}); pushHistory(); }
+      drawingCircle=null; document.body.classList.remove('dragging'); render();
+    }
+    if(dragging){ pushHistory(); dragging=null; document.body.classList.remove('dragging'); }
+  });
+
+  window.addEventListener('keydown', async (e)=>{
+    const meta = e.ctrlKey || e.metaKey;
+    if (typingInInput) return;
+    if (meta && e.key.toLowerCase()==='z'){ e.preventDefault(); if(e.shiftKey) redo(); else undo(); return; }
+    if (meta && e.key.toLowerCase()==='y'){ e.preventDefault(); redo(); return; }
+    if (meta && e.key.toLowerCase()==='c'){ e.preventDefault(); if(selection){ clip = JSON.parse(JSON.stringify({selection, stateItem: getItem(selection)})); } return; }
+    if (meta && e.key.toLowerCase()==='v'){ e.preventDefault(); if(clip){ pasteClip(); } return; }
+
+    if (!meta){
+      if (e.key.toLowerCase()==='p') setMode('pin');
+      if (e.key.toLowerCase()==='b') setMode('box');
+      if (e.key.toLowerCase()==='c') setMode('circle');
+      if (e.key.toLowerCase()==='a') setMode('arrow');
+      if (e.key==='Enter' && drawingArrow) { finishArrow(); return; }
+      if (e.key==='Escape'){ drawingArrow=null; drawingBox=null; drawingCircle=null; render(); return; }
+      if (selection){
+        const step = e.shiftKey ? 0.01 : 0.003;
+        if (['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)){
+          e.preventDefault();
+          nudge(selection, e.key, step);
+          render(); pushHistory();
+        }
+        if (e.key === 'Delete'){
+          e.preventDefault(); removeSelection(); render(); pushHistory(); return;
+        }
+      }
+    }
+  });
+
+  function getItem(sel){
+    if(sel.kind==='pin') return state.pins[sel.index];
+    if(sel.kind==='box') return state.boxes[sel.index];
+    if(sel.kind==='circle') return state.circles[sel.index];
+    if(sel.kind==='arrow') return state.arrows[sel.index];
+    return null;
+  }
+
+  function pasteClip(){
+    const off = 0.02;
+    const data = JSON.parse(JSON.stringify(clip.stateItem));
+    if (clip.selection.kind==='pin'){
+      data.x = clamp((data.x||0)+off,0,1); data.y = clamp((data.y||0)+off,0,1);
+      state.pins.push(data); selection = {kind:'pin', index:state.pins.length-1};
+    } else if (clip.selection.kind==='box'){
+      data.x = clamp((data.x||0)+off,0,1); data.y = clamp((data.y||0)+off,0,1);
+      state.boxes.push(data); selection = {kind:'box', index:state.boxes.length-1};
+    } else if (clip.selection.kind==='circle'){
+      data.cx = clamp((data.cx||0)+off,0,1); data.cy = clamp((data.cy||0)+off,0,1);
+      state.circles.push(data); selection = {kind:'circle', index:state.circles.length-1};
+    } else if (clip.selection.kind==='arrow'){
+      data.points = (data.points||[]).map(p=>({x:clamp(p.x+off,0,1), y:clamp(p.y+off,0,1)}));
+      state.arrows.push(data); selection = {kind:'arrow', index:state.arrows.length-1};
+    }
+    render(); pushHistory();
+  }
+
+  function removeSelection(){
+    if(!selection) return;
+    if (selection.kind==='pin') state.pins.splice(selection.index,1);
+    else if (selection.kind==='box') state.boxes.splice(selection.index,1);
+    else if (selection.kind==='circle') state.circles.splice(selection.index,1);
+    else if (selection.kind==='arrow') state.arrows.splice(selection.index,1);
+    selection = null;
+  }
+
+  function finishArrow(){
+    if(drawingArrow && drawingArrow.points.length>=2){
+      const pts = drawingArrow.points.map(p=>({x:round(p.x), y:round(p.y)}));
+      state.arrows.push({points:pts, label:`Arrow ${state.arrows.length+1}`});
+      pushHistory();
+    }
+    drawingArrow=null; render();
+  }
+
+  function nudge(sel, key, d){
+    const dx = (key==='ArrowLeft'?-d : key==='ArrowRight'? d : 0);
+    const dy = (key==='ArrowUp'?-d : key==='ArrowDown'? d : 0);
+    if (sel.kind==='pin'){
+      const p = state.pins[sel.index]; p.x = clamp(p.x+dx,0,1); p.y = clamp(p.y+dy,0,1);
+    } else if (sel.kind==='box'){
+      const b = state.boxes[sel.index]; b.x = clamp(b.x+dx,0,1-b.w); b.y = clamp(b.y+dy,0,1-b.h);
+    } else if (sel.kind==='circle'){
+      const c = state.circles[sel.index]; c.cx = clamp(c.cx+dx,0,1); c.cy = clamp(c.cy+dy,0,1);
+    } else if (sel.kind==='arrow'){
+      const a = state.arrows[sel.index];
+      for (let i=0;i<a.points.length;i++){ a.points[i].x = clamp(a.points[i].x+dx,0,1); a.points[i].y = clamp(a.points[i].y+dy,0,1); }
+    }
+  }
+
+  function hitTest(pt){
+    // arrow point handles
+    for (let ai=0; ai<state.arrows.length; ai++){
+      const a = state.arrows[ai];
+      for (let pi=0; pi<a.points.length; pi++){
+        const p = a.points[pi];
+        if (dist(pt, p) < 0.02) return {kind:'arrowpt', arrowIndex:ai, pointIndex:pi};
+      }
+    }
+    // circle center region (move)
+    for (let i=0;i<state.circles.length;i++){
+      const c = state.circles[i];
+      const dcen = dist(pt, {x:c.cx, y:c.cy});
+      if (dcen < c.r*0.9) return {kind:'circle', index:i};
+    }
+    // pins
+    for (let i=0;i<state.pins.length;i++){
+      const p = state.pins[i];
+      if (dist(pt, p) < 0.03) return {kind:'pin', index:i};
+    }
+    // boxes
+    for (let i=0;i<state.boxes.length;i++){
+      const b = state.boxes[i];
+      if (pt.x>=b.x && pt.x<=b.x+b.w && pt.y>=b.y && pt.y<=b.y+b.h) return {kind:'box', index:i};
+    }
+    return null;
+  }
+  function dist(a,b){ const dx=a.x-b.x, dy=a.y-b.y; return Math.hypot(dx,dy); }
+
+  function render(){
+    state = normalizeState(state, currentImage?.name);
+    resizeOverlay();
+    while (overlay.firstChild && overlay.firstChild.tagName!=='DEFS') overlay.removeChild(overlay.firstChild);
+    // pins
+    (state.pins || []).forEach((p,i)=>{
+      const cx=p.x*overlay.clientWidth, cy=p.y*overlay.clientHeight;
+      const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+      const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      c.setAttribute('cx',cx); c.setAttribute('cy',cy); c.setAttribute('r',10);
+      c.setAttribute('fill', selection && selection.kind==='pin' && selection.index===i ? '#111' : '#1976d2');
+      c.style.pointerEvents='auto'; c.style.cursor='pointer';
+      c.addEventListener('click', (e)=>{ e.stopPropagation(); select({kind:'pin', index:i}); });
+      c.addEventListener('mousedown', (e)=>{ dragging={kind:'pin', index:i}; document.body.classList.add('dragging'); });
+      const t = document.createElementNS('http://www.w3.org/2000/svg','text');
+      t.setAttribute('x',cx); t.setAttribute('y',cy+4); t.setAttribute('text-anchor','middle');
+      t.setAttribute('font-size','12'); t.setAttribute('fill','#fff');
+      t.textContent = chkNumbers.checked ? (i+1) : '•';
+      g.appendChild(c); g.appendChild(t);
+      overlay.appendChild(g);
+    });
+    // boxes
+    (state.boxes || []).forEach((b,i)=>{
+      const x=b.x*overlay.clientWidth, y=b.y*overlay.clientHeight;
+      const w=b.w*overlay.clientWidth, h=b.h*overlay.clientHeight;
+      const r = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      r.setAttribute('x',x); r.setAttribute('y',y); r.setAttribute('width',w); r.setAttribute('height',h);
+      r.setAttribute('fill','rgba(255,165,0,0.15)'); r.setAttribute('stroke', selection && selection.kind==='box' && selection.index===i ? '#111' : '#ffa500'); r.setAttribute('stroke-width','2');
+      r.style.pointerEvents='auto'; r.style.cursor='move';
+      r.addEventListener('click', (e)=>{ e.stopPropagation(); select({kind:'box', index:i}); });
+      r.addEventListener('mousedown', (e)=>{ dragging={kind:'box', index:i}; document.body.classList.add('dragging'); });
+      overlay.appendChild(r);
+    });
+    // circles
+    (state.circles || []).forEach((c1,i)=>{
+      const cx=c1.cx*overlay.clientWidth, cy=c1.cy*overlay.clientHeight;
+      const rpx=c1.r*overlay.clientWidth;
+      const circ = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      circ.setAttribute('cx',cx); circ.setAttribute('cy',cy); circ.setAttribute('r',rpx);
+      circ.setAttribute('fill','rgba(76,175,80,0.12)'); circ.setAttribute('stroke', selection && selection.kind==='circle' && selection.index===i ? '#111' : '#4caf50'); circ.setAttribute('stroke-width','2');
+      circ.style.pointerEvents='auto'; circ.style.cursor='move';
+      circ.addEventListener('click', (e)=>{ e.stopPropagation(); select({kind:'circle', index:i}); });
+      circ.addEventListener('mousedown', (e)=>{ dragging={kind:'circle', index:i}; document.body.classList.add('dragging'); });
+      overlay.appendChild(circ);
+    });
+    // arrows + handles
+    (state.arrows || []).forEach((a,i)=>{
+      if (!a.points || a.points.length<2) return;
+      const pts = a.points.map(p=>`${p.x*overlay.clientWidth},${p.y*overlay.clientHeight}`).join(' ');
+      const path = document.createElementNS('http://www.w3.org/2000/svg','polyline');
+      path.setAttribute('points', pts); path.setAttribute('fill','none');
+      path.setAttribute('stroke', selection && selection.kind==='arrow' && selection.index===i ? '#111' : '#e53935');
+      path.setAttribute('stroke-width','3'); path.setAttribute('marker-end','url(#arrowhead)');
+      path.style.pointerEvents='auto'; path.style.cursor='pointer';
+      path.addEventListener('click', (e)=>{ e.stopPropagation(); select({kind:'arrow', index:i}); });
+      overlay.appendChild(path);
+      a.points.forEach((p,pi)=>{
+        const cx=p.x*overlay.clientWidth, cy=p.y*overlay.clientHeight;
+        const h = document.createElementNS('http://www.w3.org/2000/svg','circle');
+        h.setAttribute('cx',cx); h.setAttribute('cy',cy); h.setAttribute('r',6);
+        h.setAttribute('class','handles');
+        h.style.pointerEvents='auto'; h.style.cursor='grab';
+        h.addEventListener('mousedown', (e)=>{ dragging={kind:'arrowpt', arrowIndex:i, pointIndex:pi}; document.body.classList.add('dragging'); e.stopPropagation(); });
+        overlay.appendChild(h);
+      });
+    });
+
+    // live draw overlays
+    if (drawingBox){
+      const a=drawingBox.start, b=drawingBox.current||a;
+      const x=Math.min(a.x,b.x)*overlay.clientWidth, y=Math.min(a.y,b.y)*overlay.clientHeight;
+      const w=Math.abs(a.x-b.x)*overlay.clientWidth, h=Math.abs(a.y-b.y)*overlay.clientHeight;
+      const rect = document.createElementNS('http://www.w3.org/2000/svg','rect');
+      rect.setAttribute('x',x); rect.setAttribute('y',y); rect.setAttribute('width',w); rect.setAttribute('height',h);
+      rect.setAttribute('fill','rgba(0,0,0,0.06)'); rect.setAttribute('stroke','#333'); rect.setAttribute('stroke-dasharray','4 3');
+      overlay.appendChild(rect);
+    }
+    if (drawingCircle){
+      const a=drawingCircle.start, b=drawingCircle.current||a;
+      const cx=a.x*overlay.clientWidth, cy=a.y*overlay.clientHeight;
+      const r=Math.hypot((b.x-a.x)*overlay.clientWidth, (b.y-a.y)*overlay.clientHeight);
+      const circ = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      circ.setAttribute('cx',cx); circ.setAttribute('cy',cy); circ.setAttribute('r',r);
+      circ.setAttribute('fill','rgba(0,0,0,0.06)'); circ.setAttribute('stroke','#333'); circ.setAttribute('stroke-dasharray', '4 3');
+      overlay.appendChild(circ);
+    }
+    if (drawingArrow && drawingArrow.points.length){
+      const pts = drawingArrow.points.map(p => `${p.x * overlay.clientWidth},${p.y * overlay.clientHeight}`).join(' ');
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+      path.setAttribute('points', pts);
+      path.setAttribute('fill', 'none'); path.setAttribute('stroke', '#777'); path.setAttribute('stroke-dasharray', '4 3'); path.setAttribute('stroke-width', '2');
+      overlay.appendChild(path);
+    }
+    syncInspector();
+  }
+
+  function select(sel){ selection=sel; syncInspector(); }
+  function validIndex(kind, i){
+    const L = kind==='pin' ? state.pins.length :
+              kind==='box' ? state.boxes.length :
+              kind==='circle' ? state.circles.length :
+              state.arrows.length;
+    return Number.isInteger(i) && i >= 0 && i < L;
+  }
+  function syncInspector(){
+    if (selection && !validIndex(selection.kind, selection.index)){
+      selection = null;
+    }
+    const item = selection ? (
+      selection.kind==='pin'    ? state.pins[selection.index] :
+      selection.kind==='box'    ? state.boxes[selection.index] :
+      selection.kind==='circle' ? state.circles[selection.index] :
+                                  state.arrows[selection.index]
+    ) : null;
+    imgInfo.textContent = state.image ? `${state.image}  (pins:${state.pins.length}, boxes:${state.boxes.length}, circles:${state.circles.length}, arrows:${state.arrows.length})` : 'No image';
+    txtLabel.value = item?.label || '';
+    if (selection?.kind==='pin'){ numX.value=item.x; numY.value=item.y; numW.value=''; numH.value=''; }
+    else if (selection?.kind==='box'){ numX.value=item.x; numY.value=item.y; numW.value=item.w; numH.value=item.h; }
+    else if (selection?.kind==='circle'){ numX.value=item.cx; numY.value=item.cy; numW.value=''; numH.value=item.r; }
+    else { numX.value=''; numY.value=''; numW.value=''; numH.value=''; }
+  }
+  txtLabel.addEventListener('input', ()=>{
+    const item = selection ? (
+      selection.kind==='pin'?state.pins[selection.index] :
+      selection.kind==='box'?state.boxes[selection.index] :
+      selection.kind==='circle'?state.circles[selection.index] :
+      state.arrows[selection.index]) : null;
+    if(item){ item.label = txtLabel.value; }
+  });
+  ['numX','numY','numW','numH'].forEach(id=>document.getElementById(id).addEventListener('input', ()=>{
+    const x=parseFloat(numX.value), y=parseFloat(numY.value);
+    const w=parseFloat(numW.value), h=parseFloat(numH.value);
+    if(!selection) return;
+    if(selection.kind==='pin'){
+      if(!Number.isNaN(x)) state.pins[selection.index].x = clamp(x,0,1);
+      if(!Number.isNaN(y)) state.pins[selection.index].y = clamp(y,0,1);
+    } else if (selection.kind==='box'){
+      const b = state.boxes[selection.index];
+      if(!Number.isNaN(x)) b.x = clamp(x,0,1);
+      if(!Number.isNaN(y)) b.y = clamp(y,0,1);
+      if(!Number.isNaN(w)) b.w = clamp(w,0,1);
+      if(!Number.isNaN(h)) b.h = clamp(h,0,1);
+    } else if (selection.kind==='circle'){
+      const c = state.circles[selection.index];
+      if(!Number.isNaN(x)) c.cx = clamp(x,0,1);
+      if(!Number.isNaN(y)) c.cy = clamp(y,0,1);
+      if(!Number.isNaN(h)) c.r = clamp(h,0,1);
+    }
+  }));
+
+  function fitView(){ const W = parseInt(normWidth.value)||1024; img.style.width=W+'px'; img.style.height='auto'; resizeOverlay(); }
+  function oneToOne(){ img.style.width=img.naturalWidth+'px'; img.style.height='auto'; resizeOverlay(); }
+  btnFit.onclick=()=>{ fitView(); render(); }; btnOne.onclick=()=>{ oneToOne(); render(); };
+  img.addEventListener('dblclick', ()=>{ const cur=parseInt(img.style.width||0); if(!cur || cur!==img.naturalWidth) oneToOne(); else fitView(); render(); });
+
+  btnSaveJson.onclick = async ()=>{
+    if(!currentDirHandle || !currentImage){ alert('Select a step folder and image first.'); return; }
+    const base = currentImage.name.replace(/\.[^.]+$/, '');
+    const jsonName = base + '.annot.json';
+    await writeText(currentDirHandle, jsonName, JSON.stringify(state, null, 2));
+    await saveStepMeta();
+    log(`Saved ${jsonName} and step.meta.json`);
+  };
+
+  function escHtml(s){
+    return String(s)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;');
+  }
+
+  function captionToHtml(raw) {
+    // Normalize newlines across OSes
+    let s = String(raw ?? '')
+      .replace(/\r\n/g, '\n')
+      .replace(/\r/g, '\n')
+      .trim();
+
+    // Allow an explicit paragraph delimiter line: '---'
+    s = s.replace(/\n[ \t]*---[ \t]*\n/g, '\n\n\n');
+
+    // Split paragraphs on 3+ consecutive newlines
+    const paragraphs = s.split(/\n{3,}/);
+
+    // Inside a paragraph, ANY single or double newline becomes <br>
+    const htmlParas = paragraphs.map(p => {
+      const safe = escHtml(p.trim());
+      const withBr = safe.replace(/\n{1,2}/g, '<br>');
+      return `<p class="muted">${withBr}</p>`;
+    });
+
+    return htmlParas.join('\n\n');
+  }
+
+  btnGenerateMD.onclick = async ()=>{
+    if(!currentDirHandle){ alert('Pick a step folder first.'); return; }
+
+    await saveStepMeta();
+    const stepMetaTxt = await readText(currentDirHandle, 'step.meta.json').catch(()=>null);
+    const stepMeta = stepMetaTxt ? JSON.parse(stepMetaTxt) : {title:'', caption:'', tools:[], parts:[]};
+
+    const mainSrc = files[0]?.name || '';
+    const annotSrc = mainSrc ? `./${mainSrc.replace(/\.[^.]+$/, '')}.annot.json` : '';
+    const thumbs = files.map(f => `    <img src="./${f.name}" alt="${f.name}">`).join('\n');
+
+    const title = stepMeta.title || currentDirHandle.name;
+    const md = 
+`---
+title: ${currentDirHandle.name}
+${(stepMeta.tools||[]).length ? `tools: [${(stepMeta.tools||[]).map(s=>JSON.stringify(s)).join(', ')}]` : 'tools: []'}
+${(stepMeta.parts||[]).length ? `parts: [${(stepMeta.parts||[]).map(s=>JSON.stringify(s)).join(', ')}]` : 'parts: []'}
+---
+
+## ${currentDirHandle.name.replace(/_/g,' ')}
+
+${captionToHtml(stepMeta.caption)}
+
+<div class="cf-step-gallery">
+  <a class="cf-zoom" href="./${mainSrc}" target="_blank" rel="noopener">
+    <img class="cf-main" src="./${mainSrc}" alt="Step main" data-annot-src="./${mainSrc.replace(/\.[^.]+$/, '')}.annot.json">
+  </a>
+  <div class="cf-thumbs">
+${thumbs}
+  </div>
+</div>
+`;
+
+    await writeText(currentDirHandle, 'step.md', md);
+    log(`Wrote step.md in ${currentDirHandle.name}`);
+  };
+
+  function dist(a,b){ const dx=a.x-b.x, dy=a.y-b.y; return Math.hypot(dx,dy); }
+})();
+</script>
+</body>
+</html>

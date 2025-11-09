@@ -12,10 +12,20 @@ theme:
     - content.code.copy
     - content.tabs.link
     - toc.integrate
+
+extra_css:
+  - assets/guide.css
+  - assets/multi.css
+
+extra_javascript:
+  - assets/guide.js
+  - assets/multi.js
+
 nav:
   - Home: index.md
   - Getting started:
     - Overview: getting-started/overview.md
+    - Assembly: getting-started/assembly/guide.md
     - First flash (Arduino): getting-started/first-flash-arduino.md
   - Hardware:
     - Specs: hardware/specs.md
@@ -25,6 +35,9 @@ nav:
     - Storage & SD: software/storage.md
     - OTA / Builder: software/ota-builder.md
   - Contribute: contribute.md
+  - Examples:
+    - Single Picture Guide: examples/sample-index.md
+    - Multi Picture Guide: examples/sample-multi.md
 markdown_extensions:
   - admonition
   - attr_list
