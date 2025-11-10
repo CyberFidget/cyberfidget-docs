@@ -52,6 +52,7 @@
     <label style="display:inline-flex;align-items:center;gap:6px;">
       <input type="checkbox" id="chkOverwrite"> Overwrite existing JSONs
     </label>
+    <button id="btnRenumberPins">Renumber pins (step-wide)</button>
   </div>
 </header>
 
@@ -102,6 +103,11 @@
     <div class="row stack">
       <label>Major step description (shown on page)</label>
       <textarea id="txtStepDesc" rows="3" placeholder="Describe this major step…"></textarea>
+    </div>
+
+    <div class="row" id="pinNumberRow" style="display:none">
+      <label>Pin #</label>
+      <input type="number" id="numPinN" min="1" step="1">
     </div>
 
     <div class="row stack">
@@ -198,7 +204,9 @@
   const txtStepDesc = document.getElementById('txtStepDesc');
   const metaTools = document.getElementById('metaTools');
   const metaParts = document.getElementById('metaParts');
-  const btnSaveJson = document.getElementById('btnSaveJson'); // present in toolbar
+  const pinNumberRow = document.getElementById('pinNumberRow');
+  const numPinN = document.getElementById('numPinN');
+  const btnSaveJson = document.getElementById('btnSaveJson');
   const btnGenerateMD = document.getElementById('btnGenerateMD');
 
   // Allow Shift+Enter to insert a newline; plain Enter blurs the field
@@ -219,6 +227,7 @@
 
   // Save All button
   document.getElementById('btnSaveAll').onclick = async ()=>{
+    await saveCurrentIfDirty();
     if(!currentDirHandle){ alert('Pick a step folder'); return; }
     // save current image’s state first
     if (currentImage){
@@ -227,17 +236,10 @@
     }
     await saveStepMeta(); // tools/parts/caption/title
 
-    // ensure every other image at least has a stub JSON
-    for (const f of files){
-      const base = f.name.replace(/\.[^.]+$/, '');
-      const existing = await tryLoadJSONSibling(currentDirHandle, f.name);
-      const stub = normalizeState(existing || { image: f.name }, f.name);
-      await writeText(currentDirHandle, base+'.annot.json', JSON.stringify(stub, null, 2));
-    }
-
     // Overwrite JSON Checkbox
     const overwrite = document.getElementById('chkOverwrite').checked;
 
+    // ensure every other image at least has a stub JSON
     for (const f of files){
       const base = f.name.replace(/\.[^.]+$/, '');
       const existing = await tryLoadJSONSibling(currentDirHandle, f.name);
@@ -250,11 +252,37 @@
     log(`Saved ${files.length} annot.json files and step.meta.json`);
   };
 
+  // Renumber Pins button
+  document.getElementById('btnRenumberPins').onclick = async ()=>{
+  if (!currentDirHandle) { alert('Open a step folder first'); return; }
+  // collect all images of this step
+  const all = [...files];  // you already have 'files' for the step
+  let n = 1;
+  for (const f of all){
+    const data = await tryLoadJSONSibling(currentDirHandle, f.name) || { image: f.name, pins:[], boxes:[], circles:[], arrows:[] };
+    // assign numbers to pins in creation order if they lack 'n'
+    for (const p of (data.pins||[])){
+      if (!Number.isInteger(p.n)) { p.n = n++; }
+    }
+    await writeText(currentDirHandle, f.name.replace(/\.[^.]+$/,'' )+'.annot.json', JSON.stringify(data, null, 2));
+  }
+  currentStepMeta.pinNext = n;
+  await saveStepMeta();
+  log(`Renumbered pins 1..${n-1} across ${all.length} image(s).`);
+};
+
+
   // Restore settings
   normWidth.value = LS.get('cf.normWidth', 1024);
   chkNumbers.checked = LS.get('cf.numberPins', true);
   normWidth.addEventListener('change', ()=>LS.set('cf.normWidth', parseInt(normWidth.value)||1024));
   chkNumbers.addEventListener('change', ()=>LS.set('cf.numberPins', chkNumbers.checked));
+  numPinN.addEventListener('change', ()=>{
+    if (selection?.kind !== 'pin') return;
+    const v = Math.max(1, parseInt(numPinN.value||'1',10));
+    state.pins[selection.index].n = v;
+    render(); pushHistory();
+  });
 
   let rootHandle = null;       // assembly folder
   let currentDirHandle = null; // selected major step folder
@@ -285,7 +313,7 @@
   let clip = null;
 
   const history = []; let histIndex = -1;
-  function pushHistory(){ history.splice(histIndex+1); history.push(JSON.stringify(state)); if(history.length>400) history.shift(); histIndex = history.length-1; }
+  function pushHistory(){ history.splice(histIndex+1); history.push(JSON.stringify(state)); if(history.length>400) history.shift(); histIndex = history.length-1; markDirty();}
   function applyHistory(i){ if(i<0||i>=history.length) return; state = JSON.parse(history[i]); histIndex=i; selection=null; render(); }
   const undo=()=>{ if(histIndex>0) applyHistory(histIndex-1);};
   const redo=()=>{ if(histIndex<history.length-1) applyHistory(histIndex+1);};
@@ -317,6 +345,20 @@
     const rect = img.getBoundingClientRect();
     const xpx = ev.clientX - rect.left, ypx = ev.clientY - rect.top;
     return { x: clamp(xpx/rect.width,0,1), y: clamp(ypx/rect.height,0,1) };
+  }
+
+  // Dirty Save tracking (e.g. for pins)
+  let dirty = false;
+
+  function markDirty(){ dirty = true; }
+
+  async function saveCurrentIfDirty(){
+    if (!dirty || !currentDirHandle || !currentImage) return;
+    const base = currentImage.name.replace(/\.[^.]+$/, '');
+    const payload = JSON.stringify(normalizeState(state, currentImage.name), null, 2);
+    await writeText(currentDirHandle, base + '.annot.json', payload);
+    dirty = false;
+    log(`Auto-saved ${base}.annot.json`);
   }
 
   // Typing guard
@@ -450,6 +492,7 @@
       span.addEventListener('click', async ()=>{
         Array.from(treeEl.querySelectorAll('.active')).forEach(n=>n.classList.remove('active'));
         span.classList.add('active');
+        await saveCurrentIfDirty();
         currentDirHandle = handle;
         await loadImagesForCurrentDir();
         await loadStepMeta();
@@ -528,42 +571,52 @@
   }
 
   async function loadStepMeta(){
-    try{
-      const f = await currentDirHandle.getFileHandle('step.meta.json');
-      const meta = JSON.parse(await (await f.getFile()).text());
-      txtStepTitle.value = meta.title || '';            // <—
+    try {
+      const stepMetaTxt = await readText(currentDirHandle, 'step.meta.json').catch(()=>null);
+      const meta = stepMetaTxt ? JSON.parse(stepMetaTxt) : {};
+      meta.pinNext = Number.isInteger(meta.pinNext) ? meta.pinNext : 1;
+      currentStepMeta = meta;
+
+      txtStepTitle.value = meta.title || '';
       txtStepDesc.value  = meta.caption || '';
-      metaTools.value = (meta.tools||[]).join(', ');
-      metaParts.value = (meta.parts||[]).join(', ');
+      metaTools.value    = (meta.tools || []).join(', ');
+      metaParts.value    = (meta.parts || []).join(', ');
     } catch {
+      currentStepMeta = { pinNext: 1 };
       txtStepTitle.value = '';
-      txtStepDesc.value = '';
-      metaTools.value = '';
-      metaParts.value = '';
+      txtStepDesc.value  = '';
+      metaTools.value    = '';
+      metaParts.value    = '';
     }
   }
 
   async function saveStepMeta(){
     const meta = {
-      title:  txtStepTitle.value || '',                 // <—
+      title:  txtStepTitle.value || '', 
       caption: txtStepDesc.value || '',
       tools: metaTools.value.split(',').map(s=>s.trim()).filter(Boolean),
       parts: metaParts.value.split(',').map(s=>s.trim()).filter(Boolean),
+      pinNext: currentStepMeta?.pinNext ?? 1,
     };
     await writeText(currentDirHandle, 'step.meta.json', JSON.stringify(meta, null, 2));
+    currentStepMeta = meta;
   }
 
   async function selectImage(fileEntry){
+    await saveCurrentIfDirty();
+
+    currentImage = fileEntry;
     const file = await fileEntry.handle.getFile();
     const url = URL.createObjectURL(file);
-    img.onload = async ()=> {
+    img.src = url;
+    img.onload = async () => {
       const loaded = await tryLoadJSONSibling(currentDirHandle, fileEntry.name);
       state = normalizeState(loaded, fileEntry.name);
-      selection = null; // clear any stale selection
-      pushHistory(); fitView(); render(); highlightActiveThumb();
+      selection = null;
+      dirty = false;                     // clean slate after load
+      pushHistory();                     // optional: snapshot baseline
+      fitView(); render(); highlightActiveThumb && highlightActiveThumb();
     };
-    img.src = url;
-    currentImage = { name:fileEntry.name, url, handle:fileEntry.handle };
   }
 
   async function tryLoadJSONSibling(dirHandle, fileName){
@@ -589,9 +642,15 @@
   overlay.addEventListener('click', (ev)=>{
     if(!img.src || typingInInput) return;
     const pt = imgPointFromEvent(ev);
-    if(mode==='pin' && !drawingBox && !drawingCircle && !drawingArrow){
-      state.pins.push({x:round(pt.x), y:round(pt.y), label:`Pin ${state.pins.length+1}`});
-      selection = {kind:'pin', index:state.pins.length-1};
+    if (mode === 'pin' && !drawingBox && !drawingCircle && !drawingArrow) {
+      const n = (currentStepMeta?.pinNext ?? 1);
+      state.pins.push({ x: round(pt.x), y: round(pt.y), label: txtLabel.value || '', n });
+      selection = { kind: 'pin', index: state.pins.length - 1 };
+
+      // bump counter and persist meta
+      currentStepMeta = currentStepMeta || {};
+      currentStepMeta.pinNext = n + 1;
+      saveStepMeta();                                            // async ok
       pushHistory(); render();
     } else if (mode==='arrow'){
       if(!drawingArrow) drawingArrow = { points:[pt] }; else drawingArrow.points.push(pt);
@@ -666,6 +725,7 @@
     if (meta && e.key.toLowerCase()==='y'){ e.preventDefault(); redo(); return; }
     if (meta && e.key.toLowerCase()==='c'){ e.preventDefault(); if(selection){ clip = JSON.parse(JSON.stringify({selection, stateItem: getItem(selection)})); } return; }
     if (meta && e.key.toLowerCase()==='v'){ e.preventDefault(); if(clip){ pasteClip(); } return; }
+    if (meta && e.key.toLowerCase()==='s'){ e.preventDefault(); await saveCurrentIfDirty(); return; }
 
     if (!meta){
       if (e.key.toLowerCase()==='p') setMode('pin');
@@ -686,6 +746,13 @@
         }
       }
     }
+  });
+
+  // Warn on unsaved changes
+  window.addEventListener('beforeunload', (e)=>{
+    if (!dirty) return;
+    e.preventDefault();
+    e.returnValue = '';
   });
 
   function getItem(sel){
@@ -794,7 +861,8 @@
       const t = document.createElementNS('http://www.w3.org/2000/svg','text');
       t.setAttribute('x',cx); t.setAttribute('y',cy+4); t.setAttribute('text-anchor','middle');
       t.setAttribute('font-size','12'); t.setAttribute('fill','#fff');
-      t.textContent = chkNumbers.checked ? (i+1) : '•';
+      const num = Number.isInteger(p.n) ? p.n : (i + 1);
+      t.textContent = chkNumbers.checked ? String(num) : '•';
       g.appendChild(c); g.appendChild(t);
       overlay.appendChild(g);
     });
@@ -893,11 +961,15 @@
     ) : null;
     imgInfo.textContent = state.image ? `${state.image}  (pins:${state.pins.length}, boxes:${state.boxes.length}, circles:${state.circles.length}, arrows:${state.arrows.length})` : 'No image';
     txtLabel.value = item?.label || '';
-    if (selection?.kind==='pin'){ numX.value=item.x; numY.value=item.y; numW.value=''; numH.value=''; }
-    else if (selection?.kind==='box'){ numX.value=item.x; numY.value=item.y; numW.value=item.w; numH.value=item.h; }
-    else if (selection?.kind==='circle'){ numX.value=item.cx; numY.value=item.cy; numW.value=''; numH.value=item.r; }
-    else { numX.value=''; numY.value=''; numW.value=''; numH.value=''; }
+    if (selection?.kind === 'pin'){
+      pinNumberRow.style.display = '';
+      numPinN.value = state.pins[selection.index].n ?? (selection.index+1);
+    }
+    else if (selection?.kind==='box'){ numX.value=item.x; numY.value=item.y; numW.value=item.w; numH.value=item.h; pinNumberRow.style.display = 'none';}
+    else if (selection?.kind==='circle'){ numX.value=item.cx; numY.value=item.cy; numW.value=''; numH.value=item.r; pinNumberRow.style.display = 'none'}
+    else { numX.value=''; numY.value=''; numW.value=''; numH.value=''; pinNumberRow.style.display = 'none'}
   }
+
   txtLabel.addEventListener('input', ()=>{
     const item = selection ? (
       selection.kind==='pin'?state.pins[selection.index] :

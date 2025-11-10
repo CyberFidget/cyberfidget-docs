@@ -1,6 +1,13 @@
 {
   "image": "3.jpg",
-  "pins": [],
+  "pins": [
+    {
+      "x": 0.646,
+      "y": 0.563,
+      "label": "",
+      "n": 5
+    }
+  ],
   "boxes": [],
   "circles": [],
   "arrows": []

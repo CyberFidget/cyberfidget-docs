@@ -12,3 +12,6 @@ A pocket-sized, programmable gadget you can fidget with, learn on, and extend. W
 
 !!! tip "Keep it simple"
 Use the “Getting started” pages to flash your first app in minutes. Acronyms are expanded on first use.
+
+## Assembly Guide 
+[Assembly Guide](/getting-started/assembly/guide/)

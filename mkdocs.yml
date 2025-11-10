@@ -34,7 +34,10 @@ nav:
     - Apps: software/apps.md
     - Storage & SD: software/storage.md
     - OTA / Builder: software/ota-builder.md
-  - Contribute: contribute.md
+  - Contribute: 
+    - Contribute: contribute/contribute.md
+    - Making Guides: contribute/Cyber-Fidget-Guide-Studio.md
+    - Guide Studio: studio/
 markdown_extensions:
   - admonition
   - attr_list

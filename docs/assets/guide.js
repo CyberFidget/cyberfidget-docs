@@ -75,7 +75,10 @@
         const text = document.createElementNS('http://www.w3.org/2000/svg','text');
         text.setAttribute('x', cx); text.setAttribute('y', cy+4); text.setAttribute('text-anchor','middle');
         text.setAttribute('font-size','12'); text.setAttribute('fill','#fff');
-        text.textContent = (i+1).toString();
+        
+        const num = Number.isInteger(p.n) ? p.n : (i+1);
+        text.textContent = String(num);
+        
         const title = document.createElementNS('http://www.w3.org/2000/svg','title');
         title.textContent = p.label || `Pin ${i+1}`;
         g.appendChild(title); g.appendChild(circle); g.appendChild(text);
