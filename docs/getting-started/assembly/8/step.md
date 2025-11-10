@@ -6,7 +6,11 @@ parts: []
 
 ## 8
 
-<p class="muted"></p>
+<p class="muted">Gather: (1) Case Front, (2) Button Head Screws (3x, #2-56 x 5/32in)</p>
+
+<p class="muted">1 - Tighten the screws near the USB-C connector first (3), (4). They just need to be snug tight<br>2 - Then tighten the screw near the speaker (5). It may pull the Mainboard a little bit tighter in case your grip has loosened. This is okay.</p>
+
+<p class="muted">ℹ️ If your Front Case and/or Mainboard has a hole at location (6), do NOT insert a screw here. It is not necessary.</p>
 
 <div class="cf-step-gallery">
   <a class="cf-zoom" href="./1.jpg" target="_blank" rel="noopener">

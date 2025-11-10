@@ -8,7 +8,7 @@ parts: []
 
 <p class="muted">Gather: (1) Case Front, (2) Color Filter</p>
 
-<p class="muted">1 - Grab tweezers or wash your hands<br>2 - Carefully holding the Color Filter to avoid fingerprints, remove the protective film<br>3 - Remove the film from the other side of the filter<br>4 - Insert the filter into the Case Front pocket over the screen window</p>
+<p class="muted">1 - Grab tweezers or wash your hands<br>2 - Carefully holding the Color Filter to avoid fingerprints (3), remove the protective film (4).<br>3 - Remove the film from the other side of the filter (5)<br>4 - Insert the filter into the Case Front pocket over the screen window (6)</p>
 
 <p class="muted">ℹ️ Don't forget to remove the film from both sides of the color filter or nearly the entire Cyber Fidget will have to be disassembled.</p>
 
