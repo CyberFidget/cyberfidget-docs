@@ -36,8 +36,8 @@ nav:
     - OTA / Builder: software/ota-builder.md
   - Contribute: 
     - Contribute: contribute/contribute.md
-    - Making Guides: contribute/Cyber-Fidget-Guide-Studio.md
-    - Guide Studio: studio/
+    - Guide Studio: studio/index.html
+    - How to Make Guides: contribute/Cyber-Fidget-Guide-Studio.md
 markdown_extensions:
   - admonition
   - attr_list
