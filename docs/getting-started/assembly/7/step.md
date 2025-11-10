@@ -20,7 +20,7 @@ parts: []
 
 <p class="muted">6 - Inspect to make the screen edge is aligned with the screen pocket (13). Using a similar method to the slider, lightly tap the back of the screen with your finger to see if it clicks/makes noise (13). The screen should not make any noise and be completely flat with the pocket.<br>If there is a clicking sound when tapping, first ensure there is no unintended part interference or debris, then tighten the retainer screws in small increments (~ 1/10th of a turn) until it stops clicking.<br>If the screen is not aligned to the pocket, loosen the retaining screws and shift the screen until it is aligned (using as little force as possible) and retighten the screws.</p>
 
-<p class="muted">(16) - Example of a poorly aligned screen resting on the buttons instead of the screen pocket.<br>(17) - Example of the screen corner incorrectly overlapping the pocket in a way that it will crack.<br>(18) Example of a well-aligned screen.</p>
+<p class="muted">(16) - Example of a poorly aligned screen resting on the buttons instead of the screen pocket.<br>(17) - Example of the screen corner incorrectly overlapping the pocket in a way that it will crack.<br>(18) - Example of a well-aligned screen.</p>
 
 <p class="muted">7 - Adjust the slide potentiometer (14) and metal slider (15) to be in both bottom positions.</p>
 
