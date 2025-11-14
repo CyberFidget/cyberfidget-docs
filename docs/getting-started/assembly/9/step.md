@@ -6,7 +6,9 @@ parts: []
 
 ## 9
 
-<p class="muted">Gather: (1) Case Front, (2) Battery<br>1 - Inspect the battery connector (3) and the Mainboard battery connector (4) for orientation and wire polarity. The connector is keyed and only fits one way. Double check that + POS labeled on the Mainboard (5) will align with the red wire.</p>
+<p class="muted">Gather: (1) Case Front, (2) Battery</p>
+
+<p class="muted">1 - Inspect the battery connector (3) and the Mainboard battery connector (4) for orientation and wire polarity. The connector is keyed and only fits one way. Double check that + POS labeled on the Mainboard (5) will align with the red wire.</p>
 
 <p class="muted">2 - Align the connector keys and using both index fingers and your thumbs to leverage the case, check to make sure the connectors are straight, then push the connectors together. It will be a tight fit.</p>
 

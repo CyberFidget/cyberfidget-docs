@@ -8,15 +8,15 @@ parts: []
 
 <p class="muted">Gather: (1) Case front with color filter, buttons, slider, and lenses installed, (2) Screen Retainer, (3) Button Head Screws (2x, #2-56 x 5/32in), (4) Mainboard</p>
 
-<p class="muted">⚠️ <br>1 - Insert the screws into the screen retainer (5)</p>
+<p class="muted">1 - Insert the screws into the screen retainer (5)</p>
 
 <p class="muted">2 - Carefully peel off the screen protector. Be mindful of its fragileness and fingerprints (6).</p>
 
 <p class="muted">3 - Place the Case Front down onto a surface and guide the screen into the pocket above the color filter. The edge of the case pocket (7) is cut to perfectly fit the screen outline (8) itself and align the pixels to the screen window. It's generally easiest to start with the edge closest to the buttons, then carefully push the ribbon and screen into the case by sliding the Mainboard down into the case vertically until the screen is flat to the screen pocket.<br>⚠️ BE CAREFUL NOT TO CATCH THE CORNERS OF THE SCREEN. There is extra material cut out of the case to avoid this. Make sure the screen is inside the pocket and the corners of the screen are free from contact (9).</p>
 
-<p class="muted">4 - While holding the Mainboard vertically with your non-dominant hand, keep the screen from moving, grab the screen retainer (with screws pre-inserted) and set into its guide pockets (10), (11).</p>
+<p class="muted">4 - While holding the Mainboard vertically with your non-dominant hand, keep the screen from moving, grab the screen retainer (with screws pre-inserted) and set into its guide pockets (10), (11).<br>⚠️ Make sure the screws ((10), (11)) and the screen retainer are seated flush. If they are not flush, the screws may contact and damage the Mainboard in the next step. Check by visually inspecting from the side for gaps and the tap test.</p>
 
-<p class="muted">5 - Using an allen key, tighten the screen retainer screws until snug (12). <br>⚠️⚠️⚠️ Keep a close eye on the screen to make sure it has not lifted and/or shifted while tightening down. This will break the screen if it has and you continue to tighten the screen retainer. ⚠️⚠️⚠️</p>
+<p class="muted">5 - Using an allen key, tighten the screen retainer screws until snug (12). <br>⚠️ Keep a close eye on the screen to make sure it has not lifted and/or shifted while tightening down. This will break the screen if it has and you continue to tighten the screen retainer.</p>
 
 <p class="muted">6 - Inspect to make the screen edge is aligned with the screen pocket (13). Using a similar method to the slider, lightly tap the back of the screen with your finger to see if it clicks/makes noise (13). The screen should not make any noise and be completely flat with the pocket.<br>If there is a clicking sound when tapping, first ensure there is no unintended part interference or debris, then tighten the retainer screws in small increments (~ 1/10th of a turn) until it stops clicking.<br>If the screen is not aligned to the pocket, loosen the retaining screws and shift the screen until it is aligned (using as little force as possible) and retighten the screws.</p>
 
