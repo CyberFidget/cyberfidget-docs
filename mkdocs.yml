@@ -27,6 +27,16 @@ nav:
     - Overview: getting-started/overview.md
     - Assembly: getting-started/assembly/guide.md
     - First flash (Arduino): getting-started/first-flash-arduino.md
+  - Concepts:
+    - Overview: concepts/index.md
+    - How an App Works: concepts/app-lifecycle.md
+    - The Update Loop: concepts/update-loop.md
+    - Buttons & Events: concepts/buttons.md
+    - Drawing to the Screen: concepts/display.md
+    - Sound & Music: concepts/audio.md
+    - LEDs & Color: concepts/leds.md
+    - The Slider: concepts/slider.md
+    - Motion Sensing: concepts/accelerometer.md
   - Hardware:
     - Specs: hardware/specs.md
     - Pinout: hardware/pinout.md
