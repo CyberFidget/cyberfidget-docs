@@ -11,6 +11,7 @@ theme:
     - navigation.sections
     - content.code.copy
     - content.tabs.link
+    - content.tooltips
     - toc.integrate
 
 extra_css:
@@ -42,10 +43,14 @@ nav:
     - Pinout: hardware/pinout.md
   - Software:
     - Apps: software/apps.md
+    - Browser Emulator: software/emulator.md
     - Storage & SD: software/storage.md
     - OTA / Builder: software/ota-builder.md
+  - Reference:
+    - Glossary: reference/glossary.md
   - Contribute: 
     - Contribute: contribute/contribute.md
+    - Emulator Dev Guide: contribute/emulator-dev.md
     - Guide Studio: studio/index.html
     - How to Make Guides: contribute/Cyber-Fidget-Guide-Studio.md
 markdown_extensions:
@@ -54,11 +59,23 @@ markdown_extensions:
   - def_list
   - footnotes
   - md_in_html
+  - abbr
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.highlight
+  - pymdownx.snippets:
+      auto_append:
+        - includes/abbreviations.md
   - toc:
       permalink: true
+
+watch:
+  - includes
+
 extra:
   social:
     - icon: fontawesome/brands/instagram
