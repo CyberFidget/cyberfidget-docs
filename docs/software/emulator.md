@@ -117,6 +117,16 @@ flowchart LR
 !!! example "Screenshot (optional)"
     Add a screenshot of the emulator device mockup with labels for OLED, buttons, slider, and LEDs. Save as `docs/assets/emulator/device-mockup.png`.
 
+### Panel controls and hints
+
+Above the device mockup you’ll see:
+
+- **Try a built-in app** — Dropdown to load a pre-compiled app (Demo, Dino Game, Flashlight, Breakout, Matrix Screensaver) without compiling.
+- **Shortcut hints** — Buttons: `Q` `E` `A` `D` `Z` `C`; tilt: move mouse. The **?** link opens the full [emulator docs](https://docs.cyberfidget.com/software/emulator/) (this page). Hover over each button in the mockup to see its key.
+- **Volume** — Slider and mute let you turn down or mute the emulator’s *output* (so you’re not stuck at a fixed volume). The app’s own volume is unchanged; real volume control belongs in the app / on the device. The volume row glows green while the app is playing a tone.
+
+**Compile** builds your current code to WASM; **Record GIF** captures the emulator screen as a 5-second GIF. Use **Load App** (in the action bar or next to New App) to switch or import an app; the emulator auto-loads the cached build when available.
+
 ### Serial Monitor
 
 Below the emulator, a **Serial Monitor** panel shows any `Serial.println()` output from your app — useful for debugging.
@@ -173,8 +183,8 @@ sequenceDiagram
 | Slider | **Full** | Maps to the same 0–4095 ADC range as hardware |
 | RGBW LEDs (4) | **Full** | Colors rendered with glow effects; dim values boosted for visibility |
 | Serial output | **Full** | Routed to the Serial Monitor panel |
-| Audio/tones | **Partial** | Basic tone generation via Web Audio API |
-| Accelerometer | **Stub** | Returns constant values (no tilt/shake detection) |
+| Audio/tones | **Full** | Web Audio API; panel has output volume/mute (browser only — app volume is unchanged); slider glows when app plays sound |
+| Accelerometer | **Full** | Move mouse (desktop) or use device motion (mobile) for tilt |
 | Battery level | **Stub** | Always reports 100% |
 | WiFi | **Stub** | Not available in browser |
 | Deep sleep | **Stub** | No-op (calls are safely ignored) |
@@ -183,7 +193,8 @@ sequenceDiagram
 
 ## Tips
 
-- **Test with keyboard shortcuts** — `Q/E/A/D/Z/C` for buttons is faster than clicking
+- **Test with keyboard shortcuts** — `Q/E/A/D/Z/C` for buttons is faster than clicking (hints appear in the panel and on button hover).
+- **Tilt / accelerometer** — On desktop, move the mouse; on mobile, use device orientation when the browser provides it.
 - **Watch the serial terminal** — If your app isn't behaving right, add `Serial.println()` calls for debugging
 - **LED values are boosted** — The emulator scales up dim LED values (below brightness 50) so they're visible on screen. On real hardware, even brightness 3/255 emits visible light, but `rgb(0, 3, 0)` on a dark background is invisible
 - **The slider is inverted** — This matches the physical device orientation

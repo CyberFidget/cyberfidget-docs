@@ -118,8 +118,11 @@ Two loading methods:
 Both methods:
 1. Create a `<script>` tag to execute the Emscripten-generated JS loader
 2. Call `CyberFidgetModule({...})` with callbacks for `onFrameReady`, `onLedUpdate`, `onSerialOutput`
-3. Use `cwrap()` to bind exported C functions
+3. Use `cwrap()` to bind exported C functions: `wasm_button_press`, `wasm_button_release`, `wasm_set_slider`, `wasm_set_accel`, `wasm_get_framebuffer`, `wasm_get_framebuffer_size`, `wasm_stop`
 4. Wire emulator events to the WASM functions
+5. Start the accelerometer feed (`_startAccelFeed()`): on devices with motion data, uses `DeviceMotionEvent`; otherwise uses mouse position vs window center as tilt and calls `wasm_set_accel`
+
+The **volume slider and mute** in the emulator panel are output-only: they set `Module._emulatorMasterVolume` (0..1). The firmware’s `audio_wasm.cpp` multiplies the app’s tone volume by this value so users can mute or lower the browser output without changing the app’s idea of volume. The app’s own volume controls (e.g. in-app settings) are unchanged. `Module._audioPlaying` is set when a tone is playing so the UI can show a “sound active” indicator.
 
 The `stop()` method calls `_wasm_stop()` (which internally calls `emscripten_cancel_main_loop`) and resets LEDs.
 
@@ -130,6 +133,8 @@ Implements the `HAL` namespace that all apps depend on:
 - Uses `EM_JS` macros for JS interop (framebuffer push, LED updates, serial output)
 - `loopHardware()` runs every frame: updates timing globals, processes button events, reads slider value from JS, pushes LED state when the strip's `needsShow` flag is set
 - `updateStrip()` (from `RGBController.cpp`) must be called each frame to flush the dirty flag into `show()`
+- **Accelerometer**: `getAccelerometerX/Y/Z()` return values set by the bridge via `wasm_set_accel(x, y, z)` (mouse position or `DeviceMotionEvent`)
+- **Output volume**: The emulator panel sets `Module._emulatorMasterVolume` (0..1) in JS only; no WASM export. `audio_wasm.cpp` multiplies the app’s tone gain by this so users can mute or lower browser output. App volume (e.g. `AudioManager::setVolume()`) is unchanged.
 
 ### `Adafruit_NeoPixel.h` — NeoPixel Shim
 
