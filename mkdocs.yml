@@ -46,6 +46,10 @@ nav:
     - Browser Emulator: software/emulator.md
     - Storage & SD: software/storage.md
     - OTA / Builder: software/ota-builder.md
+  - Firmware:
+    - Overview: firmware/index.md
+    - Music Player: firmware/music-player.md
+    - BT A2DP Guide: firmware/bt-a2dp-guide.md
   - Reference:
     - Glossary: reference/glossary.md
   - Contribute: 
