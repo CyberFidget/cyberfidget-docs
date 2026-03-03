@@ -49,6 +49,7 @@ nav:
   - Firmware:
     - Overview: firmware/index.md
     - Music Player: firmware/music-player.md
+    - Web Portal: firmware/web-portal.md
     - BT A2DP Guide: firmware/bt-a2dp-guide.md
   - Reference:
     - Glossary: reference/glossary.md
