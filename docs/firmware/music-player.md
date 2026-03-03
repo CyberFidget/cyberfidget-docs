@@ -144,19 +144,37 @@ The Now Playing screen on the 128x64 OLED:
 
 ```
 ┌────────────────────────────┐
-│⚡ Now Playing          87 ▊│  ← Header: BT icon, title, battery outline w/ %
+│  ⚡ Now Playing        87 ▊│  ← Header: BT icon (x=5), battery outline (right-aligned)
+│ The Artist Name            │  ← Artist (y=8)
+│ ♫ Track Title Here ←scroll │  ← Title with marquee (y=19)
 │                            │
-│ The Artist Name            │  ← Artist (y=15)
-│ ♫ Track Title Here ←scroll │  ← Title with marquee (y=26)
-│                            │
-│ ▶ Playing          [S]     │  ← Status + shuffle indicator (y=38)
-│ V ████████████░░░░░ 72%    │  ← Volume bar from slider (y=50)
+│ ▶ Playing          [S]     │  ← Status + shuffle indicator (y=31)
+│ 1:23 ████████░░░░░ -2:58   │  ← Playhead with elapsed/remaining time (y=50)
 └────────────────────────────┘
 ```
 
 - **Battery**: Programmatic outline with percentage text inside. Lightning bolt icon when charging.
 - **Marquee**: Long track titles scroll horizontally.
-- **Volume**: Tracks the physical slider position in real-time.
+- **Playhead**: Progress bar with elapsed (M:SS) and remaining (-M:SS) time. Time estimated from MP3 bitrate read from the first MPEG frame header.
+- **Volume overlay**: When the physical slider is moved, the playhead temporarily shows a volume bar for 2 seconds, then fades back to the playhead.
+
+---
+
+## Scrubbing (seek within track)
+
+Hold the left or right button for 500ms to start scrubbing backward or forward within the current track. The player seeks ~5 seconds worth of MP3 data every 200ms while the button is held.
+
+Tap (quick press and release < 500ms) still triggers previous/next track.
+
+The seek uses the Arduino SD `File::seek()` on the underlying stream (`pPlayer->getStream()` cast to `File*`). The MP3 decoder re-syncs automatically after the jump — there may be a brief audio artifact (~50ms) at the seek point.
+
+---
+
+## Resume playback
+
+The player remembers your position when you pause or exit the app. On re-entry, selecting "Now Playing" from the main menu resumes the saved track at the saved byte position.
+
+Resume state is stored in NVS (`"mpstate"` namespace) with the file path and byte offset. It's cleared when you start a new track.
 
 ---
 
