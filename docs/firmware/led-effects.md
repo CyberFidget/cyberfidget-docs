@@ -1,12 +1,14 @@
 # LED Effects & Visualizer
 
-The Music Player drives the Cyber Fidget's 4 RGBW NeoPixel LEDs in sync with audio playback, plus an optional OLED amplitude visualizer on the Now Playing screen.
+The Music Player drives the Cyber Fidget's 4 RGBW NeoPixel LEDs in sync with audio playback, plus OLED visualizers on the Now Playing screen — a rolling amplitude graph and a VFD-style frequency spectrum display.
 
 ---
 
 ## What is this?
 
-When music plays, the LEDs react to the audio in real-time — quiet passages produce a gentle blue pulse, medium levels shift to cyan/green, and loud peaks flash red with a white burst. There's also a "Pulse" mode that breathes independently of audio, and "Off" for when you want dark. An optional 16-bar amplitude graph replaces the playhead on the OLED, showing a rolling waveform of the last ~1 second of audio.
+When music plays, the LEDs react to the audio in real-time — quiet passages produce a gentle blue pulse, medium levels shift to cyan/green, and loud peaks flash red with a white burst. There's also a "Pulse" mode that breathes independently of audio, and "Off" for when you want dark. Individual LEDs can be toggled on/off from a dedicated submenu.
+
+The OLED screen has three visualizer modes: a time-domain amplitude graph (rolling waveform), a frequency-domain spectrum analyzer (like classic 80s VFD equalizer displays), or just the normal playhead with elapsed/remaining time.
 
 ---
 
@@ -27,38 +29,40 @@ The pixels are indexed 0-3: **Back** (0), **Front Top** (1), **Front Middle** (2
 
 ---
 
-## Amplitude tap: VolumeMeter
+## Audio analysis: SpectrumAnalyzer
 
-Audio amplitude is measured by inserting a `VolumeMeter` into the audio pipeline. This is a built-in class from [arduino-audio-tools](https://github.com/pschatzmann/arduino-audio-tools) that wraps an output stream:
+Audio analysis is performed by `SpectrumAnalyzer`, a custom `ModifyingStream` that sits in the audio pipeline:
 
 ```
-SD Card → AudioPlayer → MP3DecoderHelix → VolumeMeter → A2DPStream → BT Speaker
+SD Card → AudioPlayer → MP3DecoderHelix → SpectrumAnalyzer → A2DPStream → BT Speaker
+                                               ↓ (analysis)
+                                       volumeRatio() — peak amplitude 0.0–1.0
+                                       bands()[16]   — frequency spectrum 0.0–1.0
 ```
 
-`VolumeMeter` is a `ModifyingStream` — its `write()` method calls `updateVolumes(data, len)` to compute peak amplitude, then passes the audio through unchanged to the wrapped stream. Zero latency, zero quality impact.
+`SpectrumAnalyzer` replaces the original `VolumeMeter` from arduino-audio-tools. It provides the same `volumeRatio()` API for LED reactive effects, plus 16-band FFT frequency analysis for the spectrum visualizer. Audio passes through unchanged — zero latency, zero quality impact.
 
 ```cpp
 // In createAudioPipeline():
-if (!pVolumeMeter) {
-    pVolumeMeter = new VolumeMeter(*pA2dpStream);
+if (!pSpectrumAnalyzer) {
+    pSpectrumAnalyzer = new SpectrumAnalyzer(*pA2dpStream);
+    pSpectrumAnalyzer->begin(44100, 2, 16);
 }
-pPlayer = new AudioPlayer(*pSourceSD, *pVolumeMeter, decoder);
+pPlayer = new AudioPlayer(*pSourceSD, *pSpectrumAnalyzer, decoder);
 ```
 
-`pVolumeMeter->volumeRatio()` returns a float 0.0–1.0 representing the current peak amplitude.
-
 !!! warning "Pipeline object lifecycle"
-    Like all audio pipeline objects, the VolumeMeter is heap-allocated once and never destroyed. It persists across app enter/exit cycles via a null-pointer guard (`if (!pVolumeMeter)`). Direct access to `pA2dpStream` for BT management (disconnect, buffer manipulation) is unaffected.
+    Like all audio pipeline objects, the SpectrumAnalyzer is heap-allocated once and never destroyed. It persists across app enter/exit cycles via a null-pointer guard (`if (!pSpectrumAnalyzer)`). Direct access to `pA2dpStream` for BT management (disconnect, buffer manipulation) is unaffected.
 
 ---
 
 ## LED effect modes
 
-Three modes, cycled from the main menu under **"LEDs: Off/Reactive/Pulse"**:
+Three modes, configured from the **LEDs submenu** (main menu → LEDs):
 
-### Off
+### Off (default)
 
-LEDs are dark. `setColorsOff()` is called to ensure all pixels are cleared.
+LEDs are dark. `setColorsOff()` is called to ensure all pixels are cleared. This is the default mode to avoid micro-stutters when the spectrum visualizer is active.
 
 ### Reactive
 
@@ -74,34 +78,42 @@ LEDs respond to the current audio amplitude with smoothed, perceptually-correcte
 | 0.15 – 0.5 | Cyan → Green | Intensity scales linearly with amplitude |
 | ≥ 0.5 | Red + White flash | Both channels scale with amplitude |
 
-```cpp
-// Reactive color mapping (simplified)
-float raw = pVolumeMeter->volumeRatio();
-float smoothed = ledSmoothedAmplitude * 0.75f + raw * 0.25f;  // EMA
-float amp = powf(smoothed, 0.6f);                              // gamma
-
-if (amp < 0.15f) {
-    // Blue breathing pulse
-    float breath = (sinf(millis() / 400.0f) + 1.0f) * 0.5f;
-    uint8_t blue = (uint8_t)(breath * amp * 80.0f);
-    setDeterminedColorsAll(0, 0, blue, 0);
-} else if (amp < 0.5f) {
-    // Cyan-green gradient
-    float t = (amp - 0.15f) / 0.35f;
-    setDeterminedColorsAll(0, (uint8_t)(t * 30), (uint8_t)((1.0f - t) * 25), 0);
-} else {
-    // Red + white flash
-    float t = (amp - 0.5f) / 0.5f;
-    setDeterminedColorsAll((uint8_t)(t * 30), 0, 0, (uint8_t)(t * 20));
-}
-```
-
 !!! tip "Booper pattern"
     The EMA + gamma approach comes from the `Booper` app in the main firmware, which uses `audioManager.getMicVolumeLinear()` to drive reactive LEDs from the microphone. Same smoothing math, different input source.
 
 ### Pulse
 
-A gentle breathing animation independent of audio. Uses a sine wave to modulate white LED brightness. Runs at the same 30fps update rate as reactive mode.
+A gentle breathing animation independent of audio. Uses a sine wave to modulate blue LED brightness. Runs at the same 30fps update rate as reactive mode.
+
+---
+
+## LED submenu & per-LED control
+
+The main menu's "LEDs" item opens a dedicated submenu with 5 options:
+
+```
+LEDs
+├── Mode: Off / Reactive / Pulse   (Enter cycles)
+├── Back LED: On / Off             (Enter toggles)
+├── Front Top: On / Off            (Enter toggles)
+├── Front Mid: On / Off            (Enter toggles)
+└── Front Bottom: On / Off         (Enter toggles)
+```
+
+### Per-LED enable mask
+
+A `uint8_t ledEnableMask` bitmask controls which LEDs participate in effects:
+
+| Bit | Pixel | Name |
+|-----|-------|------|
+| 0 | 0 | Back |
+| 1 | 1 | Front Top |
+| 2 | 2 | Front Middle |
+| 3 | 3 | Front Bottom |
+
+Default: `0x0F` (all enabled). When a LED is disabled, it stays dark regardless of the active effect mode. When mode is Off, all LEDs are dark regardless of mask.
+
+Toggling a LED off immediately clears that pixel via `HAL::setRgbLed()`. The mask is persisted in NVS so your configuration survives reboots.
 
 ---
 
@@ -115,11 +127,21 @@ The `RGBController` module manages the NeoPixel strip with a dirty-flag + thrott
 
 This keeps LED updates efficient — `strip.show()` for 4 RGBW pixels takes ~120μs, and it only fires when something actually changed.
 
+`markDirty()` is exported from RGBController so that per-pixel `HAL::setRgbLed()` calls (used by the per-LED mask system) can trigger `strip.show()` on the next `updateStrip()` cycle.
+
 ---
 
-## OLED visualizer
+## OLED visualizer modes
 
-A 16-bar amplitude graph on the Now Playing screen, toggled with **Up/Down buttons** while in the player view.
+Three modes, cycled with **Up/Down buttons** in the Now Playing screen:
+
+### Off (VIZ_OFF)
+
+Normal playhead: elapsed M:SS + progress bar + remaining -M:SS.
+
+### Amplitude (VIZ_AMPLITUDE)
+
+A 16-bar rolling amplitude graph showing the last ~1 second of audio:
 
 ```
 ┌────────────────────────────┐
@@ -128,7 +150,7 @@ A 16-bar amplitude graph on the Now Playing screen, toggled with **Up/Down butto
 │ ♫ Track Title Here ←scroll │
 │                            │
 │ ▶ Playing          [S]     │
-│ ▃▅▇█▅▃▁▃▅▇▆▄▂▁▃           │  ← Visualizer replaces playhead
+│ ▃▅▇█▅▃▁▃▅▇▆▄▂▁▃           │  ← Amplitude bars
 └────────────────────────────┘
 ```
 
@@ -137,8 +159,88 @@ A 16-bar amplitude graph on the Now Playing screen, toggled with **Up/Down butto
 - **Sample rate**: ~60ms intervals → last ~1 second of audio history
 - **Rolling buffer**: Circular array `amplitudeHistory[16]`, oldest sample drawn leftmost
 
+### Spectrum (VIZ_SPECTRUM)
+
+A VFD-style frequency spectrum display with 16 logarithmically-spaced bands:
+
+```
+┌────────────────────────────┐
+│  ⚡ Now Playing        87 ▊│
+│ The Artist Name            │
+│ ♫ Track Title Here ←scroll │
+│                            │
+│ ▶ Playing          [S]     │
+│ █▇▅▃▅▇█▅▃▁▂▃▅▇▆▄          │  ← Frequency bars
+└────────────────────────────┘
+```
+
+- **16 bars** spanning ~60 Hz to ~16 kHz, logarithmically spaced
+- **Fast attack, slow decay**: Bars snap up instantly but fade down smoothly (like classic VFD EQ displays)
+- **Per-band AGC**: Each frequency band normalizes to its own peak, so bass can't flatten the treble
+
 !!! tip "Display priority"
-    The volume overlay (slider-triggered) takes priority over the visualizer. When the slider is touched, the volume bar appears for 2 seconds, then the visualizer resumes. When the visualizer is off, the normal playhead (elapsed/remaining time + progress bar) is shown.
+    The volume overlay (slider-triggered) takes priority over both visualizers. When the slider is touched, the volume bar appears for 2 seconds, then the visualizer resumes.
+
+---
+
+## How the spectrum analyzer works
+
+The SpectrumAnalyzer uses a **Fast Fourier Transform (FFT)** to decompose audio into its frequency components. Here's the plain-English version of what happens:
+
+### 1. Collect audio samples
+
+The `write()` method receives raw PCM audio data (16-bit samples at 44,100 Hz). It forwards the audio to the Bluetooth output immediately, then copies mono samples (left channel only) into a 512-sample buffer. This gives us ~11.6ms of audio per window.
+
+### 2. Apply a Hann window
+
+Raw audio chunks have sharp edges at the start and end of each window, which creates false frequency content (spectral leakage). The **Hann window** is a bell-shaped curve that smoothly fades the edges to zero:
+
+```
+Hann[i] = 0.5 × (1 - cos(2π × i / 511))
+```
+
+Each sample is multiplied by its corresponding Hann coefficient before the FFT.
+
+### 3. Run the FFT
+
+A **radix-2 Cooley-Tukey FFT** transforms the 512 time-domain samples into 256 frequency bins. Each bin represents a ~86 Hz range (44100 / 512). The FFT is a self-contained implementation (~25 lines of C) that runs in-place — no external library dependencies.
+
+The FFT runs from the **main loop** via `processFFT()`, not inside the audio `write()` path. This is critical — running FFT inside `write()` would block the Bluetooth audio stream and cause audible stuttering.
+
+### 4. Map bins to bands
+
+The 256 frequency bins are grouped into 16 logarithmically-spaced bands:
+
+| Band | Frequency Range | What you hear |
+|------|----------------|---------------|
+| 0 | ~60–90 Hz | Sub-bass (kick drum) |
+| 1 | ~90–130 Hz | Bass |
+| 2–3 | ~130–265 Hz | Low-mid |
+| 4–6 | ~265–770 Hz | Midrange (vocals) |
+| 7–9 | ~770–2.2 kHz | Upper-mid (guitar, snare) |
+| 10–12 | ~2.2–6.4 kHz | Presence/brilliance |
+| 13–15 | ~6.4–16 kHz | Air (hi-hat, cymbals) |
+
+The formula for band edges: `edge[i] = 60 × (16000/60)^(i/16)`
+
+Logarithmic spacing is used because human hearing is logarithmic — the difference between 100 Hz and 200 Hz sounds the same as 1000 Hz and 2000 Hz. Equal-width bins would cram all the bass into one bar and waste 200+ bars on inaudible ultrasonic frequencies.
+
+### 5. Per-band AGC (Automatic Gain Control)
+
+Each band tracks its own maximum magnitude independently. The displayed value is `bandPeak / bandMax`, where `bandMax` slowly decays over time (~3 seconds to halve). This means:
+
+- **Bass** normalizes to bass levels — a loud kick drum drives band 0 to 1.0
+- **Treble** normalizes to treble levels — a hi-hat drives band 15 to 1.0
+- Neither can flatten the other
+
+Without per-band AGC, a heavy bass line would dominate the normalization and make all the treble bars appear flat — a common problem in naive spectrum analyzers.
+
+### 6. Frame skipping
+
+At 44,100 Hz with 512-sample windows, the raw FFT rate would be ~86 Hz — that's a lot of FFT computation per second. The `SKIP_FRAMES` constant (currently 1) tells the analyzer to process every other window, yielding ~43 Hz update rate. This balances visual smoothness against CPU overhead.
+
+!!! warning "LED + FFT micro-stutter"
+    When both music-reactive LEDs and the spectrum visualizer are active simultaneously, occasional micro-stutters may occur. This is because NeoPixel `strip.show()` uses the RMT peripheral (~120μs) which can compete with the audio write path. LEDs default to Off to avoid this. This is earmarked for future investigation (potential fix: reduce LED update rate when FFT is active, or move LEDs to a separate FreeRTOS task).
 
 ---
 
@@ -146,11 +248,12 @@ A 16-bar amplitude graph on the Now Playing screen, toggled with **Up/Down butto
 
 User preferences survive reboots via NVS namespace `"mpsettings"`:
 
-| Key | Type | Values |
-|-----|------|--------|
-| `shuffle` | bool | Shuffle state |
-| `ledmode` | uint8_t | 0=Off, 1=Reactive, 2=Pulse |
-| `viz` | bool | Visualizer on/off |
+| Key | Type | Default | Values |
+|-----|------|---------|--------|
+| `shuffle` | bool | false | Shuffle state |
+| `ledmode` | uint8_t | 0 (Off) | 0=Off, 1=Reactive, 2=Pulse |
+| `vizmode` | uint8_t | 0 (Off) | 0=Off, 1=Amplitude, 2=Spectrum |
+| `ledmask` | uint8_t | 0x0F (all on) | Bitmask: bit0=Back, bit1=FrontTop, bit2=FrontMid, bit3=FrontBot |
 
 Settings are loaded in `begin()` after `loadPlaybackState()` and saved in `end()` before `savePlaybackState()`.
 
@@ -160,15 +263,16 @@ Settings are loaded in `begin()` after `loadPlaybackState()` and saved in `end()
 
 | Button | Context | Action |
 |--------|---------|--------|
-| Up / Down | Now Playing | Toggle OLED visualizer |
-| Enter (main menu) | "LEDs: ..." item | Cycle LED mode: Off → Reactive → Pulse |
+| Up / Down | Now Playing | Cycle visualizer: Off → Amplitude → Spectrum |
+| Enter | LED submenu: Mode | Cycle LED mode: Off → Reactive → Pulse |
+| Enter | LED submenu: LED items | Toggle individual LED on/off |
 
 ---
 
 ## Resource impact
 
-| Resource | Before Phase 4 | After Phase 4 | Added |
-|----------|----------------|---------------|-------|
-| Flash | 74.6% | 74.8% | ~5 KB |
-| RAM | 22.7% | 22.7% | ~500 bytes |
+| Resource | Phase 4 | Phase 4.1 + 4.2 | Notes |
+|----------|---------|------------------|-------|
+| Flash | 74.8% | 74.9% | ~3 KB for FFT + submenu code |
+| RAM | 22.7% | 22.7% | ~6 KB FFT buffers (within margin) |
 | IRAM | OK | OK | ~2-4 KB (NeoPixel RMT driver) |
