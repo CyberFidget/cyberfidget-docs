@@ -70,4 +70,5 @@ See [How an App Works](../concepts/app-lifecycle.md) for the app-level view.
 ## In this section
 
 - [Music Player Architecture](music-player.md) — How the BT A2DP music player works
+- [LED Effects & Visualizer](led-effects.md) — Music-reactive NeoPixels and OLED amplitude graph
 - [Bluetooth A2DP Guide](bt-a2dp-guide.md) — Hard-won lessons on ESP32-A2DP lifecycle management

@@ -78,6 +78,9 @@ AudioPlayer ── manages playback state, drives the pipeline
 MP3DecoderHelix ── real-time MP3 decoding (libhelix, runs in IRAM)
     │
     ▼
+VolumeMeter ── pure passthrough, provides volumeRatio() 0.0-1.0
+    │
+    ▼
 A2DPStream ── BT Classic A2DP Source → wireless speaker
 ```
 
@@ -157,6 +160,7 @@ The Now Playing screen on the 128x64 OLED:
 - **Marquee**: Long track titles scroll horizontally.
 - **Playhead**: Progress bar with elapsed (M:SS) and remaining (-M:SS) time. Time estimated from MP3 bitrate read from the first MPEG frame header.
 - **Volume overlay**: When the physical slider is moved, the playhead temporarily shows a volume bar for 2 seconds, then fades back to the playhead.
+- **Visualizer**: When enabled (Up/Down toggle), a 16-bar amplitude graph replaces the playhead. See [LED Effects & Visualizer](led-effects.md).
 
 ---
 
