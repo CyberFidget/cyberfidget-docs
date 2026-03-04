@@ -1,6 +1,6 @@
 # Web Portal
 
-The Web Portal turns the CyberFidget into a WiFi access point with a captive portal, giving you a browser-based interface to manage music files, create playlists, and preview tracks — all from your phone.
+The Web Portal turns the CyberFidget into a WiFi access point with a captive portal, giving you a browser-based interface to manage music files, create playlists, and preview tracks — all from your phone. It can also join your home WiFi network for easy access at `cyberfidget.local`.
 
 ---
 
@@ -13,6 +13,7 @@ Connect your phone to the "CyberFidget" WiFi network and a web portal opens auto
 3. **Play** tracks through your phone's speaker (web audio)
 4. **Manage** files — move, delete, create folders
 5. **Build playlists** in M3U format that persist on the SD card
+6. **Connect to WiFi** — join your home network for `cyberfidget.local` access
 
 ---
 
@@ -24,6 +25,14 @@ Phone → Connects to "CyberFidget" WiFi AP
      → SPA loads (HTML/CSS/JS served from ESP32 flash)
      → API calls read/write files on the SD card
      → Audio served directly from SD over HTTP
+```
+
+Or, if connected to your home WiFi:
+
+```
+Phone → Same WiFi network as CyberFidget
+     → Browse to http://cyberfidget.local
+     → Same portal, no WiFi switching needed
 ```
 
 The portal is a standalone app launched from the main menu under **Tools → CyberFidget Portal**. It stops Bluetooth (shared radio) and starts WiFi, so you can't play music through a BT speaker while the portal is running.
@@ -40,11 +49,23 @@ The portal is a standalone app launched from the main menu under **Tools → Cyb
 ```
 Menu → "CyberFidget Portal" → AppManager::switchToApp(APP_WEB_PORTAL)
   1. MusicPlayerApp::end()        — saves state, stops playback
-  2. WebPortalApp::begin()        — btStop(), WiFi.softAP(), DNSServer, AsyncWebServer
-     ... user manages files via captive portal ...
-  3. WebPortalApp::end()          — server stop, WiFi.mode(WIFI_OFF)
+  2. WebPortalApp::begin()        — btStop(), WiFi AP+STA, mDNS, DNSServer, AsyncWebServer
+     ... user manages files via captive portal or cyberfidget.local ...
+  3. WebPortalApp::end()          — server stop, mDNS stop, WiFi.mode(WIFI_OFF)
   4. Back to menu
 ```
+
+### WiFi modes
+
+The portal runs in **AP+STA dual mode** (`WIFI_AP_STA`):
+
+- **Access Point** — "CyberFidget" network is always available. Any device can connect directly and access the portal at `192.168.4.1`.
+- **Station** — If you've configured a WiFi network in Settings, the CyberFidget also joins your home WiFi. This makes the portal accessible at `cyberfidget.local` or the device's LAN IP from any device on your network.
+
+WiFi credentials are stored in NVS (non-volatile storage) and auto-connect on every portal launch. Use the Settings page to scan, connect, or forget networks.
+
+!!! tip "mDNS: cyberfidget.local"
+    When connected to your WiFi, the device registers `cyberfidget.local` via mDNS. This works on iOS, macOS, Linux, and Android 10+. If mDNS doesn't resolve on your device, the IP address is always shown on the OLED and in the portal status bar.
 
 ### Captive portal
 
@@ -62,14 +83,16 @@ While the portal is running, the 128x64 OLED shows:
 ```
 ┌────────────────────────────────┐
 │ ===== CyberFidget Web ======== │
-│ WiFi: CyberFidget              │
-│ IP: 192.168.4.1                │
-│ Files: 42                      │
-│ Connected (2)                  │
+│ AP: 192.168.4.1                │
+│ HomeNet 192.168.1.42           │
+│ cyberfidget.local              │
+│ 42 files | 2 clients           │
 └────────────────────────────────┘
 ```
 
-During uploads, the file count is replaced with a progress bar.
+If not connected to a WiFi network, lines 3-4 show "WiFi: not connected" and the file count instead.
+
+During uploads, the bottom line shows a progress bar.
 
 ---
 
@@ -117,6 +140,10 @@ All API routes are under the ESPAsyncWebServer running on port 80.
 | `/api/playlist?name=...` | GET | Read playlist tracks |
 | `/api/playlist?name=...` | POST | Save playlist (JSON body) |
 | `/api/playlist/delete?name=...` | POST | Delete playlist |
+| `/api/wifi/scan` | GET | Scan nearby WiFi networks |
+| `/api/wifi/connect` | POST | Connect to WiFi (JSON: ssid, pass) |
+| `/api/wifi/status` | GET | WiFi connection status, IP, mDNS |
+| `/api/wifi/forget` | POST | Clear saved WiFi credentials |
 
 ### Example: `/api/tracks` response
 
@@ -187,16 +214,26 @@ The currently playing track is highlighted with a cyan accent bar:
 
 The highlight follows next/prev navigation and persists across sort/search/re-render.
 
+### Settings page
+
+The Settings page provides WiFi network configuration:
+
+- **WiFi Status** — shows current connection state, network name, IP address, and mDNS hostname
+- **Network Scanner** — scan for nearby WiFi networks with signal strength bars
+- **Connect** — select a network, enter password, connect. Credentials are saved to NVS for auto-reconnect.
+- **Forget** — clear saved credentials and disconnect from the network
+- **AP Info** — shows the always-available access point details
+
 ---
 
 ## Build impact
 
-| | Before (Phase 2.75) | After (Phase 3) | Delta |
+| | Before (Phase 2.75) | After (Phase 3.1) | Delta |
 |---|---|---|---|
-| RAM | 16.3% (53 KB) | 22.0% (72 KB) | +19 KB |
-| Flash | 52.3% (1.6 MB) | 73.1% (2.3 MB) | +658 KB |
+| RAM | 16.3% (53 KB) | 22.7% (74 KB) | +21 KB |
+| Flash | 52.3% (1.6 MB) | 74.6% (2.3 MB) | +700 KB |
 
-The flash increase is primarily ESPAsyncWebServer + WiFi libraries + the portal HTML/CSS/JS. RAM increase is the WiFi AP stack (freed when portal exits).
+The flash increase is primarily ESPAsyncWebServer + WiFi libraries + ESPmDNS + the portal HTML/CSS/JS. RAM increase is the WiFi AP+STA stack (freed when portal exits).
 
 ---
 
@@ -204,9 +241,9 @@ The flash increase is primarily ESPAsyncWebServer + WiFi libraries + the portal 
 
 | File | Lines | Purpose |
 |------|-------|---------|
-| `lib/WebPortalApp/WebPortalApp.h` | ~70 | Class declaration |
-| `lib/WebPortalApp/WebPortalApp.cpp` | ~890 | App lifecycle, API routes, ID3 reader, OLED render |
-| `lib/WebPortalApp/portal_page.h` | ~850 | PROGMEM SPA (HTML + CSS + JS) |
+| `lib/WebPortalApp/WebPortalApp.h` | ~80 | Class declaration (AP+STA, mDNS) |
+| `lib/WebPortalApp/WebPortalApp.cpp` | ~1000 | App lifecycle, WiFi STA, API routes, ID3 reader, OLED render |
+| `lib/WebPortalApp/portal_page.h` | ~950 | PROGMEM SPA (HTML + CSS + JS + Settings page) |
 | `scripts/add_network_lib.py` | ~35 | PlatformIO pre-build script for Network library |
 
 ### Network library linkage
@@ -225,3 +262,6 @@ pioarduino's ESP32 Arduino 3.x core split the WiFi library into `WiFi` + `Networ
 | BT speaker won't reconnect after portal | WiFi didn't shut down cleanly | Restart the device |
 | `idx.txt` showing in file list | Music index cache file | Filtered out in `/api/files` and `/api/tracks` |
 | Track shows "-" for artist/album | No ID3 tags in the MP3 file | Re-tag the file with a tool like Mp3tag |
+| `cyberfidget.local` doesn't resolve | mDNS not supported on device (older Android) | Use the IP address shown on the OLED or portal status bar |
+| WiFi connection times out | Wrong password or network out of range | Re-enter password via Settings, move closer to router |
+| Can't reach portal from home WiFi | Not connected to any WiFi network | Open Settings, scan, and connect to your WiFi first |
