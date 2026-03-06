@@ -19,7 +19,7 @@ The player UI runs on the 128x64 OLED with a menu system inspired by the classic
 
 ## State machine
 
-The player has 10 states, navigated with Up/Down/Enter/Back:
+The player has 11 states, navigated with Up/Down/Enter/Back:
 
 ```mermaid
 stateDiagram-v2
@@ -40,10 +40,13 @@ stateDiagram-v2
     MAIN_MENU --> PLAYER : "Now Playing"
     MAIN_MENU --> FILE_BROWSER : "Browse Songs"
     MAIN_MENU --> BT_SUBMENU : "Bluetooth"
+    MAIN_MENU --> LED_SUBMENU : "LEDs"
     MAIN_MENU --> [*] : "Exit" / Back
 
     BT_SUBMENU --> DEVICE_MENU : "Disconnect"
     BT_SUBMENU --> MAIN_MENU : Back
+
+    LED_SUBMENU --> MAIN_MENU : Back
 
     FILE_BROWSER --> SCANNING_LIBRARY : First open (no cache)
     FILE_BROWSER --> PLAYER : Select track
@@ -78,7 +81,7 @@ AudioPlayer ── manages playback state, drives the pipeline
 MP3DecoderHelix ── real-time MP3 decoding (libhelix, runs in IRAM)
     │
     ▼
-VolumeMeter ── pure passthrough, provides volumeRatio() 0.0-1.0
+SpectrumAnalyzer ── passthrough providing volumeRatio() + 16-band FFT
     │
     ▼
 A2DPStream ── BT Classic A2DP Source → wireless speaker
@@ -86,12 +89,39 @@ A2DPStream ── BT Classic A2DP Source → wireless speaker
 
 The pipeline is driven by calling `pPlayer->copy()` every `update()` cycle (~50Hz). Each call reads a chunk from SD, decodes MP3 frames, and writes PCM samples to the A2DP buffer. The BT stack's internal callback drains the buffer and transmits over the air.
 
+The `SpectrumAnalyzer` is a custom `ModifyingStream` that replaced the original `VolumeMeter`. It provides both `volumeRatio()` (0.0–1.0 peak amplitude) for LED reactive effects and `bands()[16]` (16-band FFT frequency spectrum) for the OLED visualizer. Audio passes through unchanged — zero latency, zero quality impact. See [LED Effects & Visualizer](led-effects.md) for details.
+
 !!! warning "Pipeline objects are never destroyed"
     The A2DPStream, AudioPlayer, and AudioSourceIdxSD are heap-allocated once and kept alive for the entire app lifetime. Deleting them after active playback causes crashes due to internal FreeRTOS tasks and ring buffers that can't be cleanly shut down. See the [BT A2DP Guide](bt-a2dp-guide.md) for details.
 
 ### Volume control
 
 The physical slider maps to A2DP volume (0-100%). The mapping is inverted: slider fully extended = 0%, fully retracted = 100%. This is updated every `update()` cycle via `updateVolumeFromSlider()`.
+
+### AVRCP media controls (BT speaker buttons)
+
+Many Bluetooth speakers and headphones have physical media buttons (play/pause, next, previous). These send **AVRCP passthrough commands** back to the audio source. The CyberFidget handles these commands so you can control playback from your BT device.
+
+The ESP32 runs dual AVRCP roles simultaneously:
+
+- **AVRCP Controller (CT)**: Sends commands *to* the speaker (existing, used for volume)
+- **AVRCP Target (TG)**: Receives commands *from* the speaker (added in Phase 4.3)
+
+Supported commands:
+
+| Button | AVRCP Key Code | Action |
+|--------|---------------|--------|
+| Play | `ESP_AVRC_PT_CMD_PLAY` (0x44) | Toggle play/pause |
+| Pause | `ESP_AVRC_PT_CMD_PAUSE` (0x46) | Toggle play/pause |
+| Stop | `ESP_AVRC_PT_CMD_STOP` (0x45) | Stop playback |
+| Next | `ESP_AVRC_PT_CMD_FORWARD` (0x4B) | Next track |
+| Previous | `ESP_AVRC_PT_CMD_BACKWARD` (0x4C) | Previous track |
+
+!!! note "Thread safety"
+    AVRCP callbacks fire from the BTC FreeRTOS task, not the main Arduino loop. The callback sets a `volatile uint8_t pendingAvrcCmd` flag, which is consumed and dispatched in `update()`. This avoids cross-task race conditions on audio pipeline state.
+
+!!! note "Speaker compatibility"
+    Not all BT speakers send AVRCP commands when buttons are pressed. Some only support A2DP audio without AVRCP at all. The feature is additive — if the speaker doesn't send commands, nothing happens and physical CyberFidget buttons still work normally.
 
 ---
 
@@ -201,7 +231,7 @@ This keeps the device awake as long as music is playing, without requiring any b
 ```
 lib/MusicPlayerApp/
 ├── MusicPlayerApp.h      — Class definition, state enum, all members
-├── MusicPlayerApp.cpp    — State machine, audio pipeline, UI rendering (~1200 lines)
+├── MusicPlayerApp.cpp    — State machine, audio pipeline, UI rendering (~1600 lines)
 ├── BTScanner.h / .cpp    — ESP-IDF GAP Bluetooth scanner
 └── ID3Scanner.h / .cpp   — ID3v1/v2 metadata reader + SD cache
 ```

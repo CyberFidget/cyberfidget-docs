@@ -89,7 +89,7 @@ A gentle breathing animation independent of audio. Uses a sine wave to modulate 
 
 ## LED submenu & per-LED control
 
-The main menu's "LEDs" item opens a dedicated submenu with 5 options:
+The main menu's "LEDs" item opens a dedicated submenu with 6 options:
 
 ```
 LEDs
@@ -97,7 +97,8 @@ LEDs
 ├── Back LED: On / Off             (Enter toggles)
 ├── Front Top: On / Off            (Enter toggles)
 ├── Front Mid: On / Off            (Enter toggles)
-└── Front Bottom: On / Off         (Enter toggles)
+├── Front Bottom: On / Off         (Enter toggles)
+└── Sync: 150ms                    (Enter cycles 0-300ms in 25ms steps)
 ```
 
 ### Per-LED enable mask
@@ -244,6 +245,47 @@ At 44,100 Hz with 512-sample windows, the raw FFT rate would be ~86 Hz — that'
 
 ---
 
+## BT latency compensation (Sync Delay)
+
+### The problem
+
+The SpectrumAnalyzer analyzes audio as it enters the A2DP transmit buffer. The BT speaker plays that audio ~200–500ms later (A2DP buffering + codec + link latency + speaker's own buffer). Without compensation, LEDs flash *before* the corresponding sound is heard.
+
+### How it works
+
+The SpectrumAnalyzer maintains a **delay ring buffer** — a circular array of 16 recent analysis frames, each timestamped with `millis()`. Instead of returning the current amplitude and spectrum data, the delayed accessors (`delayedVolumeRatio()`, `delayedBands()`) walk the ring buffer and return the frame closest to `millis() - delayMs`.
+
+```
+Audio pipeline timeline:
+    t=0ms    Audio enters SpectrumAnalyzer → analysis stored in ring buffer
+    t=150ms  delayedVolumeRatio() returns the t=0 analysis → LEDs react
+    t=150ms  Speaker plays the t=0 audio → LEDs match what you hear
+```
+
+### Buffer details
+
+| Property | Value |
+|----------|-------|
+| Buffer size | 16 frames |
+| Frame contents | 16 band magnitudes + peak amplitude + timestamp |
+| Memory cost | ~1.2 KB |
+| Update rate | ~43 Hz (when spectrum enabled) or main loop rate |
+| Max delay | ~350ms at 43 Hz update rate |
+
+The ring buffer is populated from two paths:
+
+- **`processFFT()`**: When the spectrum visualizer is active, each FFT result automatically stores a frame
+- **`storeDelayFrame()`**: When spectrum is off (VIZ_AMPLITUDE or VIZ_OFF mode), the main loop explicitly stores amplitude-only frames to keep the delay buffer current for LED effects
+
+### User-tunable delay
+
+The **Sync** setting in the LED submenu adjusts the delay from 0–300ms in 25ms steps. The default is 150ms, which works well for most BT speakers. Speakers with larger internal buffers may need 200–300ms; wired or low-latency codecs may work best at 50–100ms.
+
+!!! tip "Finding the right delay"
+    Play a track with a strong beat (kick drum on every beat). Watch the LEDs flash red on the kick. If the flash comes before the sound, increase the delay. If after, decrease it. The sweet spot is when the flash and the thump feel simultaneous.
+
+---
+
 ## NVS settings persistence
 
 User preferences survive reboots via NVS namespace `"mpsettings"`:
@@ -254,6 +296,7 @@ User preferences survive reboots via NVS namespace `"mpsettings"`:
 | `ledmode` | uint8_t | 0 (Off) | 0=Off, 1=Reactive, 2=Pulse |
 | `vizmode` | uint8_t | 0 (Off) | 0=Off, 1=Amplitude, 2=Spectrum |
 | `ledmask` | uint8_t | 0x0F (all on) | Bitmask: bit0=Back, bit1=FrontTop, bit2=FrontMid, bit3=FrontBot |
+| `leddelay` | uint16_t | 150 | BT latency compensation in ms (0–300) |
 
 Settings are loaded in `begin()` after `loadPlaybackState()` and saved in `end()` before `savePlaybackState()`.
 
@@ -271,8 +314,8 @@ Settings are loaded in `begin()` after `loadPlaybackState()` and saved in `end()
 
 ## Resource impact
 
-| Resource | Phase 4 | Phase 4.1 + 4.2 | Notes |
-|----------|---------|------------------|-------|
-| Flash | 74.8% | 74.9% | ~3 KB for FFT + submenu code |
-| RAM | 22.7% | 22.7% | ~6 KB FFT buffers (within margin) |
-| IRAM | OK | OK | ~2-4 KB (NeoPixel RMT driver) |
+| Resource | Phase 4 | Phase 4.1 + 4.2 | Phase 4.3 | Notes |
+|----------|---------|------------------|-----------|-------|
+| Flash | 74.8% | 74.9% | 75.0% | +~1 KB for AVRCP TG + delay buffer |
+| RAM | 22.7% | 22.7% | 22.7% | +~1.2 KB delay ring buffer (within margin) |
+| IRAM | OK | OK | OK | ~2-4 KB (NeoPixel RMT driver) |
