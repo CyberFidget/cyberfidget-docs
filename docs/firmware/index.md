@@ -10,14 +10,9 @@ The Cyber Fidget runs custom firmware on an ESP32 microcontroller. The firmware 
 
 ---
 
-## Current firmware variants
+## Firmware
 
-| Variant | Branch | Description |
-|---------|--------|-------------|
-| **Main** | `main` | Full app suite — games, screensavers, tools, clock |
-| **Music Player** | `music_player_v2` | Stripped-down build focused on BT A2DP music playback |
-
-The Music Player variant removes ~20 apps to fit the Bluetooth A2DP audio stack within the ESP32's IRAM budget. It keeps the same AppManager/MenuManager framework — just fewer apps registered in the manifest.
+The firmware ships as a single unified build on `main` — all apps (games, screensavers, tools, music player, web portal) are included. The BT A2DP audio stack initially caused an IRAM overflow, but this was solved by [patching the linker script](IRAM-overflow-solution.md) to move unused libc functions out of IRAM. No apps needed to be removed.
 
 ---
 
@@ -31,12 +26,12 @@ board = adafruit_feather_esp32_v2
 framework = arduino
 ```
 
-Key build flags vary by variant. The Music Player variant uses aggressive IRAM diet flags:
+Key build flags for the BT audio stack:
 
-- `-DCONFIG_BT_BLE_ENABLED=0` — Disable BLE (saves ~8KB IRAM)
 - `-DAUDIOTOOLS_NO_ANALOG` / `NO_PWM` / `NO_ADC` / `NO_DAC` — Strip unused audio backends
-- `-DCONFIG_ESP32_WIFI_IRAM_OPT=0` — Move WiFi out of IRAM
+- `-DCONFIG_ESP32_WIFI_IRAM_OPT=0` — Move WiFi fast-path code out of IRAM
 - `-DA2DP_SPP_SUPPORT=1` — Enable SPP alongside A2DP on IDF 5.x
+- `build_type = release` — Debug builds add ~4KB of IRAM overhead
 
 ---
 
@@ -73,3 +68,4 @@ See [How an App Works](../concepts/app-lifecycle.md) for the app-level view.
 - [LED Effects & Visualizer](led-effects.md) — Music-reactive NeoPixels, per-LED control, OLED amplitude and spectrum visualizers
 - [Bluetooth A2DP Guide](bt-a2dp-guide.md) — Hard-won lessons on ESP32-A2DP lifecycle management
 - [Web Portal](web-portal.md) — WiFi captive portal for file management and settings
+- [IRAM Optimization for Bluetooth](IRAM-overflow-solution.md) — How we fit BT A2DP into the ESP32's 128KB IRAM budget

@@ -52,6 +52,7 @@ nav:
     - LED Effects: firmware/led-effects.md
     - Web Portal: firmware/web-portal.md
     - BT A2DP Guide: firmware/bt-a2dp-guide.md
+    - IRAM Optimization: firmware/IRAM-overflow-solution.md
   - Reference:
     - Glossary: reference/glossary.md
   - Contribute: 
