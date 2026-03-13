@@ -1,6 +1,6 @@
 # Motion Sensing
 
-The Cyber Fidget has an accelerometer that measures tilt and acceleration. Use it for tilt-controlled games, gesture detection, or any app that reacts to how the device is held.
+The Cyber Fidget has an LIS2DH12 accelerometer that measures tilt and acceleration. Use it for tilt-controlled games, gesture detection, or any app that reacts to how the device is held.
 
 ---
 

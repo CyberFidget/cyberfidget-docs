@@ -9,7 +9,20 @@ Welcome! This site covers setup, hardware, and app development for Cyber Fidget.
 - **Firmware Updates:** [https://cyberfidget.com/update/](https://cyberfidget.com/update/)
 
 ## What is Cyber Fidget?
-A pocket-sized, programmable gadget you can fidget with, learn on, and extend. Wi-Fi/BLE, OLED, LEDs, speaker, mic, slider, buttons, micro-SD — built on ESP32.
+
+A machined-aluminum, pocket-sized gadget built for play, tinkering, and experimentation. Designed and assembled in Michigan.
+
+Ships as a kit — no soldering, just screws. 2.2 x 1.6 x 0.8 in, ~68 g. ESP32 with Wi-Fi and Bluetooth, 0.96" OLED, 6 buttons, slider, 4 RGBW LEDs, speaker, mic, microSD, and USB-C.
+
+See the [Product Overview](product/overview.md) for the full picture, or jump to [Hardware Specs](hardware/specs.md) for part numbers and dimensions.
+
+---
+
+## Already own a Cyber Fidget?
+
+- **[Assembly Guide](getting-started/assembly/guide.md)** — Build your device step by step.
+- **[First Flash](getting-started/first-flash-arduino.md)** — Flash firmware and start using your device.
+- **[Apps](software/apps.md)** — Explore the 28+ built-in games, tools, and examples.
 
 ---
 

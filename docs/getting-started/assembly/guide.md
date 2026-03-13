@@ -58,6 +58,10 @@
 
 <p class="muted">ℹ️ After the screw is mostly in, you will only be doing very small turns as the screw bottoms into the threads intentionally. The screw is meant to be snug to avoid backing out without threadlocking compound.<br>ℹ️ The rattling will not completely go away with this test unless the slider is too tight. In normal use, this rattling does not exist due to how constrained the slider is in the pocket.</p>
 
+<p class="muted">The cross-section below shows how the slider, case pocket, and screw fit together:</p>
+
+<img src="../../assets/slider-cross-section.png" alt="Slider cross-section showing assembly" style="max-width: 100%; border-radius: 8px; margin: 1em 0;">
+
 <div class="cf-step-gallery">
   <a class="cf-zoom" href="../3/1.jpg" target="_blank" rel="noopener">
     <img class="cf-main" src="../3/1.jpg" alt="Step main" data-annot-src="../3/1.annot.json">

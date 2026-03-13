@@ -1,6 +1,6 @@
 # Sound & Music
 
-The Cyber Fidget has a speaker for output and a microphone for input. You can play tones at any frequency, control volume, and react to sound levels in your apps.
+The Cyber Fidget has a MAX98357A I2S amplifier with speaker for output and an ICS-43434 MEMS microphone for input. You can play tones at any frequency, control volume, and react to sound levels in your apps.
 
 ---
 

@@ -24,6 +24,9 @@ extra_javascript:
 
 nav:
   - Home: index.md
+  - Product:
+    - Overview: product/overview.md
+    - Accessories: product/accessories.md
   - Getting started:
     - Overview: getting-started/overview.md
     - Assembly: getting-started/assembly/guide.md
@@ -45,7 +48,7 @@ nav:
     - Apps: software/apps.md
     - Browser Emulator: software/emulator.md
     - Storage & SD: software/storage.md
-    - OTA / Builder: software/ota-builder.md
+    - App Builder: software/ota-builder.md
   - Firmware:
     - Overview: firmware/index.md
     - Music Player: firmware/music-player.md

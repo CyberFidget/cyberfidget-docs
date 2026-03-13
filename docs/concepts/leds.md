@@ -1,6 +1,6 @@
 # LEDs & Color
 
-The Cyber Fidget has 4 RGBW NeoPixel LEDs. Each can display millions of colors plus a dedicated white channel for brighter, more natural whites.
+The Cyber Fidget has 4 SK6812 RGBW LEDs (NeoPixel-compatible). Each can display millions of colors plus a dedicated white channel for brighter, more natural whites. There is a single red programmable LED under the front grill and also a single red indicator LED used for charge status on the back.
 
 ---
 

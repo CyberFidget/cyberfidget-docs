@@ -39,18 +39,18 @@ Key build flags for the BT audio stack:
 
 ```
 ┌─────────────────────────────────────────────┐
-│              AppManager (singleton)          │
+│             AppManager (singleton)          │
 │  Owns lifecycle: begin() → update() → end() │
 ├──────────┬──────────┬───────────────────────┤
 │ MenuMgr  │ PowerMgr │ MusicPlayerApp  ...   │
 ├──────────┴──────────┴───────────────────────┤
-│                    HAL                       │
+│                   HAL                       │
 │  Display · Buttons · Slider · LEDs · Audio  │
 ├─────────────────────────────────────────────┤
 │          ESP-IDF / Arduino / FreeRTOS       │
 ├─────────────────────────────────────────────┤
-│                 ESP32 Hardware               │
-│  OLED · Buttons · NeoPixels · I2S · BT · SD│
+│                ESP32 Hardware               │
+│   OLED·Buttons·SK6812/NeoPixels·I2S·BT·SD   │
 └─────────────────────────────────────────────┘
 ```
 
