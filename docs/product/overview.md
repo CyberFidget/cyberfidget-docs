@@ -61,7 +61,7 @@ Every screw and part is accessible. The enclosure is built to be opened, explore
 
 ## Software
 
-The firmware ships with 28+ built-in apps (games, screensavers, tools, examples). You can also write your own using the [App Builder](https://cyberfidget.com/build.html) in your browser or by cloning the firmware repo.
+The firmware ships with 28+ built-in apps (games, screensavers, tools, examples). You can also write your own using the [App Builder](https://cyberfidget.com/build.html) in your browser or by cloning the [firmware repo](https://github.com/cyberfidget/cyberfidget-firmware).
 
 Best experience with VS Code + PlatformIO (via pioarduino). CircuitPython hardware support is designed-in but currently untested.
 
@@ -76,3 +76,4 @@ See [Apps](../software/apps.md) for the full catalog.
 - [Accessories](accessories.md) — Color gels, backplates, and 3D printing
 - [Assembly Guide](../getting-started/assembly/guide.md) — Build your device
 - [First Flash](../getting-started/first-flash-arduino.md) — Flash firmware for the first time
+- [Open Source](open-source.md) — Repos, licenses, and how to contribute

@@ -27,6 +27,7 @@ nav:
   - Product:
     - Overview: product/overview.md
     - Accessories: product/accessories.md
+    - Open Source: product/open-source.md
   - Getting started:
     - Overview: getting-started/overview.md
     - Assembly: getting-started/assembly/guide.md

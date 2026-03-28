@@ -45,10 +45,10 @@ Use the wizard to generate an app, import an existing one, or write code directl
 
 ### 3. Compile
 
-Click the **Compile Emulator** button below the serial terminal. This sends your code to GitHub Actions on **your own fork** of the firmware repo, compiles it to WASM, and downloads the result. Takes about 1–2 minutes the first time.
+Click the **Compile Emulator** button below the serial terminal. This sends your code to GitHub Actions on **your own fork** of the [firmware repo](https://github.com/cyberfidget/cyberfidget-firmware), compiles it to WASM, and downloads the result. Takes about 1–2 minutes the first time.
 
 !!! info "First time setup"
-    You need a GitHub account and a fork of the CyberFidget firmware repo. The App Builder walks you through forking automatically when you sign in.
+    You need a GitHub account and a fork of the [CyberFidget firmware repo](https://github.com/cyberfidget/cyberfidget-firmware). The App Builder walks you through forking automatically when you sign in.
 
 ### 4. Run
 
@@ -156,7 +156,7 @@ sequenceDiagram
 ```
 
 1. Your `.h` and `.cpp` code is base64-encoded
-2. A GitHub Actions workflow is triggered on **your fork** of the firmware repo
+2. A GitHub Actions workflow is triggered on **your fork** of the [firmware repo](https://github.com/cyberfidget/cyberfidget-firmware)
 3. The workflow compiles your code with [Emscripten](https://emscripten.org/) (a C++ to WebAssembly compiler)
 4. The compiled `.js` and `.wasm` files are uploaded as build artifacts
 5. The App Builder downloads and caches them in your browser (using IndexedDB)
@@ -213,7 +213,7 @@ Check your fork's **Actions** tab on GitHub. The workflow may have failed or be 
 The emulator needs a GitHub token to trigger compilation on your fork. Sign in using the GitHub button in the top right. If you're already signed in, try signing out and back in; the token may have expired.
 
 ### Workflow fails with "wasm/CMakeLists.txt not found"
-Your fork may be out of date or missing the WASM build files. Sync your fork with the upstream CyberFidget firmware repo so that the `wasm/` directory and `.github/workflows/compile-wasm.yml` exist.
+Your fork may be out of date or missing the WASM build files. Sync your fork with the upstream [CyberFidget firmware repo](https://github.com/cyberfidget/cyberfidget-firmware) so that the `wasm/` directory and `.github/workflows/compile-wasm.yml` exist.
 
 ### Artifact download fails or "Failed to fetch artifact"
 GitHub Actions artifacts are only available for a limited time after the run. If you waited too long, run **Compile Emulator** again. If it fails immediately, check your network and that GitHub isn't blocking the request (e.g. corporate firewall).

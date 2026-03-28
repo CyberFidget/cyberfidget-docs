@@ -18,6 +18,15 @@ See the [Product Overview](product/overview.md) for the full picture, or jump to
 
 ---
 
+## Open source
+
+Cyber Fidget's firmware and documentation are open source. Browse the code, learn how it works, or build your own apps from source.
+
+- **[Firmware on GitHub](https://github.com/cyberfidget/cyberfidget-firmware)** — ESP32 source, HAL API, and WASM emulator
+- **[Open Source & Licensing](product/open-source.md)** — Repos, licenses, and contribution info
+
+---
+
 ## Already own a Cyber Fidget?
 
 - **[Assembly Guide](getting-started/assembly/guide.md)** — Build your device step by step.
