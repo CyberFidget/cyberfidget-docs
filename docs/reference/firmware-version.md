@@ -121,14 +121,16 @@ ordinary integer comparison gives you semver ordering. `FW_VERSION` is the
 encoded current version; `FW_VERSION_STRING` is the dotted string;
 `FW_VERSION_FULL_STRING` adds the `+hash[-dirty]` suffix.
 
-At runtime, the same values are available via `HAL`:
+At runtime, the same values are available from the firmware globals
+header (no namespace; these are build-time identification, not hardware
+abstractions):
 
 ```cpp
-#include "HAL.h"
+#include "globals.h"
 
-uint32_t v = HAL::getFirmwareVersion();          // encoded
-const char* s = HAL::getFirmwareVersionString(); // "1.1.0+508ea44"
-const char* t = HAL::getFirmwareBuildType();     // "release", "dev", ...
+uint32_t v = getFirmwareVersion();          // encoded
+const char* s = getFirmwareVersionString(); // "1.1.0+508ea44"
+const char* t = getFirmwareBuildType();     // "release", "dev", ...
 ```
 
 ## In the WASM emulator
