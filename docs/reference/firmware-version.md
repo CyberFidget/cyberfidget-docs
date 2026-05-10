@@ -65,40 +65,92 @@ A version string looks like:
 
 ```
 1.1.0+508ea44
-1.1.0+508ea44-dirty
-1.4.2+a1b2c3d
+1.1.0+508ea44.dirty
+1.4.2-rc1+a1b2c3d
+1.4.2-alpha.2+a1b2c3d
+1.4.2-rc1+a1b2c3d.dirty
 ```
 
-Anatomy:
+Anatomy (matches [SemVer 2.0.0](https://semver.org/)):
 
 - **`1.1.0`** - semantic version (`MAJOR.MINOR.PATCH`).
+- **`-rc1`** *(when present)* - pre-release identifier propagated from the
+  git tag (SemVer item 9). A CI build of tag `v1.4.2-rc1` carries `-rc1`
+  through into the firmware's version string and into the macro
+  `FW_VERSION_PRERELEASE`. Arbitrary identifiers allowed: `rc1`, `alpha.2`,
+  `beta`, etc.
 - **`+508ea44`** - short git commit hash of the source the firmware was
-  built from. Always 7 hex characters. Use this to check out the exact
-  source: `git checkout 508ea44`.
-- **`-dirty`** *(when present)* - the build tree had uncommitted source
-  changes. The binary is **not** reproducible from the public commit alone;
-  ask the reporter for `git diff` against the hash if you're trying to
-  reproduce a bug.
+  built from (SemVer item 10, build metadata). Always 7 hex characters.
+  Use this to check out the exact source: `git checkout 508ea44`.
+- **`.dirty`** *(when present, after `+hash`)* - the build tree had
+  uncommitted source changes. The binary is **not** reproducible from the
+  public commit alone; ask the reporter for `git diff` against the hash if
+  you're trying to reproduce a bug. The dot separator (rather than a
+  hyphen) keeps it cleanly inside the build-metadata segment per SemVer
+  item 10, avoiding visual collision with prerelease markers.
 
 ## Build types
 
-`type=` tells you what kind of build produced this binary.
+`type=` tells you what kind of build produced this binary. There are two
+groups, with different audiences:
 
-| Type         | Meaning                                                         |
-|--------------|-----------------------------------------------------------------|
-| `release`    | Built in CI from a published `vX.Y.Z` tag                       |
-| `prerelease` | Built in CI from an `vX.Y.Z-rc1` / `-alpha` / `-beta` tag       |
-| `ci-dev`     | CI build of a PR or non-tagged push                             |
-| `dev`        | Local clean build                                               |
-| `dirty`      | Local build with uncommitted source changes                     |
-| `wasm`       | Browser emulator build                                          |
-| `user-build` | App Builder per-user build (core firmware + your selected apps) |
-| `unknown`    | Built without git access - no source-provenance audit trail     |
-| anything else | A custom CI label set via `CYBERFIDGET_BUILD_TYPE_OVERRIDE`     |
+### Release-channel labels (the ones end users care about)
 
-If you see `type=unknown` on a release artifact, that's a bug - it means
+| Type         | Audience            | Meaning                                                  |
+|--------------|---------------------|----------------------------------------------------------|
+| `release`    | Everyone (default)  | Built in CI from a published `vX.Y.Z` tag — the Stable tier |
+| `prerelease` | Bleeding-edge users | Built in CI from a `vX.Y.Z-rc1` / `-alpha` / `-beta` tag |
+
+The version string itself reflects the release channel: a Stable reads
+`1.2.0+abc1234`; an RC reads `1.2.0-rc1+abc1234`. End-user-facing UIs
+(App Builder firmware selector, the public release page, future OTA
+"check for updates") default to showing only `release` builds with an
+opt-in toggle for prereleases.
+
+### Provenance labels (developer / traceability metadata)
+
+| Type           | Meaning                                                         |
+|----------------|-----------------------------------------------------------------|
+| `ci-dev`       | CI build of a PR or non-tagged push                             |
+| `dev`          | Local clean build                                               |
+| `dirty`        | Local build with uncommitted source changes                     |
+| `wasm`         | Browser emulator build                                          |
+| `user-build`   | App Builder per-user build (core firmware + your selected apps) |
+| `ci-nightly`   | Scheduled internal nightly build                                |
+| `jenkins-hil`  | External Jenkins hardware-in-the-loop test rig build            |
+| `beta`         | Hand-cut binary distributed to beta testers outside normal release channels |
+| `unknown`      | Built without git access — no source-provenance audit trail     |
+| anything else  | A custom CI label set via `CYBERFIDGET_BUILD_TYPE_OVERRIDE`     |
+
+These earn their keep when you file a bug report and paste your `info`
+output — at a glance you (and the maintainer) know whether you're
+running a release, a CI build of someone's PR, a dirty local hack, or
+something else.
+
+If you see `type=unknown` on a release artifact, that's a bug — it means
 the build environment didn't have git available and the commit hash
 couldn't be embedded. File an issue.
+
+## Release significance hierarchy
+
+End-users typically see only two tiers; the rest are internal dev
+infrastructure that just happens to be visible if you look at a serial
+dump. From most-significant to least:
+
+| Tier | Tag shape | Audience | What it means |
+|------|-----------|----------|---------------|
+| **Stable** *(also called "GA" or "General Availability" in enterprise contexts)* | `v1.2.0` | Everyone | "Confident this is ready" |
+| **Release Candidate (RC)** | `v1.2.0-rc1`, `-rc2` | Opt-in users | "Feature-complete, want eyes before promoting to Stable" |
+| **Beta** | `v1.2.0-beta`, `-beta.2` | Wider testers | "Feature-mostly-complete, may still tweak" |
+| **Alpha** | `v1.2.0-alpha`, `-alpha.2` | Internal / insiders | "Early; expect churn" |
+| **Nightly** | scheduled, e.g. `-nightly.20260510` | Devs + bleeding-edge | "Last night's main" |
+| **CI build** | not tagged, per-commit | CI system + ad-hoc testers | "We just built this, no claim about quality" |
+| **Local dev** | not tagged | Just the developer | "Built on my machine" |
+
+You'll never see the bottom three in a normal release announcement;
+they're scaffolding for development. RC and above are real release
+artifacts (they get GitHub Release pages, can be downloaded, and the
+firmware reports them honestly via the boot banner).
 
 ## Comparing versions in your app
 
@@ -119,7 +171,7 @@ different firmware versions at compile time:
 `uint32_t` with bit layout `(major << 16) | (minor << 8) | patch`, so
 ordinary integer comparison gives you semver ordering. `FW_VERSION` is the
 encoded current version; `FW_VERSION_STRING` is the dotted string;
-`FW_VERSION_FULL_STRING` adds the `+hash[-dirty]` suffix.
+`FW_VERSION_FULL_STRING` adds the `+hash[.dirty]` suffix.
 
 At runtime, the same values are available from the firmware globals
 header (no namespace; these are build-time identification, not hardware
@@ -215,7 +267,7 @@ tarball with no `.git` directory. Functional, but the binary can't be
 traced back to a specific commit. Install git (or clone the repo properly)
 and rebuild to get a real hash.
 
-**Why does my banner say `-dirty`?**
+**Why does my banner say `.dirty`?**
 The source tree had uncommitted modifications when the build ran. Common
 during development; problematic for release artifacts. Commit your changes
 and rebuild for a reproducible binary.
@@ -229,7 +281,7 @@ for "Send CR+LF on Enter" / "Append LF" / "Newline mode" and enable it.
 PlatformIO's `pio device monitor` handles this automatically.
 
 **Two different binaries report the same version string.**
-Compare the `+hash` portion. If hashes match and neither is `-dirty`, the
+Compare the `+hash` portion. If hashes match and neither is `.dirty`, the
 binaries should be functionally identical (modulo build-time entropy like
 commit-vs-clock timestamps).
 
@@ -244,6 +296,12 @@ Add a CMake pre-build target that invokes
 `python scripts/generate_version.py --standalone --out generated/version.h`,
 then `target_include_directories(... PRIVATE generated)` so includes
 resolve. The same `version.h` is consumed identically.
+
+**Note on `--standalone`.** The flag is informational — the script
+auto-detects whether it's running under PlatformIO (via SCons
+`Import("env")`) or as a standalone CLI. The flag is accepted so docs
+and build scripts can name the mode explicitly; you can omit it with
+no behavior change.
 
 **For external CI (Jenkins, GitLab CI, custom rigs).**
 Set `CYBERFIDGET_BUILD_TYPE_OVERRIDE` in the build environment to brand

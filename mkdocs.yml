@@ -60,6 +60,7 @@ nav:
   - Reference:
     - Glossary: reference/glossary.md
     - Firmware version: reference/firmware-version.md
+    - Release process: reference/release-process.md
   - Contribute:
     - Contribute: contribute/contribute.md
     - Emulator Dev Guide: contribute/emulator-dev.md
