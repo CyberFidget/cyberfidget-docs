@@ -59,7 +59,9 @@ nav:
     - IRAM Optimization: firmware/IRAM-overflow-solution.md
   - Reference:
     - Glossary: reference/glossary.md
-  - Contribute: 
+    - Firmware version: reference/firmware-version.md
+    - Release process: reference/release-process.md
+  - Contribute:
     - Contribute: contribute/contribute.md
     - Emulator Dev Guide: contribute/emulator-dev.md
     - Guide Studio: studio/index.html
