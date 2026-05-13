@@ -14,13 +14,13 @@ The original "deep sleep" was burning a battery's worth of energy in a week. Mos
 
 Early prototypes used ubiquitious USB power meters and the results were encouraging because the meters read as low as they would go (0.001A and energy reports for about $15). But it turns that that simply wasn't precise enough and was just within the noise. 
 
-![Typical USB power meter](/docs/assets/Amazon%20USB%20Power%20Meter%20-%20web.jpg)
+![Typical USB power meter](../assets/Amazon%20USB%20Power%20Meter%20-%20web.jpg)
 
 As the developer, it wasn't really a problem since it's constantly plugged in getting reflashed and charging, but user feedback drove the purchase of a Nordic nRF-PPK2 that can read down to 0.0000001A (100 nA!) reliabily. This means we can use our old `V (voltage) = I (current) x R (resistance)` equation across components using microamps (µA) of current to see what's happening. This enables true board validation of energy usage across the physical electrical design as well as the firmware's behavior running on that hardware.
 
 This post walks through the bench setup, hypothesises that did and did not work, the math that finally nailed the culprit, and the firmware fix in `HAL::enterDeepSleep()` that should get the Cyber Fidget from a week of standby time to two months. If you're chasing power on an ESP32 design with a multi-rail power architecture, the diagnostic pattern here will hopefully save you some time.
 
-![bench setup with PPK2 wired into the JST, Cyber Fidget powered up](/docs/assets/ppk2-power-bench-setup-web.jpg)
+![bench setup with PPK2 wired into the JST, Cyber Fidget powered up](../assets/ppk2-power-bench-setup-web.jpg)
 
 ---
 
@@ -62,7 +62,7 @@ With the PPK2 holding VBAT at 3.7 V and no USB connected, we triggered the Power
 | **"Deep sleep" (firmware-claimed)** | **2.51 mA avg, 2.83 mA max** | **Way over the original 375 µA design target** |
 
 <!-- SCREENSHOT: PPK2 nRF Connect Power Profiler trace showing the active → "Powering off..." → deep sleep step-down, with the deep-sleep plateau hovering around 2.5 mA -->
-![PPK2 nRF Connect Power Profiler trace showing the active --> "Powering off..." --> deep sleep step-down, with the deep-sleep plateau hovering around 2.5 mA](/docs/assets/CF%20Rev%201.2%20-%20v1.2.0%20-%202.5mA%20Standby%20-%20ppk-20260513T180414%20-%20web.jpg)
+![PPK2 nRF Connect Power Profiler trace showing the active --> "Powering off..." --> deep sleep step-down, with the deep-sleep plateau hovering around 2.5 mA](../assets/CF%20Rev%201.2%20-%20v1.2.0%20-%202.5mA%20Standby%20-%20ppk-20260513T180414%20-%20web.jpg)
 
 That's not deep sleep. ESP32 *real* deep sleep should be 10–150 µA depending on which RTC peripherals you keep alive for wake sources. 2.5 mA is the textbook number for *light sleep* with peripherals running. So either the firmware wasn't actually entering deep sleep, or something on the board was leaking the rest.
 
@@ -167,7 +167,7 @@ Always-on 3.3V rail
 >
 
 <!-- DIAGRAM: redraw the above ASCII as a clean SVG/PNG showing the leak path through the ESD diode -->
-![leak path through the ESD diode](/docs/assets/OLED%20Leak%20Current%20Path%20-%20Web.jpg)
+![leak path through the ESD diode](../assets/OLED%20Leak%20Current%20Path%20-%20Web.jpg)
 
 The current flows: pull-up rail → R50 → SCL bus → SSD1306 ESD diode → SSD1306 VDD pin → through the chip's internal substrate to GND. The bus settles at one diode-drop above the powered-down VDD: roughly **0.7 V + the residual VDD voltage = 0.85 V**, exactly what we measured.
 
@@ -203,7 +203,7 @@ After we worked it out the hard way, we went back to the SSD1306 module datashee
 > (When design main board, Please add Electronic Switch circuit, otherwise, will be caused leak current)
 
 <!-- SCREENSHOT: OLED panel datasheet I²C Interface reference design section, with the red "Special Tips" warning highlighted and the Q1/Q2 electronic switch circuit visible -->
-![OLED panel datasheet I²C Interface reference design section, with the red "Special Tips" warning highlighted and the Q1/Q2 electronic switch circuit visible](/docs/assets/OLED%20Leak%20Current%20Datasheet.png)
+![OLED panel datasheet I²C Interface reference design section, with the red "Special Tips" warning highlighted and the Q1/Q2 electronic switch circuit visible](../assets/OLED%20Leak%20Current%20Datasheet.png)
 
 The "电子开关" (electronic switch) the warning refers to is the Q1 (FDN338P) + Q2 (FDN335N) high-side FET circuit shown in their reference designs - a power-gating switch on the OLED's VBAT/VDDB power pins.
 
@@ -302,7 +302,7 @@ s_realDisplay.displayOff();                  // SSD1306 → display-off standby
 
 After flashing: **265 µA** in deep sleep. That's another ~27 µA savings, matching the predicted ~30 µA almost exactly.
 
-![PPK2 trace showing the new deep-sleep plateau at 264 µA](/docs/assets/CF%20Rev%201.2%20-%20PR%205%20-%20Commit%207316879%20-%20264uA%20Standby%20-%20ppk-20260513T180414%20-%20web.jpg)
+![PPK2 trace showing the new deep-sleep plateau at 264 µA](../assets/CF%20Rev%201.2%20-%20PR%205%20-%20Commit%207316879%20-%20264uA%20Standby%20-%20ppk-20260513T180414%20-%20web.jpg)
 
 ## The numbers
 
