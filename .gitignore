@@ -14,6 +14,6 @@ Thumbs.db
 
 # Logs
 *.log
-# AI tool configs
+# Tool configs
 .claude/
 .cursor/

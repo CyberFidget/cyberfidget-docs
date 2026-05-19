@@ -86,7 +86,7 @@ wasm/
 assets/js/
 ├── emulator.js      # CyberFidgetEmulator class (DOM rendering)
 ├── wasm_bridge.js   # WasmBridge class (WASM ↔ emulator glue)
-└── ai_builder.js    # App Builder integration (compile, cache, load)
+└── builder.js       # App Builder integration (compile, cache, load)
 
 build.html           # App Builder page with emulator panel
 ```
