@@ -129,12 +129,15 @@ All API routes are under the ESPAsyncWebServer running on port 80.
 |-------|--------|---------|
 | `/` | GET | Portal page (SPA from PROGMEM) |
 | `/media/*` | GET | Static file serving from SD (for audio playback) |
+| `/recordings/*` | GET | Static voice-note serving from SD (playback + download) |
 | `/api/files` | GET | Recursive JSON folder tree |
 | `/api/tracks` | GET | Flat JSON array with ID3 metadata per track |
+| `/api/recordings` | GET | Voice notes merged with `index.csv` metadata |
 | `/api/upload?dir=/media/...` | POST | Multipart file upload |
-| `/api/delete?path=/media/...` | POST | Delete file or folder |
+| `/api/delete?path=/media/...` or `/recordings/...` | POST | Delete file or folder (recordings: also drops the `index.csv` row) |
 | `/api/mkdir?path=/media/...` | POST | Create directory |
-| `/api/move?from=...&to=...` | POST | Move/rename file |
+| `/api/move?from=...&to=...` | POST | Move/rename file (recordings: also updates the `index.csv` row) |
+| `/api/time?ms=<epoch>` | POST | Set the device clock from the browser's wall-clock |
 | `/api/status` | GET | File count, SD space, connected clients |
 | `/api/playlists` | GET | List all M3U playlists |
 | `/api/playlist?name=...` | GET | Read playlist tracks |
@@ -160,6 +163,24 @@ All API routes are under the ESPAsyncWebServer running on port 80.
 ```
 
 ID3 tags are read on-the-fly from each MP3 file (ID3v2 first, ID3v1 fallback). Title falls back to filename if no tags are present.
+
+### Example: `/api/recordings` response
+
+```json
+{
+  "sd": true,
+  "items": [
+    {
+      "name": "REC_0042.wav",
+      "timestamp": "2026-06-09T14:23:11",
+      "duration": 123,
+      "bytes": 3936000
+    }
+  ]
+}
+```
+
+The list is built from `/recordings/index.csv` (written by the Voice Notes app, parsed with the shared `RecNaming::parseIndexRow`) and filtered to rows whose `.wav` still exists on the card. `timestamp` is empty when the recording was made before the clock was set; `duration` is whole seconds; `bytes` is the audio data length. When no card is mounted the response is `{"sd": false}` so the UI can tell "no card" apart from "no notes yet".
 
 ### Example: `/api/playlist` save body
 
@@ -196,6 +217,20 @@ The player bar shows:
 - Elapsed and remaining time
 
 Playing any track auto-builds a queue from all loaded tracks, so next/prev cycles through your library.
+
+### Voice notes
+
+The **Voice notes** tab lists every recording made by the Voice Notes app, newest first, reading metadata straight from `/recordings/index.csv`. Each note shows its date, length, and size, with:
+
+- **Play** — a native `<audio>` element streams the WAV straight from the SD card (`serveStatic("/recordings/", SD, "/recordings/")`), with scrubbing for free. WAV was chosen in part so every browser can play it with zero transcoding.
+- **Download** — saves the original `.wav` to your phone or computer.
+- **Rename** — renames the file and rewrites the matching `index.csv` row (and any transcript sidecar) in lockstep, so a note never loses its metadata. Reuses `/api/move`, constrained to flat `.wav` names within `/recordings/`.
+- **Delete** — removes the `.wav`, its `index.csv` row, and any transcript sidecar together. Reuses `/api/delete`.
+
+Everything stays on the card and in your own browser — no recording audio, filename, or transcript ever touches a project server. The tab shows "Insert a memory card..." when no card is mounted and "No voice notes yet..." when the card has none.
+
+!!! note "Device clock and timestamps"
+    The Cyber Fidget has no battery-backed real-time clock, so on a cold boot it doesn't know the date. When the portal page loads it POSTs the browser's wall-clock to `/api/time` (`settimeofday`), so any recording made afterwards lands a real timestamp in `index.csv`. The browser sends a timezone-adjusted epoch so the device — which keeps time as UTC — records your *local* wall-clock time. Recordings made before the first portal visit of a session stay stamped "No date". In "Deep Sleep" on mainboard v1.2, the clock may drift up to ~2 seconds per day / 1 minute per month (ESP32 internal real-time clock is rated +/- 20 parts per million drift at 32kHz).
 
 ### Playlists
 
