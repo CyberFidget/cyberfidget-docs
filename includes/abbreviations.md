@@ -25,6 +25,8 @@
 *[OLED]: Organic Light-Emitting Diode; the 128×64 display on Cyber Fidget
 *[OTA]: Over-The-Air (firmware updates)
 *[PCB]: Printed Circuit Board
+*[PCM]: Pulse-Code Modulation; uncompressed digital audio samples
+*[PSRAM]: Pseudo-Static RAM; extra fast memory used to buffer audio while recording
 *[RGBW]: Red, Green, Blue, White (four-channel LED)
 *[SD]: Secure Digital (memory card)
 *[SK6812]: Addressable RGBW LED (NeoPixel-compatible)
@@ -32,6 +34,8 @@
 *[SPP]: Serial Port Profile; Bluetooth serial data
 *[SSD1306]: Display controller chip used in the Cyber Fidget OLED
 *[USB]: Universal Serial Bus
+*[VU]: Volume Unit; a meter showing how loud the incoming sound is
 *[WASM]: WebAssembly
+*[WAV]: Waveform Audio File; uncompressed audio that plays on almost any device
 *[WebAssembly]: Binary instruction format that runs in the browser; used to run C++ app code in the emulator
 *[Wi-Fi]: Wireless Fidelity

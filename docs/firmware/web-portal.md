@@ -237,7 +237,7 @@ Playing any track auto-builds a queue from all loaded tracks, so next/prev cycle
 
 ### Voice notes
 
-The **Voice notes** tab lists every recording made by the Voice Notes app, newest first, reading metadata straight from `/recordings/index.csv`. Each note shows its date, length, and size, with:
+The **Voice notes** tab lists every recording made by the [Voice Notes](voice-recorder.md) app, newest first, reading metadata straight from `/recordings/index.csv`. Each note shows its date, length, and size, with:
 
 - **Play** — a native `<audio>` element streams the WAV straight from the SD card (`serveStatic("/recordings/", SD, "/recordings/")`), with scrubbing for free. WAV was chosen in part so every browser can play it with zero transcoding.
 - **Download** — saves the original `.wav` to your phone or computer.
