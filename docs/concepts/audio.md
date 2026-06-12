@@ -1,6 +1,6 @@
 # Sound & Music
 
-The Cyber Fidget has a MAX98357A I2S amplifier with speaker for output and an ICS-43434 MEMS microphone for input. You can play tones at any frequency, control volume, and react to sound levels in your apps.
+The Cyber Fidget has a MAX98357A I2S amplifier with speaker for output and an ICS-43434 MEMS microphone for input. You can play tones at any frequency, control volume, and react to sound levels in your apps. The microphone isn't just for measuring loudness either - the device can  **capture real audio** and save it to the memory card, which is exactly what the built-in [Voice Notes](../firmware/voice-recorder.md) recorder does.
 
 ---
 
@@ -9,9 +9,16 @@ The Cyber Fidget has a MAX98357A I2S amplifier with speaker for output and an IC
 The device includes:
 
 - **Speaker** — Plays tones and sounds. You set a frequency (pitch) and volume.
-- **Microphone** — Listens to ambient sound. You can read how loud it is and react to it.
+- **Microphone** — Listens to ambient sound. You can read how loud it is and react to it, and the firmware can record it to a file.
 
 Both are opt-in: enable the mic when your app needs it, and disable it when you're done to save power.
+
+!!! note "Level metering vs. recording"
+    The app-facing audio API on this page is about *reacting* to sound — reading the live
+    microphone level so your app can respond to it. *Recording* sound to the card is a step
+    beyond that, and today it lives inside the built-in [Voice Notes](../firmware/voice-recorder.md)
+    app, which captures audio on its own. A reusable capture API for your own apps is planned;
+    for now, level metering is what's exposed below.
 
 ---
 
@@ -95,6 +102,8 @@ The `AudioManager` singleton (accessed via `HAL::audioManager()`) handles:
 
 - **Tone output** — `SineWaveGenerator` → `VolumeStream` → I2S → MAX98357A amplifier
 - **Mic input** — ICS-43434 I2S mic → `VolumeMeter` → atomic level (0..1)
+
+The `AudioManager` mic path is metering-only: it publishes a level, not a stream of samples. The Voice Notes recorder opens the same ICS-43434 microphone on its own I2S port and pulls the raw sample stream for capture, independent of `AudioManager`. Factoring that capture path into a shared, app-callable component is future work.
 
 ### I2S
 

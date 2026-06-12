@@ -65,6 +65,7 @@ See [How an App Works](../concepts/app-lifecycle.md) for the app-level view.
 ## In this section
 
 - [Music Player Architecture](music-player.md) — How the BT A2DP music player works
+- [Voice Notes](voice-recorder.md) — Record voice memos to the SD card, replay them on the device, and keep your audio in your own hands
 - [LED Effects & Visualizer](led-effects.md) — Music-reactive NeoPixels, per-LED control, OLED amplitude and spectrum visualizers
 - [Bluetooth A2DP Guide](bt-a2dp-guide.md) — Hard-won lessons on ESP32-A2DP lifecycle management
 - [Web Portal](web-portal.md) — WiFi captive portal for file management and settings
