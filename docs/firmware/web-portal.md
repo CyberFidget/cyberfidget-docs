@@ -130,13 +130,15 @@ All API routes are under the ESPAsyncWebServer running on port 80.
 | `/` | GET | Portal page (SPA from PROGMEM) |
 | `/media/*` | GET | Static file serving from SD (for audio playback) |
 | `/recordings/*` | GET | Static voice-note serving from SD (playback + download) |
-| `/api/files` | GET | Recursive JSON folder tree |
+| `/api/files` | GET | Recursive JSON folder tree (music view, MP3-filtered) |
 | `/api/tracks` | GET | Flat JSON array with ID3 metadata per track |
 | `/api/recordings` | GET | Voice notes merged with `index.csv` metadata |
-| `/api/upload?dir=/media/...` | POST | Multipart file upload |
-| `/api/delete?path=/media/...` or `/recordings/...` | POST | Delete file or folder (recordings: also drops the `index.csv` row) |
-| `/api/mkdir?path=/media/...` | POST | Create directory |
-| `/api/move?from=...&to=...` | POST | Move/rename file (recordings: also updates the `index.csv` row) |
+| `/api/browse?path=/...` | GET | Single-level listing of any folder (name, type, size, modified date) for the Files browser |
+| `/api/download?path=/...` | GET | Download any file off the card as an attachment |
+| `/api/upload?dir=/...` | POST | Multipart file upload into any folder |
+| `/api/delete?path=/...` | POST | Delete a file or a folder (folders delete recursively; voice notes also drop the `index.csv` row) |
+| `/api/mkdir?path=/...` | POST | Create a directory anywhere on the card |
+| `/api/move?from=...&to=...` | POST | Move/rename a file or folder (voice notes also update the `index.csv` row) |
 | `/api/time?ms=<epoch>` | POST | Set the device clock from the browser's wall-clock |
 | `/api/status` | GET | File count, SD space, connected clients |
 | `/api/playlists` | GET | List all M3U playlists |
@@ -181,6 +183,21 @@ ID3 tags are read on-the-fly from each MP3 file (ID3v2 first, ID3v1 fallback). T
 ```
 
 The list is built from `/recordings/index.csv` (written by the Voice Notes app, parsed with the shared `RecNaming::parseIndexRow`) and filtered to rows whose `.wav` still exists on the card. `timestamp` is empty when the recording was made before the clock was set; `duration` is whole seconds; `bytes` is the audio data length. When no card is mounted the response is `{"sd": false}` so the UI can tell "no card" apart from "no notes yet".
+
+### Example: `/api/browse` response
+
+```json
+{
+  "sd": true,
+  "path": "/media",
+  "entries": [
+    { "name": "Rock", "type": "dir", "size": 0, "mtime": 1717000000 },
+    { "name": "intro.mp3", "type": "file", "size": 4096, "mtime": 1717000000 }
+  ]
+}
+```
+
+`/api/browse` lists the **direct children** of one folder (defaults to the card root, `/`), with no type filter, so the Files browser can show every file and folder. `type` is `"dir"` or `"file"`; `size` is bytes (`0` for folders); `mtime` is the file's modified time as a Unix timestamp. `mtime` is only meaningful once the device clock has been set -- files written before then come back as `0`, which the browser shows as "No date". As with `/api/recordings`, a missing card returns `{"sd": false}`.
 
 ### Example: `/api/playlist` save body
 
@@ -231,6 +248,21 @@ Everything stays on the card and in your own browser — no recording audio, fil
 
 !!! note "Device clock and timestamps"
     The Cyber Fidget has no battery-backed real-time clock, so on a cold boot it doesn't know the date. When the portal page loads it POSTs the browser's wall-clock to `/api/time` (`settimeofday`), so any recording made afterwards lands a real timestamp in `index.csv`. The browser sends a timezone-adjusted epoch so the device — which keeps time as UTC — records your *local* wall-clock time. Recordings made before the first portal visit of a session stay stamped "No date". In "Deep Sleep" on mainboard v1.2, the clock may drift up to ~2 seconds per day / 1 minute per month (ESP32 internal real-time clock is rated +/- 20 parts per million drift at 32kHz).
+
+### Files
+
+The **Files** tab is a raw browser for the whole memory card -- the power-user view alongside the curated Media and Voice notes tabs. Where Media is shaped for music and Voice notes for recordings, Files shows **everything**: every file and folder of any type, the way Windows Explorer or macOS Finder does.
+
+- **Navigate** one folder at a time -- click a folder to go in, use the breadcrumb at the top to jump back out. You always see the direct contents of the current folder, not a flattened dump of the whole card, so it stays clear what lives inside what.
+- **See** each item's name, size, and modified date. (Dates only appear once the clock has been set this session -- see the note above; older files show "No date".)
+- **Download** any single file, or tick several and download them as one `.zip` bundle (the same one-at-a-time, keep-this-page-open transfer the Voice notes tab uses, so the device only ever serves one file at a time).
+- **Upload** by dropping files onto the current folder (or tapping to choose them).
+- **New folder**, **Rename**, and **Delete** -- delete works on a single file, several selected items at once, or a whole folder (deleting a folder removes everything inside it).
+
+Everything stays on the card and in your own browser -- nothing is uploaded to a project server.
+
+!!! warning "The Files tab can delete anything on the card"
+    Unlike the Media and Voice notes tabs, the Files browser can rename and delete *any* file or folder, including ones other features rely on (the music index, a recording's `index.csv`, configuration files). Deleting a folder removes everything inside it, and there is no recycle bin -- removed files are gone. Use it the way you would use Explorer or Finder.
 
 ### Playlists
 
