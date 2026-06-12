@@ -34,13 +34,17 @@ Hover over terms in the docs to see short definitions. This page lists all acron
 | **OLED** | Organic Light-Emitting Diode — the 128×64 pixel display on Cyber Fidget. |
 | **OTA** | Over-The-Air — firmware updates delivered wirelessly. |
 | **PCB** | Printed Circuit Board. |
+| **PCM** | Pulse-Code Modulation — uncompressed digital audio stored as raw samples. |
+| **PSRAM** | Pseudo-Static RAM — extra fast memory on the ESP32 module, used to buffer audio while recording. |
 | **RGBW** | Red, Green, Blue, White — four-channel LED color. |
 | **SD** | Secure Digital — the micro-SD card slot. |
 | **SPI** | Serial Peripheral Interface — serial bus used for the SD card. |
 | **SPP** | Serial Port Profile — Bluetooth serial data streaming protocol. |
 | **SSD1306** | The display controller chip used in the Cyber Fidget OLED. |
 | **USB** | Universal Serial Bus — used for charging and serial communication via USB-C. |
+| **VU** | Volume Unit — a level meter showing how loud the microphone is hearing you (used by the Voice Notes recorder). |
 | **WASM** | WebAssembly — binary format that runs in the browser; the emulator runs C++ apps as WASM. |
+| **WAV** | Waveform Audio File — uncompressed audio format; plays on nearly any phone or computer with no special software. Voice Notes recordings are saved as WAV. |
 | **WebAssembly** | Binary instruction format for the web; the emulator compiles C++ to WASM. |
 | **Wi-Fi** | Wireless Fidelity — used for OTA and network features. |
 
@@ -54,6 +58,7 @@ Hover over terms in the docs to see short definitions. This page lists all acron
 | **.h** | C/C++ header file (declarations). |
 | **.js** | JavaScript file — the Emscripten "loader" that loads and runs the WASM module. |
 | **.wasm** | WebAssembly binary — the compiled app. |
+| **.wav** | Waveform audio file — the uncompressed recordings made by the Voice Notes app. |
 | **.yml / .yaml** | YAML config — e.g. GitHub Actions workflow or MkDocs config. |
 
 ---
