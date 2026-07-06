@@ -12,11 +12,12 @@
 *[FPS]: Frames Per Second
 *[FreeRTOS]: Free Real-Time Operating System; used by ESP-IDF
 *[GPIO]: General-Purpose Input/Output
+*[GPU]: Graphics Processing Unit; phones with browser GPU access transcribe faster
 *[HAL]: Hardware Abstraction Layer
 *[I2C]: Inter-Integrated Circuit; serial bus used for OLED and some sensors
 *[I2S]: Inter-IC Sound; digital audio interface
 *[IDE]: Integrated Development Environment
-*[IndexedDB]: Browser key-value database used to cache compiled WASM
+*[IndexedDB]: Browser key-value database used to cache compiled WASM and the companion's transcription pack
 *[JS]: JavaScript
 *[LED]: Light-Emitting Diode
 *[LiPo]: Lithium Polymer battery
@@ -38,4 +39,5 @@
 *[WASM]: WebAssembly
 *[WAV]: Waveform Audio File; uncompressed audio that plays on almost any device
 *[WebAssembly]: Binary instruction format that runs in the browser; used to run C++ app code in the emulator
+*[WebSocket]: Persistent two-way browser connection; carries the live caption link between device and phone
 *[Wi-Fi]: Wireless Fidelity

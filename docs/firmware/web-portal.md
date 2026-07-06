@@ -130,6 +130,8 @@ All API routes are under the ESPAsyncWebServer running on port 80.
 | `/` | GET | Portal page (SPA from PROGMEM) |
 | `/media/*` | GET | Static file serving from SD (for audio playback) |
 | `/recordings/*` | GET | Static voice-note serving from SD (playback + download) |
+| `/web/*` | GET | [Phone companion](companion.md) app from SD (`/web/` on the card); a built-in fallback page explains how to get the SD pack when it's missing |
+| `/ws/live` | WS | Live caption link: mic audio out as binary PCM frames, JSON `time`/`caption` frames back; single client; contract pinned in `LiveLinkProtocol.h` |
 | `/api/files` | GET | Recursive JSON folder tree (music view, MP3-filtered) |
 | `/api/tracks` | GET | Flat JSON array with ID3 metadata per track |
 | `/api/recordings` | GET | Voice notes merged with `index.csv` metadata |
@@ -140,7 +142,7 @@ All API routes are under the ESPAsyncWebServer running on port 80.
 | `/api/mkdir?path=/...` | POST | Create a directory anywhere on the card |
 | `/api/move?from=...&to=...` | POST | Move/rename a file or folder (voice notes also update the `index.csv` row) |
 | `/api/time?ms=<epoch>` | POST | Set the device clock from the browser's wall-clock |
-| `/api/status` | GET | File count, SD space, connected clients |
+| `/api/status` | GET | File count, SD space, connected clients, live-link health (`live.connected`, sent/dropped frame counts) |
 | `/api/playlists` | GET | List all M3U playlists |
 | `/api/playlist?name=...` | GET | Read playlist tracks |
 | `/api/playlist?name=...` | POST | Save playlist (JSON body) |
@@ -263,6 +265,14 @@ Everything stays on the card and in your own browser -- nothing is uploaded to a
 
 !!! warning "The Files tab can delete anything on the card"
     Unlike the Media and Voice notes tabs, the Files browser can rename and delete *any* file or folder, including ones other features rely on (the music index, a recording's `index.csv`, configuration files). Deleting a folder removes everything inside it, and there is no recycle bin -- removed files are gone. Use it the way you would use Explorer or Finder.
+
+### Live listening
+
+The **Live listening** entry in the sidebar opens the [phone companion](companion.md)
+(served from `/web/` on the card): live audio streaming from the device's microphone,
+captions on the device's OLED, voice-note transcription, and daily-note summaries.
+When the companion SD pack isn't on the card, the link lands on a built-in page that
+explains how to get it.
 
 ### Playlists
 
