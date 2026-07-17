@@ -61,6 +61,7 @@ nav:
     - Deep-sleep current investigation: firmware/deep-sleep-current-investigation.md
   - Reference:
     - Glossary: reference/glossary.md
+    - Hardware specifications: reference/hardware-specs.md
     - Firmware version: reference/firmware-version.md
     - Release process: reference/release-process.md
   - Contribute:
