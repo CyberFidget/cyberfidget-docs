@@ -25,7 +25,8 @@ Hover over terms in the docs to see short definitions. This page lists all acron
 | **I2C** | Inter-Integrated Circuit — serial bus used for the OLED, accelerometer, and fuel gauge. |
 | **I2S** | Inter-IC Sound — digital audio bus used for the speaker amplifier and MEMS microphone. |
 | **IDE** | Integrated Development Environment — e.g. the App Builder on the website. |
-| **IndexedDB** | Browser storage used to cache compiled WASM so you don't recompile every time. |
+| **GPU** | Graphics Processing Unit — when the phone's browser exposes it, the companion transcribes speech much faster. |
+| **IndexedDB** | Browser storage used to cache compiled WASM and the phone companion's one-time transcription download. |
 | **JS** | JavaScript. |
 | **LED** | Light-Emitting Diode. |
 | **LiPo** | Lithium Polymer — rechargeable battery type used in Cyber Fidget (400 mAh). |
@@ -50,6 +51,7 @@ Hover over terms in the docs to see short definitions. This page lists all acron
 | **WASM** | WebAssembly — binary format that runs in the browser; the emulator runs C++ apps as WASM. |
 | **WAV** | Waveform Audio File — uncompressed audio format; plays on nearly any phone or computer with no special software. Voice Notes recordings are saved as WAV. |
 | **WebAssembly** | Binary instruction format for the web; the emulator compiles C++ to WASM. |
+| **WebSocket** | A persistent two-way connection between a browser page and a server — the phone companion's live caption link to the device. |
 | **Wi-Fi** | Wireless Fidelity — used for OTA and network features. |
 | **microSD** | Compact removable Secure Digital memory-card format. |
 
