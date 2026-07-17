@@ -1,6 +1,8 @@
 <!--
 Recovered verbatim from the retired product page (2026-07-12 state).
-Each row awaits a hardware-truth re-verification pass by the maintainer.
+Rows still await a hardware-truth re-verification pass by the maintainer,
+EXCEPT Development (verified 2026-07-17: MicroPython flashed and tested;
+CircuitPython unverified - the retired page's claim was corrected).
 Placement under reference/ is provisional pending the docs IA work.
 -->
 
@@ -30,7 +32,7 @@ hardware.
 | Assembly | High-quality kit - no soldering, just screws. Designed for repairability and customization |
 | Accessories | Interchangeable color gels (clear, red, teal, and more) and multiple machined backplate designs available |
 | Enclosure | Precision-machined aluminum chassis with replaceable backplate. Models available for 3D printing |
-| Development | Arduino (ESP32) and CircuitPython supported. Best experience with VS Code + PlatformIO |
+| Development | Arduino (ESP32) and MicroPython supported; CircuitPython may be compatible but is untested. Best experience with VS Code + PlatformIO |
 
 ## Reading this table
 
