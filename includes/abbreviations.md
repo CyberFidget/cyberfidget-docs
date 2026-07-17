@@ -20,6 +20,8 @@
 *[JS]: JavaScript
 *[LED]: Light-Emitting Diode
 *[LiPo]: Lithium Polymer battery
+*[Li-ion]: Lithium-ion rechargeable battery
+*[MCU]: Microcontroller Unit; the main processor in an embedded device
 *[MEMS]: Micro-Electro-Mechanical Systems
 *[NeoPixel]: Adafruit brand of addressable RGB(W) LEDs
 *[OLED]: Organic Light-Emitting Diode; the 128×64 display on Cyber Fidget
@@ -28,14 +30,17 @@
 *[PCM]: Pulse-Code Modulation; uncompressed digital audio samples
 *[PSRAM]: Pseudo-Static RAM; extra fast memory used to buffer audio while recording
 *[RGBW]: Red, Green, Blue, White (four-channel LED)
+*[RS-232]: Recommended Standard 232; a serial communication standard
 *[SD]: Secure Digital (memory card)
 *[SK6812]: Addressable RGBW LED (NeoPixel-compatible)
 *[SPI]: Serial Peripheral Interface
 *[SPP]: Serial Port Profile; Bluetooth serial data
 *[SSD1306]: Display controller chip used in the Cyber Fidget OLED
 *[USB]: Universal Serial Bus
+*[USB-C]: USB Type-C; reversible connector used for charging and serial communication
 *[VU]: Volume Unit; a meter showing how loud the incoming sound is
 *[WASM]: WebAssembly
 *[WAV]: Waveform Audio File; uncompressed audio that plays on almost any device
 *[WebAssembly]: Binary instruction format that runs in the browser; used to run C++ app code in the emulator
 *[Wi-Fi]: Wireless Fidelity
+*[microSD]: Compact removable Secure Digital memory-card format
