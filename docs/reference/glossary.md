@@ -1,6 +1,6 @@
 # Glossary
 
-Hover over terms in the docs to see short definitions. This page lists all acronyms, file types, and product names used in the documentation.
+Hover over terms in the docs to see short definitions. This page lists terms, acronyms, file types, and product names used in the documentation.
 
 ---
 
@@ -12,6 +12,7 @@ Hover over terms in the docs to see short definitions. This page lists all acron
 | **ADC** | Analog-to-Digital Converter — converts the slider's voltage to a number (e.g. 0–4095). |
 | **API** | Application Programming Interface — how code talks to a library or service. |
 | **BLE** | Bluetooth Low Energy — used for wireless features on the device. |
+| **CC0** | Creative Commons Zero - a public-domain dedication that allows reuse without the usual copyright restrictions. |
 | **CI** | Continuous Integration — automated builds (e.g. GitHub Actions compiling WASM). |
 | **CMake** | Cross-platform build system used to configure the WASM/Emscripten build. |
 | **CORS** | Cross-Origin Resource Sharing — browser rules that block loading WASM from `file://` URLs. |
@@ -33,6 +34,7 @@ Hover over terms in the docs to see short definitions. This page lists all acron
 | **Li-ion** | Lithium-ion — a family of rechargeable battery chemistries. |
 | **MCU** | Microcontroller Unit — the processor that controls an embedded device. |
 | **MEMS** | Micro-Electro-Mechanical Systems — miniaturized sensor technology used in the ICS-43434 microphone. |
+| **ms** | Millisecond - one thousandth of a second. |
 | **NeoPixel** | Adafruit's addressable RGB(W) LED product line; firmware uses a shim that matches its API. |
 | **OLED** | Organic Light-Emitting Diode — the 128×64 pixel display on Cyber Fidget. |
 | **OTA** | Over-The-Air — firmware updates delivered wirelessly. |
@@ -54,6 +56,15 @@ Hover over terms in the docs to see short definitions. This page lists all acron
 | **WebSocket** | A persistent two-way connection between a browser page and a server — the phone companion's live caption link to the device. |
 | **Wi-Fi** | Wireless Fidelity — used for OTA and network features. |
 | **microSD** | Compact removable Secure Digital memory-card format. |
+
+---
+
+## Studio terms
+
+| Term | Meaning |
+|------|---------|
+| **Animation state** | A named sequence of sprite frames for one action, such as running or jumping. |
+| **Sprite** | An image or animation used by an app for a character, object, or effect. |
 
 ---
 

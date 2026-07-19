@@ -2,6 +2,7 @@
 *[ADC]: Analog-to-Digital Converter
 *[API]: Application Programming Interface
 *[BLE]: Bluetooth Low Energy
+*[CC0]: Creative Commons Zero; a public-domain dedication that allows reuse without the usual copyright restrictions
 *[CI]: Continuous Integration
 *[CMake]: Cross-platform Make; build system used for the WASM build
 *[CORS]: Cross-Origin Resource Sharing
@@ -24,6 +25,7 @@
 *[Li-ion]: Lithium-ion rechargeable battery
 *[MCU]: Microcontroller Unit; the main processor in an embedded device
 *[MEMS]: Micro-Electro-Mechanical Systems
+*[ms]: Millisecond; one thousandth of a second
 *[NeoPixel]: Adafruit brand of addressable RGB(W) LEDs
 *[OLED]: Organic Light-Emitting Diode; the 128×64 display on Cyber Fidget
 *[OTA]: Over-The-Air (firmware updates)
@@ -46,3 +48,5 @@
 *[WebSocket]: Persistent two-way browser connection; carries the live caption link between device and phone
 *[Wi-Fi]: Wireless Fidelity
 *[microSD]: Compact removable Secure Digital memory-card format
+*[animation state]: Named sequence of sprite frames for one action
+*[sprite]: Image or animation used by an app for a character, object, or effect

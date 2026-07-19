@@ -50,6 +50,11 @@ nav:
     - Browser Emulator: software/emulator.md
     - Storage & SD: software/storage.md
     - App Builder: software/ota-builder.md
+    - Beta Access: software/beta-access.md
+  - Studio:
+    - Drawing and Version History: studio/drawing-and-versions.md
+    - Your Sprite Library: studio/your-sprite-library.md
+    - Animation States: studio/animation-states.md
   - Firmware:
     - Overview: firmware/index.md
     - Music Player: firmware/music-player.md
