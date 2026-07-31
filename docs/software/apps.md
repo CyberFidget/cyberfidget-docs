@@ -1,6 +1,6 @@
 # Apps
 
-Cyber Fidget ships with 28+ built-in apps spanning games, screensavers, tools, and code examples. All apps follow the same [begin/update/end lifecycle](../concepts/app-lifecycle.md) and are registered via `APP_ENTRY` macros in `AppManifest.h`.
+Cyber Fidget ships with 29+ built-in apps spanning games, screensavers, tools, and code examples. All apps follow the same [begin/update/end lifecycle](../concepts/app-lifecycle.md) and are registered via `APP_ENTRY` macros in `AppManifest.h`.
 
 ---
 
@@ -15,6 +15,7 @@ Cyber Fidget ships with 28+ built-in apps spanning games, screensavers, tools, a
 | **Stratagem** | Pattern match sequence input game | D-pad buttons (U/D/L/R), timed scoring |
 | **Particle Sim** | SPH fluid physics simulation with gravity control | Accelerometer for gravity, slider: particle count |
 | **Booper** | Musical tone generator / synth toy | All 6 buttons for notes, slider: volume |
+| **Ragdoll Fidgie** | Physics puppet that idles and breathes until you knock it over — it tumbles with realistic physics, then picks itself back up | Slider: blend pose from crouch to stretch, any face button or a shake: go ragdoll |
 
 ---
 
