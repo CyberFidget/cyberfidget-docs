@@ -55,6 +55,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **WebAssembly** | Binary instruction format for the web; the emulator compiles C++ to WASM. |
 | **WebSocket** | A persistent two-way connection between a browser page and a server — the phone companion's live caption link to the device. |
 | **Wi-Fi** | Wireless Fidelity — used for OTA and network features. |
+| **mDNS** | Multicast DNS — the local-network name service that makes `cyberfidget.local` resolve without any router configuration. |
 | **microSD** | Compact removable Secure Digital memory-card format. |
 
 ---
