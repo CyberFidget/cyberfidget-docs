@@ -51,3 +51,6 @@
 *[microSD]: Compact removable Secure Digital memory-card format
 *[animation state]: Named sequence of sprite frames for one action
 *[sprite]: Image or animation used by an app for a character, object, or effect
+*[node]: A point in a wireframe model's shape, positioned in 3D space
+*[strut]: A straight line connecting two nodes in a wireframe model
+*[wireframe model]: A 3D shape built from points (nodes) connected by straight lines (struts), with no solid surfaces

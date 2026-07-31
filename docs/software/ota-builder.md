@@ -63,8 +63,21 @@ See [How an App Works](../concepts/app-lifecycle.md) for the full lifecycle and 
 
 ---
 
+## Generating apps with 3D models
+
+Besides flat pixel art, the App Builder can generate wireframe models -- 3D shapes made of nodes and straight-line struts that spin on the display, drawn like a classic vector arcade game. See [3D Models](../studio/3d-models.md) for what a wireframe model is and how to build one by hand in Studio's 3D tab.
+
+**What to ask for:** describe the shape as three-dimensional, rotating, or a wireframe, and the App Builder generates a model instead of flat art -- for example, "a spinning wireframe crystal" or "a 3D ship that flies across the screen." Ask for flat art (a character, an icon, a background) and you'll get a sprite instead.
+
+**Spinning or facing a direction:** a generated model can turn in two ways. It can spin continuously in place, like a rotating trophy. Or its facing can follow your app's own logic -- for example, a ship that banks and turns to face the direction it's moving, the way a paper airplane leans into a turn, driven by whatever your app already tracks (steering input, velocity, and so on).
+
+**Using a model you already built in Studio:** open the model in the [3D tab](../studio/3d-models.md#using-a-model-in-an-app) and choose **Try it in an app** -- it either starts you off with a small example app showing the model spinning, or, if your project already has app code, switches to Generate with a request already filled in to add that model to your app.
+
+---
+
 ## See also
 
+- [3D Models](../studio/3d-models.md) -- Build wireframe models in Studio's 3D tab
 - [Browser Emulator](emulator.md) — Detailed emulator guide, controls, and troubleshooting
 - [Apps](apps.md) — Built-in app catalog and how to add your own
 - [Concepts](../concepts/index.md) — Framework reference for all hardware features
