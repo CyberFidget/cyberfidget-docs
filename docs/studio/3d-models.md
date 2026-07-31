@@ -47,7 +47,7 @@ Next to the editor, the **Preview - Device True** panel renders your model using
 
 ## Saving and reusing models
 
-Like drawings in the Art panel, models keep their own version history:
+Like drawings in the 2D panel, models keep their own version history:
 
 - **Save version** stores a checkpoint, with an optional label.
 - **History** opens the list of saved versions, each with a **Restore** option.
