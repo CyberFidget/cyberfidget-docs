@@ -55,6 +55,7 @@ nav:
     - Drawing and Version History: studio/drawing-and-versions.md
     - Your Sprite Library: studio/your-sprite-library.md
     - Animation States: studio/animation-states.md
+    - 3D Models: studio/3d-models.md
   - Firmware:
     - Overview: firmware/index.md
     - Music Player: firmware/music-player.md
