@@ -37,8 +37,12 @@ Phone → Same WiFi network as CyberFidget
 
 The portal is a standalone app launched from the main menu under **Tools → CyberFidget Portal**. It stops Bluetooth (shared radio) and starts WiFi, so you can't play music through a BT speaker while the portal is running.
 
+To leave the portal, press the Back button. The device asks "Exit portal?" -- Enter confirms, Back cancels -- and then **restarts**. The restart is quick: the boot animation is skipped for this one restart, so you're back at the menu in a moment.
+
+Why restart? The portal borrows resources to give the web features room to run -- including the memory normally reserved for the Bluetooth radio. Restarting is the clean way to hand everything back, so Bluetooth audio and every other feature start fresh. This also means Bluetooth audio (Music Player) is unavailable from the moment you open the portal until that exit restart completes.
+
 !!! warning "WiFi and Bluetooth share the ESP32 radio"
-    The ESP32 can't run WiFi AP and BT A2DP simultaneously with enough bandwidth for audio streaming. The portal calls `btStop()` on entry and WiFi shuts down on exit. BT reconnects automatically when you return to the Music Player.
+    The ESP32 can't run WiFi AP and BT A2DP simultaneously with enough bandwidth for audio streaming. The portal calls `btStop()` on entry and releases the BT controller's memory to make room for the WiFi stack and web server. That memory can only be reclaimed cleanly by a restart, which is why exiting the portal restarts the device. After the restart, BT reconnects as usual when you open the Music Player.
 
 ---
 
@@ -49,10 +53,11 @@ The portal is a standalone app launched from the main menu under **Tools → Cyb
 ```
 Menu → "CyberFidget Portal" → AppManager::switchToApp(APP_WEB_PORTAL)
   1. MusicPlayerApp::end()        — saves state, stops playback
-  2. WebPortalApp::begin()        — btStop(), WiFi AP+STA, mDNS, DNSServer, AsyncWebServer
+  2. WebPortalApp::begin()        — btStop() + BT memory release, WiFi AP+STA, mDNS, DNSServer, AsyncWebServer
      ... user manages files via captive portal or cyberfidget.local ...
-  3. WebPortalApp::end()          — server stop, mDNS stop, WiFi.mode(WIFI_OFF)
-  4. Back to menu
+  3. Back button                  — "Exit portal?" confirmation (Enter confirms, Back cancels)
+  4. WebPortalApp::end()          — server stop, mDNS stop, WiFi.mode(WIFI_OFF)
+  5. Restart                      — hands the BT memory back cleanly; boot animation skipped for this restart
 ```
 
 ### WiFi modes
@@ -91,6 +96,8 @@ While the portal is running, the 128x64 OLED shows:
 ```
 
 If not connected to a WiFi network, lines 3-4 show "WiFi: not connected" and the file count instead.
+
+The `cyberfidget.local` line only appears while the name service (mDNS) is actually running -- if it failed to start, the line is hidden so the screen never shows an address that won't resolve.
 
 During uploads, the bottom line shows a progress bar.
 
@@ -336,7 +343,7 @@ pioarduino's ESP32 Arduino 3.x core split the WiFi library into `WiFi` + `Networ
 | "Sign in to WiFi" browser can't upload files | Android captive portal WebView has restricted file input | Open `192.168.4.1` in Chrome/Firefox instead |
 | Portal page doesn't load | DNS redirect failed | Manually navigate to `http://192.168.4.1` |
 | Upload fails with 507 | SD card full | Delete files to free space |
-| BT speaker won't reconnect after portal | WiFi didn't shut down cleanly | Restart the device |
+| BT speaker won't reconnect after portal | Portal exit was interrupted before the automatic restart | Exit the portal (confirm the prompt) and let the restart finish, then open the Music Player |
 | `idx.txt` showing in file list | Music index cache file | Filtered out in `/api/files` and `/api/tracks` |
 | Track shows "-" for artist/album | No ID3 tags in the MP3 file | Re-tag the file with a tool like Mp3tag |
 | `cyberfidget.local` doesn't resolve | mDNS not supported on device (older Android) | Use the IP address shown on the OLED or portal status bar |

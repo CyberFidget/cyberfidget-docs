@@ -47,6 +47,7 @@
 *[WebAssembly]: Binary instruction format that runs in the browser; used to run C++ app code in the emulator
 *[WebSocket]: Persistent two-way browser connection; carries the live caption link between device and phone
 *[Wi-Fi]: Wireless Fidelity
+*[mDNS]: Multicast DNS; the local-network name service that makes cyberfidget.local resolve without a router change
 *[microSD]: Compact removable Secure Digital memory-card format
 *[animation state]: Named sequence of sprite frames for one action
 *[sprite]: Image or animation used by an app for a character, object, or effect
