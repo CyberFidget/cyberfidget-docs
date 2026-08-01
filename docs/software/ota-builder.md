@@ -28,6 +28,16 @@ The [App Builder](https://cyberfidget.com/build) is a browser-based tool for wri
 Your app has a name you choose and a name your code uses, and they are
 allowed to be different.
 
+**Studio asks what you want to call it before it writes any code.** The
+question is the first thing on the start panel of a new app, and generating
+code waits until you have answered it. That is on purpose: the name you
+choose is what your code gets called, so choosing it first saves you
+hunting down a placeholder name afterwards.
+
+Use at least one letter or number. Anything else is fair game -- spaces,
+capitals, whatever reads best -- and Studio works out a sensible name for
+the code from it. "Lunar Lander" becomes `LunarLander`.
+
 **The name you choose** is the one shown at the top of Studio, on your
 project card, and in the NAME box in Settings. It is also the label that
 appears in the menu on your Cyber Fidget.
