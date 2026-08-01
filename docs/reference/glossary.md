@@ -80,6 +80,15 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 
 ---
 
+## Website terms
+
+| Term | Meaning |
+|------|---------|
+| **The Archives** | The shared collection of apps, screensavers, and sprite packs at cyberfidget.com/explore. |
+| **Share sheet** | The list of apps your phone offers when you send something on to someone else. |
+
+---
+
 ## File types & artifacts
 
 | Term | Meaning |
