@@ -23,6 +23,31 @@ The [App Builder](https://cyberfidget.com/build) is a browser-based tool for wri
 
 ---
 
+## Naming your app
+
+Your app has a name you choose and a name your code uses, and they are
+allowed to be different.
+
+**The name you choose** is the one shown at the top of Studio, on your
+project card, and in the NAME box in Settings. It is also the label that
+appears in the menu on your Cyber Fidget.
+
+**To rename it, double-click the name at the top of Studio.** Type the new
+one and press Enter. Press Escape, or click away, to leave it as it was.
+Renaming from the NAME box in Settings does the same thing -- the two stay
+in step, and so does everywhere else the name appears.
+
+**The name your code uses** is shown as **Code name**, under *Device menu
+details* in Settings. You cannot type into it, because it is read straight
+out of your app's code: whatever your code calls itself is what appears
+there. To change it, change the name in your code and this follows.
+
+Renaming your app does not rewrite your code. That is deliberate -- if you
+pasted or hand-wrote your app, a rename that quietly renamed things inside
+it would be editing your work without asking.
+
+---
+
 ## Compile vs Emulator
 
 | Action | What it does | Speed |
