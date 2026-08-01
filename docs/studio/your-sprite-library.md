@@ -1,6 +1,6 @@
 # Your Sprite Library
 
-The Art panel's library rail helps you reuse sprites without tying the copies together. A sprite is an image or animation used by an app, often for a character, object, or effect.
+The 2D panel's library rail helps you reuse sprites without tying the copies together. A sprite is an image or animation used by an app, often for a character, object, or effect.
 
 The library has three scopes: **Project Files**, **My Assets**, and **Starter Sprites**.
 
@@ -27,6 +27,21 @@ To add a sprite:
 3. Save the sprite.
 
 Your account can hold up to 50 sprites. Saving another sprite with the same name does not overwrite the earlier one. It adds a new version under that name.
+
+To rename a saved sprite:
+
+1. Find the sprite in the **My Assets** list.
+2. Choose **Rename** on its row.
+3. Enter the new name and confirm.
+
+Renaming changes the library entry only. Its saved versions are kept, and any
+project that already used the sprite is untouched -- that project keeps the
+copy, and the name, it took at the time. To rename the copy inside a project,
+rename it from that project's file list instead.
+
+If another saved asset already uses the name you type, the rename is refused
+and nothing changes. Names are compared without regard to capitalization, so
+you can still correct a name's capitalization on its own.
 
 ---
 
