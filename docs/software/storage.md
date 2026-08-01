@@ -1,6 +1,6 @@
 # Storage & SD
 
-The Cyber Fidget has a microSD card slot for app storage, asset loading, and data logging.
+Apps live in the Cyber Fidget's internal storage, and their art is compiled into each app when it is built. The microSD card holds music, voice recordings, and the companion page; it does not hold apps or supply their art.
 
 !!! tip "Draft section"
    THIS SECTION IS STILL IN DRAFT
@@ -33,10 +33,10 @@ Format your card as **FAT32** before first use:
 
 ## Use cases
 
-- **App storage** — Some apps load assets (images, animation frames, sound data) from the SD card
-- **Data logging** — Apps can write sensor data, scores, or logs to files
-- **File browsing** — The WiFi web portal can serve files from the SD card for easy transfer
-- **Settings** — User preferences and configuration can be persisted across power cycles
+- **Music** - The card holds music files
+- **Voice recordings** - The card holds recordings made with Voice Notes
+- **Companion page** - The card holds the page used by the phone companion
+- **File browsing** - The WiFi web portal can list, upload, and download the card's files, which is the easiest way to move music and recordings on and off
 
 ---
 
@@ -49,6 +49,7 @@ The SD card connects to the ESP32 via SPI:
 | GPIO 5 | SCK (clock) |
 | GPIO 19 | MOSI (data out) |
 | GPIO 21 | MISO (data in) |
+| GPIO 8 | CS (chip select) |
 
 The SD card shares the 3.3V_RGB power rail (GPIO 2 enable), so it is powered down when the AUX regulator is disabled in deep sleep.
 

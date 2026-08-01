@@ -29,6 +29,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **GPU** | Graphics Processing Unit — when the phone's browser exposes it, the companion transcribes speech much faster. |
 | **IndexedDB** | Browser storage used to cache compiled WASM and the phone companion's one-time transcription download. |
 | **JS** | JavaScript. |
+| **JSON** | JavaScript Object Notation - a structured text format for storing data. |
 | **LED** | Light-Emitting Diode. |
 | **LiPo** | Lithium Polymer — rechargeable battery type used in Cyber Fidget (400 mAh). |
 | **Li-ion** | Lithium-ion — a family of rechargeable battery chemistries. |
@@ -65,6 +66,13 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | Term | Meaning |
 |------|---------|
 | **Animation state** | A named sequence of sprite frames for one action, such as running or jumping. |
+| **Asset** | A sprite or model that can be used in a Studio project. |
+| **Built app** | The runnable copy produced when Studio builds an app. |
+| **Capture** | An item stored in a Studio project's captures. |
+| **Companion page** | The web page stored on the memory card for the phone companion. |
+| **Internal storage** | Storage built into the Cyber Fidget where apps live. |
+| **Project** | A person's Studio work, including its code, art, captures, and settings. |
+| **Project file** | A `.cfapp.json` file containing a whole Studio project. |
 | **Sprite** | An image or animation used by an app for a character, object, or effect. |
 | **Wireframe model** | A 3D shape built from points (nodes) connected by straight lines (struts), with no solid surfaces -- drawn as spinning line art on the device. |
 | **Node** | A point in a wireframe model's shape, positioned in 3D space. |
@@ -76,6 +84,9 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 
 | Term | Meaning |
 |------|--------|
+| **.cfapp.json** | Studio whole-project file containing code, sprites, models, captures, and settings. |
+| **.cfmesh.json** | Studio file containing one model. |
+| **.cfsprite.json** | Studio file containing one sprite. |
 | **.cpp** | C++ source file (implementation). |
 | **.h** | C/C++ header file (declarations). |
 | **.js** | JavaScript file — the Emscripten "loader" that loads and runs the WASM module. |

@@ -60,6 +60,6 @@ The complete flow is:
 3. Build the app.
 4. Install the app on the device.
 
-There are no sprite export or import steps between drawing, building, and installing.
+No sprite export or import is required between drawing, building, and installing. To back up a sprite or take it elsewhere, see [Keeping and sharing your work](../software/import-export.md).
 
 For sprites with multiple actions, continue with [Animation states](animation-states.md).
