@@ -54,6 +54,11 @@ Like drawings in the 2D panel, models keep their own version history:
 
 To reuse a model in other projects, choose **Save to My Assets** and give it a name. From then on, that model appears in the **My Assets** section of any project's 3D tab -- clicking it there copies the model in, leaving the saved original untouched.
 
+**Rename** on a saved model's row changes its name in the library. Its saved
+versions are kept, and projects that already copied it are unaffected. See
+[Your Sprite Library](your-sprite-library.md) for the full rules, which apply
+to models and sprites alike.
+
 ---
 
 ## Using a model in an app

@@ -53,6 +53,7 @@ nav:
     - App Builder: software/ota-builder.md
     - Beta Access: software/beta-access.md
   - Studio:
+    - Overview: studio/overview.md
     - Drawing and Version History: studio/drawing-and-versions.md
     - Your Sprite Library: studio/your-sprite-library.md
     - Animation States: studio/animation-states.md
