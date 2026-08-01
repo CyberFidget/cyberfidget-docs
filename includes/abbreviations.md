@@ -20,6 +20,7 @@
 *[IDE]: Integrated Development Environment
 *[IndexedDB]: Browser key-value database used to cache compiled WASM and the companion's transcription pack
 *[JS]: JavaScript
+*[JSON]: JavaScript Object Notation; a structured text format for storing data
 *[LED]: Light-Emitting Diode
 *[LiPo]: Lithium Polymer battery
 *[Li-ion]: Lithium-ion rechargeable battery
@@ -50,7 +51,14 @@
 *[mDNS]: Multicast DNS; the local-network name service that makes cyberfidget.local resolve without a router change
 *[microSD]: Compact removable Secure Digital memory-card format
 *[animation state]: Named sequence of sprite frames for one action
+*[built app]: The runnable copy produced when Studio builds an app
+*[companion page]: The web page stored on the memory card for the phone companion
+*[internal storage]: Storage built into the Cyber Fidget where apps live
+*[project file]: A .cfapp.json file containing a whole Studio project
 *[sprite]: Image or animation used by an app for a character, object, or effect
 *[node]: A point in a wireframe model's shape, positioned in 3D space
 *[strut]: A straight line connecting two nodes in a wireframe model
 *[wireframe model]: A 3D shape built from points (nodes) connected by straight lines (struts), with no solid surfaces
+*[.cfapp.json]: Studio whole-project file containing code, sprites, models, captures, and settings
+*[.cfmesh.json]: Studio file containing one model
+*[.cfsprite.json]: Studio file containing one sprite

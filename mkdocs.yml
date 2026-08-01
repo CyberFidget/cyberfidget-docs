@@ -49,6 +49,7 @@ nav:
     - Apps: software/apps.md
     - Browser Emulator: software/emulator.md
     - Storage & SD: software/storage.md
+    - Keeping and sharing your work: software/import-export.md
     - App Builder: software/ota-builder.md
     - Beta Access: software/beta-access.md
   - Studio:
