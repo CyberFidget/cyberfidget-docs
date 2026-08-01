@@ -50,6 +50,8 @@
 *[Wi-Fi]: Wireless Fidelity
 *[mDNS]: Multicast DNS; the local-network name service that makes cyberfidget.local resolve without a router change
 *[microSD]: Compact removable Secure Digital memory-card format
+*[The Archives]: The shared collection of apps, screensavers, and sprite packs at cyberfidget.com/explore
+*[share sheet]: The list of apps your phone offers when you send something on to someone else
 *[animation state]: Named sequence of sprite frames for one action
 *[built app]: The runnable copy produced when Studio builds an app
 *[companion page]: The web page stored on the memory card for the phone companion

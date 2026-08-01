@@ -47,6 +47,7 @@ nav:
     - Pinout: hardware/pinout.md
   - Software:
     - Apps: software/apps.md
+    - Sharing from The Archives: software/sharing-apps.md
     - Browser Emulator: software/emulator.md
     - Storage & SD: software/storage.md
     - Keeping and sharing your work: software/import-export.md
