@@ -16,13 +16,40 @@ serves it at `/web/`, so the phone needs nothing installed: join the device's Wi
 The companion ships as a folder called the *SD pack*. If you open `/web/` and the
 pack isn't on the card yet, the device shows a built-in page with these same steps.
 
-1. Build the pack from the firmware repository (`portal-companion/` -- see its
-   README): `npm install`, then `npm run build`. A packaged download is planned.
-2. Copy the resulting `dist/web/` folder onto the memory card as `/web/`, so the
-   card contains `/web/index.html`. You can also upload the files through the
-   portal's **Files** tab.
-3. Reopen `/web/` from the portal. That's it -- the pack is ~32 MB, almost all of
-   it the on-phone speech machinery.
+!!! tip "You probably only need one file"
+    Live listening -- the headline feature -- runs from a single self-contained
+    `index.html` of about 50 KB. The remaining ~32 MB is the on-phone speech
+    machinery, needed only for captions and note transcription. Copy just
+    `index.html` first: it clears the "not on the memory card yet" page and gets
+    you listening in seconds. Add the rest later if you want captions.
+
+### What to copy
+
+| From the pack | Size | What it enables |
+|---|---|---|
+| `index.html` | ~50 KB | Live listening, waveform, the whole app shell |
+| `engine.worker.js` | ~3 KB | (with `vendor/`) captions and note transcription |
+| `vendor/` | ~32 MB | the on-phone speech runtime |
+
+Copy these onto the memory card under `/web/`, so the card contains
+`/web/index.html`. Use a card reader, or upload them through the portal's
+**Files** tab. Then reopen `/web/` from the portal.
+
+### Building the pack
+
+There is no packaged download yet, so for now the pack is built from source in
+the firmware repository. This needs developer tools -- specifically
+[Node.js](https://nodejs.org/):
+
+```bash
+cd portal-companion
+npm install     # once -- fetches the speech libraries
+npm run build   # -> dist/web/
+```
+
+`dist/web/` is the folder the table above describes. The build prints exactly
+which files are needed for which feature. See `portal-companion/README.md` in
+the firmware repository for the full picture.
 
 ---
 
@@ -138,9 +165,11 @@ For the curious:
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| `/web/` shows "not on the memory card yet" | SD pack missing or no card | Copy the pack to the card as `/web/` (steps above) |
+| `/web/` shows "not on the memory card yet" | SD pack missing or no card | Copy at least `index.html` to the card as `/web/index.html` (steps above) |
 | "Another phone is already listening" | One listener at a time | Stop the session on the other phone |
 | Captions never start | Transcription pack not downloaded | **Setup** tab -> Download (needs internet once) |
+| Captions fail right after the download starts, with a complaint about a script or module type | Device firmware predates the companion file-type fix | Reflash the device with current firmware -- this is the device's serving, so recopying the pack won't help |
+| Captions unavailable but live listening works | Only `index.html` was copied | Copy `engine.worker.js` and `vendor/` too (see the table above) |
 | Captions lag badly | Phone transcribing slower than real time | Try the standard pack, close other tabs, or use a newer phone |
 | Daily note fails to send | Phone has no internet (device AP only) | Join the device to home WiFi in portal **Settings**, keep the phone on that WiFi |
 | Session drops when the phone locks | Browsers pause background pages | Keep the screen on during sessions |
