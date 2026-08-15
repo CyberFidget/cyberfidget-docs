@@ -5,35 +5,38 @@ what the device hears, watch live captions appear on the device's screen, turn
 saved voice notes into text, and write up a whole day as a tidy note -- all served
 by the device itself, with your audio staying on hardware you own.
 
-It is a small web app stored on the memory card. The device's [Web Portal](web-portal.md)
-serves it at `/web/`, so the phone needs nothing installed: join the device's WiFi
-(or have both on your home network), open the portal, and tap **Live listening**.
+It is a small web app built into the device's firmware. The device's
+[Web Portal](web-portal.md) serves it at `/web/`, so the phone needs nothing
+installed: join the device's WiFi (or have both on your home network), open the
+portal, and tap **Live listening**.
 
 ---
 
-## Getting the companion onto the card
+## Getting the companion ready
 
-The companion ships as a folder called the *SD pack*. If you open `/web/` and the
-pack isn't on the card yet, the device shows a built-in page with these same steps.
+The self-contained companion page is already in the firmware, stored compressed.
+Open **Live listening** and it loads even with no memory card inserted.
 
-!!! tip "You probably only need one file"
-    Live listening -- the headline feature -- runs from a single self-contained
-    `index.html` of about 50 KB. The remaining ~32 MB is the on-phone speech
-    machinery, needed only for captions and note transcription. Copy just
-    `index.html` first: it clears the "not on the memory card yet" page and gets
-    you listening in seconds. Add the rest later if you want captions.
+!!! tip "You probably need no files"
+    Live listening -- the headline feature -- uses the built-in companion and
+    needs nothing on the card. Add the speech-recognition payload only if you
+    want captions or note transcription.
 
 ### What to copy
 
 | From the pack | Size | What it enables |
 |---|---|---|
-| `index.html` | ~50 KB | Live listening, waveform, the whole app shell |
-| `engine.worker.js` | ~3 KB | (with `vendor/`) captions and note transcription |
-| `vendor/` | ~32 MB | the on-phone speech runtime |
+| `engine.worker.js.gz` | ~1 KB | (with `vendor/`) starts speech recognition |
+| `vendor/` | ~7.8 MB compressed | the on-phone speech runtime for captions and note transcription |
 
-Copy these onto the memory card under `/web/`, so the card contains
-`/web/index.html`. Use a card reader, or upload them through the portal's
-**Files** tab. Then reopen `/web/` from the portal.
+Copy both onto the memory card under `/web/`, so the card contains
+`/web/engine.worker.js.gz` and the complete `/web/vendor/` tree. Use a card
+reader, or upload them through the portal's **Files** tab. Then reopen `/web/`
+from the portal.
+
+A companion pack can also contain its own page files, including `index.html`.
+Those files are an optional override, not a prerequisite. The device serves the
+card's page unless that copy is older than the one built into the firmware.
 
 ### Building the pack
 
@@ -47,9 +50,10 @@ npm install     # once -- fetches the speech libraries
 npm run build   # -> dist/web/
 ```
 
-`dist/web/` is the folder the table above describes. The build prints exactly
-which files are needed for which feature. See `portal-companion/README.md` in
-the firmware repository for the full picture.
+`dist/web/` contains the optional companion page override, the compressed
+`engine.worker.js.gz`, and the compressed `vendor/` tree. The build prints
+exactly which files are needed for which feature. See
+`portal-companion/README.md` in the firmware repository for the full picture.
 
 ---
 
@@ -109,7 +113,7 @@ with no internet in sight.
 
 ### Transcripts for saved notes
 
-The **Notes** tab lists every voice note on the card. Tap **Transcribe** and the
+The **Notes** destination lists every voice note on the card. Tap **Transcribe** and the
 phone reads the recording from the card, transcribes it locally, shows the text
 in a retro terminal view -- and writes it back to the card as a sidecar text file
 next to the note (`REC_0042.txt` beside `REC_0042.wav`). Your words stay
@@ -125,9 +129,10 @@ sent, word for word. Then, only with your per-action OK, it asks a summary
 generator to write a markdown daily note.
 
 The summary generator runs on an account **you** bring: Anthropic, OpenAI, or
-Google, configured in **Setup** with your own key. Every send names the provider
-and asks fresh -- there is no "always allow". The finished note downloads to your
-phone and can also be saved to the card as `/notes/2026-06-12.md`.
+Google, configured under **Settings > Your data** with your own key. Every send
+names the provider and asks fresh -- there is no "always allow". The finished
+note downloads to your phone and can also be saved to the card as
+`/notes/2026-06-12.md`.
 
 !!! warning "Your key, your custody"
     The provider key is stored only in your phone's browser, only for the
@@ -142,6 +147,13 @@ phone and can also be saved to the card as `/notes/2026-06-12.md`.
 
 For the curious:
 
+- The device keeps its own compressed copy of the companion page in firmware.
+  If the card also has a companion page, the device compares their versions and
+  serves whichever is newer; it never lets an older card copy hide a newer
+  built-in copy. The speech-recognition payload remains on the card because it
+  is much larger than the page itself. **Settings > Your data** shows
+  **Companion**, the version being served, and also shows **On your card**, the
+  version claimed by a declined card copy, when there is one.
 - The live stream is a single WebSocket at `/ws/live` on the device. The device
   sends raw PCM audio (16 kHz, 16-bit mono, 5,120-byte frames -- 160 ms each);
   the phone sends small JSON messages back: a clock sync on connect, and caption
@@ -165,11 +177,11 @@ For the curious:
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| `/web/` shows "not on the memory card yet" | SD pack missing or no card | Copy at least `index.html` to the card as `/web/index.html` (steps above) |
 | "Another phone is already listening" | One listener at a time | Stop the session on the other phone |
-| Captions never start | Transcription pack not downloaded | **Setup** tab -> Download (needs internet once) |
+| Captions never start | Transcription pack not downloaded | **Settings > Transcription** -> Download (needs internet once) |
 | Captions fail right after the download starts, with a complaint about a script or module type | Device firmware predates the companion file-type fix | Reflash the device with current firmware -- this is the device's serving, so recopying the pack won't help |
-| Captions unavailable but live listening works | Only `index.html` was copied | Copy `engine.worker.js` and `vendor/` too (see the table above) |
+| Captions unavailable but live listening works | Speech-recognition payload missing from the card | Copy `engine.worker.js.gz` and the complete `vendor/` tree (see the table above) |
+| "Your Fidget is showing its own built-in companion" notice | The companion page on the card is older than the copy in firmware; nothing is broken | In **Settings > Your data**, compare **Companion** with **On your card**. Put a current companion pack on the card, or remove only the card's companion page override and keep the speech payload so the built-in page continues to serve |
 | Captions lag badly | Phone transcribing slower than real time | Try the standard pack, close other tabs, or use a newer phone |
 | Daily note fails to send | Phone has no internet (device AP only) | Join the device to home WiFi in portal **Settings**, keep the phone on that WiFi |
 | Session drops when the phone locks | Browsers pause background pages | Keep the screen on during sessions |

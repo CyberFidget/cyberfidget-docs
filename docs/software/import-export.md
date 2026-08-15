@@ -57,4 +57,4 @@ You cannot pull files back off a Cyber Fidget in the browser. Work travels onto 
 
 Do not copy `.cfsprite.json` or `.cfmesh.json` files onto the device. Studio builds a project's art into the app itself, and installing the app carries its art with it.
 
-Apps live in the device's internal storage. The memory card holds music, voice recordings, and the companion page. It does not hold apps, and apps do not load their art from it.
+Apps live in the device's internal storage, and the companion page is built into its firmware. The memory card holds music, voice recordings, the companion's speech-recognition payload, and any optional companion page override. It does not hold apps, and apps do not load their art from it.

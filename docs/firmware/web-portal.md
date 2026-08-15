@@ -123,6 +123,11 @@ Media files live under `/media/` with arbitrary nesting:
 
 The Music Player's `AudioSourceIdxSD` and `ID3Scanner` both scan `/media/` recursively — any `.mp3` file at any depth is discovered.
 
+The `/web/` folder is separate. It holds the companion's compressed
+speech-recognition payload (`engine.worker.js.gz` and `vendor/`) for captions
+and note transcription. It may also hold a companion page override, but live
+listening uses the page built into the firmware unless the card's copy is newer.
+
 !!! tip "Organize however you want"
     The scanner doesn't care about folder structure. Flat files, nested by artist/album, or any combination — it all works. Folders are just for your own organization.
 
@@ -137,7 +142,7 @@ All API routes are under the ESPAsyncWebServer running on port 80.
 | `/` | GET | Portal page (SPA from PROGMEM) |
 | `/media/*` | GET | Static file serving from SD (for audio playback) |
 | `/recordings/*` | GET | Static voice-note serving from SD (playback + download) |
-| `/web/*` | GET | [Phone companion](companion.md) app from SD (`/web/` on the card); a built-in fallback page explains how to get the SD pack when it's missing |
+| `/web/*` | GET | [Phone companion](companion.md); serves the newer of the page built into firmware and an optional card copy, plus the card's speech-recognition payload when present |
 | `/ws/live` | WS | Live caption link: mic audio out as binary PCM frames, JSON `time`/`caption` frames back; single client; contract pinned in `LiveLinkProtocol.h` |
 | `/api/files` | GET | Recursive JSON folder tree (music view, MP3-filtered) |
 | `/api/tracks` | GET | Flat JSON array with ID3 metadata per track |
@@ -276,10 +281,11 @@ Everything stays on the card and in your own browser -- nothing is uploaded to a
 ### Live listening
 
 The **Live listening** entry in the sidebar opens the [phone companion](companion.md)
-(served from `/web/` on the card): live audio streaming from the device's microphone,
-captions on the device's OLED, voice-note transcription, and daily-note summaries.
-When the companion SD pack isn't on the card, the link lands on a built-in page that
-explains how to get it.
+(served from the copy built into the firmware unless the card has a newer one):
+live audio streaming from the device's microphone, captions on the device's
+OLED, voice-note transcription, and daily-note summaries. Live listening needs
+no card files; captions and transcription use a compressed speech-recognition
+payload under `/web/` on the card.
 
 ### Playlists
 
@@ -300,13 +306,19 @@ The highlight follows next/prev navigation and persists across sort/search/re-re
 
 ### Settings page
 
-The Settings page provides WiFi network configuration:
+Settings are split across the two browser surfaces. The portal's **Settings**
+page provides Network controls:
 
 - **WiFi Status** — shows current connection state, network name, IP address, and mDNS hostname
 - **Network Scanner** — scan for nearby WiFi networks with signal strength bars
 - **Connect** — select a network, enter password, connect. Credentials are saved to NVS for auto-reconnect.
 - **Forget** — clear saved credentials and disconnect from the network
 - **AP Info** — shows the always-available access point details
+
+The companion's **Settings** page contains **Transcription** controls and
+**Your data**, including the companion version currently served by the device.
+When the device declines an older card copy, **On your card** shows that copy's
+claimed version too.
 
 ---
 

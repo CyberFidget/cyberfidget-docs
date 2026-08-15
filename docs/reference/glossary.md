@@ -69,7 +69,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Asset** | A sprite or model that can be used in a Studio project. |
 | **Built app** | The runnable copy produced when Studio builds an app. |
 | **Capture** | An item stored in a Studio project's captures. |
-| **Companion page** | The web page stored on the memory card for the phone companion. |
+| **Companion page** | The phone companion's web page, built into firmware and optionally overridden from the memory card. |
 | **Internal storage** | Storage built into the Cyber Fidget where apps live. |
 | **Project** | A person's Studio work, including its code, art, captures, and settings. |
 | **Project file** | A `.cfapp.json` file containing a whole Studio project. |

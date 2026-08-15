@@ -266,9 +266,9 @@ Your recordings belong to you, and the Cyber Fidget is built so they stay that w
 - **Managing notes from your phone** sends the audio directly from the card to your phone
   over the device's own WiFi. It doesn't pass through any company server.
 - **Turning speech into text happens right on your phone.** The
-  [phone companion](companion.md)'s live captions and note transcripts are produced by
-  your phone itself (after a one-time download), and transcripts are written back to
-  the card next to each note -- your words stay in one place you own.
+  [phone companion](companion.md)'s live captions and transcripts in **Notes** are
+  produced by your phone itself (after a one-time download), and transcripts are
+  written back to the card next to each note -- your words stay in one place you own.
 - **Daily-note summaries use an account you provide** with a service you choose --
   and only ever after you say yes to that specific service, each time, with the exact
   text shown first. The request goes straight from your phone to that service, never

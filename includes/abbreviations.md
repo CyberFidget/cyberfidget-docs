@@ -54,7 +54,7 @@
 *[share sheet]: The list of apps your phone offers when you send something on to someone else
 *[animation state]: Named sequence of sprite frames for one action
 *[built app]: The runnable copy produced when Studio builds an app
-*[companion page]: The web page stored on the memory card for the phone companion
+*[companion page]: The phone companion's web page, built into firmware and optionally overridden from the memory card
 *[internal storage]: Storage built into the Cyber Fidget where apps live
 *[project file]: A .cfapp.json file containing a whole Studio project
 *[sprite]: Image or animation used by an app for a character, object, or effect

@@ -1,6 +1,6 @@
 # Storage & SD
 
-Apps live in the Cyber Fidget's internal storage, and their art is compiled into each app when it is built. The microSD card holds music, voice recordings, and the companion page; it does not hold apps or supply their art.
+Apps live in the Cyber Fidget's internal storage, the companion page is built into its firmware, and app art is compiled into each app when it is built. The microSD card holds music, voice recordings, the companion's speech-recognition payload, and any optional companion page override; it does not hold apps or supply their art.
 
 !!! tip "Draft section"
    THIS SECTION IS STILL IN DRAFT
@@ -35,7 +35,7 @@ Format your card as **FAT32** before first use:
 
 - **Music** - The card holds music files
 - **Voice recordings** - The card holds recordings made with Voice Notes
-- **Companion page** - The card holds the page used by the phone companion
+- **Phone companion** - The card holds its speech-recognition payload and may hold a newer page override; the device already has the companion page in its firmware
 - **File browsing** - The WiFi web portal can list, upload, and download the card's files, which is the easiest way to move music and recordings on and off
 
 ---
