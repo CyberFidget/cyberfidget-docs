@@ -97,19 +97,24 @@ phone doing the transcribing.
 
 ## Transcription -- on your phone, not a server
 
-Turning speech into text happens entirely on the phone, powered by a one-time
-download (the *transcription pack*, about 60 MB for the standard pack). After
-that one download it works fully offline -- the usual flow is: download it once at
-home, then caption live sessions anywhere, including on the device's own WiFi
-with no internet in sight.
+Turning speech into text happens entirely on the phone, powered by two separately
+chosen *transcription packs*. The standard live-captions pack is about 30 MB, and
+the standard saved-notes pack is about 40 MB. After those one-time downloads the
+companion works fully offline -- the usual flow is to download them once at home,
+then caption live sessions and transcribe recordings anywhere, including on the
+device's own WiFi with no internet in sight.
 
-- The download never starts on its own: you get a clear size and a "best on
-  WiFi" prompt first.
-- The pack is kept by your browser. If the phone ever clears it (some phones
+- A download never starts on its own: you get the size of every needed pack and
+  a "best on WiFi" prompt first.
+- The packs are kept by your browser. If the phone ever clears them (some phones
   tidy up storage that hasn't been used in a while), the companion simply offers
   the download again -- nothing is lost.
-- A second, larger pack is offered for newer phones: sharper English results,
-  more demanding hardware.
+- Live captions default to Moonshine-tiny, a compact speech-recognition model
+  designed for short, responsive captions. Saved notes default to Whisper-tiny,
+  a speech-recognition model that can process longer recordings in chunks.
+- The two choices are independent. Live captions also offer a larger multilingual
+  pack, while saved notes offer choices that trade speed for accuracy. Moonshine
+  is not offered for saved notes because it does not support long-form chunking.
 
 ### Transcripts for saved notes
 
@@ -182,6 +187,7 @@ For the curious:
 | Captions fail right after the download starts, with a complaint about a script or module type | Device firmware predates the companion file-type fix | Reflash the device with current firmware -- this is the device's serving, so recopying the pack won't help |
 | Captions unavailable but live listening works | Speech-recognition payload missing from the card | Copy `engine.worker.js.gz` and the complete `vendor/` tree (see the table above) |
 | "Your Fidget is showing its own built-in companion" notice | The companion page on the card is older than the copy in firmware; nothing is broken | In **Settings > Your data**, compare **Companion** with **On your card**. Put a current companion pack on the card, or remove only the card's companion page override and keep the speech payload so the built-in page continues to serve |
-| Captions lag badly | Phone transcribing slower than real time | Try the standard pack, close other tabs, or use a newer phone |
+| Captions lag badly | Phone transcribing slower than real time | The standard live pack is already the fastest. Re-select it under **Settings > Transcription** if you chose a bigger live pack, close other tabs, or use a newer phone |
+| First transcription is slow after switching between live captions and saved notes | The phone rebuilds and warms up the newly selected pack | Let the first transcription finish; following work with that pack is faster |
 | Daily note fails to send | Phone has no internet (device AP only) | Join the device to home WiFi in portal **Settings**, keep the phone on that WiFi |
 | Session drops when the phone locks | Browsers pause background pages | Keep the screen on during sessions |
