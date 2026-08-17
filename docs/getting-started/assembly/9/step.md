@@ -14,7 +14,7 @@ parts: []
 
 <p class="muted">3 - Route the wires as shown (6) and check to make sure the battery corner is not going to be pinched by the case. It is possible to lightly bend the the corner of the battery in if it is protruding excessively.</p>
 
-<p class="muted">4 - Flip the Battery Disconnect Switch (8) to On and check that your Cyber Fidget powers up (9) and the screen looks correct.<br>ℹ️ If your Front Case and/or Mainboard has a hole at location (6), do NOT insert a screw here. It is not necessary.<br>ℹ️ If you ever want to store your Cyber Fidget long-term or avoid having it sit at full charge (e.g. when constantly plugged in), flip the power switch to off and it fully isolates the battery. Your Cyber Fidget will still power on just fine over USB-C power only.</p>
+<p class="muted">4 - Flip the Battery Disconnect Switch (8) to On and check that your Cyber Fidget powers up (9) and the screen looks correct.<br>ℹ️ If your Front Case and/or Mainboard has a hole at location (6), do NOT insert a screw here. It is not necessary.<br>ℹ️ If you ever want to store your Cyber Fidget long-term or avoid having it sit at full charge (e.g. when constantly plugged in), flip the power switch to off and it fully isolates the battery. For long-term storage, store it with a good charge (not empty, not necessarily full) and top up roughly every 6 months. Your Cyber Fidget will still power on just fine over USB-C power only.</p>
 
 <div class="cf-step-gallery">
   <a class="cf-zoom" href="./1.jpg" target="_blank" rel="noopener">

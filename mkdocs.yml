@@ -26,6 +26,7 @@ nav:
   - Home: index.md
   - Product:
     - Overview: product/overview.md
+    - Battery and Power: product/battery-and-power.md
     - Accessories: product/accessories.md
     - Open Source: product/open-source.md
   - Getting started:
