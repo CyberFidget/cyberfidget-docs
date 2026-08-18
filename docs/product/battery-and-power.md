@@ -4,6 +4,29 @@ Cyber Fidget looks after its rechargeable battery whether you are using the devi
 
 ---
 
+## How long does a charge last?
+
+Measured on the bench with the 400 mAh battery (August 2026 firmware). Real
+life varies with volume, brightness, and how full the battery was, so treat
+these as honest ballparks:
+
+| What you are doing | Roughly how long |
+|---|---|
+| Playing games, watching screensavers, browsing menus | 5 to 6 hours |
+| Hosting the web portal (WiFi on, phone connected) | about 2.5 hours |
+| Asleep in your pocket or a drawer | one to two months |
+
+Two useful facts behind the table: the device draws about the same current
+whatever foreground app is running (the screen and processor dominate), and
+turning WiFi on roughly doubles the draw. Deep sleep uses about 1/270th of
+the active draw, which is why standby is measured in months, not hours.
+
+These numbers come from a current-measurement table recorded on
+instrumented hardware; they will be refined once the battery pack's full
+discharge curve is measured.
+
+---
+
 ## Going to sleep
 
 After about 1 minute with no interaction, Cyber Fidget shows "Going to sleep now..." and enters deep sleep. Press the bottom-right button to wake it.
