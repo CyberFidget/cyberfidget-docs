@@ -42,6 +42,7 @@
 *[SSD1306]: Display controller chip used in the Cyber Fidget OLED
 *[USB]: Universal Serial Bus
 *[USB-C]: USB Type-C; reversible connector used for charging and serial communication
+*[UVLO]: Under-voltage lockout - a protective shutdown that stops the device from draining its battery below a safe level.
 *[VU]: Volume Unit; a meter showing how loud the incoming sound is
 *[WASM]: WebAssembly
 *[WAV]: Waveform Audio File; uncompressed audio that plays on almost any device

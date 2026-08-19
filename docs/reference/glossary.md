@@ -50,6 +50,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **SSD1306** | The display controller chip used in the Cyber Fidget OLED. |
 | **USB** | Universal Serial Bus — used for charging and serial communication via USB-C. |
 | **USB-C** | USB Type-C — the reversible connector used for charging and serial communication. |
+| **UVLO** | Under-voltage lockout - a protective shutdown that stops the device from draining its battery below a safe level. |
 | **VU** | Volume Unit — a level meter showing how loud the microphone is hearing you (used by the Voice Notes recorder). |
 | **WASM** | WebAssembly — binary format that runs in the browser; the emulator runs C++ apps as WASM. |
 | **WAV** | Waveform Audio File — uncompressed audio format; plays on nearly any phone or computer with no special software. Voice Notes recordings are saved as WAV. |
