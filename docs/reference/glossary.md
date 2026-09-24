@@ -120,6 +120,9 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **AP2112K** | Diodes Inc. 3.3V LDO regulator — used for main logic, OLED, and LED power rails. |
 | **CircuitPython** | Adafruit's Python runtime for microcontrollers. Hardware support designed-in but currently untested on Cyber Fidget. |
 | **CP2102N** | Silicon Labs USB-to-UART bridge chip — provides the serial connection over USB-C. |
+| **CRC-32** | Cyclic Redundancy Check, 32-bit - a checksum used to detect damaged data. |
+| **CF_TEST_CLI** | Firmware build option that includes extra device testing commands. |
+| **baud** | Serial connection speed, measured in transmitted symbols per second. |
 | **Cyber Fidget** | The physical device and ecosystem (hardware, firmware, website, docs). |
 | **Emscripten** | Toolchain that compiles C/C++ to WebAssembly and JavaScript. |
 | **GitHub Actions** | CI/CD platform used to compile WASM on your fork. |
