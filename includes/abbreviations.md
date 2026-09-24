@@ -7,6 +7,9 @@
 *[CMake]: Cross-platform Make; build system used for the WASM build
 *[CORS]: Cross-Origin Resource Sharing
 *[CP2102N]: Silicon Labs USB-to-UART bridge chip
+*[CRC-32]: Cyclic Redundancy Check, 32-bit; a checksum used to detect damaged data
+*[CF_TEST_CLI]: Firmware build option that includes extra device testing commands
+*[baud]: Serial connection speed, measured in transmitted symbols per second
 *[CSS]: Cascading Style Sheets
 *[DOM]: Document Object Model
 *[DIO]: Dual input/output flash mode
