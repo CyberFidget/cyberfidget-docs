@@ -9,6 +9,7 @@
 *[CP2102N]: Silicon Labs USB-to-UART bridge chip
 *[CSS]: Cascading Style Sheets
 *[DOM]: Document Object Model
+*[DIO]: Dual input/output flash mode
 *[ESP32]: Espressif Systems 32-bit microcontroller used in Cyber Fidget hardware
 *[FPS]: Frames Per Second
 *[FreeRTOS]: Free Real-Time Operating System; used by ESP-IDF
@@ -29,18 +30,21 @@
 *[ms]: Millisecond; one thousandth of a second
 *[NeoPixel]: Adafruit brand of addressable RGB(W) LEDs
 *[OLED]: Organic Light-Emitting Diode; the 128×64 display on Cyber Fidget
-*[OTA]: Over-The-Air (firmware updates)
+*[OTA]: Over-the-air update; firmware delivered over a network instead of a cable. Product controls say "update".
 *[PCB]: Printed Circuit Board
 *[PCM]: Pulse-Code Modulation; uncompressed digital audio samples
 *[PSRAM]: Pseudo-Static RAM; extra fast memory used to buffer audio while recording
+*[QIO]: Quad input/output flash mode
 *[RGBW]: Red, Green, Blue, White (four-channel LED)
 *[RS-232]: Recommended Standard 232; a serial communication standard
 *[SD]: Secure Digital (memory card)
+*[SHA-256]: Secure Hash Algorithm 256-bit; a digest used to check that downloaded bytes match the manifest
 *[SK6812]: Addressable RGBW LED (NeoPixel-compatible)
 *[SPI]: Serial Peripheral Interface
 *[SPP]: Serial Port Profile; Bluetooth serial data
 *[SSD1306]: Display controller chip used in the Cyber Fidget OLED
 *[USB]: Universal Serial Bus
+*[URL]: Uniform Resource Locator; an address for a web resource
 *[USB-C]: USB Type-C; reversible connector used for charging and serial communication
 *[UVLO]: Under-voltage lockout - a protective shutdown that stops the device from draining its battery below a safe level.
 *[VU]: Volume Unit; a meter showing how loud the incoming sound is

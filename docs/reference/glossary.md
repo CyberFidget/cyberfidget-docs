@@ -18,6 +18,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **CORS** | Cross-Origin Resource Sharing — browser rules that block loading WASM from `file://` URLs. |
 | **CSS** | Cascading Style Sheets — used to style the emulator (LEDs, layout). |
 | **DOM** | Document Object Model — the browser's representation of the page (buttons, canvas). |
+| **DIO** | Dual input/output - a flash mode accepted in release metadata. |
 | **ESP32** | Espressif's 32-bit microcontroller — the main chip on Cyber Fidget hardware. |
 | **FPS** | Frames Per Second — the emulator runs at 50 FPS like the real device. |
 | **FreeRTOS** | Free Real-Time Operating System — the RTOS layer used by ESP-IDF under the hood. |
@@ -38,17 +39,20 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **ms** | Millisecond - one thousandth of a second. |
 | **NeoPixel** | Adafruit's addressable RGB(W) LED product line; firmware uses a shim that matches its API. |
 | **OLED** | Organic Light-Emitting Diode — the 128×64 pixel display on Cyber Fidget. |
-| **OTA** | Over-The-Air — firmware updates delivered wirelessly. |
+| **OTA** | Over-the-air update - firmware delivered over a network instead of a cable. On the device and website, the action is called an "update." |
 | **PCB** | Printed Circuit Board. |
 | **PCM** | Pulse-Code Modulation — uncompressed digital audio stored as raw samples. |
 | **PSRAM** | Pseudo-Static RAM — extra fast memory on the ESP32 module, used to buffer audio while recording. |
+| **QIO** | Quad input/output - a flash mode accepted in release metadata. |
 | **RGBW** | Red, Green, Blue, White — four-channel LED color. |
 | **RS-232** | Recommended Standard 232 — a serial communication standard. |
 | **SD** | Secure Digital — the micro-SD card slot. |
+| **SHA-256** | Secure Hash Algorithm 256-bit - a digest used to check that downloaded bytes match the update manifest. |
 | **SPI** | Serial Peripheral Interface — serial bus used for the SD card. |
 | **SPP** | Serial Port Profile — Bluetooth serial data streaming protocol. |
 | **SSD1306** | The display controller chip used in the Cyber Fidget OLED. |
 | **USB** | Universal Serial Bus — used for charging and serial communication via USB-C. |
+| **URL** | Uniform Resource Locator - an address for a web resource. |
 | **USB-C** | USB Type-C — the reversible connector used for charging and serial communication. |
 | **UVLO** | Under-voltage lockout - a protective shutdown that stops the device from draining its battery below a safe level. |
 | **VU** | Volume Unit — a level meter showing how loud the microphone is hearing you (used by the Voice Notes recorder). |
@@ -87,6 +91,8 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 |------|---------|
 | **The Archives** | The shared collection of apps, screensavers, and sprite packs at cyberfidget.com/explore. |
 | **Share sheet** | The list of apps your phone offers when you send something on to someone else. |
+| **Manifest (update manifest)** | A small JSON document that identifies a firmware download, its size and Secure Hash Algorithm 256-bit (SHA-256) hash, and the hardware it supports. See the [firmware update manifest reference](firmware-update-manifest.md). |
+| **Pairing / linking** | Establishing an association between a Cyber Fidget and an account. On the device and website, the action is called "link your Fidget." |
 
 ---
 

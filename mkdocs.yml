@@ -74,6 +74,7 @@ nav:
     - Glossary: reference/glossary.md
     - Hardware specifications: reference/hardware-specs.md
     - Firmware version: reference/firmware-version.md
+    - Firmware update manifest: reference/firmware-update-manifest.md
     - Release process: reference/release-process.md
   - Contribute:
     - Contribute: contribute/contribute.md
