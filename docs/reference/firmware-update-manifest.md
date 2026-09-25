@@ -4,8 +4,9 @@ The website serves an **update manifest** - a JavaScript Object Notation
 (JSON) document identifying one app-only firmware image for Cyber Fidget.
 This page describes the response available today from
 `/update/firmware.php?manifest=1`. Over-the-air (OTA) installation over
-a wireless network on the device has **not shipped yet**. Product controls use "update";
-"manifest" is the technical name for the document.
+a wireless network is currently limited to Fidgets opted in over USB for
+the [test ring](serial-commands.md#letting-a-fidget-install-updates-over-wifi-test-ring).
+Product controls use "update"; "manifest" is the technical name for the document.
 
 The release process attaches `firmware.bin` and `release-info.json` to a
 GitHub release. The website validates both assets and returns a manifest
@@ -107,5 +108,5 @@ invalid. Do not install an image when any check fails.
 
 The current endpoint has no arbitrary-URL manifest source and does not
 provide a device linking, source acknowledgment, or update-prompt field.
-Those behaviors cannot be inferred from this response. On-device wireless
-firmware installation has not shipped yet.
+Those behaviors cannot be inferred from this response. See the
+[Updates guide](../software/updates.md) for the current installation choices.

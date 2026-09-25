@@ -255,7 +255,7 @@ These are stable APIs the harness can pin against:
 - `help` → exactly one line beginning `[cmd] help=` listing comma-separated commands.
 - Banner format on boot is the same string the build summary printed during compilation - character-for-character match is the design contract.
 
-These are *not* yet stable and may change before T-002 lands:
+These are *not* yet stable and may change as the version information develops:
 
 - The exact set of keys returned by `info`. New keys may be added; existing keys won't be renamed without notice in the changelog.
 
@@ -313,6 +313,4 @@ fail the build if they diverge.
 
 ---
 
-*Internal: full design rationale at
-[`cyberfidget-planning/tickets/T-001.md`](https://github.com/CyberFidget/cyberfidget-planning/blob/main/tickets/T-001.md)
-(maintainers only).*
+*Maintainers can find the full design rationale in the private planning records.*
