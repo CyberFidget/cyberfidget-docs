@@ -78,7 +78,7 @@ for what these mean in serial output.
 - **To opt into prereleases**: scroll past the top Stable release; RCs
   and betas appear immediately below, marked with a yellow "Pre-release"
   badge
-- **App Builder firmware selector** (when implemented per T-003): defaults
+- **App Builder firmware selector** (planned): defaults
   to "Latest Stable" with a checkbox for "Include pre-release builds"
 
 ## For contributors: what you need to do (and what you don't)
