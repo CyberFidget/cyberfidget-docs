@@ -7,7 +7,7 @@ by the device itself, with your audio staying on hardware you own.
 
 It is a small web app built into the device's firmware. The device's
 [Web Portal](web-portal.md) serves it at `/web/`, so the phone needs nothing
-installed: join the device's WiFi (or have both on your home network), open the
+installed: join the device's WiFi with the password on its screen (see [the portal's WiFi password](web-portal.md#the-portals-wifi-password)), or have both on your home network, open the
 portal, and tap **Live listening**.
 
 ---

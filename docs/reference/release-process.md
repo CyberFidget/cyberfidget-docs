@@ -185,6 +185,77 @@ build, the version check -- and stops before anything is pushed or published.
 It's the cheap way to confirm a branch actually builds, or to see which tag the
 auto-picker would choose, without committing to a release.
 
+### Signing and publishing
+
+Both paths end the same way. The build job creates the GitHub release as a
+**draft**, with its notes and files, and hands the exact `firmware.bin` it
+built and checked to a second job, `sign`. Only `sign` publishes the release.
+A draft is invisible to the website's [update manifest](firmware-update-manifest.md),
+so no Fidget is offered a release until `sign` finishes. A Rehearse run
+creates no release and runs no `sign` job.
+
+`sign` runs in a GitHub Environment named `release-signing`. Set that
+environment up (repository **Settings > Environments**) with a **required
+reviewer**: the job then waits until a reviewer approves it, and only an
+approved job can read the signing key. It uses two settings:
+
+| Setting | Kind | What it holds |
+|---------|------|---------------|
+| `FIRMWARE_SIGNING_KEY` | Secret | The private signing key as Privacy-Enhanced Mail (PEM) text. It must be an Elliptic Curve P-256 key. |
+| `FIRMWARE_SIGNING_KEY_ID` | Variable | The key's name: 1 to 31 lowercase letters, digits or hyphens. It must match the name of the key's public half in the firmware's key table, `lib/CloudSync/UpdateSigning.cpp`. |
+
+What `sign` does:
+
+- **With a key configured**, it checks the key id's format, signs the exact
+  `firmware.bin`, refuses a key that is not P-256, verifies its own
+  signature over the same bytes, uploads `firmware.bin.sig` and
+  `firmware.bin.sig.keyid` to the draft (see
+  [Signature fields](firmware-update-manifest.md#signature-fields)), and
+  then publishes the release.
+- **With no key configured**, it notes "Signing secret absent; publishing an
+  unsigned release." in the run summary and publishes the release unsigned.
+  This is the normal case until official signing is turned on, and it still
+  waits for the reviewer.
+- **If any step fails, or the reviewer rejects the job**, the release
+  stays a **draft** and nothing is offered to Fidgets. The tag (and, for a
+  Stable release cut with Path B, the post-release bump) has already been
+  pushed by then. The build hands the image to `sign` for one day, so
+  fix the cause and re-run the failed `sign` job within that day; the
+  signature upload replaces any partial one.
+- A Path B run from a branch other than the default branch does not run
+  `sign` at all, so its release stays a draft. Cut releases meant for
+  Fidgets from the default branch.
+
+#### Key rollout order
+
+A Fidget checks a signed release against the public keys built into the
+firmware it is running. A signed release whose key id that firmware does not
+know is **refused, even on a Fidget with the USB opt-in**. Today the
+firmware's official key table is empty, so every release must be published
+unsigned. Turn signing on in this order:
+
+1. Add the release public key **and a backup public key**, with different
+   ids, to the key table in `lib/CloudSync/UpdateSigning.cpp`. Keep both
+   private keys outside the repository.
+2. Publish the first release that carries those public keys **unsigned**
+   (leave `FIRMWARE_SIGNING_KEY` unset). A signed one would be refused by
+   every Fidget, because none of them knows the key yet.
+3. Only after that release is out, set `FIRMWARE_SIGNING_KEY` and
+   `FIRMWARE_SIGNING_KEY_ID` so later releases are signed. A Fidget still on
+   older firmware without the keys refuses signed releases over WiFi; it
+   needs one update from the website over USB.
+
+The same rule applies to every new key id later: it must first ship inside a
+release signed by an id Fidgets already trust, and only then may anything be
+signed with it.
+
+**Key rotation.** The backup key is what makes rotation possible. If the
+release key is lost or exposed, sign an update with the backup key, which
+Fidgets already trust; that update removes the bad public key from the table
+and can add a replacement. Then follow the rule above before signing with
+the replacement. Never use the test key (`test-only-1`, known only to test
+builds) as `FIRMWARE_SIGNING_KEY`.
+
 ### What goes in the release notes
 
 Release notes are assembled from two sources:

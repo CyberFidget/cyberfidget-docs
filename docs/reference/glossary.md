@@ -18,7 +18,9 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **CORS** | Cross-Origin Resource Sharing — browser rules that block loading WASM from `file://` URLs. |
 | **CSS** | Cascading Style Sheets — used to style the emulator (LEDs, layout). |
 | **DOM** | Document Object Model — the browser's representation of the page (buttons, canvas). |
+| **DER** | Distinguished Encoding Rules - a compact binary layout; firmware update signatures use it before being written as base64 text. |
 | **DIO** | Dual input/output - a flash mode accepted in release metadata. |
+| **ECDSA** | Elliptic Curve Digital Signature Algorithm - the method used to sign firmware updates, so a Fidget can check that an update came from Cyber Fidget. |
 | **ESP32** | Espressif's 32-bit microcontroller — the main chip on Cyber Fidget hardware. |
 | **FPS** | Frames Per Second — the emulator runs at 50 FPS like the real device. |
 | **FreeRTOS** | Free Real-Time Operating System — the RTOS layer used by ESP-IDF under the hood. |
@@ -41,7 +43,9 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **NVS** | Non-Volatile Storage - the small settings area in the ESP32's flash that keeps saved WiFi networks, the account link, and other settings across restarts. |
 | **OLED** | Organic Light-Emitting Diode — the 128×64 pixel display on Cyber Fidget. |
 | **OTA** | Over-the-air update - firmware delivered over a network instead of a cable. On the device and website, the action is called an "update." |
+| **P-256** | A standard elliptic curve (also called prime256v1); the firmware update signing key must use it. |
 | **PCB** | Printed Circuit Board. |
+| **PEM** | Privacy-Enhanced Mail - a text format for storing keys, used for the release signing key. |
 | **PCM** | Pulse-Code Modulation — uncompressed digital audio stored as raw samples. |
 | **PSRAM** | Pseudo-Static RAM — extra fast memory on the ESP32 module, used to buffer audio while recording. |
 | **QIO** | Quad input/output - a flash mode accepted in release metadata. |
@@ -93,6 +97,8 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 |------|---------|
 | **The Archives** | The shared collection of apps, screensavers, and sprite packs at cyberfidget.com/explore. |
 | **Share sheet** | The list of apps your phone offers when you send something on to someone else. |
+| **Base64** | A way of writing binary data as plain text using letters, digits, `+` and `/`; update signatures are sent this way. |
+| **Digital signature** | A short code that only the holder of a private key can make for one exact file. Anyone with the matching public key can check it, and changing even one byte of the file makes the check fail. Cyber Fidget uses signatures to confirm that an update is official. |
 | **Manifest (update manifest)** | A small JSON document that identifies a firmware download, its size and Secure Hash Algorithm 256-bit (SHA-256) hash, and the hardware it supports. See the [firmware update manifest reference](firmware-update-manifest.md). |
 | **Pairing / linking** | Establishing an association between a Cyber Fidget and an account. On the device and website, the action is called "link your Fidget." |
 

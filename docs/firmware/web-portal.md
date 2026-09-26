@@ -6,7 +6,6 @@ The Web Portal turns the CyberFidget into a WiFi access point with a captive por
 
 ## What is this?
 
-<!-- portal password: update when it ships -->
 Connect your phone to the "CyberFidget" WiFi network and a web portal opens automatically (captive portal). No app installs, no IP addresses to remember. From there you can:
 
 1. **Upload** MP3 files via drag-and-drop
@@ -15,6 +14,15 @@ Connect your phone to the "CyberFidget" WiFi network and a web portal opens auto
 4. **Manage** files — move, delete, create folders
 5. **Build playlists** in M3U format that persist on the SD card
 6. **Connect to WiFi** -- save up to three networks (home, school, a phone hotspot) for check-ins, updates, and `cyberfidget.local` access
+
+### The portal's WiFi password
+
+The "CyberFidget" network has a password, so nobody nearby can join it without seeing your Fidget. The Fidget's screen shows it under **Join CyberFidget** and **Password**:
+
+- It is **8 digits**, shown as two groups of four (for example `1234 5678`) so it is easier to read. Type all eight digits **without the space**.
+- It is **new every time the portal starts**. A phone that joined last time will not reconnect by itself; type the new digits shown now.
+- It stays on the screen while the portal runs. A live caption session takes over the screen while it is connected; the password comes back when the session ends.
+- The Fidget does not save it anywhere. It is gone when you exit the portal.
 
 ---
 
@@ -338,10 +346,9 @@ A Cyber Fidget remembers up to **three** WiFi networks. It needs one for its che
 
 **Settings > Setup WiFi** on the Fidget opens the portal straight on its WiFi page. It works without a memory card.
 
-<!-- portal password: update when it ships -->
-1. On the Fidget, open **Settings > Setup WiFi**. The screen says **On your phone, join the WiFi "CyberFidget"**.
-2. On your phone or laptop, join the "CyberFidget" WiFi network. The portal opens on its WiFi settings, with a note to pick your network and enter its password, and the nearby networks already listed. If nothing opens, browse to `http://192.168.4.1`.
-3. Pick your network, enter its password, and select **Connect**. When the Fidget has joined, its screen shows **Connected to** and the network name.
+1. On the Fidget, open **Settings > Setup WiFi**. The screen says **Join CyberFidget** and shows the portal's 8-digit **Password**, grouped as two blocks of four, with **Pick network on phone** at the bottom.
+2. On your phone or laptop, join the "CyberFidget" WiFi network and type the 8 digits shown on the Fidget's screen, without the space (see [The portal's WiFi password](#the-portals-wifi-password)). The portal opens on its WiFi settings, with a note to pick your network and enter its password, and the nearby networks already listed. If nothing opens, browse to `http://192.168.4.1`.
+3. Pick your home network, enter **its** password (not the Fidget's digits), and select **Connect**. The bottom line of the Fidget's screen says **Connecting...**, then **BACK to finish** once it has joined.
 4. Press Back on the Fidget and confirm **Exit portal?**. It restarts, as the portal always does, and is ready to check in.
 
 ### Saved WiFi on the device
@@ -380,6 +387,7 @@ pioarduino's ESP32 Arduino 3.x core split the WiFi library into `WiFi` + `Networ
 
 | Symptom | Cause | Fix |
 |---------|-------|-----|
+| My phone will not join the "CyberFidget" network | The portal's password is new every time the portal starts, so a saved or earlier password no longer works | Type the 8 digits shown on the Fidget's screen now, without the space. If your phone saved the network, forget it on the phone and join again |
 | "Sign in to WiFi" browser can't upload files | Android captive portal WebView has restricted file input | Open `192.168.4.1` in Chrome/Firefox instead |
 | Portal page doesn't load | DNS redirect failed | Manually navigate to `http://192.168.4.1` |
 | Upload fails with 507 | SD card full | Delete files to free space |
