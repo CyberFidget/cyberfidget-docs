@@ -17,7 +17,7 @@ When a firmware version is available, the prompt says `Update <version> ready (<
 
 | Choice | What happens |
 | --- | --- |
-| **Install now** | Starts installation if this Fidget is allowed to install firmware over WiFi. Otherwise it directs you to update from the website. |
+| **Install now** | Starts installation if this Fidget is allowed to install firmware over WiFi and its battery is high enough (the same level an automatic check needs); if not, it says **Charge your Fidget first.** When it is not allowed to install over WiFi, it directs you to update from the website. |
 | **Remind me later** | Leaves the offer waiting. It can appear again at a later start-up or check. |
 | **Skip this version** | Hides this version; a newer version can still be offered. You can undo the skip in **Settings > Updates**. |
 
@@ -27,7 +27,7 @@ Firmware installation over WiFi is currently limited to Fidgets opted in through
 
 A **digital signature** is a short code that only the holder of Cyber Fidget's private signing key can produce for one exact firmware file. Your Fidget carries the matching public keys, which can check a signature but cannot make one. If even one byte of the file changes, the signature no longer matches.
 
-When an update carries a signature, the Fidget downloads the whole file, checks that it matches the size and checksum it was promised, and then checks the signature, all **before** it switches to the new version. If the signature is wrong, or was made with a key this Fidget does not know, it refuses the update and shows **This update could not be verified. Nothing changed.** Your Fidget keeps running the version it had, and that version is not offered automatically again. The USB opt-in does not override this: a signed update that fails its check is always refused.
+When an update carries a signature, the Fidget downloads the whole file, checks that it matches the size and checksum it was promised, and then checks the signature, all **before** it switches to the new version. If the signature is wrong, it refuses the update and shows **This update could not be verified. Nothing changed.** Your Fidget keeps running the version it had, and that version is not offered automatically again. The USB opt-in does not override this: a signed update that fails its check is always refused. If an update was signed with a key this Fidget does not know yet (for example, a Fidget on older firmware when a new key starts being used), it keeps offering the update but asks you to install it from the website instead of over WiFi.
 
 Official releases are **not signed yet**: no official keys are built into the firmware so far, so official updates still install over WiFi only on Fidgets that have the USB opt-in, as described above. When official signing is turned on, a correctly signed official update will install over WiFi without the USB opt-in, on a Fidget whose firmware already includes the official keys.
 
@@ -47,7 +47,7 @@ The status bar says **Checking for updates...** during a check, **Update ready**
 
 A newly installed firmware version starts on probation: it must pass its checks and run its first app before the Fidget keeps it. Until its first menu appears, it does not use WiFi or Bluetooth and does not react to buttons (or to USB serial commands), so nothing can interrupt that first start. It also does not go to sleep while on probation, because waking from sleep before it is kept would undo a good update. If the battery runs flat during probation, the Fidget shuts down as usual, and this does not count as a failed update: if the new version had already passed its checks it is kept, and otherwise the Fidget returns to the previous version without the failed-update message, and the new version can be offered again. If it does not start properly, the Fidget returns to the previous version and shows **The update did not finish. Nothing changed.** That version is then not offered automatically again on this Fidget, so the start-up prompt stays quiet about it. A manual check still offers it, as `Update <version> ready` with the note **It did not finish last time**, so you can choose to try again. A newer version is offered as usual.
 
-Opening a newly delivered app just after the Fidget used WiFi may restart it once; it opens straight into that app after the restart.
+A newly delivered app opens directly, even just after the Fidget used WiFi. Only if memory is unusually short does the Fidget restart once and open straight into that app. If you open an app that needs a lot of memory while an automatic check is running, the Fidget shows **Finishing check...** and stops the check first; if the check cannot stop yet, it says **Checking for updates. Try again in a moment.** A check you started yourself runs on.
 
 ## If a check does not work
 

@@ -36,7 +36,7 @@ Building an app again after it is already on your Fidget sends the new build as 
 
 ## When listening pauses
 
-Some apps need more memory or use the same radio. Before opening one, the Fidget shows **Pausing dev mode...** and stops listening until you return to the menu. A send made while it is paused can arrive after listening resumes. Opening a newly delivered app after WiFi was used may restart the Fidget once and go straight into that app.
+Some apps need more memory or use the same radio. Before opening one, the Fidget shows **Pausing dev mode...** and stops listening until you return to the menu. A send made while it is paused can arrive after listening resumes. Delivered apps normally open directly and dev mode keeps listening while they run, when there is enough memory; a new build of the app that is running relaunches it in place, without pressing Back. Only if memory is unusually short does the Fidget restart once and go straight into the app.
 
 The Music Player asks **Music uses Bluetooth. Restart without dev mode? Dev mode comes back next restart.** Choose **Restart** to use it for this power cycle, or **Cancel** to stay in the menu. Dev mode resumes on the next restart.
 

@@ -111,10 +111,10 @@ What the Fidget does with them:
 |----------|--------|
 | Neither field | Treated as unsigned. It installs over WiFi only on a Fidget opted in over USB with `upd allow-unsigned on` (see [Serial commands](serial-commands.md#letting-a-fidget-install-updates-over-wifi-test-ring)). |
 | Only one field, or a field that breaks the rules | The whole manifest is invalid. The offer is withdrawn and nothing is downloaded. |
-| Both fields, `key_id` not built into this firmware | Refused, even with the USB opt-in. At a check-in the version is withdrawn rather than offered; at installation the Fidget shows **This update could not be verified. Nothing changed.** |
+| Both fields, `key_id` not built into this firmware | Not installed over WiFi, even with the USB opt-in. The offer is kept (not marked as failed), and the Fidget directs the owner to install from the website. |
 | Both fields, known `key_id` | The Fidget downloads the image, checks its length and SHA-256 against the manifest, then checks `sig` against that digest with the named public key, before it switches to the new image. A signature that does not match gives **This update could not be verified. Nothing changed.**; a matching one installs without the USB opt-in. |
 
-A version refused for its signature is remembered, so it is not offered
+A version whose signature does not match a known key is remembered, so it is not offered
 automatically again on that Fidget. Release firmware has no official public
 keys built in yet, so today every `key_id` is unknown to a release build.
 Test builds (with `CF_TEST_CLI`) also know a throwaway test key,
