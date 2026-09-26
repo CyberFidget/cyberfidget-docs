@@ -12,6 +12,8 @@
 *[baud]: Serial connection speed, measured in transmitted symbols per second
 *[CSS]: Cascading Style Sheets
 *[DOM]: Document Object Model
+*[DER]: Distinguished Encoding Rules; a compact binary layout used here for a digital signature
+*[ECDSA]: Elliptic Curve Digital Signature Algorithm; the signing method used for official firmware updates
 *[DIO]: Dual input/output flash mode
 *[ESP32]: Espressif Systems 32-bit microcontroller used in Cyber Fidget hardware
 *[FPS]: Frames Per Second
@@ -34,7 +36,9 @@
 *[NeoPixel]: Adafruit brand of addressable RGB(W) LEDs
 *[OLED]: Organic Light-Emitting Diode; the 128×64 display on Cyber Fidget
 *[OTA]: Over-the-air update; firmware delivered over a network instead of a cable. Product controls say "update".
+*[P-256]: A standard elliptic curve (also called prime256v1) used by the firmware update signing key
 *[PCB]: Printed Circuit Board
+*[PEM]: Privacy-Enhanced Mail; a text format for storing keys, such as the release signing key
 *[PCM]: Pulse-Code Modulation; uncompressed digital audio samples
 *[PSRAM]: Pseudo-Static RAM; extra fast memory used to buffer audio while recording
 *[QIO]: Quad input/output flash mode
@@ -74,3 +78,4 @@
 *[.cfapp.json]: Studio whole-project file containing code, sprites, models, captures, and settings
 *[.cfmesh.json]: Studio file containing one model
 *[.cfsprite.json]: Studio file containing one sprite
+*[base64]: A way of writing binary data as plain text using letters, digits, + and /

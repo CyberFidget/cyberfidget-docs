@@ -27,7 +27,7 @@ Choose **Rename**, type a new name, and select **Save**. Names can be 1 to 24 ch
 
 For a linked Fidget, **Download what is on this Fidget** asks it to report what it has. The Fidget answers at its next check-in, over WiFi, so the button waits and says **Waiting for your Fidget to send what it has - it happens at its next check-in.** Keep that Fidget's tab open; the page looks for the answer every 10 seconds. To hurry it along, choose **Check for updates** on the Fidget.
 
-When the answer arrives, the browser saves `fidget-<id>-installed.json`, a JavaScript Object Notation (JSON) file with the Fidget's app list as it reported it and the app files your account has a copy of. The page confirms how many items it downloaded and when they were reported. If the Fidget reports an app your account has no file for, the page lists it under **Not available**. Built-in apps are listed but not included, and changes still waiting to be sent are not part of the download.
+When the answer arrives, the browser saves `fidget-<last4>-installed.json` (named with the last four characters of the Fidget's identifier), a JavaScript Object Notation (JSON) file with the Fidget's app list as it reported it and the app files your account has a copy of. The page confirms how many items it downloaded and when they were reported. If the Fidget reports an app your account has no file for, the page lists it under **Not available**. Built-in apps are listed but not included, and changes still waiting to be sent are not part of the download.
 
 The file is a record of the device, not a Studio project. See [Keeping and sharing your work](import-export.md#files-and-the-cyber-fidget).
 

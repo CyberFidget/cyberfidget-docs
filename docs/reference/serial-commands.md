@@ -43,7 +43,7 @@ The file commands below use paths inside `/apps/` or `/assets/`. CRC-32 is a che
 
 ## Letting a Fidget install updates over WiFi (test ring)
 
-`upd allow-unsigned on` lets this Fidget install update images that have not been signed by Cyber Fidget. Update signing is still being developed, so for now no image is signed: until it lands, this is the switch that lets a Fidget install updates over WiFi at all, and it is meant for a small test ring. Other Fidgets show "Update it from the website for now" instead. The command can only be set through the USB cable; a network request cannot turn it on. The choice stays set across restarts and updates. Send `upd slot` to check: `unsig_ok=1` means allowed, and `unsig_ok=0` means off. Send `upd allow-unsigned off` to turn it off, then check again with `upd slot`. `upd slot` also shows the running and next-start update slots and does not change anything.
+`upd allow-unsigned on` lets this Fidget install update images that have not been signed by Cyber Fidget. The firmware checks signatures (see [Signed updates](../software/updates.md#signed-updates)), but no official keys are built in yet, so official releases are not signed: until official signing is turned on, this is the switch that lets a Fidget install updates over WiFi at all, and it is meant for a small test ring. It covers only images with no signature. An image that carries a signature this Fidget cannot verify, or one made with a key it does not know, is refused even with this switch on. Other Fidgets show "Update it from the website for now" instead. The command can only be set through the USB cable; a network request cannot turn it on. The choice stays set across restarts and updates. Send `upd slot` to check: `unsig_ok=1` means allowed, and `unsig_ok=0` means off. Send `upd allow-unsigned off` to turn it off, then check again with `upd slot`. `upd slot` also shows the running and next-start update slots and does not change anything.
 
 ## Commands only in test builds
 
@@ -85,12 +85,18 @@ These commands require a firmware build with `CF_TEST_CLI`. A normal build repli
 | `cloud guard <ms>` | `[cmd] cloud.guard=<ok\|error>` |
 | `cloud press` | `[cmd] cloud.press=<ok\|error>` |
 | `cloud ssid absent\|saved` | `[cmd] cloud.ssid=<absent\|saved\|error>` |
+| `cloud bootcheck on\|off` | `[cmd] cloud.bootcheck=<on\|off\|error>`; sets **Check at start-up** |
 | `cloud btafterwifi allow\|block` | `[cmd] cloud.btafterwifi=<allow\|block\|error>` |
+| `awake` | `[cmd] awake.mode=<mode> stop=<stop> listen=<0\|1> worker=<0\|1> polls=<n> deliveries=<n> failures=<n> connected=<0\|1> ...` with timers and memory fields |
+| `awake set off\|stay\|dev [until\|idle]` | `[cmd] awake.set=<mode> stop=<stop>`; applies an **Awake & dev mode** choice |
+| `awake idle\|safety <s>`, `awake battery low\|real`, `awake poll` | `[cmd] awake.idle_ms=<ms>`, `.safety_ms=<ms>`, `.battery=<low\|real>`, `.poll=now`; other bench verbs are listed by `[cmd] awake.usage=...` |
+| `heapmap` | `[cmd] heapmap.task=<name> stack=<address>` lines, `[cmd] heapmap.largest=<B> free=<B>`, a raw memory dump, then `[cmd] heapmap.done=1` |
 | `upd` | `[cmd] upd.key=<key> type=<str\|u8\|u32\|i32> value=<value>` per key; ends with `[cmd] upd.done=<count>` |
-| `upd offer <version> [source]` | `[cmd] upd.offer=open version=<v> source=<source>` or `.offer=suppressed reason=<skipped\|not-newer\|invalid> version=<v>`; errors use `[err] upd.offer=<busy\|not-menu\|refused>` |
-| `upd install <version>` | `[cmd] upd.install=restarting version=<v>` or `.install=refused reason=<unsigned\|version\|storage>` |
+| `upd offer <version> [source]` | `[cmd] upd.offer=open version=<v> source=<source>` or `.offer=suppressed reason=<skipped\|not-newer\|invalid\|website-shown> version=<v>`; errors use `[err] upd.offer=<busy\|not-menu\|refused>`. On a Fidget without a second update slot, it opens the website-update instruction instead; `website-shown` means that instruction was already shown for this version |
+| `upd install <version>` | `[cmd] upd.install=restarting version=<v>` or `.install=refused reason=<no-update-slot\|unsigned\|version\|storage>` |
 | `upd fault <name>` | `[cmd] upd.fault=<name\|error>` |
 | `upd seen-clear` | `[cmd] upd.seen_clear=<count\|error>` |
+| `upd verify-test` | `[cmd] upd.verify_test=<ok\|fail>`; checks the built-in test signature against its test data, and that a changed digest is refused |
 | `link start` | `[cmd] link.code=<code>`, then `[cmd] link.state=<state>` lines; busy: `[cmd] link.state=error reason=busy` |
 | `link ok\|no\|clear\|keep` | `[cmd] link.answer=<ok\|no\|clear\|keep>` |
 | `link unlink` | `[cmd] link.state=unlinked` or `.state=error reason=<code>` |

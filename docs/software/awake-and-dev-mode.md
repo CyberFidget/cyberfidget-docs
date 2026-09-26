@@ -11,6 +11,10 @@ Open **Settings > Awake & dev mode** and use Left or Right to choose a mode. Pre
 
 For **Stay awake** and **Dev mode**, choose **After 30 min without use** or **Until I stop it**. Use means a button press, or an app arriving in Dev mode. Either choice also ends after 48 hours without a button press, or when the battery is low and the Fidget is not charging. Returning to **Off** restores normal sleep. The status bar shows an eye marker beside the battery for either awake mode. While Dev mode is listening, it also shows a WiFi marker and **Dev mode**; the back light slowly breathes blue while the menu is open. Apps control their own lights while running.
 
+## How often Dev mode checks in
+
+While Dev mode is listening, the Fidget checks in with the website for new apps. It checks quickly, about every 2 seconds, only while a Studio tab with **Send to my Fidget automatically** turned on is open for that Fidget, or a send to it is under way, and for about a minute afterward. The rest of the time it checks about every 30 seconds. To keep data use small, a check-in sends the Fidget's app list only at the start of a session or when that list has changed, and the Fidget keeps one secure connection open between quick check-ins instead of opening a new one each time.
+
 ## Send from Studio
 
 In [Studio](https://cyberfidget.com/create/), build an app for the linked Fidget and turn on **Send to my Fidget automatically**. When the Fidget is listening, Studio shows **Ready for changes**. Each completed build can then be sent to the Fidget. This control is available for supported built apps and screensavers, not drawn projects. If the Fidget is linked but is not listening, Studio shows **Linked - checks in periodically**; a manually sent app goes over at its next check-in, or you can select **Check for updates** on the Fidget. Dev mode sends require an account and a link; you can still send an app over USB without them.
@@ -32,7 +36,7 @@ Building an app again after it is already on your Fidget sends the new build as 
 
 ## When listening pauses
 
-Some apps need more memory or use the same radio. Before opening one, the Fidget shows **Pausing dev mode...** and stops listening until you return to the menu. A send made while it is paused can arrive after listening resumes. Opening a newly delivered app after WiFi was used may restart the Fidget once and go straight into that app.
+Some apps need more memory or use the same radio. Before opening one, the Fidget shows **Pausing dev mode...** and stops listening until you return to the menu. A send made while it is paused can arrive after listening resumes. Delivered apps normally open directly and dev mode keeps listening while they run, when there is enough memory; a new build of the app that is running relaunches it in place, without pressing Back. Only if memory is unusually short does the Fidget restart once and go straight into the app.
 
 The Music Player asks **Music uses Bluetooth. Restart without dev mode? Dev mode comes back next restart.** Choose **Restart** to use it for this power cycle, or **Cancel** to stay in the menu. Dev mode resumes on the next restart.
 

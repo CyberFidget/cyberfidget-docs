@@ -9,7 +9,9 @@ the [test ring](serial-commands.md#letting-a-fidget-install-updates-over-wifi-te
 Product controls use "update"; "manifest" is the technical name for the document.
 
 The release process attaches `firmware.bin` and `release-info.json` to a
-GitHub release. The website validates both assets and returns a manifest
+GitHub release, and, when the release is signed, `firmware.bin.sig` and
+`firmware.bin.sig.keyid` (see [Signature fields](#signature-fields)). The
+website validates the assets and returns a manifest
 whose `url` points back to the website's `?app=1` binary route. This is
 separate from the site's older merged-image install manifest at `?parts=1`.
 
@@ -33,8 +35,8 @@ budget of 20 GitHub requests per 10 minutes; exhausted requests return status
 
 ## Response fields
 
-A successful response is JSON. All fields below are emitted by the current
-website endpoint.
+A successful response is JSON. The website emits every field below except
+`sig` and `key_id`, which appear only for a signed release.
 
 | Field | Type | Meaning |
 |-------|------|---------|
@@ -48,6 +50,8 @@ website endpoint.
 | `source` | string | `official` or `fork:owner/name`, naming the selected repository. |
 | `release_id` | integer | Positive GitHub release identifier. |
 | `released_at` | string | GitHub publication time in Coordinated Universal Time, formatted `YYYY-MM-DDTHH:MM:SSZ`. |
+| `sig` | string, optional | Digital signature of the exact `firmware.bin`, as base64 text. Present only together with `key_id`. |
+| `key_id` | string, optional | Name of the key that made `sig`. Present only together with `sig`. |
 
 `hw` is an object containing `min_rev` and `max_rev`. Board revisions use
 `major.minor` decimal components, such as `1.2`; compare each component
@@ -73,6 +77,49 @@ The shape and query parameters match the response constructed by the site.
 }
 ```
 
+## Signature fields
+
+`sig` and `key_id` are optional, but they are a pair: a manifest carries both
+or neither. A manifest with neither describes an **unsigned** image.
+
+| Field | Rules |
+|-------|-------|
+| `sig` | An Elliptic Curve Digital Signature Algorithm (ECDSA) signature made with a P-256 key over the SHA-256 digest of the exact `firmware.bin` bytes (what `openssl dgst -sha256 -sign` produces). The signature is in its Distinguished Encoding Rules (DER) form, 8 to 78 bytes, written as standard padded base64 text on one line: at most 104 characters, using `A-Z`, `a-z`, `0-9`, `+`, `/` and `=` padding only at the end. |
+| `key_id` | 1 to 31 characters, each a lowercase letter, digit or hyphen (for example `cf-release-1`). It names which of the public keys built into the firmware should check `sig`. |
+
+The website takes both values from two release assets published next to
+`firmware.bin`:
+
+| Release asset | Contents |
+|---------------|----------|
+| `firmware.bin.sig` | The `sig` text exactly: base64, no line break, at most 104 bytes. |
+| `firmware.bin.sig.keyid` | The `key_id` text exactly, no line break, at most 31 bytes. |
+
+The website checks that the base64 text is canonical, that it decodes to a
+well-formed DER signature, that each asset's size equals its text length,
+and that the key id matches the rules above. It does not check the signature
+itself; the Fidget does. If a release has only one of the two assets, the
+website refuses to answer with status 502 and **The update files are
+incomplete.** If either asset breaks a rule, it answers 502 with **The update
+verification files are invalid.** It never serves one field without the
+other. Both assets' identifiers and update times join the cache key, so
+replacing a signature asset is picked up.
+
+What the Fidget does with them:
+
+| Manifest | Fidget |
+|----------|--------|
+| Neither field | Treated as unsigned. It installs over WiFi only on a Fidget opted in over USB with `upd allow-unsigned on` (see [Serial commands](serial-commands.md#letting-a-fidget-install-updates-over-wifi-test-ring)). |
+| Only one field, or a field that breaks the rules | The whole manifest is invalid. The offer is withdrawn and nothing is downloaded. |
+| Both fields, `key_id` not built into this firmware | Not installed over WiFi, even with the USB opt-in. The offer is kept (not marked as failed), and the Fidget directs the owner to install from the website. |
+| Both fields, known `key_id` | The Fidget downloads the image, checks its length and SHA-256 against the manifest, then checks `sig` against that digest with the named public key, before it switches to the new image. A signature that does not match gives **This update could not be verified. Nothing changed.**; a matching one installs without the USB opt-in. |
+
+A version whose signature does not match a known key is remembered, so it is not offered
+automatically again on that Fidget. Release firmware has no official public
+keys built in yet, so today every `key_id` is unknown to a release build.
+Test builds (with `CF_TEST_CLI`) also know a throwaway test key,
+`test-only-1`, which release builds always refuse.
+
 ## Validation and download
 
 The release build checks `firmware.bin` against a 3,276,800-byte threshold,
@@ -84,7 +131,8 @@ checks the downloaded image length and SHA-256 against the metadata, and
 checks that the metadata version matches the selected tag. The metadata's
 `flash_mode` must be quad input/output (`qio`) or dual input/output (`dio`). The cache key includes the repository,
 tag, channel, release identifier, publication time, and both assets'
-identifiers, update times, and sizes. Re-uploading an asset under the same
+identifiers, update times, and sizes, plus the signature assets' identifiers
+and update times when present. Re-uploading an asset under the same
 tag therefore produces a different cache identity.
 
 The website applies the slot-size cap to fork assets too; the stricter
