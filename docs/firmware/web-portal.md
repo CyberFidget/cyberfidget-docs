@@ -6,6 +6,7 @@ The Web Portal turns the CyberFidget into a WiFi access point with a captive por
 
 ## What is this?
 
+<!-- portal password: update when it ships -->
 Connect your phone to the "CyberFidget" WiFi network and a web portal opens automatically (captive portal). No app installs, no IP addresses to remember. From there you can:
 
 1. **Upload** MP3 files via drag-and-drop
@@ -13,7 +14,7 @@ Connect your phone to the "CyberFidget" WiFi network and a web portal opens auto
 3. **Play** tracks through your phone's speaker (web audio)
 4. **Manage** files — move, delete, create folders
 5. **Build playlists** in M3U format that persist on the SD card
-6. **Connect to WiFi** — join your home network for `cyberfidget.local` access
+6. **Connect to WiFi** -- save up to three networks (home, school, a phone hotspot) for check-ins, updates, and `cyberfidget.local` access
 
 ---
 
@@ -35,7 +36,7 @@ Phone → Same WiFi network as CyberFidget
      → Same portal, no WiFi switching needed
 ```
 
-The portal is a standalone app launched from the main menu under **Tools → CyberFidget Portal**. It stops Bluetooth (shared radio) and starts WiFi, so you can't play music through a BT speaker while the portal is running.
+The portal is a standalone app launched from the main menu under **Tools > CyberFidget Portal**. **Settings > Setup WiFi** opens the same portal straight on its WiFi page (see [Setting up WiFi](#setting-up-wifi)). It stops Bluetooth (shared radio) and starts WiFi, so you can't play music through a BT speaker while the portal is running.
 
 To leave the portal, press the Back button. The device asks "Exit portal?" -- Enter confirms, Back cancels -- and then **restarts**. The restart is quick: the boot animation is skipped for this one restart, so you're back at the menu in a moment.
 
@@ -65,9 +66,9 @@ Menu → "CyberFidget Portal" → AppManager::switchToApp(APP_WEB_PORTAL)
 The portal runs in **AP+STA dual mode** (`WIFI_AP_STA`):
 
 - **Access Point** — "CyberFidget" network is always available. Any device can connect directly and access the portal at `192.168.4.1`.
-- **Station** — If you've configured a WiFi network in Settings, the CyberFidget also joins your home WiFi. This makes the portal accessible at `cyberfidget.local` or the device's LAN IP from any device on your network.
+- **Station** — If you have saved a WiFi network, the CyberFidget also joins it. This makes the portal accessible at `cyberfidget.local` or the device's LAN IP from any device on your network. The portal joins the first saved network straight away, without scanning, so its own network stays responsive while it starts.
 
-WiFi credentials are stored in NVS (non-volatile storage) and auto-connect on every portal launch. Use the Settings page to scan, connect, or forget networks.
+Saved networks (up to three) are stored in NVS (non-volatile storage), the device's small settings area in flash, and survive restarts. See [Saved WiFi networks](#saved-wifi-networks) for how they are ordered and managed.
 
 !!! tip "mDNS: cyberfidget.local"
     When connected to your WiFi, the device registers `cyberfidget.local` via mDNS. This works on iOS, macOS, Linux, and Android 10+. If mDNS doesn't resolve on your device, the IP address is always shown on the OLED and in the portal status bar.
@@ -100,6 +101,8 @@ If not connected to a WiFi network, lines 3-4 show "WiFi: not connected" and the
 The `cyberfidget.local` line only appears while the name service (mDNS) is actually running -- if it failed to start, the line is hidden so the screen never shows an address that won't resolve.
 
 During uploads, the bottom line shows a progress bar.
+
+When the portal was opened from **Settings > Setup WiFi**, the screen is titled **Setup WiFi** instead and only says what to do next: join the "CyberFidget" WiFi on your phone and pick your network, then **Connected to** and the network name once it has joined. **BACK to finish** leaves the portal. Setup WiFi does not need a memory card.
 
 ---
 
@@ -160,9 +163,10 @@ All API routes are under the ESPAsyncWebServer running on port 80.
 | `/api/playlist?name=...` | POST | Save playlist (JSON body) |
 | `/api/playlist/delete?name=...` | POST | Delete playlist |
 | `/api/wifi/scan` | GET | Scan nearby WiFi networks |
-| `/api/wifi/connect` | POST | Connect to WiFi (JSON: ssid, pass) |
-| `/api/wifi/status` | GET | WiFi connection status, IP, mDNS |
-| `/api/wifi/forget` | POST | Clear saved WiFi credentials |
+| `/api/wifi/connect` | POST | Save a network as the first one to try and connect to it (JSON: ssid, pass). A fourth network is refused with `409` (`{"error":"full"}`) |
+| `/api/wifi/status` | GET | WiFi connection status, IP, mDNS, the saved network names in the order they are tried (`saved`, never passwords), and whether the portal was opened from Setup WiFi (`landing`) |
+| `/api/wifi/forget` | POST | Forget one saved network (JSON: ssid) |
+| `/api/wifi/first` | POST | Move a saved network to the front of the list, "Use this first" (JSON: ssid) |
 
 ### Example: `/api/tracks` response
 
@@ -307,18 +311,42 @@ The highlight follows next/prev navigation and persists across sort/search/re-re
 ### Settings page
 
 Settings are split across the two browser surfaces. The portal's **Settings**
-page provides Network controls:
+page provides the **Network** controls:
 
-- **WiFi Status** — shows current connection state, network name, IP address, and mDNS hostname
-- **Network Scanner** — scan for nearby WiFi networks with signal strength bars
-- **Connect** — select a network, enter password, connect. Credentials are saved to NVS for auto-reconnect.
-- **Forget** — clear saved credentials and disconnect from the network
-- **AP Info** — shows the always-available access point details
+- **WiFi Connection** -- the current connection state, network name, address, and, when it is running, `cyberfidget.local`
+- **Saved networks** -- the networks the Fidget remembers, by name only (passwords are never shown). The first is marked **Tried first**; every other one has **Use this first**. Each has **Forget**, which asks `Forget <name>?` before removing it
+- **Available Networks** -- nearby networks with signal-strength bars and a **Locked** label for ones that need a password. **Scan again** refreshes the list. Pick one, enter its password (leave it empty for an open network), and select **Connect**. The network is saved as the first one to try, and the Fidget connects to it
+- **Its own network** -- the always-available "CyberFidget" network and its address, `192.168.4.1`
 
 The companion's **Settings** page contains **Transcription** controls and
 **Your data**, including the companion version currently served by the device.
 When the device declines an older card copy, **On your card** shows that copy's
 claimed version too.
+
+### Saved WiFi networks
+
+A Cyber Fidget remembers up to **three** WiFi networks. It needs one for its check-ins with cyberfidget.com: [linking](../software/link-your-fidget.md), [updates](../software/updates.md), and [Dev mode](../software/awake-and-dev-mode.md).
+
+- **Order.** When it checks in, the Fidget first tries the network that worked last time. If that one is not there, it scans once and joins the strongest saved network it can see, and remembers that one for next time. The portal itself only tries the first saved network when it starts.
+- **Adding.** A network you connect to becomes the first one to try. Connecting to a network that is already saved updates its password and moves it to the front.
+- **Full list.** With three networks saved, connecting to a fourth is refused with **3 networks are saved. Forget one first.** Nothing is dropped without you choosing which.
+- **Use this first** moves a saved network to the front, for example before taking the Fidget somewhere you know that network will be.
+- **Forget** removes one network. It changes nothing else: the Fidget stays linked, and update settings are untouched.
+- **Earlier firmware.** Firmware before saved-network lists kept a single network. After updating, that network becomes the first saved network; there is nothing to enter again. The first network is also kept where earlier firmware looks for it, so going back to an earlier version still finds one.
+
+### Setting up WiFi
+
+**Settings > Setup WiFi** on the Fidget opens the portal straight on its WiFi page. It works without a memory card.
+
+<!-- portal password: update when it ships -->
+1. On the Fidget, open **Settings > Setup WiFi**. The screen says **On your phone, join the WiFi "CyberFidget"**.
+2. On your phone or laptop, join the "CyberFidget" WiFi network. The portal opens on its WiFi settings, with a note to pick your network and enter its password, and the nearby networks already listed. If nothing opens, browse to `http://192.168.4.1`.
+3. Pick your network, enter its password, and select **Connect**. When the Fidget has joined, its screen shows **Connected to** and the network name.
+4. Press Back on the Fidget and confirm **Exit portal?**. It restarts, as the portal always does, and is ready to check in.
+
+### Saved WiFi on the device
+
+**Settings > Saved WiFi** lists the saved networks by name, in the order they are tried; when more than one is saved, the first shows **(first)**. With nothing saved it shows **Nothing saved yet**. Press Enter on a network for **Use this first**, **Forget**, or **Cancel** (the first network has no **Use this first**). There is no way to type a password on the Fidget, so the last row, **Setup WiFi**, opens the portal to add a network. Back returns to the menu.
 
 ---
 
@@ -359,5 +387,7 @@ pioarduino's ESP32 Arduino 3.x core split the WiFi library into `WiFi` + `Networ
 | `idx.txt` showing in file list | Music index cache file | Filtered out in `/api/files` and `/api/tracks` |
 | Track shows "-" for artist/album | No ID3 tags in the MP3 file | Re-tag the file with a tool like Mp3tag |
 | `cyberfidget.local` doesn't resolve | mDNS not supported on device (older Android) | Use the IP address shown on the OLED or portal status bar |
-| WiFi connection times out | Wrong password or network out of range | Re-enter password via Settings, move closer to router |
-| Can't reach portal from home WiFi | Not connected to any WiFi network | Open Settings, scan, and connect to your WiFi first |
+| WiFi connection times out | Wrong password or network out of range | Pick the network again in Settings and re-enter its password (this replaces the saved one), or move closer to the router |
+| Can't reach portal from home WiFi | Not connected to any WiFi network | Open **Settings > Setup WiFi** on the Fidget and connect to your WiFi first |
+| "3 networks are saved. Forget one first." | Three networks are already saved | Forget one under **Saved networks** (or in **Settings > Saved WiFi** on the Fidget), then connect again |
+| The Fidget uses the wrong saved network | The network that worked last is tried first | Choose **Use this first** on the network you want, in the portal or in **Settings > Saved WiFi** |

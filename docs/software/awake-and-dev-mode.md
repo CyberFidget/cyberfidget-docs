@@ -15,6 +15,21 @@ For **Stay awake** and **Dev mode**, choose **After 30 min without use** or **Un
 
 In [Studio](https://cyberfidget.com/create/), build an app for the linked Fidget and turn on **Send to my Fidget automatically**. When the Fidget is listening, Studio shows **Ready for changes**. Each completed build can then be sent to the Fidget. This control is available for supported built apps and screensavers, not drawn projects. If the Fidget is linked but is not listening, Studio shows **Linked - checks in periodically**; a manually sent app goes over at its next check-in, or you can select **Check for updates** on the Fidget. Dev mode sends require an account and a link; you can still send an app over USB without them.
 
+## If a send does not work
+
+When a send over the USB cable fails, the website names what went wrong. In every case your Fidget is fine, nothing was half-installed, and your changes are still saved on the website, ready to send again.
+
+| Message | What happened | What to do |
+| --- | --- | --- |
+| **Your Fidget didn't answer.** | The Fidget did not reply over the cable. | Press a button on it or plug it in again, then try again. |
+| **Your Fidget is busy.** | The Fidget was in the middle of something else. The website already waits and retries once before saying this. | Wait a moment, then try again. |
+| **The connection dropped mid-send.** (or **The cable may have been unplugged mid-send.**) | The cable or connection was lost during the send. | Check the cable and try again. |
+| **Your changes could not be sent.** (or `<name> didn't make it across.`) | Any other failure. | Try again. |
+
+If only part of a send went across, the website says **Some changes did not go across.**, lists what made it, and keeps the rest to try again.
+
+Building an app again after it is already on your Fidget sends the new build as an update: it replaces the app in the same menu place instead of adding a second copy. Studio says **Updated your Fidget's changes. Open My Fidget to send.** when it queues the update, and **Already on your Fidget - nothing to send.** when the build has not changed. Older Fidget firmware cannot replace an app this way; for that Fidget the update stays waiting, with the note **Update your Fidget's firmware to send a new build of an app it already has.**, and goes across once you [update the firmware](updates.md). The rest of the send still goes ahead.
+
 ## When listening pauses
 
 Some apps need more memory or use the same radio. Before opening one, the Fidget shows **Pausing dev mode...** and stops listening until you return to the menu. A send made while it is paused can arrive after listening resumes. Opening a newly delivered app after WiFi was used may restart the Fidget once and go straight into that app.
@@ -23,4 +38,4 @@ The Music Player asks **Music uses Bluetooth. Restart without dev mode? Dev mode
 
 ## If Dev mode is not ready
 
-If you see **Dev mode: link this Fidget first**, follow [Link your Fidget](link-your-fidget.md). For **Dev mode: no saved network** or **Dev mode: not connected**, check the [Web Portal common issues](../firmware/web-portal.md#common-issues). For an app that has not arrived, use [Check for updates](updates.md#when-it-checks) after the connection is working.
+If you see **Dev mode: link this Fidget first**, follow [Link your Fidget](link-your-fidget.md). For **Dev mode: no saved network**, add one with **Settings > Setup WiFi** (see [Setting up WiFi](../firmware/web-portal.md#setting-up-wifi)). For **Dev mode: not connected**, check **Settings > Saved WiFi** and the [Web Portal common issues](../firmware/web-portal.md#common-issues). For an app that has not arrived, use [Check for updates](updates.md#when-it-checks) after the connection is working.

@@ -38,6 +38,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **MEMS** | Micro-Electro-Mechanical Systems — miniaturized sensor technology used in the ICS-43434 microphone. |
 | **ms** | Millisecond - one thousandth of a second. |
 | **NeoPixel** | Adafruit's addressable RGB(W) LED product line; firmware uses a shim that matches its API. |
+| **NVS** | Non-Volatile Storage - the small settings area in the ESP32's flash that keeps saved WiFi networks, the account link, and other settings across restarts. |
 | **OLED** | Organic Light-Emitting Diode — the 128×64 pixel display on Cyber Fidget. |
 | **OTA** | Over-the-air update - firmware delivered over a network instead of a cable. On the device and website, the action is called an "update." |
 | **PCB** | Printed Circuit Board. |
@@ -61,6 +62,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **WebAssembly** | Binary instruction format for the web; the emulator compiles C++ to WASM. |
 | **WebSocket** | A persistent two-way connection between a browser page and a server — the phone companion's live caption link to the device. |
 | **Wi-Fi** | Wireless Fidelity — used for OTA and network features. |
+| **Web Serial** | A browser feature that lets a web page talk to a device over a USB serial connection. Available in desktop Chromium-based browsers such as Chrome and Edge. |
 | **mDNS** | Multicast DNS — the local-network name service that makes `cyberfidget.local` resolve without any router configuration. |
 | **microSD** | Compact removable Secure Digital memory-card format. |
 
