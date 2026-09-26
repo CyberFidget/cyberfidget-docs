@@ -339,7 +339,7 @@ A Cyber Fidget remembers up to **three** WiFi networks. It needs one for its che
 - **Adding.** A network you connect to becomes the first one to try. Connecting to a network that is already saved updates its password and moves it to the front.
 - **Full list.** With three networks saved, connecting to a fourth is refused with **3 networks are saved. Forget one first.** Nothing is dropped without you choosing which.
 - **Use this first** moves a saved network to the front, for example before taking the Fidget somewhere you know that network will be.
-- **Forget** removes one network. It changes nothing else: the Fidget stays linked, and update settings are untouched.
+- **Forget** removes one network. It changes nothing else: the Fidget stays linked, and update settings are untouched. To erase every saved network along with the other settings, see [Update or reset your Fidget](../software/updating.md).
 - **Earlier firmware.** Firmware before saved-network lists kept a single network. After updating, that network becomes the first saved network; there is nothing to enter again. The first network is also kept where earlier firmware looks for it, so going back to an earlier version still finds one.
 
 ### Setting up WiFi

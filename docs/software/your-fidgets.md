@@ -33,7 +33,7 @@ The file is a record of the device, not a Studio project. See [Keeping and shari
 
 ## Update firmware
 
-**Update firmware** opens the [website update page](https://cyberfidget.com/update/), which installs firmware over USB. For updates over WiFi, see [Updates](updates.md).
+**Update firmware** opens the [website update page](https://cyberfidget.com/update/), which installs firmware over USB. For updates over WiFi, see [Updates](updates.md). To go back to an earlier version, erase and reinstall, or reset a Fidget to factory, see [Update or reset your Fidget](updating.md).
 
 ## Unlink, remove, or forget
 

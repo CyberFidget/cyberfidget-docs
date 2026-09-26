@@ -34,6 +34,10 @@ In short:
 A firmware update that removes this hazard is in development; the
 battery-switch habit remains good practice even after it ships.
 
+Resetting the Fidget to factory, or erasing and reinstalling it from the
+website, erases the apps and settings in internal storage but never touches
+the memory card. See [Update or reset your Fidget](updating.md).
+
 ---
 
 ## Recommended card specs

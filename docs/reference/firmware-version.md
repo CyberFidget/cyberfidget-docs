@@ -102,10 +102,14 @@ groups, with different audiences:
 | `prerelease` | Bleeding-edge users | Built in CI from a `vX.Y.Z-rc1` / `-alpha` / `-beta` tag |
 
 The version string itself reflects the release channel: a Stable reads
-`1.2.0+abc1234`; an RC reads `1.2.0-rc1+abc1234`. End-user-facing UIs
-(App Builder firmware selector, the public release page, future OTA
-"check for updates") default to showing only `release` builds with an
-opt-in toggle for prereleases.
+`1.2.0+abc1234`; a Release Candidate (RC) reads `1.2.0-rc1+abc1234`.
+End-user-facing surfaces call prereleases **test versions** and default to
+Stable. The website update page offers the newest stable release by default
+and lists test versions in their own group. On the device,
+**Settings > Updates > Versions** chooses **Stable** or **Test** for updates
+over WiFi; a Fidget running a prerelease starts out on **Test** until the
+owner changes it. See [Update or reset your Fidget](../software/updating.md)
+for installing, going back to an earlier version, and starting over.
 
 ### Provenance labels (developer / traceability metadata)
 

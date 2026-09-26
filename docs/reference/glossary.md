@@ -47,8 +47,9 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **PCB** | Printed Circuit Board. |
 | **PEM** | Privacy-Enhanced Mail - a text format for storing keys, used for the release signing key. |
 | **PCM** | Pulse-Code Modulation — uncompressed digital audio stored as raw samples. |
-| **PSRAM** | Pseudo-Static RAM — extra fast memory on the ESP32 module, used to buffer audio while recording. |
+| **PSRAM** | Pseudo-Static RAM - extra memory on the ESP32 module, used to buffer audio while recording and to run apps sent to the Fidget (a little slower than the chip's internal memory). |
 | **QIO** | Quad input/output - a flash mode accepted in release metadata. |
+| **RC** | Release Candidate - a test version of the firmware, tagged like `v1.4.0-rc1`. On the device and website it is called a "test version." |
 | **RGBW** | Red, Green, Blue, White — four-channel LED color. |
 | **RS-232** | Recommended Standard 232 — a serial communication standard. |
 | **SD** | Secure Digital — the micro-SD card slot. |
@@ -100,6 +101,9 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Base64** | A way of writing binary data as plain text using letters, digits, `+` and `/`; update signatures are sent this way. |
 | **Digital signature** | A short code that only the holder of a private key can make for one exact file. Anyone with the matching public key can check it, and changing even one byte of the file makes the check fail. Cyber Fidget uses signatures to confirm that an update is official. |
 | **Manifest (update manifest)** | A small JSON document that identifies a firmware download, its size and Secure Hash Algorithm 256-bit (SHA-256) hash, and the hardware it supports. See the [firmware update manifest reference](firmware-update-manifest.md). |
+| **Reset to factory** | The **Settings > Reset to factory** item on the Fidget. It erases sent apps, saved WiFi, settings, the account link and the battery record, and keeps the firmware and the memory card. See [Update or reset your Fidget](../software/updating.md). |
+| **Erase everything and reinstall** | The website's clean-start install over USB: it erases the whole Fidget and installs a fresh copy of the chosen firmware version. See [Update or reset your Fidget](../software/updating.md#erase-everything-and-reinstall-on-the-website). |
+| **Test version** | An early firmware build for trying new features before everyone gets them (a release candidate). Chosen with **Settings > Updates > Versions: Test** or from the **Test versions** group on the website update page. |
 | **Pairing / linking** | Establishing an association between a Cyber Fidget and an account. On the device and website, the action is called "link your Fidget." |
 
 ---
