@@ -3,6 +3,9 @@
 
 Cyber Fidget accepts text commands over its USB serial connection. Connect the USB cable, open a serial terminal at **921600 baud**, and send each command followed by a newline. Opening the port may restart the Fidget. Wait for it to start, then send `version` until it answers. Commands are case-insensitive; arguments may be case-sensitive. Success lines start with `[cmd]`, and errors start with `[err]`. Values in angle brackets below are placeholders; square brackets mean optional arguments. A reply that lists several lines is complete at its stated final line.
 
+!!! tip "A console in the browser"
+    The website's bench page, [cyberfidget.com/dev/chassis.html](https://cyberfidget.com/dev/chassis.html), is a serial console that needs no terminal program. It connects over Web Serial from a desktop Chromium-based browser (Chrome or Edge) at 921600 baud, waits for `version` to answer, and shows the Fidget's screen live. Type commands in **Command input** (Up and Down recall earlier ones), pick from the **Commands** list (a command with placeholders is copied into the input for you to finish), or read **Device help**, which lists the commands the connected Fidget's `help` reply names.
+
 ## Commands in every build
 
 | Command and arguments | Reply format |

@@ -53,7 +53,7 @@ Studio always creates a new project alongside the projects you already have. It 
 
 ## Files and the Cyber Fidget
 
-You cannot pull files back off a Cyber Fidget in the browser. Work travels onto the device, but retrieving it is not available.
+A linked Cyber Fidget can send back a list of what is on it. On [Your Fidgets](your-fidgets.md#download-what-is-on-this-fidget), choose **Download what is on this Fidget**. The Fidget answers at its next check-in, over WiFi, and the browser then saves one `fidget-<id>-installed.json` file: the Fidget's app list as it reported it, plus the app files your account has a copy of. This is a record of the device, not a Studio project file, so it cannot be opened in Studio for editing. Built-in apps are listed but not included. To keep a project you can edit again, [save the whole project](#keep-a-whole-project) from Studio.
 
 Do not copy `.cfsprite.json` or `.cfmesh.json` files onto the device. Studio builds a project's art into the app itself, and installing the app carries its art with it.
 

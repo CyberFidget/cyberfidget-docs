@@ -228,6 +228,9 @@ The firmware's `red()` calls `Color(0, 25, 0, 0)` which by Adafruit convention i
 ### 10. LEDs persist across app switches
 When stopping one app and loading another, the LED DOM elements retain their last CSS style. `bridge.stop()` must call `emulator.setAllLEDsOff()`.
 
+### 11. Rebuild the emulator after changing a firmware header it includes
+The WASM build compiles against the firmware's own headers in `lib/` -- the HAL headers, `lib/Globals` (`globals.h`), and every built-in app listed in `wasm/CMakeLists.txt`. Changing a struct, constant, or function signature there does nothing to an emulator you already built: it keeps running the old layout until you run `build_wasm.sh` (or `build_wasm.bat`) again. Rebuild before testing any change to those headers in the browser, and before trusting an emulator result that disagrees with the device.
+
 ---
 
 ## Adding a New Built-In App to the Emulator

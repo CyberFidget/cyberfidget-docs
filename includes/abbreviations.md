@@ -56,6 +56,8 @@
 *[WebAssembly]: Binary instruction format that runs in the browser; used to run C++ app code in the emulator
 *[WebSocket]: Persistent two-way browser connection; carries the live caption link between device and phone
 *[Wi-Fi]: Wireless Fidelity
+*[NVS]: Non-Volatile Storage; the small settings area in the ESP32's flash that keeps saved WiFi and other settings across restarts
+*[Web Serial]: Browser feature that lets a web page talk to a device over a USB serial connection; available in desktop Chromium-based browsers
 *[mDNS]: Multicast DNS; the local-network name service that makes cyberfidget.local resolve without a router change
 *[microSD]: Compact removable Secure Digital memory-card format
 *[The Archives]: The shared collection of apps, screensavers, and sprite packs at cyberfidget.com/explore

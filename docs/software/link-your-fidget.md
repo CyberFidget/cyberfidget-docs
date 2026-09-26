@@ -5,7 +5,7 @@ Linking puts a Cyber Fidget on your account. Once it has saved WiFi, it can rece
 
 ## Before you start
 
-Save a WiFi network on the Fidget through the [Web Portal](../firmware/web-portal.md#settings-page). Sign in at [cyberfidget.com](https://cyberfidget.com/). The Fidget needs to be able to reach the website using its saved network.
+Save a WiFi network on the Fidget: open **Settings > Setup WiFi** and follow [Setting up WiFi](../firmware/web-portal.md#setting-up-wifi). A Fidget can remember up to three networks. Sign in at [cyberfidget.com](https://cyberfidget.com/). The Fidget needs to be able to reach the website using its saved network.
 
 ## Link it
 
@@ -16,7 +16,7 @@ Save a WiFi network on the Fidget through the [Web Portal](../firmware/web-porta
 
 ## Unlink or pass it on
 
-On the Fidget, open **Settings > Link**. When it shows **Linked account**, press Enter, choose **Unlink**, then confirm **Unlink this Fidget?** with **Unlink**. **Settings > Updates > Unlink this Fidget** opens the same link screen. You can also unlink it from **Your Fidgets** on the website. Unlinking stops changes from that account; waiting changes are discarded, while apps already on the Fidget stay. If you unlink on the Fidget while it cannot reach the website, it says **Unlinked on this Fidget** and finishes notifying the website when you next link or check for updates.
+On the Fidget, open **Settings > Link**. When it shows **Linked account**, press Enter, choose **Unlink**, then confirm **Unlink this Fidget?** with **Unlink**. **Settings > Updates > Unlink this Fidget** opens the same link screen. You can also unlink it from [Your Fidgets](your-fidgets.md) on the website. Unlinking stops changes from that account; waiting changes are discarded, while apps already on the Fidget stay. If you unlink on the Fidget while it cannot reach the website, it says **Unlinked on this Fidget** and finishes notifying the website when you next link or check for updates.
 
 If the Fidget changes hands, the new person signs in to their own account and repeats the link steps on the Fidget. The Fidget asks `Link to @<account>?` before changing the link. It then asks **Clear the apps from the previous account?**: choose **Clear** to remove those apps or **Keep** to leave them on the Fidget. The previous account can no longer send changes after the new link is confirmed; its **Your Fidgets** page shows **Linked elsewhere**.
 
