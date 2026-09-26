@@ -33,7 +33,7 @@ So it sends at most about once a day. If a send fails, nothing is lost: the Fidg
 
 - **Battery records** added since the last report the site accepted, up to 1,024 of them (more than a full day awake). Each has a record number, the battery voltage, charge percentage and charging rate, and what happened: a start, a daily check-in, a reading taken while awake, going to sleep, or a low-battery shutdown. Depending on the kind, it also holds why the Fidget woke, how many check-ins it has made, or how long it had been on.
 - **Running totals**: how many times it has started and checked in, total time on, approximate charge cycles, the lowest and highest battery voltage seen, and how many records were written or lost.
-- The Fidget's **device identifier** (12 characters derived from its hardware address) and its **firmware version**.
+- The Fidget's **device identifier** (12 characters derived from its hardware address), its hardware address itself, and its **firmware version**.
 - The time it was sent, and whether older records were missing from this report.
 
 ### What is not included
