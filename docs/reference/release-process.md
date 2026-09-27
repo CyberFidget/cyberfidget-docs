@@ -187,9 +187,13 @@ auto-picker would choose, without committing to a release.
 
 ### Signing and publishing
 
-Both paths end the same way. The build job creates the GitHub release as a
+Both paths end the same way. The build job first checks that the firmware's
+official key table (`lib/CloudSync/UpdateSigning.cpp`) is filled in and
+well-formed (`scripts/release_public_key.py --check-table`), and stops if it
+is not. It creates the GitHub release as a
 **draft**, with its notes and files, and hands the exact `firmware.bin` it
-built and checked to a second job, `sign`. Only `sign` publishes the release.
+built and checked to a second job, `sign`. Only `sign` publishes the release,
+and it publishes only a signed one.
 A draft is invisible to the website's [update manifest](firmware-update-manifest.md),
 so no Fidget is offered a release until `sign` finishes. A Rehearse run
 creates no release and runs no `sign` job.
@@ -206,16 +210,21 @@ approved job can read the signing key. It uses two settings:
 
 What `sign` does:
 
-- **With a key configured**, it checks the key id's format, signs the exact
-  `firmware.bin`, refuses a key that is not P-256, verifies its own
-  signature over the same bytes, uploads `firmware.bin.sig` and
+- It checks the key id's format and reads the public key with that id from
+  the firmware's key table at the release's tag. It signs the exact
+  `firmware.bin`, refuses a key that is not P-256, and refuses a private key
+  whose public half does not match the firmware's public key for that id
+  (**FIRMWARE_SIGNING_KEY does not match the firmware public key for
+  `<id>`**). It then verifies the signature over the same bytes with the
+  firmware's public key, uploads `firmware.bin.sig` and
   `firmware.bin.sig.keyid` to the draft (see
   [Signature fields](firmware-update-manifest.md#signature-fields)), and
-  then publishes the release.
-- **With no key configured**, it notes "Signing secret absent; publishing an
-  unsigned release." in the run summary and publishes the release unsigned.
-  This is the normal case until official signing is turned on, and it still
-  waits for the reviewer.
+  publishes the release. A release that a Fidget with those keys could not
+  verify is never published.
+- **If `FIRMWARE_SIGNING_KEY` or `FIRMWARE_SIGNING_KEY_ID` is missing**, the
+  job fails with **FIRMWARE_SIGNING_KEY is missing; release remains a draft**
+  (or the same for the id). There is no unsigned fallback. A key id that is
+  not in the firmware's key table also fails, and the release stays a draft.
 - **If any step fails, or the reviewer rejects the job**, the release
   stays a **draft** and nothing is offered to Fidgets. The tag (and, for a
   Stable release cut with Path B, the post-release bump) has already been
@@ -230,29 +239,28 @@ What `sign` does:
 
 A Fidget checks a signed release against the public keys built into the
 firmware it is running. A signed release whose key id that firmware does not
-know is **refused, even on a Fidget with the USB opt-in**. Today the
-firmware's official key table is empty, so every release must be published
-unsigned. Turn signing on in this order:
+know is **not installed over WiFi, even on a Fidget with the USB opt-in**; the
+Fidget keeps the offer and sends its owner to the website instead. The key
+table holds two official keys: `cf-release-1`, which signs every release
+(so `FIRMWARE_SIGNING_KEY_ID` is normally `cf-release-1`), and `cf-backup-1`, which never
+signs routinely. Both private keys are kept outside the repository.
 
-1. Add the release public key **and a backup public key**, with different
-   ids, to the key table in `lib/CloudSync/UpdateSigning.cpp`. Keep both
-   private keys outside the repository.
-2. Publish the first release that carries those public keys **unsigned**
-   (leave `FIRMWARE_SIGNING_KEY` unset). A signed one would be refused by
-   every Fidget, because none of them knows the key yet.
-3. Only after that release is out, set `FIRMWARE_SIGNING_KEY` and
-   `FIRMWARE_SIGNING_KEY_ID` so later releases are signed. A Fidget still on
-   older firmware without the keys refuses signed releases over WiFi; it
-   needs one update from the website over USB.
+A Fidget on firmware from before these keys were built in does not know
+`cf-release-1`, so it cannot take signed releases over WiFi. Its owner sees
+the website message, and one update from the website over USB installs
+firmware that has the keys; later releases then install over WiFi.
 
-The same rule applies to every new key id later: it must first ship inside a
+Every new key id follows the same rule: it must first ship inside a
 release signed by an id Fidgets already trust, and only then may anything be
-signed with it.
+signed with it. Until that release is out, Fidgets that do not have it yet
+treat anything signed with the new id as an unknown key.
 
 **Key rotation.** The backup key is what makes rotation possible. If the
 release key is lost or exposed, sign an update with the backup key, which
-Fidgets already trust; that update removes the bad public key from the table
-and can add a replacement. Then follow the rule above before signing with
+Fidgets already trust: set `FIRMWARE_SIGNING_KEY` to the backup private key
+and `FIRMWARE_SIGNING_KEY_ID` to `cf-backup-1` for that one release (the
+`sign` job checks it against the backup public key the same way). That update
+removes the bad public key from the table and can add a replacement. Then follow the rule above before signing with
 the replacement. Never use the test key (`test-only-1`, known only to test
 builds) as `FIRMWARE_SIGNING_KEY`.
 

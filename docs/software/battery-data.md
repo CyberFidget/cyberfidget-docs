@@ -29,12 +29,14 @@ The Fidget sends its record only when all of these are true:
 
 So it sends at most about once a day. If a send fails, nothing is lost: the Fidget tries again at a later automatic check-in and sends everything the site has not yet accepted. The website accepts at most one new report from the same Fidget every 20 hours.
 
+Each report starts with the **oldest** records the site has not accepted yet. A Fidget that was offline for weeks therefore catches up over a few daily reports instead of skipping its older records. The Fidget holds up to 3,072 records; if it goes long enough without sharing that older unsent records are overwritten, the next report says that some are missing.
+
 ### What is included
 
-- **Battery records** added since the last report the site accepted, up to 1,024 of them (more than a full day awake). Each has a record number, the battery voltage, charge percentage and charging rate, and what happened: a start, a daily check-in, a reading taken while awake, going to sleep, or a low-battery shutdown. Depending on the kind, it also holds why the Fidget woke, how many check-ins it has made, or how long it had been on.
+- **Battery records** added since the last report the site accepted, oldest first, up to 1,024 of them (more than a full day awake). Each has a record number, the battery voltage, charge percentage and charging rate, and what happened: a start, a daily check-in, a reading taken while awake, going to sleep, or a low-battery shutdown. Depending on the kind, it also holds why the Fidget woke, how many check-ins it has made, or how long it had been on.
 - **Running totals**: how many times it has started and checked in, total time on, approximate charge cycles, the lowest and highest battery voltage seen, and how many records were written or lost.
 - The Fidget's **device identifier** (12 characters derived from its hardware address), its hardware address itself, and its **firmware version**.
-- The time it was sent, and whether older records were missing from this report.
+- The time it was sent, and whether this report is incomplete: older records were lost before they could be sent, or more are waiting for the next report.
 
 ### What is not included
 
@@ -45,6 +47,8 @@ So it sends at most about once a day. If a send fails, nothing is lost: the Fidg
 ### Turn it off
 
 Open **Settings > Updates** and select **Share battery data: On** to turn it off. It stops future reports right away. Reports already sent are kept; to have them deleted, contact Cyber Fidget as described on the [privacy page](https://cyberfidget.com/privacy/).
+
+**Reset to factory** on the Fidget, or **Erase everything and reinstall** on the website, erases the battery record on the Fidget and turns **Share battery data** back off. Reports already sent are not affected. See [Update or reset your Fidget](updating.md).
 
 ## The browser question
 

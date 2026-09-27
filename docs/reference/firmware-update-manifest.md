@@ -3,14 +3,17 @@
 The website serves an **update manifest** - a JavaScript Object Notation
 (JSON) document identifying one app-only firmware image for Cyber Fidget.
 This page describes the response available today from
-`/update/firmware.php?manifest=1`. Over-the-air (OTA) installation over
-a wireless network is currently limited to Fidgets opted in over USB for
-the [test ring](serial-commands.md#letting-a-fidget-install-updates-over-wifi-test-ring).
+`/update/firmware.php?manifest=1`. A Fidget installs a signed official
+release over a wireless network (over-the-air, OTA) when its firmware knows
+the signing key; an unsigned image installs that way only on a Fidget opted in
+over USB for the [test ring](serial-commands.md#letting-a-fidget-install-updates-over-wifi-test-ring)
+(see [Signature fields](#signature-fields)).
 Product controls use "update"; "manifest" is the technical name for the document.
 
 The release process attaches `firmware.bin` and `release-info.json` to a
-GitHub release, and, when the release is signed, `firmware.bin.sig` and
-`firmware.bin.sig.keyid` (see [Signature fields](#signature-fields)). The
+GitHub release, plus `firmware.bin.sig` and `firmware.bin.sig.keyid`
+(see [Signature fields](#signature-fields)); the official release process
+publishes only signed releases. The
 website validates the assets and returns a manifest
 whose `url` points back to the website's `?app=1` binary route. This is
 separate from the site's older merged-image install manifest at `?parts=1`.
@@ -25,7 +28,7 @@ parameters change the selection:
 | Parameter | Shipped behavior |
 |-----------|------------------|
 | `repo=owner/name` | Select a public GitHub repository. Omit for the official repository. Other hosts and arbitrary manifest URLs are not accepted. |
-| `channel=stable` or `channel=rc` | Select the stable channel by default, or allow prereleases with `rc`. The response reports the selected release's actual channel. |
+| `channel=stable` or `channel=rc` | Select the stable channel by default, or allow prereleases with `rc`. The response reports the selected release's actual channel. A Fidget asks for `rc` when **Settings > Updates > Versions** is **Test** (the default on a Fidget running a prerelease), and `stable` otherwise. |
 | `tag=...` | Select a specific published tag. If `channel` is also supplied, it must match that release's channel. |
 
 For a fork, `source` identifies the chosen repository. The website fetches
@@ -111,14 +114,31 @@ What the Fidget does with them:
 |----------|--------|
 | Neither field | Treated as unsigned. It installs over WiFi only on a Fidget opted in over USB with `upd allow-unsigned on` (see [Serial commands](serial-commands.md#letting-a-fidget-install-updates-over-wifi-test-ring)). |
 | Only one field, or a field that breaks the rules | The whole manifest is invalid. The offer is withdrawn and nothing is downloaded. |
-| Both fields, `key_id` not built into this firmware | Not installed over WiFi, even with the USB opt-in. The offer is kept (not marked as failed), and the Fidget directs the owner to install from the website. |
+| Both fields, `key_id` not built into this firmware | Not installed over WiFi, even with the USB opt-in. The offer is kept (not marked as failed), and the Fidget sends the owner to install it from the website, which also brings the newer keys. |
 | Both fields, known `key_id` | The Fidget downloads the image, checks its length and SHA-256 against the manifest, then checks `sig` against that digest with the named public key, before it switches to the new image. A signature that does not match gives **This update could not be verified. Nothing changed.**; a matching one installs without the USB opt-in. |
 
 A version whose signature does not match a known key is remembered, so it is not offered
-automatically again on that Fidget. Release firmware has no official public
-keys built in yet, so today every `key_id` is unknown to a release build.
-Test builds (with `CF_TEST_CLI`) also know a throwaway test key,
-`test-only-1`, which release builds always refuse.
+automatically again on that Fidget. Release firmware has two official public
+keys built in, in `lib/CloudSync/UpdateSigning.cpp`: `cf-release-1`, which
+signs every official release, and `cf-backup-1`, kept for replacing the
+release key (see [Key rollout order](release-process.md#key-rollout-order)).
+Firmware from before those keys were built in knows neither, so it treats
+official releases as signed with an unknown key. Test builds (with
+`CF_TEST_CLI`) also know a throwaway test key, `test-only-1`, which release
+builds always refuse.
+
+### When a Fidget reads the manifest
+
+A Fidget does not download the image when it reads the manifest; it only
+decides what to offer. A check the owner starts reads the manifest every
+time. An automatic check-in reads it when the check-in reply hints at a
+firmware update, and otherwise when the last answered read is at least 20
+hours old (or the clock is not set), so a Fidget with nothing else pending
+still hears about a new release within about a day. In Dev mode it reads the
+manifest only on a hinted update, at most once an hour, and not ahead of an
+app waiting to be delivered, unless the owner chooses **Check for updates**.
+Every read also needs enough of the check-in's time left; it never extends
+the check-in.
 
 ## Validation and download
 
