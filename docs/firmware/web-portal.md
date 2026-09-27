@@ -101,27 +101,26 @@ Two parts make it work:
 
 ### OLED display
 
-While the portal is running, the 128x64 OLED shows:
+While the portal is running, the 128x64 OLED shows how to join, with one status line at the bottom. The title is **CyberFidget Web** for the portal from the Tools menu, and **Setup WiFi** when it was opened from **Settings > Setup WiFi**:
 
-```
-┌────────────────────────────────┐
-│ ===== CyberFidget Web ======== │
-│ AP: 192.168.4.1                │
-│ HomeNet 192.168.1.42           │
-│ cyberfidget.local              │
-│ 42 files | 2 clients           │
-└────────────────────────────────┘
-```
+![Setup WiFi screen: Join CyberFidget, Password, the 8 digits, and BACK to finish](../assets/portal/setup-wifi.png){ width="384" }
 
-If not connected to a WiFi network, lines 3-4 show "WiFi: not connected" and the file count instead.
+The 8 digits are the portal's WiFi password (a new one each time the portal starts, so the one in this picture will never work). The bottom line says what is happening:
 
-The `cyberfidget.local` line only appears while the name service (mDNS) is actually running -- if it failed to start, the line is hidden so the screen never shows an address that won't resolve.
+| Bottom line | When |
+|---|---|
+| **Pick network on phone** | Setup WiFi, before you have chosen your home network |
+| **Connecting...** | Setup WiFi, while the Fidget joins the network you picked |
+| **BACK to finish** | Setup WiFi, once the Fidget has joined. Back leaves the portal |
+| **cyberfidget.local** (or the Fidget's home-network address) | Tools portal, when the Fidget is also on your home WiFi. The name only shows while the name service (mDNS) is running; otherwise the address shows, so the screen never shows a name that won't resolve |
+| **192.168.4.1** | Tools portal, when the Fidget is not on a home network |
+| **No memory card** | Tools portal without an SD card (Setup WiFi does not need one) |
+| **Uploading NN%** | While a file uploads |
+| **Open 192.168.4.1** | A phone or computer joined the Fidget's network but opened no portal page within about 10 seconds. It takes turns with the usual line (3 seconds each), so the way out stays on screen |
 
-During uploads, the bottom line shows a progress bar.
+![Setup WiFi screen with the bottom line reading Open 192.168.4.1](../assets/portal/setup-wifi-open-address.png){ width="384" }
 
-When the portal was opened from **Settings > Setup WiFi**, the screen is titled **Setup WiFi** instead and only says what to do next: join the "CyberFidget" WiFi on your phone and pick your network, then **Connected to** and the network name once it has joined. **BACK to finish** leaves the portal. Setup WiFi does not need a memory card.
-
-If a phone or computer has joined the Fidget's network but no portal page has been opened about 10 seconds later, the bottom line of the screen (on Setup WiFi and on the regular portal screen) changes to **Open 192.168.4.1**. Type that address into a browser on the device that joined. The line goes back to normal as soon as the portal page is opened.
+When you see **Open 192.168.4.1**, type that address into a browser on the device that joined. As soon as the portal page is opened, the bottom line goes back to the usual line and stays there.
 
 ---
 
@@ -358,7 +357,7 @@ A Cyber Fidget remembers up to **three** WiFi networks. It needs one for its che
 **Settings > Setup WiFi** on the Fidget opens the portal straight on its WiFi page. It works without a memory card.
 
 1. On the Fidget, open **Settings > Setup WiFi**. The screen says **Join CyberFidget** and shows the portal's 8-digit **Password** with **Pick network on phone** at the bottom.
-2. On your phone or laptop, join the "CyberFidget" WiFi network and type the 8 digits shown on the Fidget's screen (see [The portal's WiFi password](#the-portals-wifi-password)). A "sign in to network" page opens by itself and shows the portal on its WiFi settings, with a note to pick your network and enter its password, and the nearby networks already listed. If nothing opens within about 10 seconds, the bottom line of the Fidget's screen changes to **Open 192.168.4.1**: browse to `http://192.168.4.1` on the phone or laptop.
+2. On your phone or laptop, join the "CyberFidget" WiFi network and type the 8 digits shown on the Fidget's screen (see [The portal's WiFi password](#the-portals-wifi-password)). A "sign in to network" page opens by itself and shows the portal on its WiFi settings, with a note to pick your network and enter its password, and the nearby networks already listed. If nothing opens within about 10 seconds, the bottom line of the Fidget's screen starts showing **Open 192.168.4.1** (in turns with the usual line): browse to `http://192.168.4.1` on the phone or laptop.
 3. Pick your home network, enter **its** password (not the Fidget's digits), and select **Connect**. The bottom line of the Fidget's screen says **Connecting...**, then **BACK to finish** once it has joined.
 4. Press Back on the Fidget and confirm **Exit portal?**. It restarts, as the portal always does, and is ready to check in.
 
