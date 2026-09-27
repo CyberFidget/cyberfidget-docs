@@ -83,9 +83,18 @@ Saved networks (up to three) are stored in NVS (non-volatile storage), the devic
 
 ### Captive portal
 
-Uses `DNSServer` to redirect **all** DNS queries to `192.168.4.1`. When a phone connects to the AP, its OS sends connectivity-check requests which hit our web server, triggering the "Sign in to WiFi" popup.
+A captive portal is a WiFi network that sends every new visitor to its own page first, like a hotel or cafe sign-in page. When a phone or computer joins a network, its operating system asks for a known test address to check whether the network has internet. If the answer is not what it expects, it opens a "sign in to network" page by itself. The Fidget uses that to open the portal without anyone typing an address.
 
-The `onNotFound()` handler redirects unknown URLs to `/` — this catches captive portal detection from iOS, Android, Windows, and macOS.
+Two parts make it work:
+
+- **Name lookups (DNS).** The Domain Name System (DNS) turns names like `www.msftconnecttest.com` into network addresses. On its own network, the Fidget answers every name lookup for an IPv4 address with its own address, `192.168.4.1`. It answers the same way when the lookup carries the Extension Mechanisms for DNS (EDNS), which Android, Apple devices and many browsers add. Lookups for other record types (for example IPv6 addresses) get an empty answer, so a device never receives an IPv4 address where it asked for something else. The responder (`lib/WebPortalApp/CaptiveDns.h`) listens only on the Fidget's own network and stops completely when the portal closes.
+- **Network checks.** The operating system's test requests reach the Fidget's web server, and each gets a redirect to the portal page instead of the answer that would mean "you are online": Windows `/connecttest.txt` and `/redirect`, Apple `/hotspot-detect.html`, Android `/generate_204`. The `onNotFound()` handler redirects any other unknown address to `/` as well.
+
+!!! note "Why the Fidget answers name lookups itself"
+    Earlier firmware used the Arduino framework's `DNSServer`. It answered "no such name" to any lookup that carried EDNS, and answered IPv6 and similar lookups with an IPv4 record, so some phones and browsers never opened the sign-in page. The Fidget now uses its own small responder.
+
+!!! tip "A computer that also has a wired connection"
+    While a Windows computer is joined to the Fidget's network, Windows sends all its name lookups to the Fidget, which answers every one with its own address. On a computer that also has a wired (Ethernet) connection, other internet traffic may misbehave until the computer leaves the Fidget's network, and Windows may open its sign-in window over the wired connection instead (see [Common issues](#common-issues)). Leave the Fidget's network when you are done.
 
 !!! note "Android captive portal browser limitations"
     Android's "Sign in" mini-browser doesn't support file picker inputs. A banner detects this and prompts users to open `192.168.4.1` in their full browser (Chrome, etc.) where file upload works normally.
@@ -111,6 +120,8 @@ The `cyberfidget.local` line only appears while the name service (mDNS) is actua
 During uploads, the bottom line shows a progress bar.
 
 When the portal was opened from **Settings > Setup WiFi**, the screen is titled **Setup WiFi** instead and only says what to do next: join the "CyberFidget" WiFi on your phone and pick your network, then **Connected to** and the network name once it has joined. **BACK to finish** leaves the portal. Setup WiFi does not need a memory card.
+
+If a phone or computer has joined the Fidget's network but no portal page has been opened about 10 seconds later, the bottom line of the screen (on Setup WiFi and on the regular portal screen) changes to **Open 192.168.4.1**. Type that address into a browser on the device that joined. The line goes back to normal as soon as the portal page is opened.
 
 ---
 
@@ -347,7 +358,7 @@ A Cyber Fidget remembers up to **three** WiFi networks. It needs one for its che
 **Settings > Setup WiFi** on the Fidget opens the portal straight on its WiFi page. It works without a memory card.
 
 1. On the Fidget, open **Settings > Setup WiFi**. The screen says **Join CyberFidget** and shows the portal's 8-digit **Password** with **Pick network on phone** at the bottom.
-2. On your phone or laptop, join the "CyberFidget" WiFi network and type the 8 digits shown on the Fidget's screen (see [The portal's WiFi password](#the-portals-wifi-password)). The portal opens on its WiFi settings, with a note to pick your network and enter its password, and the nearby networks already listed. If nothing opens, browse to `http://192.168.4.1`.
+2. On your phone or laptop, join the "CyberFidget" WiFi network and type the 8 digits shown on the Fidget's screen (see [The portal's WiFi password](#the-portals-wifi-password)). A "sign in to network" page opens by itself and shows the portal on its WiFi settings, with a note to pick your network and enter its password, and the nearby networks already listed. If nothing opens within about 10 seconds, the bottom line of the Fidget's screen changes to **Open 192.168.4.1**: browse to `http://192.168.4.1` on the phone or laptop.
 3. Pick your home network, enter **its** password (not the Fidget's digits), and select **Connect**. The bottom line of the Fidget's screen says **Connecting...**, then **BACK to finish** once it has joined.
 4. Press Back on the Fidget and confirm **Exit portal?**. It restarts, as the portal always does, and is ready to check in.
 
@@ -375,6 +386,8 @@ The flash increase is primarily ESPAsyncWebServer + WiFi libraries + ESPmDNS + t
 | `lib/WebPortalApp/WebPortalApp.h` | ~80 | Class declaration (AP+STA, mDNS) |
 | `lib/WebPortalApp/WebPortalApp.cpp` | ~1000 | App lifecycle, WiFi STA, API routes, ID3 reader, OLED render |
 | `lib/WebPortalApp/portal_page.h` | ~950 | PROGMEM SPA (HTML + CSS + JS + Settings page) |
+| `lib/WebPortalApp/CaptiveDns.h` | | Name-lookup (DNS) responder for the Fidget's own network |
+| `lib/WebPortalApp/OpenAddressHint.h` | | When the screen shows **Open 192.168.4.1** |
 | `scripts/add_network_lib.py` | ~35 | PlatformIO pre-build script for Network library |
 
 ### Network library linkage
@@ -389,7 +402,9 @@ pioarduino's ESP32 Arduino 3.x core split the WiFi library into `WiFi` + `Networ
 |---------|-------|-----|
 | My phone will not join the "CyberFidget" network | The portal's password is new every time the portal starts, so a saved or earlier password no longer works | Type the 8 digits shown on the Fidget's screen now. If your phone saved the network, forget it on the phone and join again |
 | "Sign in to WiFi" browser can't upload files | Android captive portal WebView has restricted file input | Open `192.168.4.1` in Chrome/Firefox instead |
-| Portal page doesn't load | DNS redirect failed | Manually navigate to `http://192.168.4.1` |
+| Portal page doesn't open by itself | The device did not show its "sign in to network" page | Browse to `http://192.168.4.1`. The Fidget's screen shows **Open 192.168.4.1** when a device has joined but no portal page was opened within about 10 seconds |
+| Windows opens msn.com (or another site) instead of the portal | The computer also has a wired connection, and Windows opened its sign-in window over that connection | Browse to `http://192.168.4.1`, or unplug the wired connection while you use the portal |
+| Other websites stop working on a computer while it is on the Fidget's network | Windows sends all name lookups to the Fidget while joined to its network | Expected; leave the Fidget's network (or exit the portal) when you are done |
 | Upload fails with 507 | SD card full | Delete files to free space |
 | BT speaker won't reconnect after portal | Portal exit was interrupted before the automatic restart | Exit the portal (confirm the prompt) and let the restart finish, then open the Music Player |
 | `idx.txt` showing in file list | Music index cache file | Filtered out in `/api/files` and `/api/tracks` |

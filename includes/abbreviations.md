@@ -11,6 +11,10 @@
 *[CF_TEST_CLI]: Firmware build option that includes extra device testing commands
 *[baud]: Serial connection speed, measured in transmitted symbols per second
 *[CSS]: Cascading Style Sheets
+*[DNS]: Domain Name System; turns names like cyberfidget.com into network addresses
+*[EDNS]: Extension Mechanisms for DNS; extra options many phones and browsers add to a name lookup
+*[IPv4]: Internet Protocol version 4; the familiar four-number network address, like 192.168.4.1
+*[IPv6]: Internet Protocol version 6; the newer, longer kind of network address
 *[DOM]: Document Object Model
 *[DER]: Distinguished Encoding Rules; a compact binary layout used here for a digital signature
 *[ECDSA]: Elliptic Curve Digital Signature Algorithm; the signing method used for official firmware updates
