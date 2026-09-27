@@ -6,7 +6,7 @@ The Web Portal turns the CyberFidget into a WiFi access point with a captive por
 
 ## What is this?
 
-Connect your phone to the "CyberFidget" WiFi network and a web portal opens automatically (captive portal). No app installs, no IP addresses to remember. From there you can:
+Connect your phone to your Fidget's own WiFi network (named `CyberFidget-` plus 4 characters, shown on its screen) and a web portal opens automatically (captive portal). No app installs, no IP addresses to remember. From there you can:
 
 1. **Upload** MP3 files via drag-and-drop
 2. **Browse** your music library with real ID3 metadata (title, artist, album)
@@ -17,7 +17,9 @@ Connect your phone to the "CyberFidget" WiFi network and a web portal opens auto
 
 ### The portal's WiFi password
 
-The "CyberFidget" network has a password, so nobody nearby can join it without seeing your Fidget. The Fidget's screen shows it under **Join CyberFidget** and **Password**:
+Each Fidget's network has its own name: `CyberFidget-` followed by 4 characters, for example `CyberFidget-0b50`. The Fidget's screen shows it after **Join** (for example **Join CyberFidget-0b50**). The 4 characters are the same ones the website shows for that Fidget (in **Your Fidgets**, for example), so with several Fidgets in one room each phone joins the right one.
+
+The network has a password, so nobody nearby can join it without seeing your Fidget. The Fidget's screen shows it under the **Join** line, after **Password**:
 
 - It is **8 digits** with no space (for example `12345678`). Type them exactly as shown.
 - It is **new every time the portal starts**. A phone that joined last time will not reconnect by itself; type the new digits shown now.
@@ -29,7 +31,7 @@ The "CyberFidget" network has a password, so nobody nearby can join it without s
 ## How it works
 
 ```
-Phone → Connects to "CyberFidget" WiFi AP
+Phone → Connects to "CyberFidget-xxxx" WiFi AP (xxxx = 4 characters on the screen)
      → Captive portal auto-opens browser at 192.168.4.1
      → SPA loads (HTML/CSS/JS served from ESP32 flash)
      → API calls read/write files on the SD card
@@ -73,7 +75,7 @@ Menu → "CyberFidget Portal" → AppManager::switchToApp(APP_WEB_PORTAL)
 
 The portal runs in **AP+STA dual mode** (`WIFI_AP_STA`):
 
-- **Access Point** — "CyberFidget" network is always available. Any device can connect directly and access the portal at `192.168.4.1`.
+- **Access Point** -- the Fidget's own network, `CyberFidget-` plus the 4 characters shown on its screen, is always available. Any device can connect directly and access the portal at `192.168.4.1`.
 - **Station** — If you have saved a WiFi network, the CyberFidget also joins it. This makes the portal accessible at `cyberfidget.local` or the device's LAN IP from any device on your network. The portal joins the first saved network straight away, without scanning, so its own network stays responsive while it starts.
 
 Saved networks (up to three) are stored in NVS (non-volatile storage), the device's small settings area in flash, and survive restarts. See [Saved WiFi networks](#saved-wifi-networks) for how they are ordered and managed.
@@ -103,9 +105,9 @@ Two parts make it work:
 
 While the portal is running, the 128x64 OLED shows how to join, with one status line at the bottom. The title is **CyberFidget Web** for the portal from the Tools menu, and **Setup WiFi** when it was opened from **Settings > Setup WiFi**:
 
-![Setup WiFi screen: Join CyberFidget, Password, the 8 digits, and BACK to finish](../assets/portal/setup-wifi.png){ width="384" }
+![Setup WiFi screen: Join CyberFidget-0b50, Password, the 8 digits, and BACK to finish](../assets/portal/setup-wifi.png){ width="384" }
 
-The 8 digits are the portal's WiFi password (a new one each time the portal starts, so the one in this picture will never work). The bottom line says what is happening:
+The 4 characters after `CyberFidget-` are different on each Fidget (this one is `0b50`). The 8 digits are the portal's WiFi password (a new one each time the portal starts, so the one in this picture will never work). The bottom line says what is happening:
 
 | Bottom line | When |
 |---|---|
@@ -117,8 +119,6 @@ The 8 digits are the portal's WiFi password (a new one each time the portal star
 | **No memory card** | Tools portal without an SD card (Setup WiFi does not need one) |
 | **Uploading NN%** | While a file uploads |
 | **Open 192.168.4.1** | A phone or computer joined the Fidget's network but opened no portal page within about 10 seconds. It takes turns with the usual line (3 seconds each), so the way out stays on screen |
-
-![Setup WiFi screen with the bottom line reading Open 192.168.4.1](../assets/portal/setup-wifi-open-address.png){ width="384" }
 
 When you see **Open 192.168.4.1**, type that address into a browser on the device that joined. As soon as the portal page is opened, the bottom line goes back to the usual line and stays there.
 
@@ -334,7 +334,7 @@ page provides the **Network** controls:
 - **WiFi Connection** -- the current connection state, network name, address, and, when it is running, `cyberfidget.local`
 - **Saved networks** -- the networks the Fidget remembers, by name only (passwords are never shown). The first is marked **Tried first**; every other one has **Use this first**. Each has **Forget**, which asks `Forget <name>?` before removing it
 - **Available Networks** -- nearby networks with signal-strength bars and a **Locked** label for ones that need a password. **Scan again** refreshes the list. Pick one, enter its password (leave it empty for an open network), and select **Connect**. The network is saved as the first one to try, and the Fidget connects to it
-- **Its own network** -- the always-available "CyberFidget" network and its address, `192.168.4.1`
+- **Its own network** -- the always-available `CyberFidget-` network (plus the 4 characters shown on the Fidget's screen) and its address, `192.168.4.1`
 
 The companion's **Settings** page contains **Transcription** controls and
 **Your data**, including the companion version currently served by the device.
@@ -356,8 +356,8 @@ A Cyber Fidget remembers up to **three** WiFi networks. It needs one for its che
 
 **Settings > Setup WiFi** on the Fidget opens the portal straight on its WiFi page. It works without a memory card.
 
-1. On the Fidget, open **Settings > Setup WiFi**. The screen says **Join CyberFidget** and shows the portal's 8-digit **Password** with **Pick network on phone** at the bottom.
-2. On your phone or laptop, join the "CyberFidget" WiFi network and type the 8 digits shown on the Fidget's screen (see [The portal's WiFi password](#the-portals-wifi-password)). A "sign in to network" page opens by itself and shows the portal on its WiFi settings, with a note to pick your network and enter its password, and the nearby networks already listed. If nothing opens within about 10 seconds, the bottom line of the Fidget's screen starts showing **Open 192.168.4.1** (in turns with the usual line): browse to `http://192.168.4.1` on the phone or laptop.
+1. On the Fidget, open **Settings > Setup WiFi**. The screen says **Join CyberFidget-** plus 4 characters (for example **Join CyberFidget-0b50**) and shows the portal's 8-digit **Password** with **Pick network on phone** at the bottom.
+2. On your phone or laptop, join the WiFi network with the name shown on the Fidget's screen and type the 8 digits shown on the Fidget's screen (see [The portal's WiFi password](#the-portals-wifi-password)). A "sign in to network" page opens by itself and shows the portal on its WiFi settings, with a note to pick your network and enter its password, and the nearby networks already listed. If nothing opens within about 10 seconds, the bottom line of the Fidget's screen starts showing **Open 192.168.4.1** (in turns with the usual line): browse to `http://192.168.4.1` on the phone or laptop.
 3. Pick your home network, enter **its** password (not the Fidget's digits), and select **Connect**. The bottom line of the Fidget's screen says **Connecting...**, then **BACK to finish** once it has joined.
 4. Press Back on the Fidget and confirm **Exit portal?**. It restarts, as the portal always does, and is ready to check in.
 
@@ -399,7 +399,8 @@ pioarduino's ESP32 Arduino 3.x core split the WiFi library into `WiFi` + `Networ
 
 | Symptom | Cause | Fix |
 |---------|-------|-----|
-| My phone will not join the "CyberFidget" network | The portal's password is new every time the portal starts, so a saved or earlier password no longer works | Type the 8 digits shown on the Fidget's screen now. If your phone saved the network, forget it on the phone and join again |
+| My phone will not join the Fidget's network | The portal's password is new every time the portal starts, so a saved or earlier password no longer works | Type the 8 digits shown on the Fidget's screen now. If your phone saved the network, forget it on the phone and join again |
+| Several Fidgets nearby | Each Fidget's network has its own name, `CyberFidget-` plus 4 characters | Join the name shown on your own Fidget's screen. If two nearby Fidgets ever show the same name, exit the portal on one of them |
 | "Sign in to WiFi" browser can't upload files | Android captive portal WebView has restricted file input | Open `192.168.4.1` in Chrome/Firefox instead |
 | Portal page doesn't open by itself | The device did not show its "sign in to network" page | Browse to `http://192.168.4.1`. The Fidget's screen shows **Open 192.168.4.1** when a device has joined but no portal page was opened within about 10 seconds |
 | Windows opens msn.com (or another site) instead of the portal | The computer also has a wired connection, and Windows opened its sign-in window over that connection | Browse to `http://192.168.4.1`, or unplug the wired connection while you use the portal |
