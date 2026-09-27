@@ -64,8 +64,15 @@ The reset is refused, and nothing is erased, when:
 | **Finish update first** | A newly installed firmware version has not finished its first start yet (see [Updates](updates.md#what-you-will-see-afterward)). | Let the Fidget finish starting, then try again. |
 | **Update is starting** | An update is about to start. | Let the update finish, then try again. |
 | **Check is still busy**, **WiFi did not stop** or **Bluetooth is busy** | Something was still using the network or radio. | Try again in a moment. |
+| **Could not start the reset. Nothing was erased.** | The Fidget could not safely record that a reset had started. | Try again. |
 
-If the Fidget says **Could not erase apps**, it could not clear its app storage and leaves the settings in place; try again. Afterward, set up WiFi again with **Settings > Setup WiFi**, and [link the Fidget](link-your-fidget.md) again to get changes from your account.
+If the Fidget says **Could not erase apps**, it could not clear its app storage and leaves the settings in place for now; the next time the Fidget starts, it finishes the reset by itself (see below).
+
+If the power is cut during a reset (for example the battery runs out), nothing is left half done: the next time the Fidget starts, it shows **Finishing reset...**, completes the reset, and restarts like new. If the Fidget has just installed a new firmware version and is still finishing its first start, the reset waits until that is done.
+
+If the reset could not erase the apps even then, the Fidget erases everything else and, on its next start, says **The reset could not erase apps. Run Reset to factory again.** Do that; your apps and menu may still be there until it succeeds.
+
+Afterward, set up WiFi again with **Settings > Setup WiFi**, and [link the Fidget](link-your-fidget.md) again to get changes from your account.
 
 ## Erase everything and reinstall (on the website)
 
