@@ -55,7 +55,7 @@ To reset:
 
 1. Open **Settings > Reset to factory**. The screen says **Erase everything?** and lists what goes and what stays.
 2. Hold **Enter** for three seconds. A bar fills while you hold; letting go early empties it again. Press **Back** to leave without erasing.
-3. The Fidget shows **Erasing...**, then restarts like new.
+3. The Fidget shows **Erasing...**, then restarts like new. The main menu shows only the built-in entries (Screensavers, Games, Tools, Examples, Media, Status, Settings and Check for updates).
 
 The reset is refused, and nothing is erased, when:
 

@@ -18,6 +18,8 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **CORS** | Cross-Origin Resource Sharing — browser rules that block loading WASM from `file://` URLs. |
 | **CSS** | Cascading Style Sheets — used to style the emulator (LEDs, layout). |
 | **DOM** | Document Object Model — the browser's representation of the page (buttons, canvas). |
+| **DNS** | Domain Name System - turns names like cyberfidget.com into network addresses. On its own WiFi network the Fidget answers every name lookup with its own address, which is how the portal's sign-in page opens by itself. |
+| **EDNS** | Extension Mechanisms for DNS - extra options many phones and browsers add to a name lookup. The Fidget's portal answers lookups with or without them. |
 | **DER** | Distinguished Encoding Rules - a compact binary layout; firmware update signatures use it before being written as base64 text. |
 | **DIO** | Dual input/output - a flash mode accepted in release metadata. |
 | **ECDSA** | Elliptic Curve Digital Signature Algorithm - the method used to sign firmware updates, so a Fidget can check that an update came from Cyber Fidget. |
@@ -30,6 +32,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **I2S** | Inter-IC Sound — digital audio bus used for the speaker amplifier and MEMS microphone. |
 | **IDE** | Integrated Development Environment — e.g. the App Builder on the website. |
 | **GPU** | Graphics Processing Unit — when the phone's browser exposes it, the companion transcribes speech much faster. |
+| **IPv4 / IPv6** | Internet Protocol version 4 / version 6 - the two kinds of network address. IPv4 is the familiar four-number form, like `192.168.4.1`; IPv6 is the newer, longer form. |
 | **IndexedDB** | Browser storage used to cache compiled WASM and the phone companion's one-time transcription download. |
 | **JS** | JavaScript. |
 | **JSON** | JavaScript Object Notation - a structured text format for storing data. |
