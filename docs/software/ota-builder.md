@@ -58,6 +58,28 @@ it would be editing your work without asking.
 
 ---
 
+## When generating does not work
+
+**A failed generate keeps your prompt.** The message offers **Retry** to send the same request again and **Copy prompt** to take the text elsewhere, so you never have to retype it.
+
+**Drafts are kept in this browser** until a generate succeeds, so closing the tab or reloading does not lose a request you were still writing.
+
+**An empty reply is explained.** If the model sends back no code, the App Builder says why when it can -- for example, the model used its whole budget thinking before it wrote anything. Try again, or pick a different model.
+
+### Choosing a model
+
+The App Builder recommends these models (a model is the code generator a provider runs; bigger ones are slower and more capable):
+
+| Provider | Recommended models |
+| --- | --- |
+| Anthropic | Claude Opus 5.5, Claude Sonnet 5, Claude Haiku 4.5 |
+| OpenAI | GPT-6 Astra, GPT-6 Sol, GPT-6 Luna |
+| Google | Gemini 3.1 Pro, Gemini 3.8 Flash, Gemini 3.5 Flash Lite |
+
+If you use your own provider key (an API key from Anthropic, OpenAI, or Google), **More models from your key** lists every model that key can use, fetched live from the provider, with the recommended ones first.
+
+---
+
 ## Compile vs Emulator
 
 | Action | What it does | Speed |

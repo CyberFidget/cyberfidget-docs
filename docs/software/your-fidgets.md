@@ -19,6 +19,27 @@ For a linked Fidget, the tab shows its name, board, firmware version, last check
 
 The **Device** card lists the changes waiting for that Fidget (new apps, new versions, hidden or shown apps, menu order). A linked Fidget receives them the next time it checks in; see [Updates](updates.md#when-it-checks). A Fidget only this browser knows receives them when you plug it in over USB, or once you link it (**Link it to your account**).
 
+## On the My Fidget page
+
+The [My Fidget](https://cyberfidget.com/my-fidget/) page shows a card for each Fidget, with one status line:
+
+| Status line | Meaning |
+| --- | --- |
+| **Plugged in - changes send instantly** | The Fidget is connected over USB, so changes go straight to it. |
+| **N changes waiting - picks them up at its next check-in** | Changes are queued for a linked Fidget; it collects them over WiFi. |
+| **Up to date** | Nothing is waiting. |
+| **Hasn't checked in since** ... | The Fidget has not checked in for a while; the line gives the date. |
+
+If you plug in a different Fidget from the one on screen, the page says **Another Fidget (xxxx) is plugged in**, with the last four characters of its ID. Choose **Show it** to switch to that Fidget, or **Not now** to stay where you are.
+
+**Send to my Fidget** sends your changes over USB. It never restarts a Fidget the page already recognises. If the Fidget is busy with its own WiFi check-in, the page waits, then checks whether the Fidget already received the changes that way before sending them again.
+
+To use a Fidget without the cable, see [Link it from the My Fidget page](link-your-fidget.md#link-it-from-the-my-fidget-page).
+
+### Arrange the menu
+
+The menu you arrange on **My Fidget** uses the same sections as the Fidget's own menu. Installed apps can be moved out of their section to the top level, where they appear under **Apps**. Built-in apps always stay in a section. If you place installed apps at the top level in more than one run, the later runs show as **Apps (continued)** until the Fidget regroups them.
+
 ## Rename
 
 Choose **Rename**, type a new name, and select **Save**. Names can be 1 to 24 characters. For a linked Fidget the new name is saved to your account and this browser uses it too; for a Fidget only this browser knows, only this browser's copy changes.
