@@ -41,6 +41,10 @@ The file commands below use paths inside `/apps/` or `/assets/`. CRC-32 is a che
 | `lapply <len> <crc32>` | `[cmd] lapply.ok=applied <n> entries <n>` |
 | `syncinfo` | `[cmd] syncinfo.fs_total=<n> fs_used=<n> fs_free=<n>`, `[cmd] syncinfo.manifest=<0\|1> entries=<n> schema=<n>`, `[cmd] syncinfo.id=<12 hex digits>`, `[cmd] syncinfo.lapply=<capability>`; ends with `[cmd] syncinfo.fw=<firmware-version>` |
 
+### Sync sessions and a busy Fidget
+
+While a USB sync is active, the Fidget holds off its own WiFi check-ins until about 10 seconds after the last sync command. If a write arrives while the Fidget is busy (for example, in the middle of a WiFi check-in), it waits up to 5 seconds for that to finish before replying `sync.busy`. Commands that move data count as use, so they keep the Fidget from its 60-second idle sleep. A transfer opened with `fwrite` that sees no data for 60 seconds is cancelled; a later `fwdata` then answers `fwdata.nosession`, and the transfer must start again with `fwrite`.
+
 ## Letting a Fidget install updates over WiFi (test ring)
 
 `upd allow-unsigned on` lets this Fidget install update images that have not been signed by Cyber Fidget. Official releases are signed and install over WiFi without it (see [Signed updates](../software/updates.md#signed-updates)); this switch is for a small test ring that tries unsigned builds, such as a fork's releases or your own. It covers only images with no signature. An image that carries a signature this Fidget cannot verify, or one made with a key it does not know, is refused even with this switch on. Other Fidgets show "Update it from the website for now" instead. The command can only be set through the USB cable; a network request cannot turn it on. The choice stays set across restarts and updates, until a [reset to factory or an erase and reinstall](../software/updating.md) clears it. Send `upd slot` to check: `unsig_ok=1` means allowed, and `unsig_ok=0` means off. Send `upd allow-unsigned off` to turn it off, then check again with `upd slot`. `upd slot` also shows the running and next-start update slots and does not change anything.
