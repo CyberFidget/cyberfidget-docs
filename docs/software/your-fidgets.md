@@ -28,7 +28,7 @@ The [My Fidget](https://cyberfidget.com/my-fidget/) page shows a card for each F
 | **Plugged in - changes send instantly** | The Fidget is connected over USB, so changes go straight to it. |
 | **N changes waiting - picks them up at its next check-in** | Changes are queued for a linked Fidget; it collects them over WiFi. |
 | **Up to date** | Nothing is waiting. |
-| **Hasn't checked in since** ... | The Fidget has not checked in for a while; the line gives the date. |
+| **Hasn't checked in since** ... | The Fidget has not checked in for a while; the line gives the date and time of its last check-in. |
 
 If you plug in a different Fidget from the one on screen, the page says **Another Fidget (xxxx) is plugged in**, with the last four characters of its ID. Choose **Show it** to switch to that Fidget, or **Not now** to stay where you are.
 
