@@ -22,6 +22,19 @@ Author and licence information in the file stays exactly as it was. If the file 
 
 ---
 
+## Bring in art from Aseprite
+
+If you draw in [Aseprite](https://www.aseprite.org/), you can bring a finished animation straight into the 2D workspace.
+
+1. In Aseprite, choose **File > Export Sprite Sheet**. Keep the default sheet type, turn on the frame list (the **JSON Data** output, either the Array or the Hash layout), and export. You get two files: the sprite sheet image (a PNG) and its frame list (a JSON file).
+2. In Studio, choose **Add from file** and select **both files together** (hold Ctrl, or Cmd on a Mac, while you click the second one).
+
+Studio adds one sprite to the open project, with every frame from the sheet and one looping animation for each tag you set up in Aseprite (or a single animation called "all" that plays every frame, if you made no tags), then selects it. If you pick only one of the two files, Studio names the file that is missing and adds nothing. Studio finds the image by the name the frame list gives it, so keep the image's exported name.
+
+Aseprite exports do not carry author or licence information Studio can trust, so the sprite arrives with those fields blank for you to fill in.
+
+---
+
 ## Keep a whole project
 
 Save the whole project when you want a complete backup or want to continue the same app on another computer.

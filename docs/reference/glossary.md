@@ -50,6 +50,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **PCB** | Printed Circuit Board. |
 | **PEM** | Privacy-Enhanced Mail - a text format for storing keys, used for the release signing key. |
 | **PCM** | Pulse-Code Modulation — uncompressed digital audio stored as raw samples. |
+| **PNG** | Portable Network Graphics - a common lossless image file format. Aseprite exports its sprite sheets as PNG images. |
 | **PSRAM** | Pseudo-Static RAM - extra memory on the ESP32 module, used to buffer audio while recording and to run apps sent to the Fidget (a little slower than the chip's internal memory). |
 | **QIO** | Quad input/output - a flash mode accepted in release metadata. |
 | **RC** | Release Candidate - a test version of the firmware, tagged like `v1.4.0-rc1`. On the device and website it is called a "test version." |

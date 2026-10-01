@@ -44,6 +44,7 @@
 *[PCB]: Printed Circuit Board
 *[PEM]: Privacy-Enhanced Mail; a text format for storing keys, such as the release signing key
 *[PCM]: Pulse-Code Modulation; uncompressed digital audio samples
+*[PNG]: Portable Network Graphics; a common lossless image file format
 *[PSRAM]: Pseudo-Static RAM; extra memory used to buffer audio while recording and to run apps sent to the Fidget
 *[QIO]: Quad input/output flash mode
 *[RC]: Release Candidate; a test version of the firmware, tagged like v1.4.0-rc1
