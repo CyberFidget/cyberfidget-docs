@@ -22,6 +22,21 @@ Author and licence information in the file stays exactly as it was. If the file 
 
 ---
 
+## Bring in art from Aseprite
+
+If you draw in [Aseprite](https://www.aseprite.org/), you can bring a finished animation into the 2D workspace. Aseprite saves it as a *sprite sheet*: one image that holds every frame of the animation side by side, plus a *frame list* file that says where each frame sits in that image. *Tags* are Aseprite's named ranges of frames, such as "walk" or "jump".
+
+1. In Aseprite, choose **File > Export Sprite Sheet**. On the **Output** tab, set **Output File** to save a PNG image, turn on **JSON Data** (either layout, **Array** or **Hash**, works - they are two ways of writing the same frame list), and under **Meta** turn on **Tags** so your named animations come along. Export. You get two files: the sprite sheet image and its frame list.
+2. In Studio, choose **Add from file** and select **both files together** (hold Ctrl, or Cmd on a Mac, while you click the second one).
+
+Studio adds one sprite to the open project, with every frame from the sheet and one looping animation for each tag in the frame list (or a single animation called "all" that plays every frame, if there are no tags), then selects it. If you pick only one of the two files, Studio names the file that is missing and adds nothing. Studio finds the image by the name the frame list gives it, so keep the image's exported name.
+
+The Cyber Fidget's screen shows only lit and unlit pixels, so Studio turns each pixel on or off by how bright it is: colours are not kept, and layers arrive flattened into one picture. Simple, high-contrast art comes through best.
+
+Aseprite exports do not carry author or licence information Studio can trust, so the sprite arrives with those fields blank for you to fill in.
+
+---
+
 ## Keep a whole project
 
 Save the whole project when you want a complete backup or want to continue the same app on another computer.
