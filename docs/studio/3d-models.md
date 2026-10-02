@@ -54,8 +54,8 @@ If you already have a 3D model from another program, you can bring it in instead
 
 A *vertex* is a corner point of a 3D model; it becomes a node in Studio. A *mesh* is the whole network of vertices and faces. Most 3D programs build faces out of *triangles*, three-cornered flat patches.
 
-!!! note "STL support arrives with the next website update"
-    OBJ import is available now. STL import is written but has not been released yet, so until the next website update **Add from file** will only accept `.cfmesh.json` and `.obj` files.
+!!! note "Arrives with the next website update"
+    Importing OBJ and STL files is coming with the next website update. Until then, **Add from file** only opens Studio's own model files.
 
 ### How to import
 
