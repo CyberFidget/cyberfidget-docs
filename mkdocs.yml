@@ -81,6 +81,7 @@ nav:
     - Hardware specifications: reference/hardware-specs.md
     - Firmware version: reference/firmware-version.md
     - Serial commands: reference/serial-commands.md
+    - Set up WiFi over USB: reference/usb-wifi-setup.md
     - Firmware update manifest: reference/firmware-update-manifest.md
     - Release process: reference/release-process.md
   - Contribute:

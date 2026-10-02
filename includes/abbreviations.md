@@ -56,9 +56,11 @@
 *[SPI]: Serial Peripheral Interface
 *[SPP]: Serial Port Profile; Bluetooth serial data
 *[SSD1306]: Display controller chip used in the Cyber Fidget OLED
+*[SSID]: Service Set Identifier; the name of a WiFi network
 *[USB]: Universal Serial Bus
 *[URL]: Uniform Resource Locator; an address for a web resource
 *[USB-C]: USB Type-C; reversible connector used for charging and serial communication
+*[UTF-8]: The standard way of storing text of any language as bytes
 *[UVLO]: Under-voltage lockout - a protective shutdown that stops the device from draining its battery below a safe level.
 *[VU]: Volume Unit; a meter showing how loud the incoming sound is
 *[WASM]: WebAssembly

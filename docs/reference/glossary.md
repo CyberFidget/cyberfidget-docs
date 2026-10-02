@@ -61,11 +61,13 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **SPI** | Serial Peripheral Interface — serial bus used for the SD card. |
 | **SPP** | Serial Port Profile — Bluetooth serial data streaming protocol. |
 | **SSD1306** | The display controller chip used in the Cyber Fidget OLED. |
+| **SSID** | Service Set Identifier - the name of a WiFi network. Over USB the Fidget sends it as hex; see [Set up WiFi over USB](usb-wifi-setup.md). |
 | **USB** | Universal Serial Bus — used for charging and serial communication via USB-C. |
 | **URL** | Uniform Resource Locator - an address for a web resource. |
 | **USB-C** | USB Type-C — the reversible connector used for charging and serial communication. |
 | **UVLO** | Under-voltage lockout - a protective shutdown that stops the device from draining its battery below a safe level. |
 | **VU** | Volume Unit — a level meter showing how loud the microphone is hearing you (used by the Voice Notes recorder). |
+| **UTF-8** | The standard way of storing text of any language as bytes. |
 | **WASM** | WebAssembly — binary format that runs in the browser; the emulator runs C++ apps as WASM. |
 | **WAV** | Waveform Audio File — uncompressed audio format; plays on nearly any phone or computer with no special software. Voice Notes recordings are saved as WAV. |
 | **WebAssembly** | Binary instruction format for the web; the emulator compiles C++ to WASM. |
