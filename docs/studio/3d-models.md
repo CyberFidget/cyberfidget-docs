@@ -45,6 +45,61 @@ Next to the editor, the **Preview - Device True** panel renders your model using
 
 ---
 
+## Importing a model file
+
+If you already have a 3D model from another program, you can bring it in instead of rebuilding it by hand. Studio reads two common 3D file types, in addition to its own `.cfmesh.json` files:
+
+- **OBJ** (`.obj`) -- a Wavefront OBJ file, a plain-text format that lists a model's vertices and then the faces or lines that join them.
+- **STL** (`.stl`) -- a triangle-list file, the format most 3D printing programs use. Both the binary and the text versions of STL work.
+
+A *vertex* is a corner point of a 3D model; it becomes a node in Studio. A *mesh* is the whole network of vertices and faces. Most 3D programs build faces out of *triangles*, three-cornered flat patches.
+
+!!! note "STL support arrives with the next website update"
+    OBJ import is available now. STL import is written but has not been released yet, so until the next website update **Add from file** will only accept `.cfmesh.json` and `.obj` files.
+
+### How to import
+
+1. Open the **3D** tab and expand **Project Files** in the sidebar.
+2. Choose **Add from file** (next to **New model** and **Save to file**).
+3. Pick your `.obj` or `.stl` file.
+
+Studio adds the model to the open project and selects it, and the status line reads **Model added from file.** Your other models are left alone. The model is named after the file, without the `.obj` or `.stl` ending.
+
+### What happens to the model
+
+A wireframe model has no solid surfaces, so Studio keeps the outline and throws the rest away:
+
+- **Faces become lines.** Each edge of each face becomes a strut, and the face itself is dropped. OBJ line (`l`) entries come in as struts directly. Colours, textures, and surface-smoothing data are ignored.
+- **Hidden diagonals are removed.** Triangle-built models split every flat face into triangles, which would draw a diagonal across each one. Where two triangles lie in the same flat plane, Studio removes the line between them, so a cube made of 12 triangles comes in as the 12 lines of a cube rather than 18. A dot that you placed on purpose along a straight run is kept.
+- **Duplicate points are merged.** Points at the same position (STL files store each triangle's corners separately) are joined into one node.
+- **The model is centred and scaled to fit.** Studio centres it and resizes it so its longest direction fills the model grid, with every node snapped to a whole-number grid position. The original size is not kept. Nodes that land on the same grid spot after snapping are merged.
+
+### Limits
+
+The device can hold up to 96 nodes and 160 struts per model, and Studio checks the limits after the diagonals are removed and the points merged. If a file is over, Studio refuses it and shows one of these messages:
+
+| Message | What it means |
+|---|---|
+| **This model has N dots - Cyber Fidget models max out at 96. Try a low-poly version.** | After cleanup the model still has more than 96 nodes. |
+| **This model has N lines - Cyber Fidget models max out at 160. Try a low-poly version.** | After cleanup the model still has more than 160 struts. |
+| **This file is N MB - Studio can only open model files up to 25 MB. Try a low-poly version.** | The file is larger than 25 MB. Studio refuses it before reading it. |
+| **This model has N triangles - too detailed to bring in. Try a low-poly version.** | (STL only) The file has more than 20,000 triangles. A model that fits the device needs only a few hundred, so Studio does not try to process a huge one. |
+| **This model has an unreadable part on line N. Try saving it again.** | (OBJ only) A line of the file is malformed or points at a vertex that does not exist. Re-export it from your 3D program. |
+| **This file looks damaged. Try saving it again.** | (STL only) The file is truncated or its contents are invalid. |
+| **This file is empty. Choose a model file.** | (STL only) The file has no content. |
+| **This file is not a model Studio can open.** | (STL only) The file is text but is not an STL file. |
+| **This model has no lines to import. Try a model with connected dots.** | The file has points but nothing joining them, so there is nothing to draw. |
+
+### Tips
+
+- **Start low-poly.** Aim for a few dozen vertices. Most 3D programs have a way to reduce detail. In Blender, add a **Decimate** modifier (*decimate* means to cut a mesh down to fewer triangles while keeping its overall shape), or choose a low-poly version of the model when you export.
+- **Use simple shapes.** Models with flat faces, such as boxes, ships, and buildings, come out cleanest. Smooth curved models need many triangles to look round, so they usually go over the limit.
+- **Combine meshes first.** If your scene has several separate objects, join them into one mesh before exporting, or export just the part you want.
+- **If you're over the limit,** simplify in your 3D program and import again, or import a simpler version and add detail by hand with the **Add** and **Connect** tools. You can also edit an imported model like any other.
+- **Keep the original.** Importing makes a copy in Studio; your OBJ or STL file is not changed.
+
+---
+
 ## Saving and reusing models
 
 Like drawings in the 2D panel, models keep their own version history:

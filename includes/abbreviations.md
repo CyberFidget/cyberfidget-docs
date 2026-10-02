@@ -81,6 +81,12 @@
 *[node]: A point in a wireframe model's shape, positioned in 3D space
 *[strut]: A straight line connecting two nodes in a wireframe model
 *[wireframe model]: A 3D shape built from points (nodes) connected by straight lines (struts), with no solid surfaces
+*[OBJ]: Wavefront OBJ, a plain-text 3D model file listing vertices and the faces or lines that join them
+*[STL]: Stereolithography file, a 3D model file made of triangles, common in 3D printing
+*[vertex]: A corner point of a 3D model; becomes a node in Studio
+*[mesh]: The whole network of vertices and faces that makes up a 3D model
+*[triangle]: A flat three-cornered patch; most 3D programs build every face from triangles
+*[decimate]: Reduce a 3D model to fewer triangles while keeping its overall shape
 *[.cfapp.json]: Studio whole-project file containing code, sprites, models, captures, and settings
 *[.cfmesh.json]: Studio file containing one model
 *[.cfsprite.json]: Studio file containing one sprite
