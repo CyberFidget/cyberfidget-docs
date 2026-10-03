@@ -14,6 +14,8 @@ The Cyber Fidget runs custom firmware on an ESP32 microcontroller. The firmware 
 
 The firmware ships as a single unified build on `main` — all apps (games, screensavers, tools, music player, web portal) are included. The BT A2DP audio stack initially caused an IRAM overflow, but this was solved by [patching the linker script](IRAM-overflow-solution.md) to move unused libc functions out of IRAM. No apps needed to be removed.
 
+To read the firmware source in your browser, open the [firmware code viewer](https://cyberfidget.com/firmware/). Browsing is read-only and needs a GitHub sign-in; editing, compiling, and installing firmware from the browser are in closed beta.
+
 ---
 
 ## Build system
