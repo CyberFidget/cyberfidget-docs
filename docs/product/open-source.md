@@ -11,8 +11,6 @@ Cyber Fidget is open source at its core. The firmware, documentation, and hardwa
 | [cyberfidget-firmware](https://github.com/cyberfidget/cyberfidget-firmware) | Firmware source, HAL API, and WASM emulator | GPL-3.0 with linking exception |
 | [cyberfidget-docs](https://github.com/cyberfidget/cyberfidget-docs) | This documentation site | CC BY-SA 4.0 |
 
-Prefer to read the firmware source without leaving your browser? The [firmware code viewer](https://cyberfidget.com/firmware/) on cyberfidget.com shows the firmware files read-only after you sign in with GitHub.
-
 ---
 
 ## Licenses
