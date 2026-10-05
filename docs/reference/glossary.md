@@ -28,6 +28,8 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **FreeRTOS** | Free Real-Time Operating System — the RTOS layer used by ESP-IDF under the hood. |
 | **GPIO** | General-Purpose Input/Output — physical pins used for buttons, etc. |
 | **HAL** | Hardware Abstraction Layer — the layer that swaps ESP32 drivers for browser equivalents in the emulator. |
+| **Harmonics** | Quieter extra pitches at 2x, 3x, 4x... a note's frequency, mixed into the sound. A small speaker that cannot reproduce a low note can still play its harmonics, so the note stays recognizable but quieter. |
+| **Hz / kHz** | Hertz / kilohertz — vibrations per second (1 kHz = 1000 Hz); the unit of pitch. Higher is a higher note. |
 | **I2C** | Inter-Integrated Circuit — serial bus used for the OLED, accelerometer, and fuel gauge. |
 | **I2S** | Inter-IC Sound — digital audio bus used for the speaker amplifier and MEMS microphone. |
 | **IDE** | Integrated Development Environment — e.g. the App Builder on the website. |

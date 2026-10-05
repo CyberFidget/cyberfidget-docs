@@ -42,6 +42,43 @@ You play a tone by specifying its **frequency** in Hertz (Hz). Higher Hz = highe
 !!! tip "Octaves"
     Each octave doubles the frequency. C5 is twice C4. Use `freq * pow(2, octave)` to shift notes up or down.
 
+### Sounds that work on the speaker
+
+The built-in speaker is tiny (13 mm across), and a speaker that small cannot push much air at low pitches. In practice it barely reproduces notes below about 700-800 Hz. Its sweet spot is roughly **1-4 kHz** (1000-4000 Hz).
+
+- Keep important beeps and alerts between **C5 and C7** (523-2093 Hz), or anywhere in the 1-4 kHz range, so they are easy to hear.
+- Low notes such as C4 (262 Hz) still work, because the Fidget's tones include **harmonics** (quieter copies of the note at 2x, 3x, 4x... its frequency) that the speaker can reproduce. They just sound noticeably quieter, so avoid low notes for anything the user must notice.
+- Tones are timed exactly: a 100 ms tone lasts 100 ms, plus a fade-out of about 5 ms at the end that prevents a click.
+- Several notes at once (chords) are possible in the built-in apps. This is not yet available to your own apps, so plan on one sound at a time.
+
+### Playing a sequence
+
+To play a short melody or alert without writing your own timing code, describe it as an array of `ToneStep` entries and hand it to `playSequence()`:
+
+```cpp
+struct ToneStep {
+    float    freq;        // Hz; 0 = rest (silence)
+    uint16_t durationMs;  // how long the tone lasts
+    uint16_t gapAfterMs;  // extra silence after the step
+};
+```
+
+```cpp
+static const AudioManager::ToneStep WIN_JINGLE[] = {
+    { 1046.50f, 100, 50 },  // C6, then a 50 ms pause
+    { 0,         80,  0 },  // rest for 80 ms
+    { 1318.51f, 200,  0 },  // E6
+};
+static const int WIN_JINGLE_LEN = sizeof(WIN_JINGLE) / sizeof(WIN_JINGLE[0]);
+
+audioManager.playSequence(WIN_JINGLE, WIN_JINGLE_LEN);
+```
+
+- `playSequence(const ToneStep* steps, int count)` starts playback and returns immediately; the sequence plays in the background while your `update()` keeps running.
+- `stopSequence()` stops it early.
+- `isSequencePlaying()` returns `true` while it is still playing.
+- The steps are copied when you call `playSequence()`, up to 128 steps; a longer list is cut to 128.
+
 ### Volume
 
 Volume is a float from `0.0` (silent) to `1.0` (full). The framework clamps values in this range.
@@ -121,6 +158,9 @@ The mic runs in a separate FreeRTOS task and publishes `micVolumeAtomic` roughly
 | `setVolume(float)` | 0.0..1.0 |
 | `playTone(float freq, int durationMs)` | 0 = indefinite |
 | `stopTone()` | Stops current tone |
+| `playSequence(const ToneStep* steps, int count)` | Plays a list of tones and rests (up to 128 steps) |
+| `stopSequence()` | Stops the sequence |
+| `isSequencePlaying()` | `true` while a sequence is playing |
 | `enableMic(bool on)` | Opt-in mic |
 | `getMicVolumeLinear()` | 0.0..1.0 |
 | `getMicVolumeDb()` | dBFS (≤ 0) |
