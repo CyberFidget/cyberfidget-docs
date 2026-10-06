@@ -19,6 +19,11 @@
 *[DER]: Distinguished Encoding Rules; a compact binary layout used here for a digital signature
 *[ECDSA]: Elliptic Curve Digital Signature Algorithm; the signing method used for official firmware updates
 *[DIO]: Dual input/output flash mode
+*[dBFS]: Decibels relative to Full Scale; 0 is the loudest level the microphone can measure and quieter sounds are negative
+*[dB]: Decibel, a unit for comparing loudness; 3 dB quieter is about half the power
+*[kHz]: Kilohertz, thousands of cycles per second
+*[EQ]: Equalizer, a filter that makes some pitches louder or quieter
+*[polyphony]: Playing several notes at the same time
 *[ESP32]: Espressif Systems 32-bit microcontroller used in Cyber Fidget hardware
 *[FPS]: Frames Per Second
 *[FreeRTOS]: Free Real-Time Operating System; used by ESP-IDF

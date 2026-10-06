@@ -90,14 +90,119 @@ The mic is **opt-in**. Call `enableMic(true)` in `begin()` and `enableMic(false)
 - `getMicVolumeLinear()` — Returns 0.0 to 1.0 (linear amplitude).
 - `getMicVolumeDb()` — Returns dBFS (decibels below full scale), typically negative (e.g. -60 to 0).
 
+### Notes: several sounds at once
+
+`playTone()` makes one sound at a time. A **note** is a tone that can sound together with other notes, which is called **polyphony** (many voices at once). Notes are how you play a chord, or let a new note start while an older one is still ringing.
+
+```cpp
+int playNote(float frequency, int durationMs = 0);
+void stopNote(int handle);
+void stopNotes();
+```
+
+- `playNote()` starts a note and returns a **handle**, a number greater than 0 that identifies that note. It returns `-1` if the note could not start. A `durationMs` of `0` (the default) holds the note until you stop it.
+- `stopNote(handle)` ends only that note. If the note was already replaced by a newer one, the call does nothing.
+- `stopNotes()` ends every note at once.
+- Up to **7 notes** sound at the same time, alongside one `playTone()`. When all seven are busy, a new note takes the place of a note that is already fading out, or, if none is, the oldest note.
+- Every note plays about **3 dB** quieter than `playTone()` (a dB, or decibel, is a unit of loudness; 3 dB quieter is about half the power). That leaves room for several notes at once, so chords are less likely to distort.
+
+Low notes below about 700 Hz are hard to hear on the speaker, so keep important notes higher than that.
+
+This app plays a C major chord (C5, E5, G5) while you are holding the first button, and stops it when you let go:
+
+```cpp
+#include "HAL.h"
+#include "RGBController.h"
+
+static int chord[3] = { -1, -1, -1 };
+
+static void startChord() {
+    chord[0] = HAL::audioManager().playNote(523.25f);  // C5, held
+    chord[1] = HAL::audioManager().playNote(659.25f);  // E5
+    chord[2] = HAL::audioManager().playNote(783.99f);  // G5
+}
+
+static void stopChord() {
+    for (int i = 0; i < 3; i++) {
+        HAL::audioManager().stopNote(chord[i]);
+        chord[i] = -1;
+    }
+}
+
+static void onFirstButton(const ButtonEvent& e) {
+    if (e.eventType == ButtonEvent_Pressed)  startChord();
+    if (e.eventType == ButtonEvent_Released) stopChord();
+}
+
+void begin() {
+    setColorsOff();
+    HAL::buttonManager().registerCallback(button_TopLeftIndex, onFirstButton);
+}
+
+void update() {
+}
+
+void end() {
+    HAL::buttonManager().unregisterCallback(button_TopLeftIndex);
+    HAL::audioManager().stopNotes();
+    setColorsOff();
+}
+```
+
+!!! note "Notes need a newer firmware"
+    <!-- TODO: fill in the release that ships notes and mic -->
+    Apps that use notes need Cyber Fidget firmware **NEXT_RELEASE or newer**. Apps are checked automatically against what the firmware on your device supports. On older firmware the device shows "App needs firmware NEXT_RELEASE or newer"; press any button to return to the menu. Apps that only play tones with `playTone()` are not affected.
+
+### Reading the microphone
+
+The microphone can drive your app: a level bar, an LED that brightens with sound, a clap detector. Turn it on, read the level every frame, and turn it off when you are done:
+
+```cpp
+#include "HAL.h"
+#include "RGBController.h"
+
+void begin() {
+    setColorsOff();
+    HAL::audioManager().enableMic(true);
+}
+
+void update() {
+    float level = HAL::audioManager().getMicVolumeLinear();  // 0.0 to 1.0
+
+    DisplayProxy& display = HAL::displayProxy();
+    display.clear();
+    display.drawRect(0, 28, 128, 8);                         // bar outline
+    display.fillRect(0, 28, (int)(level * 128), 8);          // bar fill
+    display.display();
+}
+
+void end() {
+    HAL::audioManager().enableMic(false);
+    setColorsOff();
+}
+```
+
+`getMicVolumeLinear()` gives a loudness from 0.0 (silence) to 1.0 (the loudest the microphone can measure). `getMicVolumeDb()` gives the same level in **dBFS** (decibels relative to full scale): 0 is the loudest possible sound and quieter sounds are negative numbers, for example -60 for a quiet room.
+
+- The emulator has no microphone, so in the emulator both functions read silence. Test microphone apps on a real Cyber Fidget.
+- Just after the device wakes up, while it is checking for updates, the microphone may read silence for a few seconds. It then starts reporting normally.
+
+If your app exits without turning the microphone off, the system turns it off for you (and stops any notes). Doing it yourself in `end()` is still good practice, because `end()` is where an app cleans up after itself.
+
+!!! note "The microphone functions need a newer firmware"
+    <!-- TODO: fill in the release that ships notes and mic -->
+    Apps that read the microphone need Cyber Fidget firmware **NEXT_RELEASE or newer**. On older firmware the device shows "App needs firmware NEXT_RELEASE or newer"; press any button to return to the menu.
+
 ---
 
 ## Code example: melody and sound reaction
 
 ```cpp
 #include "HAL.h"
+#include "RGBController.h"
 
 void begin() {
+    setColorsOff();
     HAL::audioManager().enableMic(true);  // Turn on mic for reactive mode
     HAL::audioManager().setVolume(0.7f); // 70% volume
 }
@@ -123,8 +228,13 @@ void update() {
 void end() {
     HAL::audioManager().stopTone();
     HAL::audioManager().enableMic(false);
+    setColorsOff();
 }
 ```
+
+!!! note "This example needs a newer firmware"
+    <!-- TODO: fill in the release that ships notes and mic -->
+    It reads the microphone, so apps made from it need Cyber Fidget firmware **NEXT_RELEASE or newer**.
 
 !!! note "Always disable the mic in end()"
     Call `enableMic(false)` in your app's `end()` to stop the mic task and free resources.
@@ -137,7 +247,7 @@ void end() {
 
 The `AudioManager` singleton (accessed via `HAL::audioManager()`) handles:
 
-- **Tone output** — `SineWaveGenerator` → `VolumeStream` → I2S → MAX98357A amplifier
+- **Tone and note output** - the audio engine (`AudioEngine`, 8 voices at 44.1 kHz) mixes tones, notes and sequences, applies the volume and the speaker EQ, then sends the samples over I2S to the MAX98357A amplifier. Tones and notes use a soft square wave (a square wave with its harshest harmonics removed; harmonics are the fainter, higher-pitched tones at whole-number multiples of a note's pitch that give a sound its character) so low notes stay audible on the small speaker.
 - **Mic input** — ICS-43434 I2S mic → `VolumeMeter` → atomic level (0..1)
 
 The `AudioManager` mic path is metering-only: it publishes a level, not a stream of samples. The Voice Notes recorder opens the same ICS-43434 microphone on its own I2S port and pulls the raw sample stream for capture, independent of `AudioManager`. Factoring that capture path into a shared, app-callable component is future work.
@@ -164,3 +274,11 @@ The mic runs in a separate FreeRTOS task and publishes `micVolumeAtomic` roughly
 | `enableMic(bool on)` | Opt-in mic |
 | `getMicVolumeLinear()` | 0.0..1.0 |
 | `getMicVolumeDb()` | dBFS (≤ 0) |
+
+Functions for notes (each needs firmware NEXT_RELEASE or newer):
+
+| Method | Description |
+|--------|-------------|
+| `playNote(float freq, int durationMs)` | Starts a note and returns its handle (or -1); 0 = held until stopped |
+| `stopNote(int handle)` | Ends that note only |
+| `stopNotes()` | Ends all notes |
