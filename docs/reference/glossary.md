@@ -18,6 +18,9 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **CORS** | Cross-Origin Resource Sharing — browser rules that block loading WASM from `file://` URLs. |
 | **CSS** | Cascading Style Sheets — used to style the emulator (LEDs, layout). |
 | **DOM** | Document Object Model — the browser's representation of the page (buttons, canvas). |
+| **dB** | Decibel - a unit for comparing loudness. 3 dB quieter is about half the power. |
+| **EQ** | Equalizer - a filter that makes some pitches louder or quieter. The speaker's EQ lifts the pitches the small speaker plays well. |
+| **kHz** | Kilohertz - thousands of cycles per second (44.1 kHz audio is 44,100 samples per second). |
 | **dBFS** | Decibels relative to Full Scale - a loudness scale where 0 is the loudest level the microphone can measure and quieter sounds are negative numbers (for example -60 for a quiet room). |
 | **DNS** | Domain Name System - turns names like cyberfidget.com into network addresses. On its own WiFi network the Fidget answers every name lookup with its own address, which is how the portal's sign-in page opens by itself. |
 | **EDNS** | Extension Mechanisms for DNS - extra options many phones and browsers add to a name lookup. The Fidget's portal answers lookups with or without them. |

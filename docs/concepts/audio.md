@@ -162,8 +162,10 @@ If your app exits without turning the microphone off, the system turns it off fo
 
 ```cpp
 #include "HAL.h"
+#include "RGBController.h"
 
 void begin() {
+    setColorsOff();
     HAL::audioManager().enableMic(true);  // Turn on mic for reactive mode
     HAL::audioManager().setVolume(0.7f); // 70% volume
 }
@@ -189,6 +191,7 @@ void update() {
 void end() {
     HAL::audioManager().stopTone();
     HAL::audioManager().enableMic(false);
+    setColorsOff();
 }
 ```
 
@@ -203,7 +206,7 @@ void end() {
 
 The `AudioManager` singleton (accessed via `HAL::audioManager()`) handles:
 
-- **Tone output** — `SineWaveGenerator` → `VolumeStream` → I2S → MAX98357A amplifier
+- **Tone and note output** - the audio engine (`AudioEngine`, 8 voices at 44.1 kHz) mixes tones, notes and sequences, applies the volume and the speaker EQ, then sends the samples over I2S to the MAX98357A amplifier. Tones and notes use a soft square wave (a square wave with its harsh top harmonics removed) so low notes stay audible on the small speaker.
 - **Mic input** — ICS-43434 I2S mic → `VolumeMeter` → atomic level (0..1)
 
 The `AudioManager` mic path is metering-only: it publishes a level, not a stream of samples. The Voice Notes recorder opens the same ICS-43434 microphone on its own I2S port and pulls the raw sample stream for capture, independent of `AudioManager`. Factoring that capture path into a shared, app-callable component is future work.
