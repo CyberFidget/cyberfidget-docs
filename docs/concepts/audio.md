@@ -49,7 +49,7 @@ The built-in speaker is tiny (13 mm across), and a speaker that small cannot pus
 - Keep important beeps and alerts between **C5 and C7** (523-2093 Hz), or anywhere in the 1-4 kHz range, so they are easy to hear.
 - Low notes such as C4 (262 Hz) still work, because the Fidget's tones include **harmonics** (quieter copies of the note at 3x, 5x and 7x its frequency) that the speaker can reproduce. They just sound noticeably quieter, so avoid low notes for anything the user must notice.
 - Tones are timed exactly: a 100 ms tone lasts 100 ms, plus a fade-out of about 5 ms at the end that prevents a click.
-- Several notes at once (chords) are possible in the built-in apps. This is not yet available to your own apps, so plan on one sound at a time.
+- Several notes at once (chords) work in your own apps too, with firmware 1.5.0 or newer: see [Notes: several sounds at once](#notes-several-sounds-at-once). With older firmware, plan on one sound at a time.
 
 ### Playing a sequence
 
@@ -106,7 +106,7 @@ void stopNotes();
 - Up to **7 notes** sound at the same time, alongside one `playTone()`. When all seven are busy, a new note takes the place of a note that is already fading out, or, if none is, the oldest note.
 - Every note plays about **3 dB** quieter than `playTone()` (a dB, or decibel, is a unit of loudness; 3 dB quieter is about half the power). That leaves room for several notes at once, so chords are less likely to distort.
 
-Low notes below about 700 Hz are hard to hear on the speaker, so keep important notes higher than that.
+Low notes below about 700 Hz are hard to hear on the speaker, so keep important notes higher than that (see [Sounds that work on the speaker](#sounds-that-work-on-the-speaker)).
 
 This app plays a C major chord (C5, E5, G5) while you are holding the first button, and stops it when you let go:
 
@@ -150,8 +150,7 @@ void end() {
 ```
 
 !!! note "Notes need a newer firmware"
-    <!-- TODO: fill in the release that ships notes and mic -->
-    Apps that use notes need Cyber Fidget firmware **NEXT_RELEASE or newer**. Apps are checked automatically against what the firmware on your device supports. On older firmware the device shows "App needs firmware NEXT_RELEASE or newer"; press any button to return to the menu. Apps that only play tones with `playTone()` are not affected.
+    Apps that use notes need Cyber Fidget firmware **1.5.0 or newer**. Apps are checked automatically against what the firmware on your device supports. On older firmware the device shows "App needs firmware 1.5.0 or newer"; press any button to return to the menu. Apps that only play tones with `playTone()` are not affected.
 
 ### Reading the microphone
 
@@ -190,8 +189,7 @@ void end() {
 If your app exits without turning the microphone off, the system turns it off for you (and stops any notes). Doing it yourself in `end()` is still good practice, because `end()` is where an app cleans up after itself.
 
 !!! note "The microphone functions need a newer firmware"
-    <!-- TODO: fill in the release that ships notes and mic -->
-    Apps that read the microphone need Cyber Fidget firmware **NEXT_RELEASE or newer**. On older firmware the device shows "App needs firmware NEXT_RELEASE or newer"; press any button to return to the menu.
+    Apps that read the microphone need Cyber Fidget firmware **1.5.0 or newer**. On older firmware the device shows "App needs firmware 1.5.0 or newer"; press any button to return to the menu.
 
 ---
 
@@ -233,8 +231,7 @@ void end() {
 ```
 
 !!! note "This example needs a newer firmware"
-    <!-- TODO: fill in the release that ships notes and mic -->
-    It reads the microphone, so apps made from it need Cyber Fidget firmware **NEXT_RELEASE or newer**.
+    It reads the microphone, so apps made from it need Cyber Fidget firmware **1.5.0 or newer**.
 
 !!! note "Always disable the mic in end()"
     Call `enableMic(false)` in your app's `end()` to stop the mic task and free resources.
@@ -275,7 +272,7 @@ The mic runs in a separate FreeRTOS task and publishes `micVolumeAtomic` roughly
 | `getMicVolumeLinear()` | 0.0..1.0 |
 | `getMicVolumeDb()` | dBFS (≤ 0) |
 
-Functions for notes (each needs firmware NEXT_RELEASE or newer):
+Functions for notes (each needs firmware 1.5.0 or newer):
 
 | Method | Description |
 |--------|-------------|
