@@ -25,6 +25,9 @@
 *[GPIO]: General-Purpose Input/Output
 *[GPU]: Graphics Processing Unit; phones with browser GPU access transcribe faster
 *[HAL]: Hardware Abstraction Layer
+*[harmonics]: Quieter extra pitches at 2x, 3x, 4x... a note's frequency that are mixed into a sound; they make it richer and let a small speaker hint at low notes
+*[Hz]: Hertz; vibrations per second, the unit of pitch (higher Hz = higher note)
+*[kHz]: Kilohertz; 1000 Hz
 *[I2C]: Inter-Integrated Circuit; serial bus used for OLED and some sensors
 *[I2S]: Inter-IC Sound; digital audio interface
 *[IDE]: Integrated Development Environment
