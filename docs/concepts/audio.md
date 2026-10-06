@@ -66,8 +66,8 @@ void stopNotes();
 - `playNote()` starts a note and returns a **handle**, a number greater than 0 that identifies that note. It returns `-1` if the note could not start. A `durationMs` of `0` (the default) holds the note until you stop it.
 - `stopNote(handle)` ends only that note. If the note was already replaced by a newer one, the call does nothing.
 - `stopNotes()` ends every note at once.
-- Up to **7 notes** sound at the same time, alongside one `playTone()`. When all seven are busy, a new note replaces the oldest one.
-- Notes in a chord play about **3 dB** quieter than a single tone (a dB, or decibel, is a unit of loudness; 3 dB is a little under half the power), so a chord does not distort.
+- Up to **7 notes** sound at the same time, alongside one `playTone()`. When all seven are busy, a new note takes the place of a note that is already fading out, or, if none is, the oldest note.
+- Every note plays about **3 dB** quieter than `playTone()` (a dB, or decibel, is a unit of loudness; 3 dB quieter is about half the power). That leaves room for several notes at once, so chords are less likely to distort.
 
 Low notes below about 700 Hz are hard to hear on the speaker, so keep important notes higher than that.
 
@@ -75,39 +75,46 @@ This app plays a C major chord (C5, E5, G5) while you are holding the first butt
 
 ```cpp
 #include "HAL.h"
+#include "RGBController.h"
 
 static int chord[3] = { -1, -1, -1 };
 
-void begin() {
-    HAL::audioManager().setVolume(0.7f);
-}
-
-void startChord() {
+static void startChord() {
     chord[0] = HAL::audioManager().playNote(523.25f);  // C5, held
     chord[1] = HAL::audioManager().playNote(659.25f);  // E5
     chord[2] = HAL::audioManager().playNote(783.99f);  // G5
 }
 
-void stopChord() {
+static void stopChord() {
     for (int i = 0; i < 3; i++) {
         HAL::audioManager().stopNote(chord[i]);
         chord[i] = -1;
     }
 }
 
+static void onFirstButton(const ButtonEvent& e) {
+    if (e.eventType == ButtonEvent_Pressed)  startChord();
+    if (e.eventType == ButtonEvent_Released) stopChord();
+}
+
+void begin() {
+    setColorsOff();
+    HAL::buttonManager().registerCallback(button_TopLeftIndex, onFirstButton);
+}
+
 void update() {
-    // Call startChord() when your button is pressed and
-    // stopChord() when it is released (see the Buttons page).
 }
 
 void end() {
+    HAL::buttonManager().unregisterCallback(button_TopLeftIndex);
     HAL::audioManager().stopNotes();
+    setColorsOff();
 }
 ```
 
 !!! note "Notes need a newer firmware"
     <!-- TODO: fill in the release that ships notes and mic -->
-    Apps that use notes need Cyber Fidget firmware **NEXT_RELEASE or newer**. Apps are checked automatically against what the firmware on your device supports. On older firmware the device shows "App needs firmware NEXT_RELEASE or newer" and returns to the menu. Apps that only play tones with `playTone()` are not affected.
+    Apps that use notes need Cyber Fidget firmware **NEXT_RELEASE or newer**. Apps are checked automatically against what the firmware on your device supports. On older firmware the device shows "App needs firmware NEXT_RELEASE or newer"; press any button to return to the menu. Apps that only play tones with `playTone()` are not affected.
 
 ### Reading the microphone
 
@@ -115,14 +122,17 @@ The microphone can drive your app: a level bar, an LED that brightens with sound
 
 ```cpp
 #include "HAL.h"
+#include "RGBController.h"
 
 void begin() {
+    setColorsOff();
     HAL::audioManager().enableMic(true);
 }
 
 void update() {
     float level = HAL::audioManager().getMicVolumeLinear();  // 0.0 to 1.0
 
+    DisplayProxy& display = HAL::displayProxy();
     display.clear();
     display.drawRect(0, 28, 128, 8);                         // bar outline
     display.fillRect(0, 28, (int)(level * 128), 8);          // bar fill
@@ -131,6 +141,7 @@ void update() {
 
 void end() {
     HAL::audioManager().enableMic(false);
+    setColorsOff();
 }
 ```
 
@@ -143,7 +154,7 @@ If your app exits without turning the microphone off, the system turns it off fo
 
 !!! note "The microphone functions need a newer firmware"
     <!-- TODO: fill in the release that ships notes and mic -->
-    Apps that read the microphone need Cyber Fidget firmware **NEXT_RELEASE or newer**. On older firmware the device shows "App needs firmware NEXT_RELEASE or newer" and returns to the menu.
+    Apps that read the microphone need Cyber Fidget firmware **NEXT_RELEASE or newer**. On older firmware the device shows "App needs firmware NEXT_RELEASE or newer"; press any button to return to the menu.
 
 ---
 
