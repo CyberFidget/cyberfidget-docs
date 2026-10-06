@@ -195,6 +195,10 @@ void end() {
 }
 ```
 
+!!! note "This example needs a newer firmware"
+    <!-- TODO: fill in the release that ships notes and mic -->
+    It reads the microphone, so apps made from it need Cyber Fidget firmware **NEXT_RELEASE or newer**.
+
 !!! note "Always disable the mic in end()"
     Call `enableMic(false)` in your app's `end()` to stop the mic task and free resources.
 
