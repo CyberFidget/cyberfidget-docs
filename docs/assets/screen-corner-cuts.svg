@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 322" width="560" height="322" role="img" aria-labelledby="t d">
+  <title id="t">The 128 by 64 pixel screen with its four corner cuts</title>
+  <desc id="d">A black rectangle for the screen. At each corner a red triangle with 8 pixel sides marks the area hidden by the case.</desc>
+  <!-- CC BY-SA 4.0, Cyber Fidget documentation. Scale: 4 drawing units per screen pixel. -->
+  <rect width="560" height="322" fill="#ffffff"/>
+  <g transform="translate(24,34)">
+    <rect width="512" height="256" fill="#111111" stroke="#555555" stroke-width="2"/>
+    <g fill="#d33" fill-opacity="0.85" stroke="#ffffff" stroke-width="2">
+      <path d="M0 0 H32 L0 32 Z"/>
+      <path d="M512 0 H480 L512 32 Z"/>
+      <path d="M0 256 H32 L0 224 Z"/>
+      <path d="M512 256 H480 L512 224 Z"/>
+    </g>
+    <text x="256" y="132" fill="#ffffff" font-family="sans-serif" font-size="22" text-anchor="middle">128 x 64 pixel screen</text>
+    <text x="256" y="162" fill="#cccccc" font-family="sans-serif" font-size="16" text-anchor="middle">safe to draw here</text>
+  </g>
+  <g font-family="sans-serif" font-size="14" fill="#222222">
+    <text x="24" y="22">0,0</text>
+    <text x="536" y="22" text-anchor="end">127,0</text>
+    <text x="280" y="22" text-anchor="middle" fill="#b02020">red corners: hidden by the case</text>
+  </g>
+  <g font-family="sans-serif" font-size="13" fill="#222222">
+    <text x="24" y="314">0,63</text>
+    <text x="536" y="314" text-anchor="end">127,63</text>
+  </g>
+</svg>
