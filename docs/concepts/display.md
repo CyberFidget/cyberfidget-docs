@@ -27,6 +27,21 @@ DisplayProxy& display = HAL::displayProxy();
 
 ---
 
+## Keep important pixels out of the corners
+
+The case has a 45-degree corner cut (a *chamfer*) at each corner of the screen opening. Those cuts hide about 8 pixels at each corner of the 128×64 display: the hidden area is roughly a right triangle with 8-pixel sides, so a pixel drawn at (0, 0) is not visible on the device, and anything within about 8 pixels of a corner along both edges may be clipped.
+
+![The 128 by 64 pixel screen with a red triangle with 8 pixel sides marking the hidden area at each corner](../assets/screen-corner-cuts.svg)
+
+*The four marked triangles are hidden by the case. The Studio emulator draws the real case, so it hides them the same way.*
+
+- Keep text, score counters and key sprites out of the four 8×8 pixel corner areas.
+- Backgrounds, borders and anything that is fine to lose can run into the corners.
+
+The figure comes from the case's corner cuts: about 6% of the screen width (7.7 px of 128) and 12% of the screen height (7.9 px of 64), rounded to 8. It is an estimate taken from the case drawing, not a measured tolerance, so leave a pixel or two of margin.
+
+---
+
 ## The clear → draw → display cycle
 
 Every frame, follow this pattern:

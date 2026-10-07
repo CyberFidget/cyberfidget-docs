@@ -9,6 +9,7 @@
 *[CP2102N]: Silicon Labs USB-to-UART bridge chip
 *[CRC-32]: Cyclic Redundancy Check, 32-bit; a checksum used to detect damaged data
 *[CF_TEST_CLI]: Firmware build option that includes extra device testing commands
+*[chamfer]: A 45-degree angled cut on a corner; the case hides about 8 pixels of the screen at each corner
 *[baud]: Serial connection speed, measured in transmitted symbols per second
 *[CSS]: Cascading Style Sheets
 *[DNS]: Domain Name System; turns names like cyberfidget.com into network addresses
