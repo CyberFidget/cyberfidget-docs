@@ -57,6 +57,45 @@ Studio always creates a new project alongside the projects you already have. It 
 
 ---
 
+## Share a link
+
+A share link lets someone open what you made in their browser, with no download and no account. An app plays in the emulator on the page; a sprite plays as an animation and a model turns so it can be seen from every side. A link isn't listed anywhere: only people you give it to can open it.
+
+Sharing a link is different from submitting to [the Archives](sharing-apps.md). The Archives is the shared collection that everyone can browse, and submissions are reviewed first. A link is just "here's a thing I made".
+
+### Where to find Share
+
+| What you want to share | Where |
+|---|---|
+| The whole project | **Share** in the Studio project bar, next to **Send to my Fidget**. On a phone, the share icon at the top of Studio, between **Save** and **Settings**. |
+| The app you just built | **Share this app** on the Test tab, after a successful build. |
+| One sprite or model | **Share this sprite** or **Share this model** at the top of the editor's right-hand panel. On a phone, it is at the top of the project's file list. |
+| Something in your library | **Share** on its row in **My Assets**. |
+
+A project with art but no code can still be shared: the page shows the art and models instead of an app.
+
+### What the Share box asks
+
+- **Title.** Starts as the project or asset name.
+- **Maker name** (optional). The name shown on the page. Use a nickname: no real names, schools or addresses.
+- **Others may copy: code, art.** Both are ticked to start with. These are the same switches as **App Settings > Sharing** and the Archives submission form, so changing them in one place changes them everywhere for that project. A sprite or model share shows only the art switch. If the art switch is off for an art-only share, there is nothing left to share, so Studio explains why and won't make the link.
+
+When others may copy, the code is offered under the MIT License and the art under the Creative Commons Attribution-ShareAlike 4.0 license (CC BY-SA 4.0). Sharing confirms that you made the work or have the right to share it.
+
+A link shows your work **as it was when you shared it**. Later changes aren't included: share again for a new link.
+
+### Sending the link
+
+On a phone, choose **Send the link** to open your phone's share sheet and pick Messages, email, or another app. On a computer, Studio copies the link for you and says **Link copied.** If the browser won't allow the copy, Studio selects the link so you can copy it yourself. **Open the page** shows you what others will see.
+
+### Stop sharing
+
+The Share box lists **Links you've shared** from this browser (and, when you are signed in, from your account). Choose **Stop sharing** on a link, then confirm. The link stops working for everyone straight away. A page someone already has open stops playing within about a minute. This can't be undone: share again to make a new link.
+
+Each browser remembers the links it made. If you share while signed out and later clear your browser's data, that browser can no longer stop those links. Sign in before sharing if you may want to stop a link from another computer.
+
+---
+
 ## What survives, and what can be missing
 
 - A sprite or model keeps the author and licence information stored in its file. Missing information remains blank.

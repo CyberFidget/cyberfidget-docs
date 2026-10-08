@@ -12,6 +12,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **ADC** | Analog-to-Digital Converter — converts the slider's voltage to a number (e.g. 0–4095). |
 | **API** | Application Programming Interface — how code talks to a library or service. |
 | **BLE** | Bluetooth Low Energy — used for wireless features on the device. |
+| **CC BY-SA** | Creative Commons Attribution-ShareAlike - others may reuse and change the work if they credit the maker and share their version under the same license. Shared art uses version 4.0. |
 | **CC0** | Creative Commons Zero - a public-domain dedication that allows reuse without the usual copyright restrictions. |
 | **CI** | Continuous Integration — automated builds (e.g. GitHub Actions compiling WASM). |
 | **CMake** | Cross-platform build system used to configure the WASM/Emscripten build. |
@@ -44,6 +45,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **LED** | Light-Emitting Diode. |
 | **LiPo** | Lithium Polymer — rechargeable battery type used in Cyber Fidget (400 mAh). |
 | **Li-ion** | Lithium-ion — a family of rechargeable battery chemistries. |
+| **MIT License** | A short permissive license: anyone may use, change and share the code as long as the license notice stays with it. Shared app code uses it. |
 | **MCU** | Microcontroller Unit — the processor that controls an embedded device. |
 | **MEMS** | Micro-Electro-Mechanical Systems — miniaturized sensor technology used in the ICS-43434 microphone. |
 | **ms** | Millisecond - one thousandth of a second. |
@@ -107,6 +109,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 |------|---------|
 | **The Archives** | The shared collection of apps, screensavers, and sprite packs at cyberfidget.com/explore. |
 | **Polyphony** | Playing several notes at the same time, such as a chord. In an app, use `playNote()`; see [Notes](../concepts/audio.md#notes-several-sounds-at-once). |
+| **Share link** | A private link to a copy of something you made in Studio, as it was when you shared it. Only people you give it to can open it. See [Share a link](../software/import-export.md#share-a-link). |
 | **Share sheet** | The list of apps your phone offers when you send something on to someone else. |
 | **Base64** | A way of writing binary data as plain text using letters, digits, `+` and `/`; update signatures are sent this way. |
 | **Digital signature** | A short code that only the holder of a private key can make for one exact file. Anyone with the matching public key can check it, and changing even one byte of the file makes the check fail. Cyber Fidget uses signatures to confirm that an update is official. |
