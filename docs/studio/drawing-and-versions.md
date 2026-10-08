@@ -30,7 +30,7 @@ You do not need to export a file before any of these actions.
 
 Open the **History** panel to see the drawing's saved versions. The newest version is first. Each entry includes a small preview and a timestamp, so you can compare the versions before choosing one.
 
-<!-- Screenshot: shipped History panel with previews and timestamps. -->
+![History panel showing drawing versions with previews and timestamps](../assets/studio/art-version-history.png)
 
 ---
 

@@ -97,6 +97,4 @@ On a phone today, Project Files sits above wrapping tool rows. The editor then s
 
 Tablet, foldable and 3D layout instructions will follow in later manual increments.
 
-The current phone can show a **Full editor available on desktop** message. Its Close button dismisses it by touch; it has no dedicated shortcut and does not perform an editing command. Use the manual's phone locations to find the available controls.
-
 <!-- Screenshot: shipped desktop and current stacked phone workspace. -->

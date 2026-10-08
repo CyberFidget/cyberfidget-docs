@@ -21,6 +21,8 @@ Keyboard letters work while the editor has focus, outside text fields. For comma
 | Transform | Resize or arrange pixels using handles around the selection or layer. | T; Enter applies; Esc cancels | Drag handles; tap **Apply** or **Cancel**. |
 | Zoom | Enlarge the view without changing pixels. | Z; Alt-click zooms out | Tap to zoom in; enable **Zoom out** and tap to zoom out. |
 
+Right-click on the canvas to erase pixels. On touch screens, select **Erase** and drag over the pixels.
+
 Read [Tool options](tool-options.md) for settings, [Edit commands](edit-commands.md) for clipboard operations, and [View](view.md) for gestures and guides.
 
 <!-- Screenshot: shipped tool bar and current phone wrapping tool rows. -->

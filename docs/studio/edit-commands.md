@@ -25,7 +25,7 @@ In **Resize...**, choose **50%**, **150%**, **200%** or **300%** for a preset. F
 
 ## Undo and Redo
 
-**Undo** reverses the latest edit; **Redo** reapplies an undone edit. They are at the bottom of the desktop/laptop tool bar. On a phone today they sit with the wrapping tools above the options and canvas. Tap the buttons for touch access. Use **Ctrl+Z** for Undo and **Ctrl+Y** for Redo. The explicit Redo button is the dependable alternative to keyboard combinations.
+**Undo** reverses the latest edit; **Redo** reapplies an undone edit. They are at the bottom of the desktop/laptop tool bar. On a phone today they sit with the wrapping tools above the options and canvas. Tap the buttons for touch access. Use **Ctrl+Z** for Undo and **Ctrl+Y** or **Ctrl+Shift+Z** for Redo. The explicit Redo button is the dependable alternative to keyboard combinations.
 
 There is no two-finger-tap Undo gesture in the current editor. Two fingers control the [view](view.md).
 
