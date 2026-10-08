@@ -1,45 +1,25 @@
-# Animation States
+﻿# Animation names
 
-An animation state is a named sequence of frames for one action, such as `run`, `duck`, or `jump`. States let your app choose the right sequence while keeping related frames together in the Art editor.
+An animation is a named sequence of frames for one action, such as `run`, `duck` or `jump`. The editor calls these groups animations. App code and older file fields may call the same concept an animation state.
 
----
+## When groups appear
 
-## When the state strip appears
+The grouped strip appears for sprites with two or more named animations or the character type. A frame used by more than one animation has a **shared** badge; frames outside all animations appear under **Unassigned**. A simple sprite with one animation keeps the plain frame strip.
 
-The state strip appears for a sprite that has two or more named animations, or for a sprite marked as the character type.
+On desktop and laptop, the timeline is beneath the canvas. On a phone today it is below Preview, Layers and saving controls. Phone placement will change.
 
-Each animation is shown as a labeled, colored group. Its frames appear inside that group. A frame used by more than one state has a **shared** badge, and frames that do not belong to any state appear in an **Unassigned** section at the end.
+## Work with an animation
 
-![State strip with colored run, duck, and jump animation groups](../assets/studio/art-states-strip.png)
+Tap or click its **Play** to loop the group, **+ Frame** to copy the current frame into it, or its menu for **Rename** and **Delete animation**. These commands have no dedicated keyboard shortcuts. **Alt+Up** and **Alt+Down** step between frames; tapping a thumbnail is the touch equivalent. See [Animations and frames](animations-and-frames.md) for all timeline commands.
 
-A simple sprite with one animation keeps the plain frame strip.
+## Match the app's requested names
 
----
+Code asks for an animation by name. A warning appears when a requested animation has no frames. Add frames or update the requested name in the code. After renaming an animation, check code that uses its previous name.
 
-## Work with one state
+## Set timing
 
-Each state has its own controls:
+The default duration is 100 milliseconds (ms) per frame. Zero-duration frames would not be visible and cause build warnings. The single **Speed** control changes playback and saved durations; see [Preview and Speed](preview.md).
 
-- **Play** loops only that state, so you can preview its motion.
-- **Rename** changes the state's label.
-- **+ Frame** adds a frame directly to that state.
+For recovering edits, see [Drawing and version history](drawing-and-versions.md).
 
-These controls keep state-specific editing local to the group you are working on.
-
----
-
-## Find empty states
-
-Your app's code can ask a sprite to play a state. If that state has no frames, a warning chip appears in the editor.
-
-Add a frame to the state or update the app code so the requested state contains something to play.
-
----
-
-## Set frame timing
-
-Frame timing controls how long each frame remains visible. The default is 100 milliseconds (ms) per frame.
-
-An animation frame set to 0 ms would not be visible. Studio reports a build warning when it finds one, so you can give the frame a visible duration before installing the app.
-
-For saving and recovering edits to the underlying drawing, see [Drawing and version history](drawing-and-versions.md).
+<!-- Screenshot: shipped animation groups and empty-animation warning. -->

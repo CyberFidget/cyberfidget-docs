@@ -93,3 +93,14 @@
 *[.cfmesh.json]: Studio file containing one model
 *[.cfsprite.json]: Studio file containing one sprite
 *[base64]: A way of writing binary data as plain text using letters, digits, + and /
+*[GIF]: Graphics Interchange Format; an image file format that can store an animation
+*[animation]: Named sequence of sprite frames for one action
+*[frame]: One picture in an animation sequence
+*[layer]: Separate set of pixels in a frame, with its own drawing order and visibility
+*[viewport]: Visible area of the canvas
+*[frame rate]: Number of frames shown each second
+*[stylus]: Pen-shaped input device used to draw on a touch screen
+*[pressure]: How firmly a stylus is pressed against the screen
+
+*[CC BY-SA]: Creative Commons Attribution-ShareAlike; reuse requires attribution and sharing adaptations under the same license
+*[MIT License]: Permissive code license requiring the license notice to stay with copies

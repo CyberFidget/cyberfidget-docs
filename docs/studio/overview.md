@@ -46,7 +46,7 @@ When you want more than three tools, **more tools >** carries the same drawing i
 !!! tip "Quick Draw and the 2D panel are not the same thing"
     Quick Draw is intentionally tiny, so there is nothing to learn before you
     start drawing. The **2D** tab is the full editor -- layers, frames,
-    animation states, and version history. Starting in one and moving to the
+    animations, and version history. Starting in one and moving to the
     other is the expected path, not a detour.
 
 ---
@@ -76,5 +76,27 @@ Taking something out of a library copies it into your project. Editing that copy
 
 - [Drawing and Version History](drawing-and-versions.md) -- saving checkpoints and restoring earlier work
 - [Your Sprite Library](your-sprite-library.md) -- Project Files, My Assets, and Starter Sprites
-- [Animation States](animation-states.md) -- giving a sprite more than one action
+- [Animation names](animation-states.md) -- giving a sprite more than one action
 - [3D Models](3d-models.md) -- building and using wireframe models
+
+## The 2D workspace today
+
+On desktop and laptop, tools sit left of the canvas, options and Edit above it, view controls below it, the timeline beneath that, and Preview, Layers and file controls in the right panel. A narrower laptop can hide the current tool's name in the options bar; its settings remain available.
+
+On a phone today, Project Files sits above wrapping tool rows. The editor then stacks options, canvas, view controls, Preview, Layers, saving controls and the timeline. Scroll to reach the lower sections. There is no More, Layers or Frames sheet or floating quick palette in this layout. The tool bar provides its tools and Undo/Redo; Grid is in the canvas footer and Edit menu. Phone placement will change.
+
+- [Tools](tools.md) -- drawing and selecting pixels
+- [Tool options](tool-options.md) -- settings for the selected tool and its hint
+- [Edit commands](edit-commands.md) -- clipboard, resize, Undo and Redo
+- [View](view.md) -- zoom, grid and guide box
+- [Layers](layers.md) -- visibility and drawing order
+- [Animations and frames](animations-and-frames.md) -- timeline and frame menus
+- [Preview and Speed](preview.md) -- playback and timing
+- [Files and versions](files-and-versions.md) -- saves and downloads
+- [Sharing](sharing.md) -- project and sprite links
+
+Tablet, foldable and 3D layout instructions will follow in later manual increments.
+
+The current phone can show a **Full editor available on desktop** message. Its Close button dismisses it by touch; it has no dedicated shortcut and does not perform an editing command. Use the manual's phone locations to find the available controls.
+
+<!-- Screenshot: shipped desktop and current stacked phone workspace. -->

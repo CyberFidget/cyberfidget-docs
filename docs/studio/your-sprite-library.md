@@ -4,7 +4,9 @@ The 2D panel's library rail helps you reuse sprites without tying the copies tog
 
 The library has three scopes: **Project Files**, **My Assets**, and **Starter Sprites**.
 
-![Art library rail showing Project Files, My Assets, and Starter Sprites](../assets/studio/art-library-scopes.png)
+On desktop and laptop, expand the library disclosures in the left sidebar. On a phone today, expand them above the tools. Tap an entry to use it; library actions have no dedicated keyboard shortcuts. Phone placement will change. **Save to My Assets** is in the desktop right-panel footer and below Layers on a phone.
+
+<!-- Screenshot: shipped Project Files, My Assets and Starter Sprites disclosures. -->
 
 ---
 
@@ -77,4 +79,4 @@ The complete flow is:
 
 No sprite export or import is required between drawing, building, and installing. To back up a sprite or take it elsewhere, see [Keeping and sharing your work](../software/import-export.md).
 
-For sprites with multiple actions, continue with [Animation states](animation-states.md).
+For sprites with multiple actions, continue with [Animation names](animation-states.md). For backups and downloads, see [Files and versions](files-and-versions.md).

@@ -2,6 +2,8 @@
 
 Every drawing in [Studio](https://cyberfidget.com/create/) keeps a version history. You can save a checkpoint yourself, and Studio also protects your work at important moments.
 
+On desktop and laptop, the label field, **Save version** and **History** are in the right-panel footer. On a phone today they are below Preview and Layers, before the timeline. Tap the same buttons; they have no dedicated keyboard shortcuts. Phone placement will change. See [Files and versions](files-and-versions.md) for all save and download controls.
+
 ---
 
 ## Save a version yourself
@@ -28,7 +30,7 @@ You do not need to export a file before any of these actions.
 
 Open the **History** panel to see the drawing's saved versions. The newest version is first. Each entry includes a small preview and a timestamp, so you can compare the versions before choosing one.
 
-![History panel showing drawing versions with previews and timestamps](../assets/studio/art-version-history.png)
+<!-- Screenshot: shipped History panel with previews and timestamps. -->
 
 ---
 
