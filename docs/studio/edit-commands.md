@@ -1,6 +1,6 @@
 # Edit commands
 
-On desktop and laptop, **Edit** stays at the right end of the options bar above the canvas. On a phone today it is in the wrapping options row above the canvas. Tap **Edit**, then a command. Phone placement will change.
+On desktop and laptop, **Edit** stays at the right end of the options bar above the canvas. On a phone it is in the wrapping options row above the canvas. Tap **Edit**, then a command.
 
 The table gives keyboard and touch equivalents. **None** means no dedicated shortcut. Ctrl commands also accept Command on a Mac. Commands can be disabled when they have nothing to act on.
 
@@ -25,8 +25,8 @@ In **Resize...**, choose **50%**, **150%**, **200%** or **300%** for a preset. F
 
 ## Undo and Redo
 
-**Undo** reverses the latest edit; **Redo** reapplies an undone edit. They are at the bottom of the desktop/laptop tool bar. On a phone today they sit with the wrapping tools above the options and canvas. Tap the buttons for touch access. Use **Ctrl+Z** for Undo and **Ctrl+Y** or **Ctrl+Shift+Z** for Redo. The explicit Redo button is the dependable alternative to keyboard combinations.
+**Undo** reverses the latest edit; **Redo** reapplies an undone edit. They are at the bottom of the desktop/laptop tool bar. On a phone they sit with the wrapping tools above the options and canvas. Tap the buttons for touch access. Use **Ctrl+Z** for Undo and **Ctrl+Y** or **Ctrl+Shift+Z** for Redo. The explicit Redo button is the dependable alternative to keyboard combinations.
 
-There is no two-finger-tap Undo gesture in the current editor. Two fingers control the [view](view.md).
+Two fingers control the [view](view.md).
 
 <!-- Screenshot: Edit menu and Resize dialog. -->

@@ -2,7 +2,7 @@
 
 A layer is a separate set of pixels in a frame. Layers let you edit part of a picture without disturbing the rest. Their order determines how the drawing is assembled on the device.
 
-On desktop and laptop, **Layers** is in the right panel below Preview. On a phone today it is below Preview in the stack beneath the canvas. Phone placement will change.
+On desktop and laptop, **Layers** is in the right panel below Preview. On a phone it is below Preview in the stack beneath the canvas.
 
 | Control | What it does | Shortcut | Touch equivalent |
 |---|---|---|---|

@@ -4,7 +4,7 @@ The 2D panel's library rail helps you reuse sprites without tying the copies tog
 
 The library has three scopes: **Project Files**, **My Assets**, and **Starter Sprites**.
 
-On desktop and laptop, expand the library disclosures in the left sidebar. On a phone today, expand them above the tools. Tap an entry to use it; library actions have no dedicated keyboard shortcuts. Phone placement will change. **Save to My Assets** is in the desktop right-panel footer and below Layers on a phone.
+On desktop and laptop, expand the library disclosures in the left sidebar. On a phone, expand them above the tools. Tap an entry to use it; library actions have no dedicated keyboard shortcuts. **Save to My Assets** is in the desktop right-panel footer and below Layers on a phone.
 
 ![Art library rail showing Project Files, My Assets, and Starter Sprites](../assets/studio/art-library-scopes.png)
 
@@ -15,6 +15,8 @@ On desktop and laptop, expand the library disclosures in the left sidebar. On a 
 **Project Files** lists every sprite in the project, including sprites whose editor tabs are closed.
 
 Closing a tab only closes that editor view. It never deletes the sprite from your project.
+
+Choose **New sprite** to add a blank sprite to the project, or **Add from file** to bring one in from a saved file. When the project has no sprites, the editor shows **No sprite open** with a **New sprite** button.
 
 ---
 
@@ -35,6 +37,14 @@ To rename a saved sprite:
 1. Find the sprite in the **My Assets** list.
 2. Choose **Rename** on its row.
 3. Enter the new name and confirm.
+
+To take a sprite out of the library:
+
+1. Find the sprite in the **My Assets** list.
+2. Choose **Remove** on its row.
+3. Confirm in the dialog.
+
+Removing deletes the sprite from My Assets, including its saved versions, and cannot be undone. Projects that already used the sprite keep their copies.
 
 Renaming changes the library entry only. Its saved versions are kept, and any
 project that already used the sprite is untouched -- that project keeps the
@@ -68,9 +78,9 @@ A small note on the copy records where it came from. This helps you recognize re
 
 ## Sprites travel with your app
 
-Sprite files are part of the app project. When you build, Studio compiles your art into the app automatically. When you install the app on your device, its sprites go with it.
+Sprite files are part of the app project. When you build the app (Studio's step that turns your project into a runnable app), Studio compiles your art into the app automatically. When you install the app on your device, its sprites go with it.
 
-The complete flow is:
+The complete sequence is:
 
 1. Author your app.
 2. Draw its art in Studio.

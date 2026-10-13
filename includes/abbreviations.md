@@ -45,6 +45,7 @@
 *[MCU]: Microcontroller Unit; the main processor in an embedded device
 *[MEMS]: Micro-Electro-Mechanical Systems
 *[ms]: Millisecond; one thousandth of a second
+*[MB]: Megabyte; a unit of file size, about one million bytes
 *[NeoPixel]: Adafruit brand of addressable RGB(W) LEDs
 *[OLED]: Organic Light-Emitting Diode; the 128×64 display on Cyber Fidget
 *[OTA]: Over-the-air update; firmware delivered over a network instead of a cable. Product controls say "update".

@@ -2,7 +2,7 @@
 
 The viewport is the visible area of the canvas. View controls change how you see your work; they do not change the saved pixels.
 
-On desktop and laptop, view controls sit in the canvas footer, below the canvas. On a phone today this footer wraps below the canvas and above Preview. **Edit** above the canvas also offers Grid and Guide box. Phone placement will change.
+On desktop and laptop, view controls sit in the canvas footer, below the canvas. On a phone this footer wraps below the canvas and above Preview. **Edit** above the canvas also offers Grid and Guide box.
 
 | Control | What it does | Keyboard / mouse | Touch equivalent |
 |---|---|---|---|

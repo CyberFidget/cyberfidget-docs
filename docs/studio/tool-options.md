@@ -1,6 +1,6 @@
 # Tool options
 
-Select a [tool](tools.md) first. On desktop and laptop its settings appear in the options bar above the canvas. On a phone today the same settings wrap below the tool rows and above the canvas. Phone placement will change.
+Select a [tool](tools.md) first. On desktop and laptop its settings appear in the options bar above the canvas. On a phone the same settings wrap below the tool rows and above the canvas.
 
 Unless a shortcut is listed, a setting has no dedicated keyboard shortcut. On touch screens, tap buttons, checkboxes and lists, and drag sliders. Draw and Fill have a hint instead of settings.
 

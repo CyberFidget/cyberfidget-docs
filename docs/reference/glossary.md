@@ -97,6 +97,11 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Frame rate** | Number of frames shown each second. |
 | **Asset** | A sprite or model that can be used in a Studio project. |
 | **Built app** | The runnable copy produced when Studio builds an app. |
+| **Build** | Studio's step that turns your project, including its art, into a runnable app. |
+| **Emulator** | A copy of the device that runs in your browser, so you can try an app without a Cyber Fidget. |
+| **Firmware** | The built-in software that runs on the device. |
+| **Flow** | How densely the Brush paints or the Erase tool removes pixels, from 0 to 100%. |
+| **MB** | Megabyte; a unit of file size, about one million bytes. |
 | **Capture** | An item stored in a Studio project's captures. |
 | **Companion page** | The phone companion's web page, built into firmware and optionally overridden from the memory card. |
 | **Internal storage** | Storage built into the Cyber Fidget where apps live. |
