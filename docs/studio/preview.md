@@ -11,7 +11,7 @@
 
 Frame rate means the number of pictures shown each second. The **Speed** readout shows this as, for example, `6/sec`. At 166 milliseconds (ms) per frame, that is about six frames a second. A shorter duration plays faster.
 
-There is one Speed control. Editing it updates the saved frame durations as well as playback. Saving imported art without changing Speed preserves its original per-frame timing. The former separate frame-speed control is no longer present.
+Speed sets both playback and the saved frame durations. Move it right to play faster. Saving imported art without changing Speed keeps its original per-frame timing.
 
 To loop one named animation, use its Play button in the [timeline](animations-and-frames.md). To save a playable image file, use [Download animation](files-and-versions.md).
 

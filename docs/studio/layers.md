@@ -15,6 +15,6 @@ On desktop and laptop, **Layers** is in the right panel below Preview. On a phon
 | Clear layer | Remove the active layer's pixels while keeping the layer. | None | Tap **... > Clear layer**, or **Edit > Clear layer**. |
 | Delete | Remove the layer. | None | Tap **... > Delete**. |
 
-The old separate previous/next layer buttons and **Layer:** readout are hidden. Selecting a row and the highlighted row provide those functions; the keyboard layer shortcuts still work. The reorder hint describes draw order. It is hidden on laptop-width screens (993 to 1500 pixels wide) and shows on wider desktops and in the phone layout.
+Select a layer by choosing its row; the highlighted row is the layer you are drawing on. The reorder hint describes draw order. It is hidden on laptop-width screens (993 to 1500 pixels wide) and shows on wider desktops and in the phone layout.
 
 <!-- Screenshot: layer rows with selection, visibility and the row menu. -->
