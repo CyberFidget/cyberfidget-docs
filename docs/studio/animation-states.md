@@ -4,7 +4,7 @@ An animation is a named sequence of frames for one action, such as `run`, `duck`
 
 ## When groups appear
 
-In a timeline with animation groups, each animation has a header with its name, **Play**, **+ Frame** and a **☰** menu. A frame used by more than one animation has a **shared** badge; frames outside all animations appear under **Unassigned**. Creating an animation switches the timeline to groups, and character sprites always use groups. In the single-row timeline, with no animation headers, **+ Frame** copies the current frame and each frame has an inline **Delete** button.
+In a timeline with animation groups, each animation has a header with its name, **Play**, **+ Frame** and a **☰** menu. A frame used by more than one animation has a **shared** badge; frames outside all animations appear under **Unassigned**. Creating an animation switches the timeline to groups, and character sprites use groups whenever they have an animation. In the single-row timeline, with no animation headers, **+ Frame** copies the current frame and each frame has an inline **Delete** button.
 
 ![State strip with colored run, duck, and jump animation groups](../assets/studio/art-states-strip.png)
 
@@ -20,7 +20,7 @@ Code asks for an animation by name. A warning appears when a requested animation
 
 ## Set timing
 
-The default duration is 100 milliseconds (ms) per frame. Zero-duration frames would not be visible and cause warnings when you build the app (Studio's step that turns your project, including its art, into a runnable app). The single **Speed** control changes playback and saved durations; see [Preview and Speed](preview.md).
+The default duration is 100 milliseconds (ms) per frame. In an animation with more than one frame, a zero-duration frame would not be visible and causes a warning when you build the app (Studio's step that turns your project, including its art, into a runnable app). The single **Speed** control changes playback and saved durations; see [Preview and Speed](preview.md).
 
 For recovering edits, see [Drawing and version history](drawing-and-versions.md).
 
