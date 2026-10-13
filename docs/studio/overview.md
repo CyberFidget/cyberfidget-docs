@@ -12,7 +12,7 @@ Studio opens on a landing page with one starting point: **Create an app**. Descr
 
 Below it, **Draw a screensaver** opens [Quick Draw](#quick-draw) if you would rather just doodle than write an app, and **Open a project file** loads a project you saved to your computer earlier.
 
-Further down, **My stuff** lists the projects you already have. Choosing one opens it. The landing page is replaced by the workspace -- you see one or the other, never both.
+Further down, **MY STUFF** lists the projects you already have. Choosing one opens it. The landing page is replaced by the workspace -- you see one or the other, never both.
 
 ---
 

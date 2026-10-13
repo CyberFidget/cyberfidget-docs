@@ -4,7 +4,7 @@ An animation is a named sequence of frames for one action, such as `run`, `duck`
 
 ## When groups appear
 
-Animation groups appear in the timeline for sprites with two or more named animations or the character type. A frame used by more than one animation has a **shared** badge; frames outside all animations appear under **Unassigned**. A simple sprite with one animation shows a single row of frames. There, **+ Frame** copies the current frame, and frames have inline **Duplicate** (only when one animation exists) and **Delete** buttons.
+In a timeline with animation groups, each animation has a header with its name, **Play**, **+ Frame** and a **☰** menu. A frame used by more than one animation has a **shared** badge; frames outside all animations appear under **Unassigned**. Creating an animation switches the timeline to groups, and character sprites always use groups. In the single-row timeline, with no animation headers, **+ Frame** copies the current frame and each frame has an inline **Delete** button.
 
 ![State strip with colored run, duck, and jump animation groups](../assets/studio/art-states-strip.png)
 

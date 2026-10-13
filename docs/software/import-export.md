@@ -41,7 +41,7 @@ Aseprite exports do not carry author or licence information Studio can trust, so
 
 Save the whole project when you want a complete backup or want to continue the same app on another computer.
 
-Open **Settings**, choose the **App** tab, and under **Project file** choose **Save project to file**. Studio writes one `.cfapp.json` file containing the project's code, sprites, models, captures, and settings.
+Open **Settings**, choose the **APP** tab, and under **PROJECT FILE** choose **Save project to file**. Studio writes one `.cfapp.json` file containing the project's code, sprites, models, captures, and settings.
 
 If the project has been built, the built app travels inside the project file so it can run immediately after opening. If that built copy is unavailable, Studio saves the project without it and tells you. Open the file and build the app again.
 
@@ -78,7 +78,7 @@ A project with art but no code can still be shared: the page shows the art and m
 
 - **Title.** Starts as the project or asset name.
 - **Maker name** (optional). The name shown on the page. Use a nickname: no real names, schools or addresses.
-- **Others may copy: code, art.** Both are ticked to start with. These are the same switches as **Settings > App > Sharing** and the Archives submission form, so changing them in one place changes them everywhere for that project. A sprite or model share shows only the art switch. If the art switch is off for an art-only share, there is nothing left to share, so Studio explains why and won't make the link.
+- **Others may copy: code, art.** Both are ticked to start with. These are the same switches as **SHARING** on the **APP** tab of **Settings** and the Archives submission form, so changing them in one place changes them everywhere for that project. A sprite or model share shows only the art switch. If the art switch is off for an art-only share, there is nothing left to share, so Studio explains why and won't make the link.
 
 When others may copy, the code is offered under the MIT License and the art under the Creative Commons Attribution-ShareAlike 4.0 license (CC BY-SA 4.0). Sharing confirms that you made the work or have the right to share it.
 
