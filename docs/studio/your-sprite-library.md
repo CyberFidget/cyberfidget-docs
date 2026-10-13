@@ -4,6 +4,8 @@ The 2D panel's library rail helps you reuse sprites without tying the copies tog
 
 The library has three scopes: **Project Files**, **My Assets**, and **Starter Sprites**.
 
+On desktop and laptop, expand the library disclosures in the left sidebar. On a phone, expand them above the tools. Tap an entry to use it; library actions have no dedicated keyboard shortcuts. **Save to My Assets** is in the desktop right-panel footer and below Layers on a phone.
+
 ![Art library rail showing Project Files, My Assets, and Starter Sprites](../assets/studio/art-library-scopes.png)
 
 ---
@@ -13,6 +15,8 @@ The library has three scopes: **Project Files**, **My Assets**, and **Starter Sp
 **Project Files** lists every sprite in the project, including sprites whose editor tabs are closed.
 
 Closing a tab only closes that editor view. It never deletes the sprite from your project.
+
+Choose **New sprite** to add a blank sprite to the project, or **Add from file** to bring one in from a saved file. When the project has no sprites, the editor shows **No sprite open** with a **New sprite** button.
 
 ---
 
@@ -34,6 +38,14 @@ To rename a saved sprite:
 2. Choose **Rename** on its row.
 3. Enter the new name and confirm.
 
+To take a sprite out of the library:
+
+1. Find the sprite in the **My Assets** list.
+2. Choose **Remove** on its row.
+3. Confirm in the dialog.
+
+Removing deletes the sprite from My Assets, including its saved versions, and cannot be undone. Projects that already used the sprite keep their copies.
+
 Renaming changes the library entry only. Its saved versions are kept, and any
 project that already used the sprite is untouched -- that project keeps the
 copy, and the name, it took at the time. To rename the copy inside a project,
@@ -49,10 +61,11 @@ you can still correct a name's capitalization on its own.
 
 **Starter Sprites** is the built-in Creative Commons Zero (CC0) collection. CC0 content can be reused without the usual copyright restrictions.
 
-You can use a starter sprite in two ways:
+You can use a starter sprite in three ways:
 
 - **Add to open sprite** combines the starter art with your current drawing as a new layer.
 - **Copy to Project** adds the starter sprite to the project as its own sprite file.
+- **Copy as C++** copies the sprite to your clipboard as C++ code you can paste into an app you write by hand. The code holds the sprite's pixels as a 1-bit bitmap (every visible pixel is on), its width and height, a credit line naming its author and license, and a ready-to-use drawing line, `display.drawXbm(x, y, width, height, bitmap)`. See [Bitmaps](../concepts/display.md#bitmaps-drawxbm) for how the device draws it. The button briefly shows how many bytes were copied.
 
 ---
 
@@ -66,9 +79,9 @@ A small note on the copy records where it came from. This helps you recognize re
 
 ## Sprites travel with your app
 
-Sprite files are part of the app project. When you build, Studio compiles your art into the app automatically. When you install the app on your device, its sprites go with it.
+Sprite files are part of the app project. When you build the app (Studio's step that turns your project into a runnable app), Studio compiles your art into the app automatically. When you install the app on your device, its sprites go with it.
 
-The complete flow is:
+The complete sequence is:
 
 1. Author your app.
 2. Draw its art in Studio.
@@ -77,4 +90,4 @@ The complete flow is:
 
 No sprite export or import is required between drawing, building, and installing. To back up a sprite or take it elsewhere, see [Keeping and sharing your work](../software/import-export.md).
 
-For sprites with multiple actions, continue with [Animation states](animation-states.md).
+For sprites with multiple actions, continue with [Animation names](animation-states.md). For backups and downloads, see [Files and versions](files-and-versions.md).

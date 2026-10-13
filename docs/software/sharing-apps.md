@@ -21,9 +21,6 @@ recognisably based on the item's title, but it is assigned by the collection rat
 than typed by hand, so copy it rather than guessing it. Anyone who opens that address
 lands on that item, not on the front of the collection.
 
-Previously the address never changed while you browsed, so there was nothing useful
-to copy.
-
 ---
 
 ## Back and Forward behave normally

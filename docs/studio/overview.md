@@ -10,15 +10,15 @@ This page is a map of the surface. Each tool has its own page, linked at the bot
 
 Studio opens on a landing page with one starting point: **Create an app**. Describe what you want, and the code generator builds a working first version you can run and edit straight away.
 
-Below it, **Draw a screensaver** opens [Quick Draw](#quick-draw) if you would rather just doodle than write an app, and **Open a project file** loads a project you previously saved to your computer.
+Below it, **Draw a screensaver** opens [Quick Draw](#quick-draw) if you would rather just doodle than write an app, and **Open a project file** loads a project you saved to your computer earlier.
 
-Further down, **My Stuff** lists the projects you already have. Choosing one opens it. The landing page is replaced by the workspace -- you see one or the other, never both.
+Further down, **MY STUFF** lists the projects you already have. Choosing one opens it. The landing page is replaced by the workspace -- you see one or the other, never both.
 
 ---
 
 ## The workspace tabs
 
-Once a project is open, a strip of tabs switches between the tools. On a desktop they run down the left edge; on a phone they sit along the bottom.
+Once a project is open, a strip of tabs switches between the tools. On a desktop they run down the left edge: Generate, Code, 2D, 3D (when available) and Settings. On a phone they sit along the bottom, and **Test** is a tab there; on a desktop the emulator sits beside the workspace instead. On a phone, Settings is the gear icon in the top bar.
 
 | Tab | What it is for |
 |-----|----------------|
@@ -26,7 +26,8 @@ Once a project is open, a strip of tabs switches between the tools. On a desktop
 | **Code** | The full editor, with the screen, buttons, lights, and sound available. |
 | **2D** | Draw and animate sprites. |
 | **3D** | Build wireframe models. Appears only if it is enabled for your account. |
-| **Test** | Run the app in the emulator. |
+| **Settings** | Project settings, including what others may copy when you share, and saving the whole project to a file. |
+| **Test** | Run the app in the emulator, a copy of the device that runs in your browser. |
 
 **< Studio** at the top left closes the project and returns you to the landing page. Your work is saved as you go.
 
@@ -46,7 +47,7 @@ When you want more than three tools, **more tools >** carries the same drawing i
 !!! tip "Quick Draw and the 2D panel are not the same thing"
     Quick Draw is intentionally tiny, so there is nothing to learn before you
     start drawing. The **2D** tab is the full editor -- layers, frames,
-    animation states, and version history. Starting in one and moving to the
+    animations, and version history. Starting in one and moving to the
     other is the expected path, not a detour.
 
 ---
@@ -62,7 +63,7 @@ The first time you sign in on a browser (or sign in with a different account), S
 
 If the browser holds projects you made while signed out, Studio offers to move them when you sign in: **Move N projects saved on this browser to your account? Your browser copies will stay here.** Choose **MOVE TO MY ACCOUNT** to save them to your account, or **NOT NOW** to keep them in this browser only; either way you are not asked again. Projects you have not moved stay in this browser, even while you are signed in. If some cannot be moved, Studio says so and offers **TRY AGAIN**; your work stays saved in the browser.
 
-An account holds up to 30 projects and 10 MB in total. When it is full, saving says **Your saved projects are full.** Your account also keeps earlier versions of each project. If you work on the same project on two devices and your save replaces a newer one made on the other device, Studio says **A newer save from another device was replaced. Its version is in this project's history.**
+An account holds up to 30 projects and 10 megabytes (MB) in total. When it is full, saving says **Your saved projects are full.** Your account also keeps earlier versions of each project. If you work on the same project on two devices and your save replaces a newer one made on the other device, Studio says **A newer save from another device was replaced. Its version is in this project's history.**
 
 Signing out hides your account projects in that browser; they come back when you sign in again. Deleting an account project deletes it from your account and from the browser.
 
@@ -76,5 +77,24 @@ Taking something out of a library copies it into your project. Editing that copy
 
 - [Drawing and Version History](drawing-and-versions.md) -- saving checkpoints and restoring earlier work
 - [Your Sprite Library](your-sprite-library.md) -- Project Files, My Assets, and Starter Sprites
-- [Animation States](animation-states.md) -- giving a sprite more than one action
+- [Animation names](animation-states.md) -- giving a sprite more than one action
 - [3D Models](3d-models.md) -- building and using wireframe models
+
+## The 2D workspace
+
+On desktop and laptop, tools sit left of the canvas, options and Edit above it, view controls below it, the timeline beneath that, and Preview, Layers and file controls in the right panel. A narrower laptop can hide the current tool's name in the options bar; its settings remain available.
+
+On a phone, Project Files sits above wrapping tool rows. The editor then stacks options, canvas, view controls, Preview, Layers, saving controls and the timeline. Scroll to reach the lower sections. The tool bar provides the tools and Undo/Redo; Grid is in the canvas footer and Edit menu.
+
+- [Tools](tools.md) -- drawing and selecting pixels
+- [Tool options](tool-options.md) -- settings for the selected tool and its hint
+- [Edit commands](edit-commands.md) -- clipboard, resize, Undo and Redo
+- [View](view.md) -- zoom, grid and guide box
+- [Layers](layers.md) -- visibility and drawing order
+- [Animations and frames](animations-and-frames.md) -- timeline and frame menus
+- [Preview and Speed](preview.md) -- playback and timing
+- [Files and versions](files-and-versions.md) -- saves and downloads
+- [Sharing](sharing.md) -- project and sprite links
+
+
+<!-- Screenshot: desktop and phone workspace. -->

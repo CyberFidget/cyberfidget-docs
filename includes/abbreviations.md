@@ -45,6 +45,7 @@
 *[MCU]: Microcontroller Unit; the main processor in an embedded device
 *[MEMS]: Micro-Electro-Mechanical Systems
 *[ms]: Millisecond; one thousandth of a second
+*[MB]: Megabyte; a unit of file size, about one million bytes
 *[NeoPixel]: Adafruit brand of addressable RGB(W) LEDs
 *[OLED]: Organic Light-Emitting Diode; the 128×64 display on Cyber Fidget
 *[OTA]: Over-the-air update; firmware delivered over a network instead of a cable. Product controls say "update".
@@ -93,3 +94,7 @@
 *[.cfmesh.json]: Studio file containing one model
 *[.cfsprite.json]: Studio file containing one sprite
 *[base64]: A way of writing binary data as plain text using letters, digits, + and /
+*[GIF]: Graphics Interchange Format; an image file format that can store an animation
+
+*[CC BY-SA]: Creative Commons Attribution-ShareAlike; reuse requires attribution and sharing adaptations under the same license
+*[MIT License]: Permissive code license requiring the license notice to stay with copies

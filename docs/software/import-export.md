@@ -12,7 +12,7 @@ The files use JavaScript Object Notation (JSON), a structured text format for st
 
 Save one asset when you want to keep or share that sprite or model without the rest of the project.
 
-In the 2D workspace, **Save to file** and **Add from file** sit together in the **Sprite file** group. There is a second **Add from file** button in the project file list, next to **New sprite**, so you can bring a sprite in from wherever you are working. Saving names the file after the sprite and gives it the `.cfsprite.json` ending.
+In the 2D workspace, **Save to file** and **Add from file** sit together in the **Sprite file** menu. There is a second **Add from file** button in the project file list, next to **New sprite**, so you can bring a sprite in from wherever you are working. Saving names the file after the sprite and gives it the `.cfsprite.json` ending.
 
 In the 3D workspace, **Save to file** and **Add from file** are next to the **New model** control. Saving names the file after the model and gives it the `.cfmesh.json` ending.
 
@@ -41,9 +41,9 @@ Aseprite exports do not carry author or licence information Studio can trust, so
 
 Save the whole project when you want a complete backup or want to continue the same app on another computer.
 
-Open **App Settings** and choose **Save project to file**. Studio writes one `.cfapp.json` file containing the project's code, sprites, models, captures, and settings.
+Open **Settings**, choose the **APP** tab, and under **PROJECT FILE** choose **Save project to file**. Studio writes one `.cfapp.json` file containing the project's code, sprites, models, captures, and settings.
 
-If the project has been built, the built app travels inside the project file so it can run immediately after opening. If that built copy is no longer available, Studio saves the project without it and tells you. Open the file and build the app again.
+If the project has been built, the built app travels inside the project file so it can run immediately after opening. If that built copy is unavailable, Studio saves the project without it and tells you. Open the file and build the app again.
 
 Studio refuses to save a very large project into a file that the browser would struggle to reopen.
 
@@ -54,6 +54,45 @@ Studio refuses to save a very large project into a file that the browser would s
 Go to the **Create** launcher and choose **Open a project file** beside the list of projects. Opening a project file is how you start from that file, so this control is on the launcher rather than inside the editor.
 
 Studio always creates a new project alongside the projects you already have. It never replaces an existing project.
+
+---
+
+## Share a link
+
+A share link lets someone open what you made in their browser, with no download and no account. An app plays in the emulator on the page (a copy of the device that runs in your browser); a sprite plays as an animation and a model turns so it can be seen from every side. A link isn't listed anywhere: only people you give it to can open it.
+
+Sharing a link is different from submitting to [the Archives](sharing-apps.md). The Archives is the shared collection that everyone can browse, and submissions are reviewed first. A link is just "here's a thing I made".
+
+### Where to find Share
+
+| What you want to share | Where |
+|---|---|
+| The whole project | **Share** in the Studio project bar, next to **Send to my Fidget**. On a phone, the share icon at the top of Studio, between **Save** and **Settings**. |
+| The app you just built | **Share this app** on the Test tab, after a successful build. |
+| One sprite or model | **Share this sprite** in the 2D right-panel footer, above version controls; on a phone, below Layers. For a model, use **Share this model** in its editor. |
+| Something in your library | **Share** on its row in **My Assets**. |
+
+A project with art but no code can still be shared: the page shows the art and models instead of an app.
+
+### What the Share box asks
+
+- **Title.** Starts as the project or asset name.
+- **Maker name** (optional). The name shown on the page. Use a nickname: no real names, schools or addresses.
+- **Others may copy: code, art.** Both are ticked to start with. These are the same switches as **SHARING** on the **APP** tab of **Settings** and the Archives submission form, so changing them in one place changes them everywhere for that project. A sprite or model share shows only the art switch. If the art switch is off for an art-only share, there is nothing left to share, so Studio explains why and won't make the link.
+
+When others may copy, the code is offered under the MIT License and the art under the Creative Commons Attribution-ShareAlike 4.0 license (CC BY-SA 4.0). Sharing confirms that you made the work or have the right to share it.
+
+A link shows your work **as it was when you shared it**. Changes made after sharing aren't included: share again for a new link.
+
+### Sending the link
+
+On a phone, choose **Send the link** to open your phone's share sheet and pick Messages, email, or another app. On a computer, Studio copies the link for you and says **Link copied.** If the browser won't allow the copy, Studio selects the link so you can copy it yourself. **Open the page** shows you what others will see.
+
+### Stop sharing
+
+The Share box lists **Links you've shared** from this browser (and, when you are signed in, from your account). Choose **Stop sharing** on a link, then confirm. The link stops working for everyone straight away. A page someone already has open stops playing within about a minute. This can't be undone: share again to make a new link.
+
+Each browser remembers the links it made. If you share while signed out and then clear your browser's data, that browser cannot stop those links. Sign in before sharing if you may want to stop a link from another computer.
 
 ---
 
@@ -68,8 +107,8 @@ Studio always creates a new project alongside the projects you already have. It 
 
 ## Files and the Cyber Fidget
 
-A linked Cyber Fidget can send back a list of what is on it. On [Your Fidgets](your-fidgets.md#download-what-is-on-this-fidget), choose **Download what is on this Fidget**. The Fidget answers at its next check-in, over WiFi, and the browser then saves one `fidget-<last4>-installed.json` file (named with the last four characters of the Fidget's identifier): the Fidget's app list as it reported it, plus the app files your account has a copy of. This is a record of the device, not a Studio project file, so it cannot be opened in Studio for editing. Built-in apps are listed but not included. To keep a project you can edit again, [save the whole project](#keep-a-whole-project) from Studio.
+A linked Cyber Fidget can send back a list of what is on it. On [Your Fidgets](your-fidgets.md#download-what-is-on-this-fidget), choose **Download what is on this Fidget**. The Fidget answers at its next check-in, over Wi-Fi, and the browser then saves one `fidget-<last4>-installed.json` file (named with the last four characters of the Fidget's identifier): the Fidget's app list as it reported it, plus the app files your account has a copy of. This is a record of the device, not a Studio project file, so it cannot be opened in Studio for editing. Built-in apps are listed but not included. To keep a project you can edit again, [save the whole project](#keep-a-whole-project) from Studio.
 
 Do not copy `.cfsprite.json` or `.cfmesh.json` files onto the device. Studio builds a project's art into the app itself, and installing the app carries its art with it.
 
-Apps live in the device's internal storage, and the companion page is built into its firmware. The memory card holds music, voice recordings, the companion's speech-recognition payload, and any optional companion page override. It does not hold apps, and apps do not load their art from it.
+Apps live in the device's internal storage, and the companion page is built into its firmware (the device's built-in software). The memory card holds music, voice recordings, the companion's speech-recognition download, and any optional companion page override. It does not hold apps, and apps do not load their art from it.

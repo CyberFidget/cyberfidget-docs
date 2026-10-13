@@ -64,7 +64,16 @@ nav:
     - Overview: studio/overview.md
     - Drawing and Version History: studio/drawing-and-versions.md
     - Your Sprite Library: studio/your-sprite-library.md
-    - Animation States: studio/animation-states.md
+    - Tools: studio/tools.md
+    - Tool Options: studio/tool-options.md
+    - Edit Commands: studio/edit-commands.md
+    - View: studio/view.md
+    - Layers: studio/layers.md
+    - Animations and Frames: studio/animations-and-frames.md
+    - Animation Names: studio/animation-states.md
+    - Preview and Speed: studio/preview.md
+    - Files and Versions: studio/files-and-versions.md
+    - Sharing: studio/sharing.md
     - 3D Models: studio/3d-models.md
   - Firmware:
     - Overview: firmware/index.md

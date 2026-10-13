@@ -2,11 +2,13 @@
 
 Every drawing in [Studio](https://cyberfidget.com/create/) keeps a version history. You can save a checkpoint yourself, and Studio also protects your work at important moments.
 
+On desktop and laptop, the label field, **Save version** and **History** are in the right-panel footer. On a phone they are below Preview and Layers, before the timeline. Tap the same buttons; they have no dedicated keyboard shortcuts. See [Files and versions](files-and-versions.md) for all save and download controls.
+
 ---
 
 ## Save a version yourself
 
-Select **Save version** while you are drawing. You can add an optional label to help you recognize the version later.
+Select **Save version** while you are drawing. You can add an optional label to help you recognize the version again.
 
 Useful labels describe the change you just finished, such as `clean outline` or `jump pose`.
 
@@ -18,7 +20,7 @@ Studio saves a version when:
 
 - You switch away from a drawing that has changes
 - Something is about to replace your art
-- You start a build
+- You start a build (Studio's step that turns your project, including its art, into a runnable app)
 
 You do not need to export a file before any of these actions.
 
@@ -32,7 +34,7 @@ Open the **History** panel to see the drawing's saved versions. The newest versi
 
 ---
 
-## Restore an older version
+## Restore an earlier version
 
 Choose **Restore** on the version you want. Studio makes that art current without deleting the version you were working on or any other history.
 
@@ -47,6 +49,6 @@ If the version already matches your current art, Studio leaves the drawing uncha
 
 ## The 20-version limit
 
-Each drawing keeps up to 20 versions. When the limit is reached, Studio removes older versions and shows a note explaining what happened.
+Each drawing keeps up to 20 versions. When the limit is reached, Studio removes the oldest versions and shows a note explaining what happened.
 
 If a version matters for a future edit, give it a clear label so it is easy to recognize while it remains in the history.
