@@ -3,6 +3,8 @@
 
 Cyber Fidget accepts text commands over its USB serial connection. Connect the USB cable, open a serial terminal at **921600 baud**, and send each command followed by a newline. Opening the port may restart the Fidget. Wait for it to start, then send `version` until it answers. Commands are case-insensitive; arguments may be case-sensitive. Success lines start with `[cmd]`, and errors start with `[err]`. Values in angle brackets below are placeholders; square brackets mean optional arguments. A reply that lists several lines is complete at its stated final line.
 
+A command the Fidget does not recognize is answered `[err] unknown command`, with nothing you typed repeated back, because a mistyped line could hold a password or key. The one exception is a known command name that this build leaves out (usually a test-build command sent to a normal build): that reply names it, as in `[err] unknown command: btn`. A line longer than 159 bytes is answered `[err] line too long`, and a line containing a NUL byte (character code 0) is answered `[err] line invalid`; neither runs.
+
 !!! tip "A console in the browser"
     The website's bench page, [cyberfidget.com/dev/chassis.html](https://cyberfidget.com/dev/chassis.html), is a serial console that needs no terminal program. It connects over Web Serial from a desktop Chromium-based browser (Chrome or Edge) at 921600 baud, waits for `version` to answer, and shows the Fidget's screen live. Type commands in **Command input** (Up and Down recall earlier ones), pick from the **Commands** list (a command with placeholders is copied into the input for you to finish), or read **Device help**, which lists the commands the connected Fidget's `help` reply names.
 
@@ -12,7 +14,7 @@ Cyber Fidget accepts text commands over its USB serial connection. Connect the U
 | --- | --- |
 | `version` | `[cmd] version=<firmware-version>` |
 | `info` | `[cmd] info.fw=...`, `.type=...`, `.built=...`, `.git=...`, `.dirty=...`, `.chip=...`, `.mac=...`, `.id=<12 hex digits>`, `.uptime_ms=...`, `.battery.voltage_mv=...`, `.battery.soc=...`, `.battery.crate=...`, `.board_rev=<major>.<minor>`, `.board=src=<source> hil=<0\|1> eng=<0\|1> layout=<n>`; ends with `[cmd] info.wake.cause=...` |
-| `help` | `[cmd] help=<commands>`, `[cmd] help.sync=<commands>`, `[cmd] help.update=<commands>`; test builds add `[cmd] help.test=<commands>` |
+| `help` | `[cmd] help=<commands>`, `[cmd] help.sync=<commands>`, `[cmd] help.update=<commands>`, `[cmd] help.wifi=<commands>`, `[cmd] help.hr=<commands>`; test builds add `[cmd] help.test=<commands>` |
 | `mark <id>` | `[cmd] mark=<id> uptime_ms=<millis>`; without an ID: `[err] mark.usage=mark <id>` |
 | `reboot` | `[cmd] reboot=now`, then the device restarts immediately |
 | `battery` | `[cmd] battery.vcell_mv=<mV\|-1> soc=<percent> crate=<percent/hour>` |
@@ -49,6 +51,22 @@ While a USB sync is active, the Fidget holds off its own WiFi check-ins until ab
 
 `upd allow-unsigned on` lets this Fidget install update images that have not been signed by Cyber Fidget. Official releases are signed and install over WiFi without it (see [Signed updates](../software/updates.md#signed-updates)); this switch is for a small test ring that tries unsigned builds, such as a fork's releases or your own. It covers only images with no signature. An image that carries a signature this Fidget cannot verify, or one made with a key it does not know, is refused even with this switch on. Other Fidgets show "Update it from the website for now" instead. The command can only be set through the USB cable; a network request cannot turn it on. The choice stays set across restarts and updates, until a [reset to factory or an erase and reinstall](../software/updating.md) clears it. Send `upd slot` to check: `unsig_ok=1` means allowed, and `unsig_ok=0` means off. Send `upd allow-unsigned off` to turn it off, then check again with `upd slot`. `upd slot` also shows the running and next-start update slots and does not change anything.
 
+## Setting up Home Remote
+
+**Tools > Home Remote** controls lights, speakers, scenes and scripts through a Home Assistant server on your home network. Give it the server's address and a long-lived access token (a key you create on your Home Assistant profile page, under **Security**) with these commands. The settings stay saved across restarts.
+
+| Command and arguments | Reply format |
+| --- | --- |
+| `hr url <http://host[:port]>` | `[cmd] hr.url=<address>`; only a plain `http://` address is accepted, and a trailing `/` is removed. Otherwise `[err] hr.url=invalid` |
+| `hr token <key>` | `[cmd] hr.token=saved chars=<n>`; starts a new key. Errors: `[err] hr.token=invalid` (spaces or unprintable characters) or `[err] hr.token=too-long` |
+| `hr token+ <more>` | `[cmd] hr.token=saved chars=<n>`; adds `<more>` to the end of the saved key |
+| `hr mirror on\|off` | `[cmd] hr.mirror=<on\|off>`; whether the front LEDs show the open light's colour (on by default) |
+| `hr show` | `[cmd] hr.url=<address\|unset> token=<set\|unset> mirror=<on\|off>` |
+| `hr clear` | `[cmd] hr.clear=ok`; forgets the address and the key (the LED choice is kept) |
+| anything else after `hr` | `[err] hr.usage=hr url <url>\|token <key>\|token+ <more>\|mirror on\|off\|show\|clear` |
+
+A Home Assistant key is about 180 characters, longer than one command line (159 bytes). So it is sent in pieces: `hr token` with the first part, then `hr token+` with each next part, until `chars=` shows the full length. A key can be at most 300 characters. The key is never shown: replies give only its length, an error never repeats the line, and `hr show` says only `set` or `unset`. A save that fails replies `[err] hr.url=storage`, `[err] hr.token=storage` or `[err] hr.mirror=storage`.
+
 ## Commands only in test builds
 
 These commands require a firmware build with `CF_TEST_CLI`. A normal build replies `[err] unknown command: <command>` for a test-only verb. Some test commands change device state, stored settings, or power rails.
@@ -68,6 +86,8 @@ These commands require a firmware build with `CF_TEST_CLI`. A normal build repli
 | `wifi <ssid>\|<pass>` | `[cmd] wifi.saved=<ssid>` |
 | `wasmstat` | `[cmd] wasmstat.*` runtime fields |
 | `btn <index> press\|release\|tap` | `[cmd] btn.press=<index>`, `[cmd] btn.release=<index>`, or `[cmd] btn.tap=<index> release_in_ms=120` followed by a release |
+| `btn <index> held` | `[cmd] btn.held=<index>`; sends the long-hold event for a button already pressed with `btn <index> press`, once per press. A long hold is `press`, `held`, `release` |
+| `hr state` | `[cmd] hr.state=<screen> msg=<message> link=<state> sel=<n> rows=<n> fav=<n> right=<value> id=<entity\|-> label=<row>`; on a light screen a second line `[cmd] hr.light=<entity> on=<0\|1> bri=<0-255> rgb=<r,g,b> hex=#RRGGBB effect=<name> takeover=<0\|1>`, and on a speaker screen `[cmd] hr.speaker=<entity> volume=<0-100> known=<0\|1> muted=<0\|1> features=<bits> takeover=<0\|1>`. Reports Home Remote's screen and selected row for bench scripts; a normal build answers `[err] hr.usage=...` |
 | `sleep` | `[cmd] sleep=requested` |
 | `prompt <n> [timeout_ms]` | `[cmd] prompt.open=<n> timeout_ms=<ms>`, later `[cmd] prompt.result=<index\|none>`; errors: `[err] prompt.usage=...`, `.busy=1`, or `.refused=not-menu` |
 | `status` | `[cmd] status.bar=<line\|->`, `.badge=<0\|1>`, `.glyph=<state> age=<label\|-> checkin_age_s=<n\|-> cached=<0\|1>`, zero or more `.item=<kind> pri=<0-2> sticky=<0\|1> attn=<0\|1> late=<0\|1> cached=<0\|1> text=<text>`; ends with `.count=<n>` |

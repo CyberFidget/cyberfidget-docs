@@ -165,6 +165,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Cyber Fidget** | The physical device and ecosystem (hardware, firmware, website, docs). |
 | **Emscripten** | Toolchain that compiles C/C++ to WebAssembly and JavaScript. |
 | **GitHub Actions** | CI/CD platform used to compile WASM on your fork. |
+| **Home Assistant** | Free, open-source home automation software that runs on a computer on your home network and controls smart lights, speakers and other devices. The Home Remote app talks to it. |
 | **ICS-43434** | InvenSense/TDK I2S MEMS microphone used in Cyber Fidget. |
 | **LIS2DH12** | STMicroelectronics 3-axis digital accelerometer used in Cyber Fidget. |
 | **MAX17048** | Analog Devices/Maxim fuel gauge IC for LiPo battery state-of-charge monitoring. |

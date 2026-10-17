@@ -41,6 +41,7 @@ Cyber Fidget ships with 29+ built-in apps spanning games, screensavers, tools, a
 | **Clock** | Time display with WiFi/NTP sync (fallback to internal timer) | Back to exit |
 | **Power Manager** | Manually shutdown Cyber Fidget | Double-tap Bottom-Left for deep sleep |
 | **WiFi Manager** | WiFi connection and web portal | Bottom-Left/Right to navigate |
+| **Home Remote** | Controls lights, speakers, scenes and scripts through a Home Assistant server on your home network: favorites, rooms, brightness and colour, volume, play/pause and track skip. Set up over USB with the [`hr` commands](../reference/serial-commands.md#setting-up-home-remote) | Up/Down to choose, Enter to open, hold Enter to toggle, Left/Right or the slider to adjust, Back to exit |
 | **Serial Display** | Scrollable view of incoming serial data | Scroll buttons, toggle scroll mode |
 | **Accelerometer Demo** | Real-time raw accelerometer data with LED color feedback | Tilt device, Back to exit |
 

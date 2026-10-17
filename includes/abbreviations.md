@@ -9,6 +9,8 @@
 *[CP2102N]: Silicon Labs USB-to-UART bridge chip
 *[CRC-32]: Cyclic Redundancy Check, 32-bit; a checksum used to detect damaged data
 *[CF_TEST_CLI]: Firmware build option that includes extra device testing commands
+*[Home Assistant]: Free, open-source home automation software that runs on your home network; the Home Remote app talks to it
+*[NUL]: The character with code 0; it marks the end of text in C, so a command line may not contain one
 *[chamfer]: A 45-degree angled cut on a corner; the case hides about 8 pixels of the screen at each corner
 *[baud]: Serial connection speed, measured in transmitted symbols per second
 *[CSS]: Cascading Style Sheets
