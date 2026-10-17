@@ -50,6 +50,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **MEMS** | Micro-Electro-Mechanical Systems — miniaturized sensor technology used in the ICS-43434 microphone. |
 | **ms** | Millisecond - one thousandth of a second. |
 | **NeoPixel** | Adafruit's addressable RGB(W) LED product line; firmware uses a shim that matches its API. |
+| **NUL** | The character with code 0. C uses it to mark the end of text, so a serial command line may not contain one. |
 | **NVS** | Non-Volatile Storage - the small settings area in the ESP32's flash that keeps saved WiFi networks, the account link, and other settings across restarts. |
 | **OLED** | Organic Light-Emitting Diode — the 128×64 pixel display on Cyber Fidget. |
 | **OTA** | Over-the-air update - firmware delivered over a network instead of a cable. On the device and website, the action is called an "update." |
@@ -165,6 +166,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Cyber Fidget** | The physical device and ecosystem (hardware, firmware, website, docs). |
 | **Emscripten** | Toolchain that compiles C/C++ to WebAssembly and JavaScript. |
 | **GitHub Actions** | CI/CD platform used to compile WASM on your fork. |
+| **Home Assistant** | Free, open-source home automation software that runs on a computer on your home network and controls smart lights, speakers and other devices. The Home Remote app talks to it. |
 | **ICS-43434** | InvenSense/TDK I2S MEMS microphone used in Cyber Fidget. |
 | **LIS2DH12** | STMicroelectronics 3-axis digital accelerometer used in Cyber Fidget. |
 | **MAX17048** | Analog Devices/Maxim fuel gauge IC for LiPo battery state-of-charge monitoring. |
