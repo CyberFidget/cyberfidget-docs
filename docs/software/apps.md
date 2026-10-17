@@ -41,7 +41,7 @@ Cyber Fidget ships with 29+ built-in apps spanning games, screensavers, tools, a
 | **Clock** | Time display with WiFi/NTP sync (fallback to internal timer) | Back to exit |
 | **Power Manager** | Manually shutdown Cyber Fidget | Double-tap Bottom-Left for deep sleep |
 | **WiFi Manager** | WiFi connection and web portal | Bottom-Left/Right to navigate |
-| **Home Remote** | Controls lights, speakers, scenes and scripts through a Home Assistant server on your home network: favorites, rooms, brightness and colour, volume, play/pause and track skip. Set up over USB with the [`hr` commands](../reference/serial-commands.md#setting-up-home-remote) | Up/Down to choose; Enter opens a light or speaker, or runs a scene or script; hold Enter on a list row to toggle it; Left/Right change the selected value; the slider sets brightness or volume; Back goes up a level and exits from the top list |
+| **Home Remote** | Controls lights, speakers, scenes and scripts through a Home Assistant server on your home network: favorites, rooms, brightness and colour, volume, play/pause and track skip. Set up over USB with the [`hr` commands](../reference/serial-commands.md#setting-up-home-remote) | Up/Down to choose; Enter opens a light or speaker, or runs a scene or script; hold Enter on a light, speaker, scene or script in a list to toggle the light, play or pause the speaker, or run the scene or script; Left/Right change the selected value; the slider sets brightness or volume; Back goes up a level and exits from the top list |
 | **Serial Display** | Scrollable view of incoming serial data | Scroll buttons, toggle scroll mode |
 | **Accelerometer Demo** | Real-time raw accelerometer data with LED color feedback | Tilt device, Back to exit |
 
