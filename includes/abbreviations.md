@@ -100,3 +100,8 @@
 
 *[CC BY-SA]: Creative Commons Attribution-ShareAlike; reuse requires attribution and sharing adaptations under the same license
 *[MIT License]: Permissive code license requiring the license notice to stay with copies
+
+*[callback]: A function called when an event happens, such as a button press
+*[pivot]: The point on a sprite placed at its screen position
+*[rig]: Connected bones and poses used to animate a figure
+*[pose]: A set of bone angles describing how a figure is positioned
