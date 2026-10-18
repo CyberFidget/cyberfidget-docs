@@ -40,6 +40,7 @@ nav:
     - Overview: getting-started/overview.md
     - Assembly: getting-started/assembly/guide.md
     - Build your first app: getting-started/first-app.md
+    - Make a game, step by step: getting-started/make-a-game.md
     - "Advanced: firmware with Arduino": getting-started/first-flash-arduino.md
   - Make apps:
     - Overview: concepts/index.md
@@ -48,6 +49,7 @@ nav:
     - The Update Loop: concepts/update-loop.md
     - Buttons & Events: concepts/buttons.md
     - Drawing to the Screen: concepts/display.md
+    - Sprites & Animation: concepts/sprites.md
     - Sound & Music: concepts/audio.md
     - LEDs & Color: concepts/leds.md
     - The Slider: concepts/slider.md

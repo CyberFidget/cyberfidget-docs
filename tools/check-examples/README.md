@@ -27,53 +27,64 @@ The checker considers fences tagged `cpp`, `c++`, `c`, `arduino` or `ino`, case-
 
 ### Fragments
 
-Put the placement instruction on the **first line inside the fence**:
+Put the placement line on the **first line inside the fence**. It must be exactly one of these four lines (trailing spaces are allowed). Each one tells the reader where to paste, relative to a line that is already in the starter:
+
+| Slot | Placement line |
+|------|----------------|
+| Top of the file | `// Paste at the top of the file, below the #include lines` |
+| `begin()` | `// Paste inside begin(), below setColorsOff();` |
+| `update()` | `// Paste inside update(), just above display.display();` |
+| `end()` | `// Paste inside end(), above unregisterButtonCallbacks();` |
+
+The exact text lives in `starter/slots.json` (each slot's `marker`). Put any extra explanation on its own comment line underneath:
 
 ```cpp
-// Paste inside update(). Draw a greeting.
+// Paste inside update(), just above display.display();
+// Draw a greeting.
 display.drawString(0, 0, "Hello");
 ```
 
-The supported method slots are `begin()`, `update()` and `end()`:
+Any other comment line that starts with `// Paste` where a placement line could go fails as `bad-marker`. The message quotes the exact text for the slot it seems to mean (or all four, when it cannot tell).
+
+Top-of-file code holds globals, constants, helpers or sprite data. Inside the starter, `display` and `buttonManager` are members of the app class, so fragments for `begin()`, `update()` and `end()` can use them directly. Code at the top of the file is outside the class: use `HAL::displayProxy()` and `HAL::buttonManager()` there.
+
+Placement-looking lines inside block comments or C++ raw strings stay part of their surrounding section. A real placement line after either closes starts a section.
+
+One block can go to several places. Each later placement line outside a block comment or raw string starts a section, so a button example can define its callback at the top of the file and register it inside `begin()`:
 
 ```cpp
-// Paste inside begin()
-setColorsOff();
-```
-
-```cpp
-// Paste inside end()
-setColorsOff();
-```
-
-For globals, constants, helpers or sprite data:
-
-```cpp
-// Paste at the top of the file: a constant.
-static const int exampleValue = 42;
-```
-
-Placement instructions are case-insensitive and allow punctuation or explanatory words after the slot. Inside the starter, `display` and `buttonManager` are members of the app class, so fragments for `begin()`, `update()` and `end()` can use them directly. Code at the top of the file is outside the class: use `HAL::displayProxy()` and `HAL::buttonManager()` there.
-
-Marker-looking lines inside block comments or C++ raw strings stay part of their surrounding section. A real marker after either closes starts a section.
-
-One block can go to several places. Each later `// Paste ...` line outside a block comment or raw string starts a section, so a button example can define its callback at the top of the file and register it inside `begin()`:
-
-```cpp
-// Paste at the top of the file
+// Paste at the top of the file, below the #include lines
 static bool lit = false;
 static void onRightPressed(const ButtonEvent& e) {
     if (e.eventType == ButtonEvent_Pressed) lit = !lit;
 }
 
-// Paste inside begin()
-HAL::buttonManager().registerCallback(button_RightIndex, onRightPressed);
+// Paste inside begin(), below setColorsOff();
+buttonManager.registerCallback(button_RightIndex, onRightPressed);
 
-// Paste inside update()
+// Paste inside update(), just above display.display();
 HAL::setRgbLed(pixel_Front_Middle, 0, 0, lit ? 255 : 0, 0);
 ```
 
-Every block must compile on its own in the starter template. Blocks do not share state, declarations or imports with other blocks on the page, because a reader may copy just one.
+On an ordinary page, every block must compile on its own in the starter template. Blocks do not share state, declarations or imports with other blocks on the page, because a reader may copy just one.
+
+### Cumulative pages
+
+A step-by-step tutorial builds one app across many blocks. Put this comment anywhere on the page:
+
+```markdown
+<!-- check-examples: cumulative -->
+```
+
+On that page, every fragment block applies on top of all earlier fragment blocks, in page order, in the same starter. Each step is compiled with everything before it, and a failing step is reported at its own page and line (compiler messages point at whichever step holds the bad line). Within a slot, a later step's code goes below the code earlier steps put there, so tell readers to paste each new part below what they added before. Skipped blocks do not accumulate. A complete-app block on a cumulative page is compiled on its own, as usual.
+
+A cumulative page can end with the whole program. Put this comment immediately before its fence:
+
+```markdown
+<!-- check-examples: final -->
+```
+
+The checker rebuilds the starter plus every earlier step, as a reader's file would look (no placement lines), and compares it with the listing. Whitespace and blank lines are ignored, and the starter's class name, instance and include guard are renamed to the class the listing defines (from `ClassName::begin()`), so the listing can use the reader's app name. A listing with `// ClassName.h` and `// ClassName.cpp` parts is compared part by part; a listing without them is compared with the `.cpp` file. A difference fails with a diff. A matching listing is then compiled (with the renamed starter header when the listing has only the `.cpp`). A final marker on a page without the cumulative marker fails.
 
 ### Complete apps
 
@@ -114,11 +125,11 @@ perform the next action;
 
 Use skips for pseudocode, intentionally incorrect examples and firmware-source excerpts that are not standalone studio apps. Skipped blocks and their reasons appear in both output formats.
 
-An untagged fence that conservatively resembles C/C++ (for example `#include`, a `void` function, `HAL::`, or `display.clear();`) fails as `untagged`: tag it `cpp`, or `text` if it is not code. Explicit non-C/C++ language tags are ignored. A tagged example without a placement instruction or all three lifecycle methods fails as `no-placement`; the tool does not guess where to paste it.
+An untagged fence that conservatively resembles C/C++ (for example `#include`, a `void` function, `HAL::`, or `display.clear();`) fails as `untagged`: tag it `cpp`, or `text` if it is not code. Explicit non-C/C++ language tags are ignored. A tagged example without a placement line or all three lifecycle methods fails as `no-placement`; the tool does not guess where to paste it.
 
 ## Replacing the starter
 
-`starter/MyApp.h` and `starter/MyApp.cpp` are the studio's **Code from Blank Template** starter, exactly as the studio writes it for the default name `MyApp`. Fragments are checked against the same code a reader pastes into, so they carry no license header or slot markers. `starter/slots.json` specifies the class name, instance, source files, and each slot's target file, regex anchor and insertion position (`before` or `after`). Each anchor must match exactly once. The update slot is just above `display.display();`, so a fragment draws after the starter's own text and before the frame is shown. The begin slot is after the starter's own setup lines, the end slot is at the top of `end()`, and the file slot is just before the global app instance.
+`starter/MyApp.h` and `starter/MyApp.cpp` are the studio's **Code from Blank Template** starter, exactly as the studio writes it for the default name `MyApp`. Fragments are checked against the same code a reader pastes into, so they carry no license header or slot markers. `starter/slots.json` specifies the class name, instance, source files, and each slot's target file, regex anchor, insertion position (`before` or `after`) and canonical placement line (`marker`). Each anchor must match exactly once. The update slot is just above `display.display();`, so a fragment draws after the starter's own text and before the frame is shown. The begin slot is after the starter's own setup lines, the end slot is just above `unregisterButtonCallbacks();` at the top of `end()`, and the file slot is just before the global app instance (below the `#include` lines).
 
 When a website checkout sits next to the docs checkout (or `--website PATH` points at one), the checker renders the studio's blank template with `node tools/check-examples/studio/render_starter.js` and reports a setup error (exit 2) if `starter/` differs, printing the command that regenerates it. A renderer failure prints its stderr and regeneration instructions. Missing Node.js is also a setup error. Only an absent website checkout produces `Starter: not checked`.
 
@@ -126,7 +137,7 @@ If the starter's shape changes, regenerate the source files and update the ancho
 
 ## Output and exit codes
 
-The table contains page path, first content line, kind (`complete`, `fragment:<slot>`, `skipped`, `untagged`, or `no-placement`) and result. Failures include their reason and up to 15 lines of compiler output. Totals include complete apps, fragments, skipped-with-marker, untagged, no-placement, passed and failed. Wall-clock seconds include setup and compilation. `--json PATH` writes the same records, full per-example compiler output, totals and elapsed seconds.
+The table contains page path, first content line, kind (`complete`, `fragment:<slot>`, `final`, `skipped`, `untagged`, `no-placement` or `bad-marker`) and result. Failures include their reason and up to 15 lines of compiler output. Totals include complete apps, fragments, skipped-with-marker, untagged, no-placement, bad-marker, final listings, passed and failed. Wall-clock seconds include setup and compilation. `--json PATH` writes the same records, full per-example compiler output, totals and elapsed seconds.
 
 - Exit **0**: zero failures (skips are allowed).
 - Exit **1**: compilation or example-convention failure.
@@ -147,10 +158,11 @@ Fixtures remain outside `docs/`. To exercise the real compiler:
 ```sh
 python tools/check-examples/check_examples.py --docs-dir tools/check-examples/tests/fixtures --page good.md --keep
 python tools/check-examples/check_examples.py --docs-dir tools/check-examples/tests/fixtures --page complete.md --keep
+python tools/check-examples/check_examples.py --docs-dir tools/check-examples/tests/fixtures --page cumulative.md --keep
 python tools/check-examples/check_examples.py --docs-dir tools/check-examples/tests/fixtures --page bad.md --keep
 ```
 
-The first two commands must exit 0. The final command must exit 1 and identify `missingExampleSymbol` at `bad.md:6`. The classification fixture also contains deliberately failing examples and is intended for unit tests.
+The first three commands must exit 0; the third checks cumulative steps and a matching final listing. The final command must exit 1 and identify `missingExampleSymbol` at `bad.md:6`. The classification fixture also contains deliberately failing examples and is intended for unit tests.
 
 To retain the current documentation baseline:
 

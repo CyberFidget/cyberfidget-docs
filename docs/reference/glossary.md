@@ -95,14 +95,17 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 
 | Term | Meaning |
 |------|---------|
+| **Actor** | A thing on the screen in an app: a position plus an animation that is playing. See [Sprites & Animation](../concepts/sprites.md#actors). |
 | **Animation** | Named sequence of sprite frames for one action; the editor's name for an animation state. |
 | **Animation state** | A named sequence of sprite frames for one action, such as running or jumping. |
 | **Asset** | A sprite or model that can be used in a Studio project. |
+| **Bitmap** | A picture stored as a grid of on/off pixels. |
 | **buffer** | An area of memory holding data while code works on it; the drawing buffer holds the next screen image. |
 | **Build** | Studio's step that turns your project, including its art, into a runnable app. |
 | **Built app** | The runnable copy produced when Studio builds an app. |
 | **Callback** | A function you give the device to call for you when something happens, such as a button press. |
 | **Capture** | An item stored in a Studio project's captures. |
+| **Collision** | Two sprites touching, where a lit pixel of one sits on a lit pixel of the other. See [Sprites & Animation](../concepts/sprites.md#collision). |
 | **Companion page** | The phone companion's web page, built into firmware and optionally overridden from the memory card. |
 | **Compile** | Turn the code you wrote into a program the device (or the emulator) can run. |
 | **Emulator** | A copy of the device that runs in your browser, so you can try an app without a Cyber Fidget. |
@@ -130,6 +133,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **ring buffer** | A queue that reuses a fixed amount of memory. |
 | **singleton** | An object shared through one instance. |
 | **Sprite** | An image or animation used by an app for a character, object, or effect. |
+| **Sprite sheet** | A named group of animations for one character or object. See [Sprites & Animation](../concepts/sprites.md#animations-and-sprite-sheets). |
 | **Strut** | A straight line connecting two nodes in a wireframe model. |
 | **Viewport** | Visible area of the canvas. |
 | **Wireframe model** | A 3D shape built from points (nodes) connected by straight lines (struts), with no solid surfaces -- drawn as spinning line art on the device. |

@@ -2,7 +2,8 @@
 """Compile Markdown examples using the firmware's device-app recipe."""
 import argparse
 from concurrent.futures import ThreadPoolExecutor
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+import difflib
 import fnmatch
 import json
 import os
@@ -28,6 +29,18 @@ class Block:
     code: str
     language: str
     skip: str = ""
+    final: bool = False
+    cumulative: bool = False
+    # Earlier fragment blocks on a cumulative page, in page order.
+    prior: list = field(default_factory=list)
+
+
+def load_config():
+    return json.loads((TOOL / "starter/slots.json").read_text(encoding="utf-8"))
+
+
+CONFIG = load_config()
+MARKERS = {spec["marker"]: slot for slot, spec in CONFIG["slots"].items()}
 
 
 def looks_cpp(code):
@@ -37,8 +50,14 @@ def looks_cpp(code):
         code, re.M))
 
 
+CUMULATIVE = re.compile(r"<!--\s*check-examples:\s*cumulative\s*-->", re.I)
+FINAL = re.compile(r"\s*<!--\s*check-examples:\s*final\s*-->\s*", re.I)
+
+
 def extract(path, root):
-    lines = path.read_text(encoding="utf-8-sig").splitlines()
+    text = path.read_text(encoding="utf-8-sig")
+    lines = text.splitlines()
+    cumulative = bool(CUMULATIVE.search(text))
     blocks = []
     i = 0
     while i < len(lines):
@@ -58,33 +77,62 @@ def extract(path, root):
         marker = re.fullmatch(r"\s*<!--\s*check-examples:\s*skip\s*-\s*(.+?)\s*-->\s*",
                               lines[start - 1] if start else "", re.I)
         reason = marker.group(1).strip() if marker else ""
+        final = bool(start and FINAL.fullmatch(lines[start - 1]))
         if language.lower() in LANGUAGES or (not language and looks_cpp(code)):
             blocks.append(Block(path.relative_to(root).as_posix(), start + 2,
-                                code, language.lower(), reason))
+                                code, language.lower(), reason, final, cumulative))
         i += 1
+    if cumulative:
+        # Each fragment step applies on top of every earlier fragment step;
+        # the final listing is compared with all of them.
+        steps = []
+        for block in blocks:
+            kind = classify(block)[0]
+            if kind.startswith("fragment:"):
+                block.prior = list(steps)
+                steps.append(block)
+            elif kind == "final":
+                block.prior = list(steps)
     return blocks
 
 
-PASTE = re.compile(r"^\s*//\s*Paste\s+(?:inside\s+(begin|update|end)\s*\(\s*\)|"
-                   r"at\s+the\s+top\s+of\s+the\s+file\b)", re.I)
+PASTE_LIKE = re.compile(r"^\s*//\s*paste\b", re.I)
+SLOT_GUESS = re.compile(r"\b(?:inside\s+)?(begin|update|end)\s*\(|\btop\s+of\s+the\s+file\b", re.I)
 
 
-def fragment_sections(code):
+def guess_slot(line):
+    """The slot a non-canonical placement line seems to mean, or None."""
+    match = SLOT_GUESS.search(line)
+    if not match:
+        return None
+    return (match.group(1) or "file").lower()
+
+
+def scan_fragment(code):
     """Split a fragment into (slot, line offset, code) sections.
 
-    A fragment starts with a "// Paste ..." line; any later "// Paste ..."
-    line starts the next section, so one block can say "this goes at the
-    top of the file, and this goes inside begin()"."""
+    A fragment starts with a placement line, one of the canonical markers in
+    starter/slots.json. Any later placement line starts the next section, so
+    one block can say "this goes at the top of the file, and this goes inside
+    begin()". Placement-looking lines inside block comments or raw strings
+    stay part of their section. Returns (sections, bad), where bad lists
+    (line offset, text, guessed slot) for "// Paste ..." lines that are not
+    exactly a canonical marker."""
     lines = code.splitlines(keepends=True)
-    if not lines or not PASTE.match(lines[0]):
-        return []
+    if not lines or not PASTE_LIKE.match(lines[0]):
+        return [], []
     sections = []
+    bad = []
     block_comment = False
     raw_end = None
     for index, line in enumerate(lines):
-        match = PASTE.match(line) if not block_comment and raw_end is None else None
-        if match:
-            sections.append([(match.group(1) or "file").lower(), index, ""])
+        if not block_comment and raw_end is None and PASTE_LIKE.match(line):
+            slot = MARKERS.get(line.rstrip())
+            if slot is None:
+                guessed = guess_slot(line)
+                bad.append((index, line.rstrip(), guessed))
+                slot = guessed or "file"
+            sections.append([slot, index, ""])
         sections[-1][2] += line
         pos = 0
         while pos < len(line):
@@ -123,15 +171,37 @@ def fragment_sections(code):
                             pos += 1
                 else:
                     pos += 1
-    return [tuple(section) for section in sections]
+    return [tuple(section) for section in sections], bad
+
+
+def fragment_sections(code):
+    return scan_fragment(code)[0]
+
+
+def bad_marker_message(block, bad):
+    notes = []
+    for offset, text, slot in bad:
+        if slot:
+            want = 'write exactly "' + CONFIG["slots"][slot]["marker"] + '"'
+        else:
+            want = "write exactly one of: " + ", ".join(
+                '"' + spec["marker"] + '"' for spec in CONFIG["slots"].values())
+        notes.append("line {}: {!r} is not a placement line; {}".format(block.line + offset, text, want))
+    return "; ".join(notes)
 
 
 def classify(block):
     if block.skip:
         return "skipped", block.skip
+    if block.final:
+        if not block.cumulative:
+            return "final", "a final listing needs <!-- check-examples: cumulative --> on its page"
+        return "final", ""
     if not block.language:
         return "untagged", "tag this block cpp, or text if it is not code"
-    sections = fragment_sections(block.code)
+    sections, bad = scan_fragment(block.code)
+    if bad:
+        return "bad-marker", bad_marker_message(block, bad)
     if sections:
         return "fragment:" + "+".join(slot for slot, _, _ in sections), ""
     if all(re.search(r"\bvoid\s+(?:\w+::)?" + name + r"\s*\(\s*\)", block.code)
@@ -144,30 +214,108 @@ def source_line(block, offset=0):
     return '#line {} {}\n'.format(block.line + offset, json.dumps(block.page))
 
 
+def renamed(text, app):
+    """Starter text with the class, instance and guard renamed for app."""
+    base, instance = CONFIG["app"], CONFIG["instance"]
+    if app == base:
+        return text
+    return (text.replace(base.upper(), app.upper()).replace(base, app)
+            .replace(instance, app[0].lower() + app[1:]))
+
+
+def assemble(steps, app=None, plain=False):
+    """Apply fragment steps, in page order, to the starter.
+
+    Sections for the same slot are pasted one after another in step order,
+    so a later step lands below the code earlier steps put there. With
+    plain=True the result is what a reader's file looks like: no #line
+    directives and no placement lines. Returns ({file name: text}, app,
+    instance)."""
+    app = app or CONFIG["app"]
+    files = {renamed(name, app): renamed((TOOL / "starter" / name).read_text(encoding="utf-8")
+                                         .replace("\r\n", "\n"), app)
+             for name in CONFIG["files"]}
+    pieces = {}
+    for step in steps:
+        for slot, offset, code in fragment_sections(step.code):
+            if plain:
+                code = "".join(line for line in code.splitlines(keepends=True)
+                               if line.rstrip() not in MARKERS)
+            else:
+                code = source_line(step, offset) + code
+            pieces.setdefault(slot, []).append(code)
+    # Locate every anchor in the untouched starter first, then insert from
+    # the end of each file backwards so earlier positions stay valid.
+    inserts = []
+    for slot_name, codes in pieces.items():
+        slot = CONFIG["slots"][slot_name]
+        name = renamed(slot["file"], app)
+        matches = list(re.finditer(renamed(slot["anchor"], app), files[name], re.M))
+        if len(matches) != 1:
+            raise ValueError("starter anchor must match exactly once: " + slot_name)
+        pos = matches[0].end() if slot["position"] == "after" else matches[0].start()
+        inserts.append((name, pos, "".join(codes)))
+    for name, pos, code in sorted(inserts, key=lambda item: (item[0], -item[1])):
+        content = files[name]
+        resume = "" if plain else '#line {} {}\n'.format(content[:pos].count("\n") + 1, json.dumps(name))
+        files[name] = content[:pos] + "\n" + code + resume + content[pos:]
+    return files, app, app[0].lower() + app[1:]
+
+
+def split_parts(block, app):
+    """{"h"/"cpp": (line offset, code)} for a listing split by // App.h and // App.cpp."""
+    markers = list(re.finditer(r"(?m)^\s*//\s*" + re.escape(app) + r"\.(h|cpp)\s*$", block.code))
+    if not markers:
+        return {}
+    if [m.group(1) for m in markers] != ["h", "cpp"] or block.code[:markers[0].start()].strip():
+        raise ValueError("split app needs // " + app + ".h then // " + app + ".cpp, with no preceding code")
+    parts = {}
+    for index, marker in enumerate(markers):
+        end = markers[index + 1].start() if index + 1 < len(markers) else len(block.code)
+        parts[marker.group(1)] = (block.code[:marker.end()].count("\n"), block.code[marker.end():end])
+    return parts
+
+
+def normalized(text):
+    return [" ".join(line.split()) for line in text.splitlines() if line.strip()]
+
+
+def materialize_final(block, folder):
+    """Check a final listing against the starter plus every earlier step, then lay it out."""
+    match = re.search(r"\b([A-Za-z_]\w*)::begin\s*\(\s*\)", block.code)
+    if not match:
+        raise ValueError("final listing needs a ClassName::begin() definition")
+    expected, app, instance = assemble(block.prior, app=match.group(1), plain=True)
+    parts = split_parts(block, app) or {"cpp": (0, block.code)}
+    diffs = []
+    for ext, (_, code) in parts.items():
+        name = app + "." + ext
+        want, got = normalized(expected[name]), normalized(code)
+        if want != got:
+            diffs.extend(difflib.unified_diff(want, got, "starter + steps: " + name,
+                                              "final listing: " + name, n=1, lineterm=""))
+    if diffs:
+        shown = diffs[:40] + (["... ({} more diff lines)".format(len(diffs) - 40)] if len(diffs) > 40 else [])
+        raise ValueError("final listing differs from the starter plus the steps above it "
+                         "(whitespace ignored):\n" + "\n".join(shown))
+    for ext in ("h", "cpp"):
+        name = app + "." + ext
+        if ext in parts:
+            offset, code = parts[ext]
+            (folder / name).write_text(source_line(block, offset) + code, encoding="utf-8")
+        else:
+            (folder / name).write_text(expected[name], encoding="utf-8")
+    return app, instance
+
+
 def materialize(block, kind, folder):
     if kind.startswith("fragment:"):
-        config = json.loads((TOOL / "starter/slots.json").read_text(encoding="utf-8"))
-        app, instance = config["app"], config["instance"]
-        files = {name: (TOOL / "starter" / name).read_text(encoding="utf-8").replace("\r\n", "\n")
-                 for name in config["files"]}
-        # Locate every anchor in the untouched starter first, then insert from
-        # the end of each file backwards so earlier positions stay valid.
-        inserts = []
-        for slot_name, offset, code in fragment_sections(block.code):
-            slot = config["slots"][slot_name]
-            matches = list(re.finditer(slot["anchor"], files[slot["file"]], re.M))
-            if len(matches) != 1:
-                raise ValueError("starter anchor must match exactly once: " + slot_name)
-            pos = matches[0].end() if slot["position"] == "after" else matches[0].start()
-            inserts.append((slot["file"], pos, offset, code))
-        for name, pos, offset, code in sorted(inserts, key=lambda item: (item[0], -item[1], -item[2])):
-            content = files[name]
-            files[name] = (content[:pos] + "\n" + source_line(block, offset) + code +
-                           '#line {} {}\n'.format(content[:pos].count("\n") + 1, json.dumps(name)) +
-                           content[pos:])
+        files, app, instance = assemble(block.prior + [block])
         for name, content in files.items():
             (folder / name).write_text(content, encoding="utf-8")
         return app, instance
+    if kind == "final":
+        return materialize_final(block, folder)
     # Match lifecycle-bearing classes, including split headers with declarations.
     classes = re.findall(r"\bclass\s+(\w+)\b", block.code)
     candidates = []
@@ -179,15 +327,10 @@ def materialize(block, kind, folder):
     if len(candidates) != 1:
         raise ValueError("complete app needs one class and a defined global instance named lowerFirst(ClassName)")
     app, instance = candidates[0]
-    markers = list(re.finditer(r"(?m)^\s*//\s*" + re.escape(app) + r"\.(h|cpp)\s*$", block.code))
-    if markers:
-        if [m.group(1) for m in markers] != ["h", "cpp"] or block.code[:markers[0].start()].strip():
-            raise ValueError("split app needs // " + app + ".h then // " + app + ".cpp, with no preceding code")
-        for index, marker in enumerate(markers):
-            end = markers[index + 1].start() if index + 1 < len(markers) else len(block.code)
-            offset = block.code[:marker.end()].count("\n")
-            (folder / (app + "." + marker.group(1))).write_text(
-                source_line(block, offset) + block.code[marker.end():end], encoding="utf-8")
+    parts = split_parts(block, app)
+    if parts:
+        for ext, (offset, code) in parts.items():
+            (folder / (app + "." + ext)).write_text(source_line(block, offset) + code, encoding="utf-8")
     else:
         (folder / (app + ".h")).write_text(source_line(block) + block.code, encoding="utf-8")
         (folder / (app + ".cpp")).write_text("", encoding="utf-8")
@@ -278,6 +421,8 @@ def compile_block(block, build, environment, keep):
         result["result"] = "passed" if process.returncode == 0 else "failed"
         if process.returncode:
             result["message"] = "compile failed"
+            if block.prior:
+                result["message"] += " (with the {} earlier steps on this page applied first)".format(len(block.prior))
     except (ValueError, OSError) as error:
         result["message"] = str(error)
     finally:
@@ -321,11 +466,11 @@ def main(argv=None):
     for result in results:
         print("{page} | {line} | {kind} | {result}".format(**result))
         if result["message"]:
-            print("  " + result["message"])
+            print(textwrap.indent(result["message"], "  "))
         if result["result"] == "failed" and result["output"]:
             print(textwrap.indent("\n".join(result["output"].splitlines()[:15]), "  "))
     totals = {"blocks": len(results), "complete": 0, "fragments": 0, "skipped-with-marker": 0,
-              "untagged": 0, "no-placement": 0, "passed": 0, "failed": 0}
+              "untagged": 0, "no-placement": 0, "bad-marker": 0, "final": 0, "passed": 0, "failed": 0}
     for result in results:
         kind = result["kind"]
         key = "fragments" if kind.startswith("fragment:") else "skipped-with-marker" if kind == "skipped" else kind

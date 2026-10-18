@@ -104,6 +104,10 @@
 *[compile]: Turn the code you wrote into a program the device (or the emulator) can run
 *[callback]: A function you give the device to call for you when something happens, such as a button press
 *[pivot]: The point on a sprite placed at its screen position
+*[bitmap]: A picture stored as a grid of on/off pixels
+*[sprite sheet]: A named group of animations for one character or object
+*[actor]: A thing on the screen in an app: a position plus an animation that is playing
+*[collision]: Two sprites touching, where a lit pixel of one sits on a lit pixel of the other
 *[rig]: Connected bones and poses used to animate a figure
 *[pose]: A set of bone angles describing how a figure is positioned
 *[EMA]: Exponential Moving Average; smoothing that blends each reading with previous readings
