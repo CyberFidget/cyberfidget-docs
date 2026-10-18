@@ -5582,7 +5582,7 @@
       "section": "Sprites and animation",
       "use": "sampleSprite(sprite, 0, 0);",
       "does": "Read one on/off pixel in sprite-local coordinates; outside is false.",
-      "see": "../concepts/sprites.md#collision",
+      "see": "../concepts/sprites.md#reading-single-pixels",
       "targets": [
         "device",
         "emulator"

@@ -167,6 +167,37 @@ public:
                 self.assertIn('reference/audio.md differs', error.getvalue().replace('\\', '/'))
                 self.assertEqual(include.read_text(encoding='utf-8') if include.exists() else None, initial)
 
+    def test_orphan_include_and_missing_snippet_fail_check_without_writing(self):
+        for defect in ('orphan', 'missing-snippet', 'missing-page', 'valid'):
+            with self.subTest(defect=defect), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                files = {'docs/reference/functions.md': 'expected',
+                         'docs/assets/reference/app-functions.json': '{}\n',
+                         'includes/reference/audio.md': 'current'}
+                if defect != 'missing-page':
+                    files['docs/concepts/audio.md'] = ('# Audio\n' if defect == 'missing-snippet'
+                        else '# Audio\n\n--8<-- "includes/reference/audio.md"\n')
+                if defect == 'orphan':
+                    files['includes/reference/unpaired.md'] = 'orphan table'
+                for filename, content in files.items():
+                    path = root / filename
+                    path.parent.mkdir(parents=True, exist_ok=True)
+                    path.write_text(content, encoding='utf-8')
+                with patch.object(gen, 'ROOT', root), patch.object(gen, 'build',
+                        return_value=('expected', '{}\n', {}, {}, {'includes/reference/audio.md': 'current'})):
+                    error, output = io.StringIO(), io.StringIO()
+                    with contextlib.redirect_stderr(error), contextlib.redirect_stdout(output):
+                        code = gen.main(['--check', '--firmware', str(self.firmware)])
+                self.assertEqual(code, 0 if defect == 'valid' else 1)
+                if defect == 'orphan':
+                    self.assertIn('orphan include', error.getvalue())
+                elif defect == 'missing-snippet':
+                    self.assertIn('is missing --8<--', error.getvalue())
+                elif defect == 'missing-page':
+                    self.assertIn('has no concept page', error.getvalue())
+                for filename, content in files.items():
+                    self.assertEqual((root / filename).read_text(encoding='utf-8'), content)
+
 
 if __name__ == '__main__':
     unittest.main()

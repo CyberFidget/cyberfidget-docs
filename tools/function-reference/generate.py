@@ -258,7 +258,8 @@ def build(firmware, sidecar):
              'Examples use your own `void onRight(const ButtonEvent& event)` callback (a function called when a button changes), `sprite` image, `sheet`, `animation`, and `player` objects. A button event has `buttonIndex`, `eventType`, and `duration` in ms. Register callbacks in `begin()` and unregister them in `end()`.', '',
              '!!! tip "Quick answers"']
     for label, name in [('Middle LED blue', 'HAL::setRgbLed'), ('Beep', 'AudioManager::playTone'), ('React to the right button', 'ButtonManager::registerCallback'), ('Draw text', 'DisplayProxy::drawString'), ('Draw a sprite', 'cf::gfx::drawSprite'), ('Read the slider', 'sliderPosition_Percentage_Filtered')]:
-        lines.append(f'    - [{label}](#{anchor(name)}): `{described[name]["use"]}`')
+        note = ' (after `using namespace cf::gfx;`)' if name == 'cf::gfx::drawSprite' else ''
+        lines.append(f'    - [{label}](#{anchor(name)}): `{described[name]["use"]}`{note}')
     lines.append('')
     for section in SECTIONS + TABLES:
         rows = [row for row in symbols if row['section'] == section]
@@ -267,7 +268,7 @@ def build(firmware, sidecar):
                     and row['name'] != 'millis_APP_LASTINTERACTION']
         lines += [f'## {section}', '']
         if section == 'LEDs': lines += ['Pixel map: 0 Back, 1 Front Top, 2 Front Middle, 3 Front Bottom.', '']
-        if section == 'Sprites and animation': lines += ['Add `using namespace cf::gfx;` at the top of your file, below the #include lines, to use these names.', '', 'Use `#include "cf_gfx.h"` and your generated asset header when using project art. Examples use `Actor player`, `AnimationPlayer clock`, `MeshActor model`, and `RigActor figure`. A pivot is the point on a sprite placed at its screen position.', '']
+        if section == 'Sprites and animation': lines += ['Studio apps already have `cf_gfx.h` and their generated project art available. You do not need to add those #include lines. Add `using namespace cf::gfx;` at the top of the file, below the #include lines, to use these short names.', '', 'When building an app into the firmware by hand, add `#include "cf_gfx.h"` and your generated asset header (if your project has art) at the top of the file. Then put `using namespace cf::gfx;` below the #include lines.', '', 'Examples use `Actor player`, `AnimationPlayer clock`, `MeshActor model`, and `RigActor figure`. A pivot is the point on a sprite placed at its screen position.', '']
         if not rows:
             detail = 'Read slider position as 0-100 %, 0-255, or 0-4095.' if section == 'Slider' else 'Read acceleration along X, Y, and Z; roughly 1000 units equal gravity (1 g).'
             lines += [detail + ' See [Readable globals](#readable-globals) below.', '']
@@ -307,6 +308,22 @@ def build(firmware, sidecar):
     return '\n'.join(lines), json.dumps(dict(generated_from=dict(firmware_commit=commit, headers=headers), symbols=sorted(symbols, key=lambda row: row['name'])), indent=2, ensure_ascii=False) + '\n', stats, {target: sorted(set(rows) - common) for target, rows in targets.items()}, includes
 
 
+def concept_include_errors(includes):
+    """Check both ends of each concept snippet, including orphan files."""
+    errors = []
+    for name in includes:
+        page = ROOT / 'docs/concepts' / Path(name).name
+        if not page.is_file():
+            errors.append(f'{name} has no concept page at {page.relative_to(ROOT)}.')
+        elif not re.search(r'^\s*--8<--\s+"' + re.escape(name) + r'"\s*$',
+                           page.read_text(encoding='utf-8'), re.M):
+            errors.append(f'{page.relative_to(ROOT)} is missing --8<-- "{name}".')
+    for path in sorted((ROOT / 'includes/reference').glob('*')):
+        if path.is_file() and path.relative_to(ROOT).as_posix() not in includes:
+            errors.append(f'{path.relative_to(ROOT)} is an orphan include; pair it with a concept page and generator entry.')
+    return errors
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--firmware', type=Path)
@@ -318,7 +335,10 @@ def main(argv=None):
         outputs = {ROOT / 'docs/reference/functions.md': page,
                    ROOT / 'docs/assets/reference/app-functions.json': symbols}
         outputs.update({ROOT / path: content for path, content in includes.items()})
-        drift = False
+        errors = concept_include_errors(includes) if args.check else []
+        for error in errors:
+            print(error, file=sys.stderr)
+        drift = bool(errors)
         for path, content in outputs.items():
             if args.check:
                 if not path.exists() or path.read_text(encoding='utf-8') != content:

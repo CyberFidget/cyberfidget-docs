@@ -76,6 +76,10 @@ The inverted slider value is low at the bottom and high at the top of the device
 
 ---
 
+## Functions on this page
+
+--8<-- "includes/reference/leds.md"
+
 ## Framework details
 
 ??? info "Advanced: how the firmware drives the LEDs"
@@ -104,7 +108,3 @@ The inverted slider value is low at the bottom and high at the top of the device
     | `initRGB()` | Firmware only: initialize strip at boot |
     | `updateStrip()` | Does nothing in studio apps; firmware sends colors automatically |
     | `rainbow(int wait)` | Firmware only; studio apps can time colors with `millis()` |
-
-## Functions on this page
-
---8<-- "includes/reference/leds.md"

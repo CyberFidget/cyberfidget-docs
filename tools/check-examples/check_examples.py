@@ -219,12 +219,14 @@ def source_line(block, offset=0):
 
 
 def renamed(text, app):
-    """Starter text with the class, instance and guard renamed for app."""
+    """Rename exact starter identifiers (also in file names) in one pass."""
     base, instance = CONFIG["app"], CONFIG["instance"]
     if app == base:
         return text
-    return (text.replace(base.upper(), app.upper()).replace(base, app)
-            .replace(instance, app[0].lower() + app[1:]))
+    replacements = {base: app, instance: app[0].lower() + app[1:],
+                    base.upper() + "_H": app.upper() + "_H"}
+    pattern = r"\b(?:" + "|".join(map(re.escape, replacements)) + r")\b"
+    return re.sub(pattern, lambda match: replacements[match[0]], text)
 
 
 def assemble(steps, app=None, plain=False):
@@ -243,8 +245,10 @@ def assemble(steps, app=None, plain=False):
     for step in steps:
         for slot, offset, code in fragment_sections(step.code):
             if plain:
-                code = "".join(line for line in code.splitlines(keepends=True)
-                               if line.rstrip() not in MARKERS)
+                # The scanner's offset identifies the section opener. Later
+                # marker-looking lines may belong to a raw string or comment.
+                code = "".join(step.code.splitlines(keepends=True)[
+                    offset + 1:offset + len(code.splitlines(keepends=True))])
             else:
                 code = source_line(step, offset) + code
             pieces.setdefault(slot, []).append(code)
@@ -280,8 +284,24 @@ def split_parts(block, app):
     return parts
 
 
-def normalized(text):
-    return [" ".join(line.split()) for line in text.splitlines() if line.strip()]
+CPP_TOKEN = re.compile(
+    r'(?P<space>\s+)|(?P<comment>//[^\n]*|/\*[\s\S]*?\*/)|'
+    r'(?:u8|u|U|L)?R"(?P<delimiter>[^\s()\\]{0,16})\([\s\S]*?\)(?P=delimiter)"(?:[A-Za-z_]\w*)?|'
+    r'''(?:u8|u|U|L)?(?:"(?:\\[\s\S]|[^"\\])*"|'(?:\\[\s\S]|[^'\\])*')(?:[A-Za-z_]\w*)?|'''
+    r'(?:\d|\.\d)(?:[eEpP][+-]|[\w.\'])*|[A-Za-z_]\w*|'
+    r'%:%:|>>=|<<=|<=>|->\*|\.\.\.|::|\.\*|->|\+\+|--|<<|>>|<=|>=|==|!=|&&|\|\||'
+    r'\+=|-=|\*=|/=|%=|\^=|&=|\|=|##|<:|:>|<%|%>|%:|[^\s]'
+)
+
+
+def cpp_tokens(text):
+    """C++ lexical tokens; discard comments and inter-token whitespace.
+
+    Ordinary, character and raw literals retain their exact spelling, including
+    internal whitespace. Operators use longest match, so += is one token.
+    """
+    return [match[0] for match in CPP_TOKEN.finditer(text)
+            if match.lastgroup not in ("space", "comment")]
 
 
 def materialize_final(block, folder):
@@ -294,14 +314,14 @@ def materialize_final(block, folder):
     diffs = []
     for ext, (_, code) in parts.items():
         name = app + "." + ext
-        want, got = normalized(expected[name]), normalized(code)
+        want, got = cpp_tokens(expected[name]), cpp_tokens(code)
         if want != got:
             diffs.extend(difflib.unified_diff(want, got, "starter + steps: " + name,
                                               "final listing: " + name, n=1, lineterm=""))
     if diffs:
         shown = diffs[:40] + (["... ({} more diff lines)".format(len(diffs) - 40)] if len(diffs) > 40 else [])
         raise ValueError("final listing differs from the starter plus the steps above it "
-                         "(whitespace ignored):\n" + "\n".join(shown))
+                         "(comments and whitespace between tokens ignored):\n" + "\n".join(shown))
     for ext in ("h", "cpp"):
         name = app + "." + ext
         if ext in parts:

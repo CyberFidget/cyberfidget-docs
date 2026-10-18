@@ -37,15 +37,6 @@ The studio emulator follows the same direction: moving the slider up increases t
 
 ---
 
-## Kalman filtering
-
-??? info "Advanced: how slider readings are smoothed"
-    You do not need these details to build apps in the studio; use the filtered variables above.
-
-    The raw ADC readings jump around due to electrical noise. The framework applies a **Kalman filter** plus an **Exponential Moving Average (EMA)** on the percentage to smooth the signal. You get stable, responsive values without coding the math yourself.
-
----
-
 ## Code example: slider-controlled brightness
 
 The slider can control volume inside built-in firmware apps. In studio apps on the device or in the browser emulator, `HAL::audioManager().setVolume()` has no effect. This example uses the same slider input for LED brightness instead, and shows the percentage on screen. Paste it into the [studio starter](../getting-started/first-app.md).
@@ -68,6 +59,19 @@ display.drawString(64, 24, text);
 
 ---
 
+## Functions on this page
+
+--8<-- "includes/reference/slider.md"
+
+## Kalman filtering
+
+??? info "Advanced: how slider readings are smoothed"
+    You do not need these details to build apps in the studio; use the filtered variables above.
+
+    The raw ADC readings jump around due to electrical noise. The framework applies a **Kalman filter** plus an **Exponential Moving Average (EMA)** on the percentage to smooth the signal. You get stable, responsive values without coding the math yourself.
+
+---
+
 ## Framework details
 
 ??? info "Advanced: how the firmware reads the slider"
@@ -87,7 +91,3 @@ display.drawString(64, 24, text);
     ### Inverted variants
 
     The `*_Inverted_Filtered` values reverse the range: inverted percentage is 100 minus the ordinary percentage, and inverted 8-bit position is 255 minus the ordinary 8-bit position. Inverted 12-bit position is 4095 minus the ordinary position. On the device, inverted values increase from bottom to top; ordinary values decrease. Use an ordinary value when moving the slider up should reduce your app's setting.
-
-## Functions on this page
-
---8<-- "includes/reference/slider.md"

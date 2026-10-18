@@ -96,6 +96,10 @@ You can update logic at a different rate than the draw rate. For example, change
 
 ---
 
+## Functions on this page
+
+--8<-- "includes/reference/update-loop.md"
+
 ## Framework detail: TASK_20MS and HAL::loopHardware()
 
 ??? info "Advanced: how the firmware schedules updates"
@@ -123,7 +127,3 @@ You can update logic at a different rate than the draw rate. For example, change
     - RGB strip updates
 
     Your app's `update()` is only called when the 20 ms timer fires, so about 50 updates per second is the target. Slow work can make updates arrive later; keep each call short. Do not call `HAL::loopHardware()` from a studio app.
-
-## Functions on this page
-
---8<-- "includes/reference/update-loop.md"

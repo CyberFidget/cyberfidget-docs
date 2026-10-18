@@ -200,6 +200,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **MAX98357A** | Analog Devices/Maxim I2S Class-D amplifier driving the on-board speaker. |
 | **MCP73831** | Microchip single-cell LiPo charge management controller. |
 | **pioarduino** | Community-maintained PlatformIO platform fork for ESP32 (ESP-IDF 5.1.4 + Arduino ESP32 3.0.3). |
+| **PROGMEM** | Program memory; marks constant data for storage with the program on embedded boards. |
 | **PlatformIO** | IDE and build system for embedded development; recommended for Cyber Fidget via the pioarduino fork. |
 | **SK6812** | Individually addressable RGBW LED (NeoPixel-compatible) -- four are used in Cyber Fidget. |
 | **ThingPulse** | Source of the OLED font data used in the WASM shim. |
