@@ -65,17 +65,36 @@ def extract(path, root):
     return blocks
 
 
+PASTE = re.compile(r"^\s*//\s*Paste\s+(?:inside\s+(begin|update|end)\s*\(\s*\)|"
+                   r"at\s+the\s+top\s+of\s+the\s+file\b)", re.I)
+
+
+def fragment_sections(code):
+    """Split a fragment into (slot, line offset, code) sections.
+
+    A fragment starts with a "// Paste ..." line; any later "// Paste ..."
+    line starts the next section, so one block can say "this goes at the
+    top of the file, and this goes inside begin()"."""
+    lines = code.splitlines(keepends=True)
+    if not lines or not PASTE.match(lines[0]):
+        return []
+    sections = []
+    for index, line in enumerate(lines):
+        match = PASTE.match(line)
+        if match:
+            sections.append([(match.group(1) or "file").lower(), index, ""])
+        sections[-1][2] += line
+    return [tuple(section) for section in sections]
+
+
 def classify(block):
     if block.skip:
         return "skipped", block.skip
     if not block.language:
         return "untagged", "tag this block cpp, or text if it is not code"
-    first = block.code.splitlines()[0] if block.code else ""
-    slot = re.match(r"\s*//\s*Paste\s+inside\s+(begin|update|end)\s*\(\s*\)", first, re.I)
-    if slot:
-        return "fragment:" + slot.group(1).lower(), ""
-    if re.match(r"\s*//\s*Paste\s+at\s+the\s+top\s+of\s+the\s+file\b", first, re.I):
-        return "fragment:file", ""
+    sections = fragment_sections(block.code)
+    if sections:
+        return "fragment:" + "+".join(slot for slot, _, _ in sections), ""
     if all(re.search(r"\bvoid\s+(?:\w+::)?" + name + r"\s*\(\s*\)", block.code)
            for name in ("begin", "update", "end")):
         return "complete", ""
@@ -90,18 +109,24 @@ def materialize(block, kind, folder):
     if kind.startswith("fragment:"):
         config = json.loads((TOOL / "starter/slots.json").read_text(encoding="utf-8"))
         app, instance = config["app"], config["instance"]
-        slot = config["slots"][kind.split(":")[1]]
-        for name in config["files"]:
-            content = (TOOL / "starter" / name).read_text(encoding="utf-8")
-            if name == slot["file"]:
-                matches = list(re.finditer(slot["anchor"], content, re.M))
-                if len(matches) != 1:
-                    raise ValueError("starter anchor must match exactly once: " + name)
-                match = matches[0]
-                pos = match.end() if slot["position"] == "after" else match.start()
-                content = (content[:pos] + "\n" + source_line(block) + block.code +
+        files = {name: (TOOL / "starter" / name).read_text(encoding="utf-8").replace("\r\n", "\n")
+                 for name in config["files"]}
+        # Locate every anchor in the untouched starter first, then insert from
+        # the end of each file backwards so earlier positions stay valid.
+        inserts = []
+        for slot_name, offset, code in fragment_sections(block.code):
+            slot = config["slots"][slot_name]
+            matches = list(re.finditer(slot["anchor"], files[slot["file"]], re.M))
+            if len(matches) != 1:
+                raise ValueError("starter anchor must match exactly once: " + slot_name)
+            pos = matches[0].end() if slot["position"] == "after" else matches[0].start()
+            inserts.append((slot["file"], pos, offset, code))
+        for name, pos, offset, code in sorted(inserts, key=lambda item: (item[0], -item[1], -item[2])):
+            content = files[name]
+            files[name] = (content[:pos] + "\n" + source_line(block, offset) + code +
                            '#line {} {}\n'.format(content[:pos].count("\n") + 1, json.dumps(name)) +
                            content[pos:])
+        for name, content in files.items():
             (folder / name).write_text(content, encoding="utf-8")
         return app, instance
     # Match lifecycle-bearing classes, including split headers with declarations.
@@ -162,6 +187,27 @@ def setup(firmware):
     return bash, prefix, script
 
 
+def check_studio_starter(website):
+    """Compare starter/ with the studio's blank template, when a website checkout is present."""
+    generator = website / "assets/js/builder.js"
+    if not generator.is_file():
+        return "not checked (no website checkout)"
+    node = shutil.which("node")
+    if not node:
+        return "not checked (node not found)"
+    with tempfile.TemporaryDirectory() as out:
+        subprocess.run([node, str(TOOL / "studio/render_starter.js"), str(generator), out],
+                       check=True, capture_output=True)
+        for name in ("MyApp.h", "MyApp.cpp"):
+            expected = (Path(out) / name).read_text(encoding="utf-8")
+            actual = (TOOL / "starter" / name).read_text(encoding="utf-8").replace("\r\n", "\n")
+            if expected != actual:
+                raise ValueError("starter/" + name + " no longer matches the studio's blank template; "
+                                 "regenerate it with: node tools/check-examples/studio/render_starter.js "
+                                 + generator.as_posix() + " tools/check-examples/starter")
+    return "matches the studio's blank template"
+
+
 def compile_block(block, build, environment, keep):
     kind, message = classify(block)
     result = dict(page=block.page, line=block.line, kind=kind,
@@ -197,6 +243,8 @@ def main(argv=None):
     parser.add_argument("--jobs", type=int, default=os.cpu_count() or 1)
     parser.add_argument("--json", type=Path)
     parser.add_argument("--keep", action="store_true")
+    parser.add_argument("--website", type=Path, default=find_workspace_item("cyberfidget_website"),
+                        help="website checkout used to confirm starter/ matches the studio's blank template")
     args = parser.parse_args(argv)
     for stream in (sys.stdout, sys.stderr):
         stream.reconfigure(encoding="utf-8", errors="replace")
@@ -206,6 +254,7 @@ def main(argv=None):
             raise ValueError("--jobs must be at least 1")
         if not args.docs_dir.is_dir():
             raise ValueError("docs directory missing; set --docs-dir to a Markdown directory")
+        studio = check_studio_starter(args.website)
         environment = setup(args.firmware.resolve())
         blocks = [block for path in sorted(args.docs_dir.rglob("*.md"))
                   if fnmatch.fnmatchcase(path.relative_to(args.docs_dir).as_posix(), args.page)
@@ -234,6 +283,7 @@ def main(argv=None):
             totals[result["result"]] += 1
     elapsed = round(time.monotonic() - started, 2)
     print("Totals: " + ", ".join("{}={}".format(k, v) for k, v in totals.items()))
+    print("Starter: " + studio)
     print("Wall-clock: {} seconds".format(elapsed))
     if args.json:
         args.json.parent.mkdir(parents=True, exist_ok=True)

@@ -30,7 +30,7 @@ Put the placement instruction on the **first line inside the fence**:
 
 ```cpp
 // Paste inside update(). Draw a greeting.
-d.drawString(0, 0, "Hello");
+display.drawString(0, 0, "Hello");
 ```
 
 The supported method slots are `begin()`, `update()` and `end()`:
@@ -52,7 +52,25 @@ For globals, constants, helpers or sprite data:
 static const int exampleValue = 42;
 ```
 
-Placement instructions are case-insensitive and allow punctuation or explanatory words after the slot. Every fragment must compile on its own in the starter template. Examples do not share state, declarations or imports with other blocks on the page.
+Placement instructions are case-insensitive and allow punctuation or explanatory words after the slot. Inside the starter, `display` and `buttonManager` are members of the app class, so fragments for `begin()`, `update()` and `end()` can use them directly. Code at the top of the file is outside the class: use `HAL::displayProxy()` and `HAL::buttonManager()` there.
+
+One block can go to several places. Each later `// Paste ...` line starts a new section, so a button example can define its callback at the top of the file and register it inside `begin()`:
+
+```cpp
+// Paste at the top of the file
+static bool lit = false;
+static void onRightPressed(const ButtonEvent& e) {
+    if (e.eventType == ButtonEvent_Pressed) lit = !lit;
+}
+
+// Paste inside begin()
+HAL::buttonManager().registerCallback(button_RightIndex, onRightPressed);
+
+// Paste inside update()
+HAL::setRgbLed(pixel_Front_Middle, 0, 0, lit ? 255 : 0, 0);
+```
+
+Every block must compile on its own in the starter template. Blocks do not share state, declarations or imports with other blocks on the page, because a reader may copy just one.
 
 ### Complete apps
 
@@ -93,13 +111,15 @@ perform the next action;
 
 Use skips for pseudocode, intentionally incorrect examples and firmware-source excerpts that are not standalone studio apps. Skipped blocks and their reasons appear in both output formats.
 
-An untagged fence that conservatively resembles C/C++ (for example `#include`, a `void` function, `HAL::`, or `d.clear();`) fails as `untagged`: tag it `cpp`, or `text` if it is not code. Explicit non-C/C++ language tags are ignored. A tagged example without a placement instruction or all three lifecycle methods fails as `no-placement`; the tool does not guess where to paste it.
+An untagged fence that conservatively resembles C/C++ (for example `#include`, a `void` function, `HAL::`, or `display.clear();`) fails as `untagged`: tag it `cpp`, or `text` if it is not code. Explicit non-C/C++ language tags are ignored. A tagged example without a placement instruction or all three lifecycle methods fails as `no-placement`; the tool does not guess where to paste it.
 
 ## Replacing the starter
 
-`starter/MyApp.h` and `starter/MyApp.cpp` contain a provisional plain-source app. It clears LEDs in begin/end and clears and presents the display in update. They contain no slot markers. `starter/slots.json` specifies the class name, instance, source files, and each slot's target file, regex anchor and insertion position (`before` or `after`). Each anchor must match exactly once. The update slot is after display clearing and before presentation; the file slot is before the global app instance.
+`starter/MyApp.h` and `starter/MyApp.cpp` are the studio's **Code from Blank Template** starter, exactly as the studio writes it for the default name `MyApp`. Fragments are checked against the same code a reader pastes into, so they carry no license header or slot markers. `starter/slots.json` specifies the class name, instance, source files, and each slot's target file, regex anchor and insertion position (`before` or `after`). Each anchor must match exactly once. The update slot is just above `display.display();`, so a fragment draws after the starter's own text and before the frame is shown. The begin slot is after the starter's own setup lines, the end slot is at the top of `end()`, and the file slot is just before the global app instance.
 
-Replace the source files and update this config to match the studio starter. No Python changes are needed. File names must match the configured app name for the firmware recipe. Markdown `#line` directives are added to generated copies so compiler diagnostics point to the page and source line.
+When a website checkout sits next to the docs checkout (or `--website PATH` points at one), the checker renders the studio's blank template with `node tools/check-examples/studio/render_starter.js` and fails if `starter/` no longer matches it, printing the command that regenerates it. Without a website checkout or Node, the summary says `Starter: not checked`.
+
+If the starter's shape changes, regenerate the source files and update the anchors. No Python changes are needed. File names must match the configured app name for the firmware recipe. Markdown `#line` directives are added to generated copies so compiler diagnostics point to the page and source line.
 
 ## Output and exit codes
 

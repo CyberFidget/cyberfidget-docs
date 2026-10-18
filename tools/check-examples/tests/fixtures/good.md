@@ -3,7 +3,7 @@
 
 ```cpp
 // Paste inside update(). Draw a greeting.
-d.drawString(0, 0, "Hello");
+display.drawString(0, 0, "Hello");
 ```
 
 !!! tip
@@ -21,4 +21,19 @@ d.drawString(0, 0, "Hello");
 ```c
 // Paste at the top of the file: a helper.
 static int answer() { return 42; }
+```
+
+```cpp
+// Paste at the top of the file
+static bool lit = false;
+
+static void onRightPressed(const ButtonEvent& e) {
+    if (e.eventType == ButtonEvent_Pressed) lit = !lit;
+}
+
+// Paste inside begin()
+HAL::buttonManager().registerCallback(button_RightIndex, onRightPressed);
+
+// Paste inside update()
+HAL::setRgbLed(pixel_Front_Middle, 0, 0, lit ? 255 : 0, 0);
 ```

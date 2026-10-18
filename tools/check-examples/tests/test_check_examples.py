@@ -21,7 +21,8 @@ class ExampleTests(unittest.TestCase):
     def test_fragment_slots_and_indentation(self):
         blocks = self.blocks("good.md")
         self.assertEqual([checker.classify(b)[0] for b in blocks],
-                         ["fragment:update", "fragment:begin", "fragment:end", "fragment:file"])
+                         ["fragment:update", "fragment:begin", "fragment:end", "fragment:file",
+                      "fragment:file+begin+update"])
         self.assertEqual(blocks[0].line, 5)
         self.assertEqual(blocks[1].code.splitlines()[0], "// Paste inside BEGIN(): initialize state.")
         with tempfile.TemporaryDirectory() as folder:
