@@ -40,7 +40,7 @@ The firmware keeps a drawing buffer, a working copy of the screen in memory. You
 
 Use `millis()` for timing. Paste these examples into the [studio starter](../getting-started/first-app.md) where each comment says. The starter already calls `display.display()` at the end of `update()`.
 
-- **delay(100)** - Does nothing in studio apps on the device. It does not create a pause. In built-in firmware code it can block the calling task.
+- **delay(100)** - Does nothing in studio apps on the device or in the browser emulator. It does not create a pause. In built-in firmware code it can block the calling task.
 - **millis()** -- Returns elapsed milliseconds since boot. Check it each frame and act when enough time has passed.
 
 ```cpp

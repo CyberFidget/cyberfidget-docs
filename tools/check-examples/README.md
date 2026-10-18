@@ -8,6 +8,7 @@ This tool extracts C/C++ fenced examples from Markdown and checks them against t
 - Python 3.9 or later; standard library only.
 - Bash (Git Bash on Windows), available on PATH. Windows also checks `C:\Program Files\Git\bin\bash.exe`.
 - An emsdk installation with Emscripten **3.1.51** activated. Put `emsdk` at the workspace root alongside the repositories, or set `EMSDK_ROOT` to its directory. The checker sources `emsdk_env.sh` in Bash, which configures the compiler, Node and Python environment. It uses the Python interpreter running the checker for the SDK launcher. An activated `em++` on PATH also works if no SDK directory is found.
+- Node.js on PATH when a website checkout is present, to compare the starter with the studio. Missing Node.js is a setup error (exit 2). Only an absent website checkout reports the starter as not checked.
 - A current firmware checkout containing the device-app recipe and its dependencies. The checker searches ancestors of the docs checkout for a sibling `cyberfidget-firmware` and `emsdk`, including checkouts inside `.worktrees/`. Use `--firmware` to select another checkout.
 
 Run from the docs repository root:
@@ -54,7 +55,9 @@ static const int exampleValue = 42;
 
 Placement instructions are case-insensitive and allow punctuation or explanatory words after the slot. Inside the starter, `display` and `buttonManager` are members of the app class, so fragments for `begin()`, `update()` and `end()` can use them directly. Code at the top of the file is outside the class: use `HAL::displayProxy()` and `HAL::buttonManager()` there.
 
-One block can go to several places. Each later `// Paste ...` line starts a new section, so a button example can define its callback at the top of the file and register it inside `begin()`:
+Marker-looking lines inside block comments or C++ raw strings stay part of their surrounding section. A real marker after either closes starts a section.
+
+One block can go to several places. Each later `// Paste ...` line outside a block comment or raw string starts a section, so a button example can define its callback at the top of the file and register it inside `begin()`:
 
 ```cpp
 // Paste at the top of the file
@@ -117,7 +120,7 @@ An untagged fence that conservatively resembles C/C++ (for example `#include`, a
 
 `starter/MyApp.h` and `starter/MyApp.cpp` are the studio's **Code from Blank Template** starter, exactly as the studio writes it for the default name `MyApp`. Fragments are checked against the same code a reader pastes into, so they carry no license header or slot markers. `starter/slots.json` specifies the class name, instance, source files, and each slot's target file, regex anchor and insertion position (`before` or `after`). Each anchor must match exactly once. The update slot is just above `display.display();`, so a fragment draws after the starter's own text and before the frame is shown. The begin slot is after the starter's own setup lines, the end slot is at the top of `end()`, and the file slot is just before the global app instance.
 
-When a website checkout sits next to the docs checkout (or `--website PATH` points at one), the checker renders the studio's blank template with `node tools/check-examples/studio/render_starter.js` and fails if `starter/` no longer matches it, printing the command that regenerates it. Without a website checkout or Node, the summary says `Starter: not checked`.
+When a website checkout sits next to the docs checkout (or `--website PATH` points at one), the checker renders the studio's blank template with `node tools/check-examples/studio/render_starter.js` and reports a setup error (exit 2) if `starter/` differs, printing the command that regenerates it. A renderer failure prints its stderr and regeneration instructions. Missing Node.js is also a setup error. Only an absent website checkout produces `Starter: not checked`.
 
 If the starter's shape changes, regenerate the source files and update the anchors. No Python changes are needed. File names must match the configured app name for the firmware recipe. Markdown `#line` directives are added to generated copies so compiler diagnostics point to the page and source line.
 

@@ -2,7 +2,7 @@
 
 After this page you can play a melody and make a light react to sound.
 
-The Cyber Fidget has a MAX98357A I2S amplifier with speaker for output and an ICS-43434 MEMS microphone for input. Your apps can play tones and react to sound levels. The device controls output volume; `setVolume()` has no effect in studio apps on the device. The microphone isn't just for measuring loudness either - the device can  **capture real audio** and save it to the memory card, which is exactly what the built-in [Voice Notes](../firmware/voice-recorder.md) recorder does.
+The Cyber Fidget has a MAX98357A I2S amplifier with speaker for output and an ICS-43434 MEMS microphone for input. Your apps can play tones and react to sound levels. The device controls output volume; `setVolume()` has no effect in studio apps, on the device or in the browser emulator. The microphone isn't just for measuring loudness either - the device can  **capture real audio** and save it to the memory card, which is exactly what the built-in [Voice Notes](../firmware/voice-recorder.md) recorder does.
 
 ---
 
@@ -51,12 +51,18 @@ The built-in speaker is tiny (13 mm across), and a speaker that small cannot pus
 
 - Keep important beeps and alerts between **C5 and C7** (523-2093 Hz), or anywhere in the 1-4 kHz range, so they are easy to hear.
 - Low notes such as C4 (262 Hz) still work, because the Fidget's tones include **harmonics** (quieter copies of the note at 3x, 5x and 7x its frequency) that the speaker can reproduce. They just sound noticeably quieter, so avoid low notes for anything the user must notice.
-- The audio engine schedules a tone's duration and adds a fade-out of about 5 ms to reduce clicks.
+- Tones are timed by the audio engine, independently of `update()`. A 100 ms tone lasts 100 ms, plus a fade-out of about 5 ms to reduce clicks. Studio apps use this engine on the device and in the browser emulator, so a tone's length does not depend on your drawing speed.
 - Several notes at once (chords) work in your own apps too, with firmware 1.5.0 or newer: see [Notes: several sounds at once](#notes-several-sounds-at-once). With older firmware, plan on one sound at a time.
 
 ### Playing a sequence
 
 To play a short melody or alert without writing your own timing code, describe it as an array of `ToneStep` entries and hand it to `playSequence()`:
+
+| Field | Meaning |
+|-------|---------|
+| `freq` | Frequency in Hz; 0 is a rest (silence) |
+| `durationMs` | Length of the tone or rest in milliseconds |
+| `gapAfterMs` | Silence after that step, in milliseconds |
 
 ```cpp
 // Paste inside begin()
@@ -86,12 +92,15 @@ HAL::audioManager().stopTone();
 
 - `playSequence(const ToneStep* steps, int count)` starts playback and returns immediately; the sequence plays in the background while your `update()` keeps running.
 - `stopSequence()` stops it early.
-- `isSequencePlaying()` returns `true` while it is still playing in built-in firmware apps. In studio apps on the device, it always returns `false`, so time your app's own logic instead of polling it.
-- On the device, the steps are copied when you call `playSequence()`, up to 128 steps; a longer list is cut to 128. Keep the array `static const` as shown so it remains available for emulator playback too.
+- `isSequencePlaying()` returns `true` while it is still playing in built-in firmware apps. In studio apps, on the device and in the browser emulator, it always returns `false`, so time your app's own logic instead of polling it.
+- In a studio app, the host copies up to 64 steps when you call `playSequence()`; a longer list is cut to 64. The host is the firmware code that runs your app, on the device or in the browser emulator. The array does not need to remain alive during playback. The examples use `static const` for fixed melodies. Built-in firmware apps accept up to 128 steps.
 
 ### Volume
 
-In built-in firmware apps, `setVolume()` accepts a float, a number with a fractional part, from `0.0` (silent) to `1.0` (full). Studio apps on the device cannot change it: the call has no effect. Use the emulator's volume and mute controls to adjust browser playback.
+In built-in firmware apps, `setVolume()` accepts a float, a number with a fractional part, from `0.0` (silent) to `1.0` (full). In studio apps, `setVolume()` has no effect on the device or in the browser emulator. Use the emulator's volume and mute controls to adjust browser playback.
+
+!!! tip "Checking browser sound problems"
+    On a computer, press F12 and open the browser developer tools' Console tab to look for loading or playback errors. This is separate from the studio's **Console** panel. Studio apps cannot print messages with `Serial.println()`. See [emulator troubleshooting](../software/emulator.md#troubleshooting).
 
 ### Microphone input
 
@@ -247,12 +256,12 @@ The mic runs in a separate FreeRTOS task and publishes `micVolumeAtomic` roughly
 
 | Method | Description |
 |--------|-------------|
-| `setVolume(float)` | Built-in firmware apps: 0.0..1.0; has no effect in studio apps on the device |
+| `setVolume(float)` | Built-in firmware apps: 0.0..1.0; has no effect in studio apps on the device or in the browser emulator |
 | `playTone(float freq, int durationMs)` | 0 = indefinite |
 | `stopTone()` | Stops current tone |
-| `playSequence(const ToneStep* steps, int count)` | Plays a list of tones and rests (up to 128 steps) |
+| `playSequence(const ToneStep* steps, int count)` | Plays a list of tones and rests (up to 64 steps in studio apps; 128 in built-in firmware apps) |
 | `stopSequence()` | Stops the sequence |
-| `isSequencePlaying()` | `true` while a sequence is playing (built-in apps; always `false` in studio apps on the device) |
+| `isSequencePlaying()` | `true` while a sequence is playing (built-in apps; always `false` in studio apps on the device or in the browser emulator) |
 | `enableMic(bool on)` | Opt-in mic |
 | `getMicVolumeLinear()` | 0.0..1.0 |
 | `getMicVolumeDb()` | dBFS (≤ 0) |

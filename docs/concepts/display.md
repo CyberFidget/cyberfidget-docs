@@ -75,7 +75,7 @@ display.drawString(10, 10, "Hello!");
 display.drawStringMaxWidth(10, 30, 108, "Short text");
 ```
 
-`drawStringMaxWidth()` accepts a width, but device apps draw one unwrapped line. Browser previews can wrap text depending on how the app is run. Keep lines short or draw separate lines yourself for matching results.
+`drawStringMaxWidth()` accepts a width, but studio apps draw one unwrapped line on the device and in the browser emulator. Keep lines short or draw separate lines yourself.
 
 ### Shapes
 

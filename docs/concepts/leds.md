@@ -2,7 +2,7 @@
 
 After this page you can set each light and change its color with the slider.
 
-The Cyber Fidget has 4 SK6812 RGBW LEDs (NeoPixel-compatible). Each light has red, green, blue and white channels. The front-bottom light shines through the speaker grill. A separate red indicator on the back shows charge status; it is not one of the four app-controlled lights.
+The Cyber Fidget has 4 SK6812 RGBW LEDs (NeoPixel-compatible). Each light has red, green, blue and white channels. There is a single red programmable LED under the front grill and also a single red indicator LED used for charge status on the back.
 
 ---
 
@@ -18,7 +18,7 @@ The Cyber Fidget has 4 SK6812 RGBW LEDs (NeoPixel-compatible). Each light has re
 The white channel is separate from red, green and blue. You can combine those three channels to make colors, or use the dedicated W channel for white light.
 
 !!! tip "Why RGBW?"
-    The W channel lights a dedicated white emitter. Mix it with red, green or blue to tint the result.
+    The W channel gives brighter white light and uses less power than maxing R, G and B. Mix it with red, green or blue to tint the result.
 
 ---
 

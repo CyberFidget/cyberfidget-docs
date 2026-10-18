@@ -1,17 +1,19 @@
 # Browser Emulator
 
+After this page you can build an app, try its controls and investigate problems in the emulator.
+
 The Cyber Fidget browser emulator runs your app in the studio, with no hardware required. It shows the screen, buttons, slider and lights, plays sound, and lets you try tilt controls. Test microphone input and physical controls on a real Cyber Fidget too.
 
 !!! tip "Who is this for?"
     - **App developers**: Try code and controls before installing on a device.
     - **Newcomers**: Try apps without owning a Cyber Fidget.
-    - **App Builder users**: Test generated code and make changes.
+    - **Studio users**: Test generated code and make changes.
 
 ---
 
 ## Where to find it
 
-Open the [studio](https://cyberfidget.com/create/). The emulator panel is beside your code on a computer and on the **TEST** tab on a phone. Press **REBUILD & RUN** to compile and run the app.
+Open the [studio](https://cyberfidget.com/create/). The emulator panel is beside your code on a computer and on the **TEST** tab on a phone. Use **REBUILD & RUN** in the welcome panel to compile and run the app. The persistent build button is **REBUILD**.
 
 !!! example "Screenshot"
     ![Studio code view with the REBUILD & RUN button in the emulator panel](../assets/first-app/starter-code.png)
@@ -28,7 +30,7 @@ flowchart LR
     D --> E[Try the app in the emulator]
 ```
 
-### 1. Open the App Builder
+### 1. Open the studio
 
 Go to [cyberfidget.com/create/](https://cyberfidget.com/create/) and press **+ Create an app**. GitHub sign-in is not required for the browser build in this guide.
 
@@ -38,11 +40,16 @@ Choose **Code from Blank Template** to write code, **Modify a Demo App** to expl
 
 ### 3. Compile
 
-Press **REBUILD & RUN** in the emulator panel. Compilation turns your C++ code into a runnable app. The first browser build downloads compiler files; allow it to finish. The studio can use a build server when needed.
+Press **REBUILD & RUN** in the welcome panel, or **REBUILD** in the emulator panel. Compilation turns your C++ code into a runnable app. When building on your computer is available, the first build downloads about 23 MB of build tools; allow it to finish. Later builds on the computer can take a few seconds. If the computer cannot build, or building there is unavailable, the studio uses its build server; allow more time.
+
+!!! warning "Keep private information out of code"
+    Builds are public. Do not put names, addresses, passwords or anything private in your code.
+
+Builds sent to the build server have a daily limit. Builds done on your own computer do not count toward it.
 
 ### 4. Run
 
-The built app starts in the emulator. Click its buttons, drag the slider, or use the shortcuts below. **<< RESTART** starts the built copy again. After editing code, use **REBUILD & RUN** to try your changes.
+The built app starts in the emulator. Click its buttons, drag the slider, or use the shortcuts below. **<< RESTART** starts the built copy again. After editing code, use **REBUILD** to try your changes.
 
 ---
 
@@ -97,15 +104,15 @@ The case hides about 8 pixels at each screen corner. Keep important text and pic
 
 Use **Modify a Demo App** in the start panel to load a built-in example you can change and rebuild.
 
-### Serial Monitor
+### Console
 
-The console shows build and run messages. The app headers do not provide a `Serial` object, so studio examples cannot call `Serial.println()`. Show a changing value on the screen instead; [The Slider](../concepts/slider.md#code-example-slider-controlled-volume) demonstrates this with `snprintf()` and a character buffer.
+The **Console** panel shows build and run messages. The app headers do not provide a `Serial` object, so studio examples cannot call `Serial.println()`. Show a changing value on the screen instead; [The Slider](../concepts/slider.md#code-example-slider-controlled-brightness) demonstrates this with `snprintf()` and a character buffer.
 
 ---
 
 ## How Compilation Works
 
-When you press **REBUILD & RUN**, the studio builds your code and starts the emulator:
+When you press **REBUILD**, the studio builds your code and starts the emulator:
 
 ```mermaid
 sequenceDiagram
@@ -113,7 +120,7 @@ sequenceDiagram
     participant Studio
     participant Compiler
     participant Emulator
-    You->>Studio: REBUILD & RUN
+    You->>Studio: REBUILD
     Studio->>Compiler: App code and assets
     Compiler->>Studio: Built app or error
     Studio->>Emulator: Run built app
@@ -128,7 +135,7 @@ The browser build downloads compiler support files and can reuse them for later 
 
 ### Build Cache
 
-The browser stores built apps and supporting files so it can reuse them. **<< RESTART** runs the built copy; **REBUILD & RUN** compiles your current edits. Browser storage belongs to that browser and site. Keep your project saved, and export a project file when you need a separate backup.
+The browser stores built apps and supporting files so it can reuse them. **<< RESTART** runs the built copy; **REBUILD** compiles your current edits. Browser storage belongs to that browser and site. Keep your project saved, and export a project file when you need a separate backup.
 
 ---
 
@@ -146,7 +153,7 @@ The browser stores built apps and supporting files so it can reuse them. **<< RE
 | Serial logging | `Serial.println()` is unavailable to studio apps |
 | Battery, WiFi and deep sleep | Hardware features outside the studio app interface |
 
-`drawStringMaxWidth()` can wrap text in a browser preview, but studio apps on the device draw an unwrapped line. Use short lines or place each line yourself when the two must match.
+Studio apps run as the same device module (the built app) in the browser emulator and on the device. In both places, `drawStringMaxWidth()` draws an unwrapped line, `isSequencePlaying()` always returns `false`, and `setVolume()` has no effect. Use short lines, time your own app logic with `millis()`, and use the emulator controls for browser volume.
 
 ---
 
@@ -157,7 +164,7 @@ The browser stores built apps and supporting files so it can reuse them. **<< RE
 - **Show values on the screen** when checking inputs or app state.
 - **Check lights on hardware.** Browser glow and screen brightness cannot reproduce physical LED brightness exactly.
 - **Keep important pixels out of corners.** The case covers about 8 pixels at each one.
-- **Use `millis()` for timing.** `delay()` does nothing in studio apps on the device.
+- **Use `millis()` for timing.** `delay()` does nothing in studio apps on the device or in the browser emulator.
 - **Test cleanup.** Exit with the bottom-left button, then restart. Sound and lights should stop on exit; register buttons in `begin()` and unregister them in `end()`.
 
 ---
@@ -172,11 +179,13 @@ The browser stores built apps and supporting files so it can reuse them. **<< RE
 
 ### Build fails
 
+For browser errors, press F12 on a computer and open the browser developer tools' Console tab. This is separate from the studio's **Console** panel. It can show loading and playback errors, but studio apps cannot write `Serial.println()` messages there.
+
 Read the first compiler error. It names the file and line to fix. Use only functions in the [app function reference](../reference/functions.md). A firmware example may rely on hardware libraries that studio apps cannot use.
 
 ### App compiles but doesn't run / blank screen
 
-Check that `update()` draws something and finishes. A loop that never returns prevents the app from advancing. Press **<< RESTART** to retry, or fix the code and press **REBUILD & RUN**. The [first-app guide](../getting-started/first-app.md) gives a small working starting point.
+Check that `update()` draws something and finishes. A loop that never returns prevents the app from advancing. Press **<< RESTART** to retry, or fix the code and press **REBUILD**. The [first-app guide](../getting-started/first-app.md) gives a small working starting point.
 
 ### App compiles but doesn't behave right
 
@@ -194,13 +203,13 @@ Cross-Origin Resource Sharing (CORS) is a browser rule about loading resources. 
 
 Click outside the code editor before using `Q/E/A/D/Z/C`. On a phone, use the on-screen buttons. If you exited the app with bottom-left, press **<< RESTART**.
 
-### Serial Monitor is empty
+### Console is empty
 
 Studio apps do not provide `Serial.println()`. The console can show build and run messages, but display your own diagnostic values on the app's screen.
 
 ### Different browser or device: cache not there
 
-Browser storage is separate for each browser and site. Export your project and import it in the other browser, then use **REBUILD & RUN** there.
+Browser storage is separate for each browser and site. Export your project and import it in the other browser, then use **REBUILD** there.
 
 ### I want to run completely offline
 

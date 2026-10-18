@@ -114,13 +114,13 @@ see = "../concepts/display.md#display-basics"
 [symbols."DisplayProxy::drawString"]
 section = "Text"
 use = "display.drawString(0, 0, \"Hi\");"
-does = "Draw text using the current font and alignment. Returns 0 on the device."
+does = "Draw text using the current font and alignment. Studio apps return 0 on the device and in the browser emulator."
 see = "../concepts/display.md#text"
 
 [symbols."DisplayProxy::drawStringMaxWidth"]
 section = "Text"
 use = "display.drawStringMaxWidth(0, 0, 80, \"Hi\");"
-does = "Draw text in a box this many pixels wide. On the device the text does not wrap; the emulator wraps it."
+does = "Draw one unwrapped line in studio apps, on the device and in the browser emulator; the width argument is ignored."
 see = "../concepts/display.md#text"
 
 [symbols."DisplayProxy::getStringWidth"]
@@ -267,7 +267,7 @@ see = "../concepts/audio.md#playing-tones"
 [symbols."AudioManager::playSequence"]
 section = "Sound"
 use = "HAL::audioManager().playSequence(steps, count);"
-does = "Play static ToneStep data: freq in Hz (0 is rest), durationMs and gapAfterMs in ms; at most 128 steps on device."
+does = "Play up to 64 copied ToneStep entries in studio apps, on the device and in the browser emulator: freq in Hz (0 is rest), durationMs and gapAfterMs in ms."
 see = "../concepts/audio.md#playing-tones"
 
 [symbols."AudioManager::stopSequence"]
@@ -279,13 +279,13 @@ see = "../concepts/audio.md#playing-tones"
 [symbols."AudioManager::isSequencePlaying"]
 section = "Sound"
 use = "HAL::audioManager().isSequencePlaying();"
-does = "Always false on the device; the emulator reports whether the sequence is still playing."
+does = "Always false in studio apps, on the device and in the browser emulator. Time your app logic with millis() instead."
 see = "../concepts/audio.md#playing-tones"
 
 [symbols."AudioManager::setVolume"]
 section = "Sound"
 use = "HAL::audioManager().setVolume(0.5f);"
-does = "Does nothing on the device, where the owner sets the volume; the emulator accepts 0.0-1.0."
+does = "Does nothing in studio apps, on the device and in the browser emulator. Use the emulator controls for browser volume."
 see = "../concepts/audio.md#playing-tones"
 
 [symbols."AudioManager::enableMic"]
@@ -386,7 +386,7 @@ see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 [symbols."delay"]
 section = "Time"
 use = "delay(10);"
-does = "Does nothing on the device. Use millis() timing instead of pausing."
+does = "Does nothing in studio apps, on the device and in the browser emulator. Use millis() timing instead of pausing."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 
 [symbols."delayMicroseconds"]
@@ -404,7 +404,7 @@ see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 [symbols."randomSeed"]
 section = "Time"
 use = "randomSeed(42);"
-does = "Seeds random numbers in the emulator; does nothing on the device."
+does = "Does nothing in studio apps, on the device and in the browser emulator."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 
 [symbols."map"]

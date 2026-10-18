@@ -40,7 +40,7 @@ The device has 6 physical buttons. You refer to them by index or semantic name:
 | 2 | `button_MiddleLeftIndex` / `button_LeftIndex` | Left |
 | 3 | `button_MiddleRightIndex` / `button_RightIndex` | Right |
 | 4 | `button_BottomLeftIndex` / `button_SelectIndex` | **Back** (convention) |
-| 5 | `button_BottomRightIndex` / `button_EnterIndex` | Select / Enter |
+| 5 | `button_BottomRightIndex` / `button_EnterIndex` | Enter / confirm |
 
 !!! important "Back button convention"
     **BottomLeft** (`button_BottomLeftIndex`) is the standard "back" or "exit" button. Users expect it to return to the menu or previous screen. The [studio starter](../getting-started/first-app.md) already registers and cleans up this callback. Keep it: it calls the app's `end()` and `MenuManager::instance().returnToMenu()`.

@@ -79,11 +79,50 @@ def fragment_sections(code):
     if not lines or not PASTE.match(lines[0]):
         return []
     sections = []
+    block_comment = False
+    raw_end = None
     for index, line in enumerate(lines):
-        match = PASTE.match(line)
+        match = PASTE.match(line) if not block_comment and raw_end is None else None
         if match:
             sections.append([(match.group(1) or "file").lower(), index, ""])
         sections[-1][2] += line
+        pos = 0
+        while pos < len(line):
+            if raw_end is not None:
+                end = line.find(raw_end, pos)
+                if end < 0:
+                    break
+                pos = end + len(raw_end)
+                raw_end = None
+            elif block_comment:
+                end = line.find("*/", pos)
+                if end < 0:
+                    break
+                pos = end + 2
+                block_comment = False
+            elif line.startswith("//", pos):
+                break
+            elif line.startswith("/*", pos):
+                block_comment = True
+                pos += 2
+            else:
+                raw = re.match(r'R"([^\s()\\]{0,16})\(', line[pos:])
+                if raw:
+                    raw_end = ")" + raw.group(1) + '"'
+                    pos += raw.end()
+                elif line[pos] in ('"', "'"):
+                    quote = line[pos]
+                    pos += 1
+                    while pos < len(line):
+                        if line[pos] == "\\":
+                            pos += 2
+                        elif line[pos] == quote:
+                            pos += 1
+                            break
+                        else:
+                            pos += 1
+                else:
+                    pos += 1
     return [tuple(section) for section in sections]
 
 
@@ -189,22 +228,34 @@ def setup(firmware):
 
 def check_studio_starter(website):
     """Compare starter/ with the studio's blank template, when a website checkout is present."""
-    generator = website / "assets/js/builder.js"
-    if not generator.is_file():
+    if not website.is_dir():
         return "not checked (no website checkout)"
+    generator = website / "assets/js/builder.js"
+    regenerate = ("regenerate it with: node tools/check-examples/studio/render_starter.js "
+                  + generator.as_posix() + " tools/check-examples/starter")
+    if not generator.is_file():
+        raise ValueError("website starter generator missing: " + generator.as_posix()
+                         + "; restore the generator, then " + regenerate)
     node = shutil.which("node")
     if not node:
-        return "not checked (node not found)"
+        raise ValueError("Node.js missing; install Node.js or add node to PATH to check the studio starter")
     with tempfile.TemporaryDirectory() as out:
-        subprocess.run([node, str(TOOL / "studio/render_starter.js"), str(generator), out],
-                       check=True, capture_output=True)
+        try:
+            subprocess.run([node, str(TOOL / "studio/render_starter.js"), str(generator), out],
+                           check=True, capture_output=True, text=True, encoding="utf-8", errors="replace")
+        except subprocess.CalledProcessError as error:
+            raise ValueError("studio starter renderer failed:\n" + (error.stderr or "") + "\n" + regenerate) from error
+        except OSError as error:
+            raise ValueError("studio starter renderer could not run: " + str(error) + "\n" + regenerate) from error
         for name in ("MyApp.h", "MyApp.cpp"):
-            expected = (Path(out) / name).read_text(encoding="utf-8")
+            try:
+                expected = (Path(out) / name).read_text(encoding="utf-8")
+            except OSError as error:
+                raise ValueError("studio starter renderer output missing or unreadable: " + name
+                                 + "\n" + regenerate) from error
             actual = (TOOL / "starter" / name).read_text(encoding="utf-8").replace("\r\n", "\n")
             if expected != actual:
-                raise ValueError("starter/" + name + " no longer matches the studio's blank template; "
-                                 "regenerate it with: node tools/check-examples/studio/render_starter.js "
-                                 + generator.as_posix() + " tools/check-examples/starter")
+                raise ValueError("starter/" + name + " differs from the studio's blank template; " + regenerate)
     return "matches the studio's blank template"
 
 

@@ -156,19 +156,20 @@ they're scaffolding for development. RC and above are real release
 artifacts (they get GitHub Release pages, can be downloaded, and the
 firmware reports them honestly via the boot banner).
 
-## Comparing versions in your app
+## Comparing versions in built-in firmware apps
 
-The firmware exposes preprocessor macros so user-app code can adapt to
-different firmware versions at compile time:
+This section is for apps built into the firmware from source. Studio apps cannot include `version.h` or call `getFirmwareVersion()`.
+
+Built-in firmware code can use preprocessor macros to adapt to different versions at compile time:
 
 <!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```c
 #include "version.h"
 
 #if FW_VERSION >= VERSION_ENCODE(1, 4, 2)
-    hal::newAudioApi(...);          // available since 1.4.2
+    // Placeholder: put code for your version-dependent feature here.
 #else
-    hal::oldAudioApi(...);          // legacy fallback
+    // Placeholder: put your fallback code here.
 #endif
 ```
 
@@ -193,7 +194,7 @@ const char* t = getFirmwareBuildType();     // "release", "dev", ...
 
 ## In the WASM emulator
 
-The browser emulator exposes the same surface as JS-callable exports:
+The full-firmware emulator exposes firmware identification through JavaScript (JS) exports for page developers. These are not functions a studio app can call:
 
 ```js
 // After loading the WASM module:
