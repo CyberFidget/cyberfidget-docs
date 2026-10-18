@@ -37,11 +37,11 @@ When you launch an app, the firmware does three things in order:
 Start with **Code from Blank Template** in the [studio](../getting-started/first-app.md). Paste each section into the `.cpp` file where its comment says. "At the top" means below the `#include` lines and above the app object, not inside a method. Keep the starter's button setup and cleanup, including `setColorsOff()` in `begin()` and `end()`; its bottom-left button returns to the menu.
 
 ```cpp
-// Paste at the top of the file
+// Paste at the top of the file, below the #include lines
 #include <stdio.h>
 static int score = 0;
 
-// Paste inside begin()
+// Paste inside begin(), below setColorsOff();
 score = 0;
 
 // Paste inside update(), just above display.display();
@@ -53,48 +53,51 @@ snprintf(text, sizeof(text), "Score: %d", score);
 display.drawString(64, 24, text);
 ```
 
-`snprintf()` writes the score into a fixed-size `char` buffer, an array that holds the text. The screen draws that text. Change `score` in your app logic to change what appears.
+`snprintf()` writes the score into a fixed-size `char` buffer, an array that holds the text. The screen draws that text. Change `score` in your app logic to change what appears. To make a button add to the score, see [Buttons & Events](buttons.md#code-example-callback-registration).
 
 The studio adds your app to the menu using the Menu Category you choose. You do not edit a manifest for a studio app.
-
-**Firmware-source excerpt:** built-in apps are registered in `AppManifest.h` with `APP_ENTRY`. This excerpt assumes the app class, global `myApp` instance and app identifier are defined in the firmware; it is not code to paste into a studio app.
-
-<!-- check-examples: skip - firmware source excerpt, not a studio app -->
-```cpp
-APP_ENTRY(APP_MY_APP, "My App", "Games",
-    [](){ myApp.begin(); },
-    [](){ myApp.end(); },
-    [](){ myApp.update(); }
-)
-```
 
 ---
 
 ## Framework details: how it all connects
 
-### AppManager calls your functions
+??? info "Advanced: how the firmware runs your app"
+    You do not need these details to build apps in the studio. The studio and firmware handle app registration and scheduling for you; this section is for writing an app by hand and building it into the firmware.
 
-Inside the firmware, `AppManager` owns the app lifecycle. A singleton is an object shared through one instance. When the user selects your app from the menu:
+    **Firmware-source excerpt:** built-in apps are registered in `AppManifest.h` with `APP_ENTRY`. This excerpt assumes the app class, global `myApp` instance and app identifier are defined in the firmware; it is not code to paste into a studio app.
 
-1. It calls `appDefs[appActive].endFunc()` for the *previous* app.
-2. It sets `appActive` to your app.
-3. It calls `appDefs[appActive].beginFunc()` for your app.
+    <!-- check-examples: skip - firmware source excerpt, not a studio app -->
+    ```cpp
+    APP_ENTRY(APP_MY_APP, "My App", "Games",
+        [](){ myApp.begin(); },
+        [](){ myApp.end(); },
+        [](){ myApp.update(); }
+    )
+    ```
 
-When the 20 ms update interval has elapsed, it calls `appDefs[appActive].runFunc()` -- which is your `update()`.
+    ### AppManager calls your functions
 
-### The APP_ENTRY macro
+    Inside the firmware, `AppManager` owns the app lifecycle. A singleton is an object shared through one instance. When the user selects your app from the menu:
 
-A macro is a named piece of code expanded by the C++ preprocessor before compilation. These details apply to built-in firmware apps.
+    1. It calls `appDefs[appActive].endFunc()` for the *previous* app.
+    2. It sets `appActive` to your app.
+    3. It calls `appDefs[appActive].beginFunc()` for your app.
 
-`APP_ENTRY` expands into an entry in the `appDefs[]` array. The macro takes:
+    When the 20 ms update interval has elapsed, it calls `appDefs[appActive].runFunc()` -- which is your `update()`.
 
-- **Enum name** -- e.g. `APP_MY_APP`
-- **Menu label** -- What appears in the app menu
-- **Category path** -- e.g. `"Games"` or `"Tools/WiFi"`
-- **beginFunc** -- Function to call when the app starts
-- **endFunc** -- Function to call when the app exits
-- **runFunc** -- Function to call every ~20 ms (your update loop)
+    ### The APP_ENTRY macro
 
-### Static instance pattern
+    A macro is a named piece of code expanded by the C++ preprocessor before compilation. These details apply to built-in firmware apps.
 
-Built-in apps commonly use a single global instance (e.g. `MyApp myApp`) and pass lambdas, short unnamed functions, that call its methods. This keeps the manifest clean and lets each app own its state.
+    `APP_ENTRY` expands into an entry in the `appDefs[]` array. The macro takes:
+
+    - **Enum name** -- e.g. `APP_MY_APP`
+    - **Menu label** -- What appears in the app menu
+    - **Category path** -- e.g. `"Games"` or `"Tools/WiFi"`
+    - **beginFunc** -- Function to call when the app starts
+    - **endFunc** -- Function to call when the app exits
+    - **runFunc** -- Function to call every ~20 ms (your update loop)
+
+    ### Static instance pattern
+
+    Built-in apps commonly use a single global instance (e.g. `MyApp myApp`) and pass lambdas, short unnamed functions, that call its methods. This keeps the manifest clean and lets each app own its state.

@@ -94,7 +94,7 @@ If you use your own provider key (an API key from Anthropic, OpenAI, or Google),
 Compilation turns code into a runnable app. The studio can build on your computer or use the build server, depending on its build settings and availability. When building on your computer is available, the first build downloads about 23 MB of build tools. It takes longer while the studio fetches what it needs; later builds on the computer can take a few seconds. If the computer cannot build, the studio uses its build server; allow more time. The emulator runs the result. Editing code does not change the running copy until you rebuild.
 
 !!! warning "Keep private information out of code"
-    Builds are public. Do not put names, addresses, passwords or anything private in your code.
+    Builds on your computer keep your code on your computer. If the studio uses the build server instead, that build is public. Keep personal information and secrets out of your code either way.
 
 Builds sent to the build server have a daily limit. Builds done on your own computer do not count toward it.
 

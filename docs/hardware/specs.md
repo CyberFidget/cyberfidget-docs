@@ -19,7 +19,7 @@ ESP32 dual-core MCU · 0.96" OLED · 6 buttons + slider · 4 RGBW LEDs · speake
 | **Display** | 0.96" 128x64 monochrome OLED (SSD1306 family) |
 | **Audio** | MAX98357A digital I2S amplifier with on-board speaker; ICS-43434 MEMS microphone |
 | **Motion** | LIS2DH12 3-axis accelerometer |
-| **Lighting** | 4x SK6812 RGBW LEDs (3 front, 1 back) + 1 red indicator LED |
+| **Lighting** | 4x SK6812 RGBW LEDs (3 front, 1 back), a separate red-only LED under the front grill, and a red charge indicator on the back |
 | **Power** | 400 mAh LiPo battery, MAX17048 fuel gauge, MCP73831 charge controller, swappable battery pack. Hours of active time, weeks of standby/deep sleep |
 | **Storage** | microSD card slot (FAT32) for app storage and file browsing |
 | **Connectivity** | USB-C port with CP2102N USB-to-UART bridge (serial + charging) |

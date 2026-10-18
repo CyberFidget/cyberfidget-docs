@@ -78,7 +78,7 @@ Change the text between the quote marks to anything you like, for example `Hi th
 ## 5. Rebuild and run
 
 !!! warning "Keep private information out of code"
-    Builds are public. Do not put names, addresses, passwords or anything private in your code.
+    Builds on your computer keep your code on your computer. If the studio uses the build server instead, that build is public. Keep personal information and secrets out of your code either way.
 
 Press **REBUILD & RUN** in the welcome panel on the right, or **REBUILD** in the emulator panel.
 
@@ -108,7 +108,7 @@ The Cyber Fidget has four [RGBW](../reference/glossary.md) LEDs: red, green, blu
 
 ### A light you control with the slider
 
-The slider reports a number from 0 to 255. This sets the blue light to match it.
+The slider reports a number from 0 to 255. On the device, the inverted value used here is low at the bottom and high at the top, so moving the slider up makes the blue lights brighter.
 
 ```cpp
 // Paste inside update(), just above display.display();
@@ -133,20 +133,20 @@ The six buttons are numbered like this:
 This block has three parts, and each part says where it goes. A "callback" is a function the device calls for you when something happens, here a button press.
 
 ```cpp
-// Paste at the top of the file
+// Paste at the top of the file, below the #include lines
 static void onRightPressed(const ButtonEvent& e) {
     if (e.eventType == ButtonEvent_Pressed) HAL::audioManager().playTone(880, 100);
 }
 
-// Paste inside begin()
+// Paste inside begin(), below setColorsOff();
 buttonManager.registerCallback(button_MiddleRightIndex, onRightPressed);
 
-// Paste inside end()
+// Paste inside end(), above unregisterButtonCallbacks();
 buttonManager.unregisterCallback(button_MiddleRightIndex);
 HAL::audioManager().stopTone();
 ```
 
-"The top of the file" means just below the `#include` lines, above the line that creates the app object. The middle-right button plays a short beep (880 Hz, for 100 milliseconds). The `end()` lines let go of the button and stop any sound when your app closes. See [Buttons & Events](../concepts/buttons.md) and [Sound & Music](../concepts/audio.md).
+Paste the first section below the `#include` lines and above the line that creates the app object. Paste the `begin()` section below its existing `setColorsOff();` line, and the `end()` section above its existing `unregisterButtonCallbacks();` line. The middle-right button plays a short beep (880 Hz, for 100 milliseconds). The `end()` lines let go of the button and stop any sound when your app closes. See [Buttons & Events](../concepts/buttons.md) and [Sound & Music](../concepts/audio.md).
 
 Looking for more functions to try? See the [function reference](../reference/functions.md).
 

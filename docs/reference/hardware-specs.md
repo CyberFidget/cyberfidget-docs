@@ -12,7 +12,7 @@ Some rows are still being checked against the hardware.
 | Display | 0.96-inch 128 x 64 monochrome OLED (SSD1306 family) |
 | Audio | MAX98357A digital I2S amplifier with on-board speaker, plus ICS-43434 MEMS microphone |
 | Motion | LIS2DH12 3-axis accelerometer |
-| Lighting | Four SK6812 RGBW LEDs with per-pixel control - three on front, one on back - plus one red light |
+| Lighting | Four SK6812 RGBW LEDs with per-pixel control - three on front, one on back - plus a separate red-only LED under the front grill and a red charge indicator on the back |
 | Power | Rechargeable 400mAh Li-ion polymer battery with MAX17048 fuel gauge, MCP73831 charge IC, and swappable pack connector. Typical use: hours of active time, weeks of standby/deep sleep |
 | Voltage regulation | Triple AP2112K-3.3 regulators for main logic, OLED, and LEDs for complete control of power consumption |
 | Storage | Internal storage for apps; microSD slot for files such as recordings and media |

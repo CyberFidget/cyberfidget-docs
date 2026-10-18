@@ -65,18 +65,18 @@ To play a short melody or alert without writing your own timing code, describe i
 | `gapAfterMs` | Silence after that step, in milliseconds |
 
 ```cpp
-// Paste inside begin()
+// Paste inside begin(), below setColorsOff();
 // Each step has frequency in Hz, duration in ms, then gap in ms.
 static const AudioManager::ToneStep step[] = { {880, 100, 50} };
 HAL::audioManager().playSequence(step, 1);
 
-// Paste inside end()
+// Paste inside end(), above unregisterButtonCallbacks();
 HAL::audioManager().stopSequence();
 HAL::audioManager().stopTone();
 ```
 
 ```cpp
-// Paste inside begin()
+// Paste inside begin(), below setColorsOff();
 static const AudioManager::ToneStep WIN_JINGLE[] = {
     { 1046.50f, 100, 50 },  // C6, then a 50 ms pause
     { 0,         80,  0 },  // Rest for 80 ms
@@ -85,14 +85,14 @@ static const AudioManager::ToneStep WIN_JINGLE[] = {
 static const int WIN_JINGLE_LEN = sizeof(WIN_JINGLE) / sizeof(WIN_JINGLE[0]);
 HAL::audioManager().playSequence(WIN_JINGLE, WIN_JINGLE_LEN);
 
-// Paste inside end()
+// Paste inside end(), above unregisterButtonCallbacks();
 HAL::audioManager().stopSequence();
 HAL::audioManager().stopTone();
 ```
 
 - `playSequence(const ToneStep* steps, int count)` starts playback and returns immediately; the sequence plays in the background while your `update()` keeps running.
 - `stopSequence()` stops it early.
-- `isSequencePlaying()` returns `true` while it is still playing in built-in firmware apps. In studio apps, on the device and in the browser emulator, it always returns `false`, so time your app's own logic instead of polling it.
+- `isSequencePlaying()` returns `true` while it is still playing in built-in firmware apps. In studio apps, on the device and in the browser emulator, it always returns `false`, so time your app's own logic instead of polling it. See [elapsed-time checks](update-loop.md#millis-based-timing-vs-delay).
 - In a studio app, the host copies up to 64 steps when you call `playSequence()`; a longer list is cut to 64. The host is the firmware code that runs your app, on the device or in the browser emulator. The array does not need to remain alive during playback. The examples use `static const` for fixed melodies. Built-in firmware apps accept up to 128 steps.
 
 ### Volume
@@ -114,13 +114,13 @@ The mic is **opt-in**. Call `enableMic(true)` in `begin()` and `enableMic(false)
 `playTone()` makes one sound at a time. A **note** is a tone that can sound together with other notes, which is called **polyphony** (many voices at once). Notes are how you play a chord, or let another note start while one is still ringing.
 
 ```cpp
-// Paste at the top of the file
+// Paste at the top of the file, below the #include lines
 static int noteHandle = -1;
 
-// Paste inside begin()
+// Paste inside begin(), below setColorsOff();
 noteHandle = HAL::audioManager().playNote(1046.5f); // Hold C6 until stopped.
 
-// Paste inside end()
+// Paste inside end(), above unregisterButtonCallbacks();
 HAL::audioManager().stopNote(noteHandle);
 HAL::audioManager().stopNotes();
 HAL::audioManager().stopTone();
@@ -137,7 +137,7 @@ Low notes below about 700 Hz are hard to hear on the speaker, so keep important 
 This example plays a C major chord (C5, E5, G5) while you are holding the first button, and stops it when you let go:
 
 ```cpp
-// Paste at the top of the file
+// Paste at the top of the file, below the #include lines
 static int chord[3] = { -1, -1, -1 };
 static void onFirstButton(const ButtonEvent& e) {
     if (e.eventType == ButtonEvent_Pressed) {
@@ -153,10 +153,10 @@ static void onFirstButton(const ButtonEvent& e) {
     }
 }
 
-// Paste inside begin()
+// Paste inside begin(), below setColorsOff();
 buttonManager.registerCallback(button_TopLeftIndex, onFirstButton);
 
-// Paste inside end()
+// Paste inside end(), above unregisterButtonCallbacks();
 buttonManager.unregisterCallback(button_TopLeftIndex);
 HAL::audioManager().stopNotes();
 HAL::audioManager().stopTone();
@@ -170,7 +170,7 @@ HAL::audioManager().stopTone();
 The microphone can drive your app: a level bar, an LED that brightens with sound, a clap detector. Turn it on, read the level every frame, and turn it off when you are done:
 
 ```cpp
-// Paste inside begin()
+// Paste inside begin(), below setColorsOff();
 HAL::audioManager().enableMic(true);
 
 // Paste inside update(), just above display.display();
@@ -179,7 +179,7 @@ display.clear();
 display.drawRect(10, 28, 108, 8);
 display.fillRect(11, 29, (int)(level * 106), 6);
 
-// Paste inside end()
+// Paste inside end(), above unregisterButtonCallbacks();
 HAL::audioManager().enableMic(false);
 ```
 
@@ -198,11 +198,11 @@ If your app exits without turning the microphone off, the system turns it off fo
 ## Code example: melody and sound reaction
 
 ```cpp
-// Paste at the top of the file
+// Paste at the top of the file, below the #include lines
 static unsigned long lastNote = 0;
 static int noteIndex = 0;
 
-// Paste inside begin()
+// Paste inside begin(), below setColorsOff();
 lastNote = millis();
 noteIndex = 0;
 HAL::audioManager().enableMic(true);
@@ -219,7 +219,7 @@ float micLevel = HAL::audioManager().getMicVolumeLinear();
 uint8_t brightness = (uint8_t)(micLevel * 255);
 HAL::setRgbLed(pixel_Front_Top, brightness, 0, 0, 0);
 
-// Paste inside end()
+// Paste inside end(), above unregisterButtonCallbacks();
 HAL::audioManager().stopTone();
 HAL::audioManager().enableMic(false);
 ```
@@ -234,42 +234,45 @@ HAL::audioManager().enableMic(false);
 
 ## Framework details
 
-### AudioManager
+??? info "Advanced: how the firmware handles audio"
+    You do not need these details to build apps in the studio. They describe the firmware internals for readers writing an app by hand and building it into the firmware.
 
-The firmware shares one `AudioManager` object, accessed via `HAL::audioManager()`. It handles:
+    ### AudioManager
 
-- **Tone and note output** - the audio engine (`AudioEngine`, 8 voices at 44.1 kHz) mixes tones, notes and sequences, applies the volume and the speaker EQ, then sends the samples over I2S to the MAX98357A amplifier. Tones and notes use a soft square wave (a square wave with its harshest harmonics removed; harmonics are the fainter, higher-pitched tones at whole-number multiples of a note's pitch that give a sound its character) so low notes stay audible on the small speaker.
-- **Mic input** -- The ICS-43434 microphone sends audio over I2S. `VolumeMeter` measures its level and shares a value from 0 to 1 with the app.
+    The firmware shares one `AudioManager` object, accessed via `HAL::audioManager()`. It handles:
 
-The `AudioManager` mic path is metering-only: it publishes a level, not a stream of samples. The built-in Voice Notes recorder opens the same ICS-43434 microphone on its own I2S port and pulls the raw sample stream for capture, independent of `AudioManager`. Studio apps do not have access to that capture path.
+    - **Tone and note output** - the audio engine (`AudioEngine`, 8 voices at 44.1 kHz) mixes tones, notes and sequences, applies the volume and the speaker EQ, then sends the samples over I2S to the MAX98357A amplifier. Tones and notes use a soft square wave (a square wave with its harshest harmonics removed; harmonics are the fainter, higher-pitched tones at whole-number multiples of a note's pitch that give a sound its character) so low notes stay audible on the small speaker.
+    - **Mic input** -- The ICS-43434 microphone sends audio over I2S. `VolumeMeter` measures its level and shares a value from 0 to 1 with the app.
 
-### I2S
+    The `AudioManager` mic path is metering-only: it publishes a level, not a stream of samples. The built-in Voice Notes recorder opens the same ICS-43434 microphone on its own I2S port and pulls the raw sample stream for capture, independent of `AudioManager`. Studio apps do not have access to that capture path.
 
-Audio uses the ESP32's I2S peripherals:
+    ### I2S
 
-- **I2S0** -- Speaker (TX) on pins 27 (LRCLK), 26 (BCLK), 14 (DOUT)
-- **I2S1** -- Microphone (RX) on pins 25 (LRCLK), 32 (BCLK), 33 (DATA IN)
+    Audio uses the ESP32's I2S peripherals:
 
-The mic runs in a separate FreeRTOS task and publishes `micVolumeAtomic` roughly every 20 ms.
+    - **I2S0** -- Speaker (TX) on pins 27 (LRCLK), 26 (BCLK), 14 (DOUT)
+    - **I2S1** -- Microphone (RX) on pins 25 (LRCLK), 32 (BCLK), 33 (DATA IN)
 
-### API summary
+    The mic runs in a separate FreeRTOS task and publishes `micVolumeAtomic` roughly every 20 ms.
 
-| Method | Description |
-|--------|-------------|
-| `setVolume(float)` | Built-in firmware apps: 0.0..1.0; has no effect in studio apps on the device or in the browser emulator |
-| `playTone(float freq, int durationMs)` | 0 = indefinite |
-| `stopTone()` | Stops current tone |
-| `playSequence(const ToneStep* steps, int count)` | Plays a list of tones and rests (up to 64 steps in studio apps; 128 in built-in firmware apps) |
-| `stopSequence()` | Stops the sequence |
-| `isSequencePlaying()` | `true` while a sequence is playing (built-in apps; always `false` in studio apps on the device or in the browser emulator) |
-| `enableMic(bool on)` | Opt-in mic |
-| `getMicVolumeLinear()` | 0.0..1.0 |
-| `getMicVolumeDb()` | dBFS (≤ 0) |
+    ### API summary
 
-Functions for notes (each needs firmware 1.5.0 or newer):
+    | Method | Description |
+    |--------|-------------|
+    | `setVolume(float)` | Built-in firmware apps: 0.0..1.0; has no effect in studio apps on the device or in the browser emulator |
+    | `playTone(float freq, int durationMs)` | 0 = indefinite |
+    | `stopTone()` | Stops current tone |
+    | `playSequence(const ToneStep* steps, int count)` | Plays a list of tones and rests (up to 64 steps in studio apps; 128 in built-in firmware apps) |
+    | `stopSequence()` | Stops the sequence |
+    | `isSequencePlaying()` | `true` while a sequence is playing (built-in apps; always `false` in studio apps on the device or in the browser emulator) |
+    | `enableMic(bool on)` | Opt-in mic |
+    | `getMicVolumeLinear()` | 0.0..1.0 |
+    | `getMicVolumeDb()` | dBFS (<= 0) |
 
-| Method | Description |
-|--------|-------------|
-| `playNote(float freq, int durationMs)` | Starts a note and returns its handle (or -1); 0 = held until stopped |
-| `stopNote(int handle)` | Ends that note only |
-| `stopNotes()` | Ends all notes |
+    Functions for notes (each needs firmware 1.5.0 or newer):
+
+    | Method | Description |
+    |--------|-------------|
+    | `playNote(float freq, int durationMs)` | Starts a note and returns its handle (or -1); 0 = held until stopped |
+    | `stopNote(int handle)` | Ends that note only |
+    | `stopNotes()` | Ends all notes |

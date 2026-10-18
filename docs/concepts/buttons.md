@@ -54,14 +54,14 @@ Paste these sections into the starter's `.cpp` file. The bottom-right button add
 Inside app methods, use `buttonManager`. In helpers outside the class, use `HAL::buttonManager()`. For continuous input you can also read `buttonManager.isPressed(button_RightIndex)` in `update()`.
 
 ```cpp
-// Paste at the top of the file
+// Paste at the top of the file, below the #include lines
 #include <stdio.h>
 static int score = 0;
 static void onActionPressed(const ButtonEvent& e) {
     if (e.eventType == ButtonEvent_Pressed) ++score;
 }
 
-// Paste inside begin()
+// Paste inside begin(), below setColorsOff();
 score = 0;
 buttonManager.registerCallback(button_BottomRightIndex, onActionPressed);
 
@@ -73,7 +73,7 @@ char text[24];
 snprintf(text, sizeof(text), "Score: %d", score);
 display.drawString(64, 24, text);
 
-// Paste inside end()
+// Paste inside end(), above unregisterButtonCallbacks();
 buttonManager.unregisterCallback(button_BottomRightIndex);
 ```
 
@@ -87,14 +87,17 @@ A `ButtonEvent` groups information about one button action:
 
 ## Framework detail: ButtonManager internals
 
-### Ring buffer for events
+??? info "Advanced: how the firmware handles button events"
+    You do not need these details to build apps in the studio. They describe the firmware internals for readers writing an app by hand and building it into the firmware.
 
-Inside the firmware, `ButtonManager` stores up to 16 events in a ring buffer, a queue that reuses its space. When a press, release, or hold is detected, it pushes an event. The firmware drains the queue and delivers events to the active app. Studio apps run their registered callbacks before their next `update()`.
+    ### Ring buffer for events
 
-### Debouncing
+    Inside the firmware, `ButtonManager` stores up to 16 events in a ring buffer, a queue that reuses its space. When a press, release, or hold is detected, it pushes an event. The firmware drains the queue and delivers events to the active app. Studio apps run their registered callbacks before their next `update()`.
 
-Physical buttons "bounce" -- the electrical signal can flicker for a few milliseconds. The `ButtonManager` uses a configurable debounce time (default 20 ms). A state change is only registered after the reading has been stable for that duration. This prevents spurious double-presses.
+    ### Debouncing
 
-### Hold threshold
+    Physical buttons "bounce" -- the electrical signal can flicker for a few milliseconds. The `ButtonManager` uses a configurable debounce time (default 20 ms). A state change is only registered after the reading has been stable for that duration. This prevents spurious double-presses.
 
-The hold threshold (default 1500 ms) determines when a **Held** event is generated. You get one Held event per press; it fires after the button has been down for that long.
+    ### Hold threshold
+
+    The hold threshold (default 1500 ms) determines when a **Held** event is generated. You get one Held event per press; it fires after the button has been down for that long.
