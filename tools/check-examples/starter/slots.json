@@ -1,0 +1,11 @@
+{
+  "app": "MyApp",
+  "instance": "myApp",
+  "files": ["MyApp.h", "MyApp.cpp"],
+  "slots": {
+    "file": {"file": "MyApp.cpp", "anchor": "^MyApp myApp;", "position": "before"},
+    "begin": {"file": "MyApp.cpp", "anchor": "^void MyApp::begin\\(\\) \\{\\n    setColorsOff\\(\\);", "position": "after"},
+    "update": {"file": "MyApp.cpp", "anchor": "^    d.clear\\(\\);", "position": "after"},
+    "end": {"file": "MyApp.cpp", "anchor": "^void MyApp::end\\(\\) \\{", "position": "after"}
+  }
+}
