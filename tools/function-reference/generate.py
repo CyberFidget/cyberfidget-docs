@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: CC-BY-SA-4.0
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Extract the app-facing intersection of the device and emulator headers."""
 import argparse
 import json

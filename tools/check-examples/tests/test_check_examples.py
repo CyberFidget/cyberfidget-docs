@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: CC-BY-SA-4.0
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Extractor and source-layout checks; no compiler needed."""
 import importlib.util
 import io

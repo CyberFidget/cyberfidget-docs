@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
 # App function reference generator
 
 Generates `docs/reference/functions.md`, a one-page app cheat sheet, and `docs/assets/reference/app-functions.json`, a symbol list intended for editor autocomplete. Requires Python 3.11+ and Git; uses only Python's standard library.

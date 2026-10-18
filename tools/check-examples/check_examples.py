@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: CC-BY-SA-4.0
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Compile Markdown examples using the firmware's device-app recipe."""
 import argparse
 from concurrent.futures import ThreadPoolExecutor

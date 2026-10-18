@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: CC-BY-SA-4.0
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Run with python -m unittest discover -s tools/function-reference/tests -v."""
 import contextlib
 import importlib.util

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: CC-BY-SA-4.0
+// SPDX-License-Identifier: GPL-3.0-or-later
 // Renders the studio's blank-template starter for the default name MyApp.
 // Usage: node render_starter.js <website>/assets/js/builder.js <out-dir>
 const fs=require('fs');const src=fs.readFileSync(process.argv[2],'utf8');

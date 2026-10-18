@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
 <!-- check-examples: skip - deliberate pseudocode -->
 ```cpp
 do something;

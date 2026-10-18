@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
 # Documentation example checker
 
 This tool extracts C/C++ fenced examples from Markdown and checks them against the current firmware app headers. It invokes the firmware's `wasm/device_module/build_custom_device_app.sh` recipe directly; compiler flags and shim headers remain owned by that recipe. It validates compilation, not runtime behavior or hardware behavior.
