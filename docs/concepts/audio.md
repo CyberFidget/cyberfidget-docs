@@ -255,24 +255,8 @@ HAL::audioManager().enableMic(false);
 
     The mic runs in a separate FreeRTOS task and publishes `micVolumeAtomic` roughly every 20 ms.
 
-    ### API summary
+## Functions on this page
 
-    | Method | Description |
-    |--------|-------------|
-    | `setVolume(float)` | Built-in firmware apps: 0.0..1.0; has no effect in studio apps on the device or in the browser emulator |
-    | `playTone(float freq, int durationMs)` | 0 = indefinite |
-    | `stopTone()` | Stops current tone |
-    | `playSequence(const ToneStep* steps, int count)` | Plays a list of tones and rests (up to 64 steps in studio apps; 128 in built-in firmware apps) |
-    | `stopSequence()` | Stops the sequence |
-    | `isSequencePlaying()` | `true` while a sequence is playing (built-in apps; always `false` in studio apps on the device or in the browser emulator) |
-    | `enableMic(bool on)` | Opt-in mic |
-    | `getMicVolumeLinear()` | 0.0..1.0 |
-    | `getMicVolumeDb()` | dBFS (<= 0) |
+The note functions each need firmware 1.5.0 or newer.
 
-    Functions for notes (each needs firmware 1.5.0 or newer):
-
-    | Method | Description |
-    |--------|-------------|
-    | `playNote(float freq, int durationMs)` | Starts a note and returns its handle (or -1); 0 = held until stopped |
-    | `stopNote(int handle)` | Ends that note only |
-    | `stopNotes()` | Ends all notes |
+--8<-- "includes/reference/audio.md"

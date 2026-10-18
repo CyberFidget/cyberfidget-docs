@@ -378,6 +378,10 @@ for (int y = 0; y < 8; y++) {
 
 ---
 
+## Functions on this page
+
+--8<-- "includes/reference/sprites.md"
+
 ## Where to go next
 
 - [Make a game, step by step](../getting-started/make-a-game.md): a whole game built up in small steps.

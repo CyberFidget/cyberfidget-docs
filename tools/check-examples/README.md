@@ -27,6 +27,8 @@ The checker considers fences tagged `cpp`, `c++`, `c`, `arduino` or `ino`, case-
 
 ### Fragments
 
+Temporary studio compatibility rule: a non-skipped example containing the text `cf::gfx::` fails as `studio-incompatible`, including occurrences in comments or strings. The studio refuses that text in projects without art. Add `using namespace cf::gfx;` at the top of the file, below the #include lines, and use short names such as `Actor` and `drawSprite`. Explicit skips are exempt. Remove this rule when the studio accepts hand-written sprite code without project art.
+
 Put the placement line on the **first line inside the fence**. It must be exactly one of these four lines (trailing spaces are allowed). Each one tells the reader where to paste, relative to a line that is already in the starter:
 
 | Slot | Placement line |
@@ -137,7 +139,7 @@ If the starter's shape changes, regenerate the source files and update the ancho
 
 ## Output and exit codes
 
-The table contains page path, first content line, kind (`complete`, `fragment:<slot>`, `final`, `skipped`, `untagged`, `no-placement` or `bad-marker`) and result. Failures include their reason and up to 15 lines of compiler output. Totals include complete apps, fragments, skipped-with-marker, untagged, no-placement, bad-marker, final listings, passed and failed. Wall-clock seconds include setup and compilation. `--json PATH` writes the same records, full per-example compiler output, totals and elapsed seconds.
+The table contains page path, first content line, kind (`complete`, `fragment:<slot>`, `final`, `skipped`, `untagged`, `no-placement`, `bad-marker` or `studio-incompatible`) and result. Failures include their reason and up to 15 lines of compiler output. Totals include complete apps, fragments, skipped-with-marker, untagged, no-placement, bad-marker, studio-incompatible, final listings, passed and failed. Wall-clock seconds include setup and compilation. `--json PATH` writes the same records, full per-example compiler output, totals and elapsed seconds.
 
 - Exit **0**: zero failures (skips are allowed).
 - Exit **1**: compilation or example-convention failure.

@@ -22,6 +22,36 @@ END = "// Paste inside end(), above unregisterButtonCallbacks();\n"
 
 
 class ExampleTests(unittest.TestCase):
+    def test_studio_incompatible_examples_fail_before_compilation(self):
+        for code in (UPDATE + 'cf::gfx::drawSprite(display, sprite, 0, 0);',
+                     TOP + '// cf::gfx::Actor is a full name',
+                     TOP + 'const char* name = "cf::gfx::Actor";'):
+            with self.subTest(code=code), patch.object(checker, 'materialize') as materialize:
+                block = checker.Block('sprites.md', 3, code, 'cpp')
+                result = checker.compile_block(block, None, None, False)
+                self.assertEqual(result['kind'], 'studio-incompatible')
+                self.assertEqual(result['result'], 'failed')
+                self.assertIn('projects without art', result['message'])
+                self.assertIn('using namespace cf::gfx;', result['message'])
+                materialize.assert_not_called()
+
+    def test_studio_rule_allows_short_names_and_explicit_skips(self):
+        block = checker.Block('sprites.md', 3,
+                              TOP + 'using namespace cf::gfx;\nActor player;', 'cpp')
+        self.assertEqual(checker.classify(block), ('fragment:file', ''))
+        block.code = 'cf::gfx::Actor player;'
+        block.skip = 'requires project art'
+        self.assertEqual(checker.classify(block), ('skipped', 'requires project art'))
+
+    def test_untagged_studio_incompatible_example_is_detected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            page = root / 'sprites.md'
+            page.write_text('```\ncf::gfx::Actor player;\n```\n', encoding='utf-8')
+            blocks = checker.extract(page, root)
+        self.assertEqual(len(blocks), 1)
+        self.assertEqual(checker.classify(blocks[0])[0], 'studio-incompatible')
+
     def blocks(self, name):
         return checker.extract(FIXTURES / name, FIXTURES)
 

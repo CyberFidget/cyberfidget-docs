@@ -106,3 +106,7 @@ The inverted slider value is low at the bottom and high at the top of the device
     | `setColorsOff()` | Turn all off |
     | `rainbow(int wait)` | Firmware only; studio apps can time colors with `millis()` |
     | `mapToRainbow(input, dim, r, g, b)` | Map input 0-4095 to red, green and blue; dim sets brightness 0-255 |
+
+## Functions on this page
+
+--8<-- "includes/reference/leds.md"

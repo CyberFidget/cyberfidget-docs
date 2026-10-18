@@ -101,3 +101,7 @@ The studio adds your app to the menu using the Menu Category you choose. You do 
     ### Static instance pattern
 
     Built-in apps commonly use a single global instance (e.g. `MyApp myApp`) and pass lambdas, short unnamed functions, that call its methods. This keeps the manifest clean and lets each app own its state.
+
+## Functions on this page
+
+--8<-- "includes/reference/app-lifecycle.md"

@@ -452,483 +452,483 @@ see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 # Sprites and animation
 [symbols."cf::gfx::drawSprite"]
 section = "Sprites and animation"
-use = "cf::gfx::drawSprite(display, sprite, 0, 0);"
+use = "drawSprite(display, sprite, 0, 0);"
 does = "Draw a sprite with its top-left at x, y; ignores its pivot."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#drawing-a-sprite"
 
 [symbols."cf::gfx::drawSpritePivoted"]
 section = "Sprites and animation"
-use = "cf::gfx::drawSpritePivoted(display, sprite, 64, 32);"
+use = "drawSpritePivoted(display, sprite, 64, 32);"
 does = "Draw a sprite with its pivot at x, y."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#pivots"
 
 [symbols."cf::gfx::findAnimation"]
 section = "Sprites and animation"
-use = "cf::gfx::findAnimation(sheet, \"run\");"
+use = "findAnimation(sheet, \"run\");"
 does = "Find a named animation in a sheet; returns nullptr if missing."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#animations-and-sprite-sheets"
 
 [symbols."cf::gfx::sampleSprite"]
 section = "Sprites and animation"
-use = "cf::gfx::sampleSprite(sprite, 0, 0);"
+use = "sampleSprite(sprite, 0, 0);"
 does = "Read one on/off pixel in sprite-local coordinates; outside is false."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#collision"
 
 [symbols."cf::gfx::pixelCollides"]
 section = "Sprites and animation"
-use = "cf::gfx::pixelCollides(player, enemy);"
+use = "pixelCollides(player, enemy);"
 does = "Check overlapping lit pixels; Actor form applies pivots, Sprite form takes top-left positions."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#collision"
 
 [symbols."cf::gfx::Actor::Actor"]
 section = "Sprites and animation"
-use = "cf::gfx::Actor player;"
+use = "Actor player;"
 does = "Create an actor with a position and an animation player."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#actors"
 
 [symbols."cf::gfx::Actor::setSheet"]
 section = "Sprites and animation"
 use = "player.setSheet(&sheet);"
 does = "Bind a sprite sheet for looking up animations by name."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#actors"
 
 [symbols."cf::gfx::Actor::sheet"]
 section = "Sprites and animation"
 use = "player.sheet();"
 does = "Read the bound sheet pointer, or nullptr if none."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#actors"
 
 [symbols."cf::gfx::Actor::play"]
 section = "Sprites and animation"
 use = "player.play(\"run\", millis());"
 does = "Play by name or animation pointer; same animation keeps running; false if missing."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#actors"
 
 [symbols."cf::gfx::Actor::update"]
 section = "Sprites and animation"
 use = "player.update(millis());"
 does = "Advance animation using time in ms; true if the visible sprite changed."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#actors"
 
 [symbols."cf::gfx::Actor::draw"]
 section = "Sprites and animation"
 use = "player.draw(display);"
 does = "Draw the current sprite with its pivot at the actor's position."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#actors"
 
 [symbols."cf::gfx::Actor::setPos"]
 section = "Sprites and animation"
 use = "player.setPos(64, 32);"
 does = "Place the actor's pivot at x, y in screen pixels."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#moving-an-actor"
 
 [symbols."cf::gfx::Actor::setPosQ8"]
 section = "Sprites and animation"
 use = "player.setPosQ8(64 * 256, 32 * 256);"
 does = "Place the pivot in fractional pixels; 256 units equal one pixel."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#moving-an-actor"
 
 [symbols."cf::gfx::Actor::x"]
 section = "Sprites and animation"
 use = "player.x();"
 does = "Read horizontal position in pixels, rounded down."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#moving-an-actor"
 
 [symbols."cf::gfx::Actor::y"]
 section = "Sprites and animation"
 use = "player.y();"
 does = "Read vertical position in pixels, rounded down."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#moving-an-actor"
 
 [symbols."cf::gfx::Actor::xQ8"]
 section = "Sprites and animation"
 use = "player.xQ8();"
 does = "Read horizontal position in units of 1/256 pixel."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#moving-an-actor"
 
 [symbols."cf::gfx::Actor::yQ8"]
 section = "Sprites and animation"
 use = "player.yQ8();"
 does = "Read vertical position in units of 1/256 pixel."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#moving-an-actor"
 
 [symbols."cf::gfx::Actor::sprite"]
 section = "Sprites and animation"
 use = "player.sprite();"
 does = "Read the current sprite pointer; nullptr means nothing to draw."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#actors"
 
 [symbols."cf::gfx::Actor::animation"]
 section = "Sprites and animation"
 use = "player.animation();"
 does = "Read the selected animation pointer, or nullptr if none."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#actors"
 
 [symbols."cf::gfx::Actor::finished"]
 section = "Sprites and animation"
 use = "player.finished();"
 does = "Check whether playback has finished or stopped."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#actors"
 
 [symbols."cf::gfx::AnimationPlayer::AnimationPlayer"]
 section = "Sprites and animation"
-use = "cf::gfx::AnimationPlayer clock;"
+use = "AnimationPlayer clock;"
 does = "Create an animation clock without a screen position."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#animations-and-sprite-sheets"
 
 [symbols."cf::gfx::AnimationPlayer::play"]
 section = "Sprites and animation"
 use = "clock.play(&animation, millis());"
 does = "Start or restart at frame 0 using time in ms; nullptr stops."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#animations-and-sprite-sheets"
 
 [symbols."cf::gfx::AnimationPlayer::setIfChanged"]
 section = "Sprites and animation"
 use = "clock.setIfChanged(&animation, millis());"
 does = "Start only if the animation pointer differs; safe every update."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#animations-and-sprite-sheets"
 
 [symbols."cf::gfx::AnimationPlayer::update"]
 section = "Sprites and animation"
 use = "clock.update(millis());"
 does = "Advance by elapsed ms; true if the sprite changed; 0 ms frames hold indefinitely."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#animations-and-sprite-sheets"
 
 [symbols."cf::gfx::AnimationPlayer::stop"]
 section = "Sprites and animation"
 use = "clock.stop();"
 does = "Clear playback; sprite and animation pointers become nullptr."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#animations-and-sprite-sheets"
 
 [symbols."cf::gfx::AnimationPlayer::sprite"]
 section = "Sprites and animation"
 use = "clock.sprite();"
 does = "Read the current sprite pointer; nullptr means nothing to draw."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#animations-and-sprite-sheets"
 
 [symbols."cf::gfx::AnimationPlayer::animation"]
 section = "Sprites and animation"
 use = "clock.animation();"
 does = "Read the selected animation pointer, including after it finishes."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#animations-and-sprite-sheets"
 
 [symbols."cf::gfx::AnimationPlayer::frameIndex"]
 section = "Sprites and animation"
 use = "clock.frameIndex();"
 does = "Read the current frame number, starting at 0."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#animations-and-sprite-sheets"
 
 [symbols."cf::gfx::AnimationPlayer::finished"]
 section = "Sprites and animation"
 use = "clock.finished();"
 does = "Check whether playback has finished or stopped."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#animations-and-sprite-sheets"
 
 [symbols."cf::gfx::MeshActor::MeshActor"]
 section = "Sprites and animation"
-use = "cf::gfx::MeshActor model;"
+use = "MeshActor model;"
 does = "Create a wireframe model actor with default depth 48 and scale 256."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::MeshActor::setMesh"]
 section = "Sprites and animation"
 use = "model.setMesh(&mesh);"
 does = "Bind the model's points and connecting lines."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::MeshActor::mesh"]
 section = "Sprites and animation"
 use = "model.mesh();"
 does = "Read the bound model pointer, or nullptr if none."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::MeshActor::setPos"]
 section = "Sprites and animation"
 use = "model.setPos(64, 32);"
 does = "Place the model's anchor in screen pixels."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::MeshActor::x"]
 section = "Sprites and animation"
 use = "model.x();"
 does = "Read the anchor's horizontal screen position in pixels."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::MeshActor::y"]
 section = "Sprites and animation"
 use = "model.y();"
 does = "Read the anchor's vertical screen position in pixels."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::MeshActor::setScaleQ8"]
 section = "Sprites and animation"
 use = "model.setScaleQ8(256);"
 does = "Set model size; 256 is normal size and 512 is double."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::MeshActor::scaleQ8"]
 section = "Sprites and animation"
 use = "model.scaleQ8();"
 does = "Read size in units where 256 is normal size."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::MeshActor::setRotation"]
 section = "Sprites and animation"
 use = "model.setRotation(0, 64, 0);"
 does = "Rotate about vertical, horizontal, and depth axes; 256 units equal one turn."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::MeshActor::spin"]
 section = "Sprites and animation"
 use = "model.spin(1, 0, 0);"
 does = "Add yaw, pitch, roll steps; 256 steps equal one turn."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::MeshActor::yaw"]
 section = "Sprites and animation"
 use = "model.yaw();"
 does = "Read rotation about the model's vertical axis; 0-255 is one turn."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::MeshActor::pitch"]
 section = "Sprites and animation"
 use = "model.pitch();"
 does = "Read rotation about the model's horizontal axis; 0-255 is one turn."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::MeshActor::roll"]
 section = "Sprites and animation"
 use = "model.roll();"
 does = "Read rotation about the model's depth axis; 0-255 is one turn."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::MeshActor::setPerspective"]
 section = "Sprites and animation"
 use = "model.setPerspective(48);"
 does = "Set viewing depth; 0 disables perspective size changes with distance."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::MeshActor::perspective"]
 section = "Sprites and animation"
 use = "model.perspective();"
 does = "Read the viewing depth; 0 means no perspective."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::MeshActor::draw"]
 section = "Sprites and animation"
 use = "model.draw(display);"
 does = "Draw model lines; skip lines with either end behind the near viewing plane."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::MeshActor::projectPoint"]
 section = "Sprites and animation"
 use = "model.projectPoint(0, 0, 0, x, y);"
 does = "Convert a model point to screen x/y; keep coordinates within about +/-8192; false if hidden."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RigActor::RigActor"]
 section = "Sprites and animation"
-use = "cf::gfx::RigActor figure;"
+use = "RigActor figure;"
 does = "Create an actor for connected bones, poses, and falling-body motion."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RigActor::setRig"]
 section = "Sprites and animation"
 use = "figure.setRig(&rig);"
 does = "Bind bones and poses, clearing playback and physics state."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RigActor::rig"]
 section = "Sprites and animation"
 use = "figure.rig();"
 does = "Read the bound rig pointer, or nullptr if none."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RigActor::setPos"]
 section = "Sprites and animation"
 use = "figure.setPos(64, 32);"
 does = "Place the rig's origin in screen pixels."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RigActor::x"]
 section = "Sprites and animation"
 use = "figure.x();"
 does = "Read the horizontal screen position in pixels."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RigActor::y"]
 section = "Sprites and animation"
 use = "figure.y();"
 does = "Read the vertical screen position in pixels."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RigActor::state"]
 section = "Sprites and animation"
 use = "figure.state();"
 does = "Read whether the figure is posing, animating, falling, or standing up."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RigActor::isRagdoll"]
 section = "Sprites and animation"
 use = "figure.isRagdoll();"
 does = "True during falling-body motion or standing up."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RigActor::play"]
 section = "Sprites and animation"
 use = "figure.play(\"walk\");"
 does = "Play a named animation or pose; also accepts an animation pointer or reference; false if missing."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RigActor::blend"]
 section = "Sprites and animation"
 use = "figure.blend(\"idle\", \"reach\", 128);"
 does = "Blend two poses; amount 0-255 moves smoothly from the first to the second."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RigActor::ragdoll"]
 section = "Sprites and animation"
 use = "figure.ragdoll(1.0f, -2.0f);"
 does = "Start falling-body physics with x/y impulse; false without a valid rig of at most 11 bones."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RigActor::pin"]
 section = "Sprites and animation"
 use = "figure.pin(\"head\", 64, 16);"
 does = "Hold one bone at screen x/y during falling-body motion; also accepts a bone index."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RigActor::unpin"]
 section = "Sprites and animation"
 use = "figure.unpin();"
 does = "Release the held bone."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RigActor::standUp"]
 section = "Sprites and animation"
 use = "figure.standUp();"
 does = "Start standing up from a falling-body pose."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RigActor::update"]
 section = "Sprites and animation"
 use = "figure.update(millis());"
 does = "Advance animation by ms or physics by one step; call each update."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RigActor::draw"]
 section = "Sprites and animation"
 use = "figure.draw(display);"
 does = "Draw the current connected-bone figure."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RigActor::boneCount"]
 section = "Sprites and animation"
 use = "figure.boneCount();"
 does = "Read the number of bones in the bound rig."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RigActor::boneTransform"]
 section = "Sprites and animation"
 use = "figure.boneTransform(0);"
 does = "Read a valid bone index's calculated start, end, and angle; no bounds check."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RigActor::particleCount"]
 section = "Sprites and animation"
 use = "figure.particleCount();"
 does = "Read the number of physics points used by falling-body motion."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RigActor::particle"]
 section = "Sprites and animation"
 use = "figure.particle(0);"
 does = "Read a physics point's x/y; invalid index returns (0, 0)."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RigActor::maxHardConstraintError"]
 section = "Sprites and animation"
 use = "figure.maxHardConstraintError();"
 does = "Read the largest length error in pixels for rigid physics connections."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::sinQ14"]
 section = "Sprites and animation"
-use = "cf::gfx::sinQ14(64);"
+use = "sinQ14(64);"
 does = "Read sine scaled by 16384; 256 angle units equal one turn."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::cosQ14"]
 section = "Sprites and animation"
-use = "cf::gfx::cosQ14(0);"
+use = "cosQ14(0);"
 does = "Read cosine scaled by 16384; 256 angle units equal one turn."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::degreesToBinaryAngle"]
 section = "Sprites and animation"
-use = "cf::gfx::degreesToBinaryAngle(90);"
+use = "degreesToBinaryAngle(90);"
 does = "Convert degrees to a wrapped 0-255 angle; 256 units equal one turn."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::blendBinaryAngle"]
 section = "Sprites and animation"
-use = "cf::gfx::blendBinaryAngle(0, 64, 128);"
+use = "blendBinaryAngle(0, 64, 128);"
 does = "Blend angles by the shorter turn; amount 0-255 selects first to second."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::interpolateRigInteger"]
 section = "Sprites and animation"
-use = "cf::gfx::interpolateRigInteger(0, 100, 128);"
+use = "interpolateRigInteger(0, 100, 128);"
 does = "Blend integers; amount 0-255 selects first to second, rounding halfway away from zero."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::rotateRigOffset"]
 section = "Sprites and animation"
-use = "cf::gfx::rotateRigOffset(10, 0, 64, x, y);"
+use = "rotateRigOffset(10, 0, 64, x, y);"
 does = "Rotate a pixel offset into output x/y; 256 angle units equal one turn."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::rigPoseDegrees"]
 section = "Sprites and animation"
-use = "cf::gfx::rigPoseDegrees(&pose, 0);"
+use = "rigPoseDegrees(&pose, 0);"
 does = "Read a valid bone index's pose angle in degrees; null pose data returns 0."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::rigPoseRootDy"]
 section = "Sprites and animation"
-use = "cf::gfx::rigPoseRootDy(&pose);"
+use = "rigPoseRootDy(&pose);"
 does = "Read a pose's vertical origin offset in pixels; null pose returns 0."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::rigRoundRatioHalfAwayFromZero"]
 section = "Sprites and animation"
-use = "cf::gfx::rigRoundRatioHalfAwayFromZero(5, 2);"
+use = "rigRoundRatioHalfAwayFromZero(5, 2);"
 does = "Divide with halfway values rounded away from zero; denominator must be positive."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::solveRigPose"]
 section = "Sprites and animation"
-use = "cf::gfx::solveRigPose(rig, &pose, transforms, 16);"
+use = "solveRigPose(rig, &pose, transforms, 16);"
 does = "Calculate bone positions; also accepts two poses and a 0-255 blend; false for invalid capacity or bone order."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::findRigPose"]
 section = "Sprites and animation"
-use = "cf::gfx::findRigPose(rig, \"idle\");"
+use = "findRigPose(rig, \"idle\");"
 does = "Look up a pose by name; nullptr if missing."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::findRigAnimation"]
 section = "Sprites and animation"
-use = "cf::gfx::findRigAnimation(rig, \"walk\");"
+use = "findRigAnimation(rig, \"walk\");"
 does = "Look up a bone animation by name; nullptr if missing."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::smoothstepRigAmount"]
 section = "Sprites and animation"
-use = "cf::gfx::smoothstepRigAmount(128);"
+use = "smoothstepRigAmount(128);"
 does = "Ease a 0-255 blend amount so its start and finish are gradual."
-see = "../studio/overview.md#the-workspace-tabs"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 # Leaving the app / app control
 [symbols."MenuManager::instance"]
@@ -1138,123 +1138,123 @@ see = "../concepts/buttons.md#event-types"
 # Animation constants
 [symbols."cf::gfx::LOOP_ONCE"]
 section = "Animation constants"
-use = "cf::gfx::LOOP_ONCE"
+use = "LOOP_ONCE"
 does = "Play once then draw nothing."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#loop-modes"
 
 [symbols."cf::gfx::LOOP_ONCE_HOLD"]
 section = "Animation constants"
-use = "cf::gfx::LOOP_ONCE_HOLD"
+use = "LOOP_ONCE_HOLD"
 does = "Play once and keep the last frame."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#loop-modes"
 
 [symbols."cf::gfx::LOOP_LOOP"]
 section = "Animation constants"
-use = "cf::gfx::LOOP_LOOP"
+use = "LOOP_LOOP"
 does = "Repeat from the first frame."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#loop-modes"
 
 [symbols."cf::gfx::LOOP_PINGPONG"]
 section = "Animation constants"
-use = "cf::gfx::LOOP_PINGPONG"
+use = "LOOP_PINGPONG"
 does = "Play forward then backward, repeating."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#loop-modes"
 
 [symbols."cf::gfx::BO_LSB_FIRST"]
 section = "Animation constants"
-use = "cf::gfx::BO_LSB_FIRST"
+use = "BO_LSB_FIRST"
 does = "Lowest bit first per byte; required for drawing sprites correctly."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#drawing-a-sprite"
 
 [symbols."cf::gfx::BO_MSB_FIRST"]
 section = "Animation constants"
-use = "cf::gfx::BO_MSB_FIRST"
+use = "BO_MSB_FIRST"
 does = "Highest bit first; collision can read it but drawing mirrors each byte."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../concepts/sprites.md#drawing-a-sprite"
 
 [symbols."cf::gfx::RIG_RENDER_BAKED16"]
 section = "Animation constants"
-use = "cf::gfx::RIG_RENDER_BAKED16"
+use = "RIG_RENDER_BAKED16"
 does = "Use one of 16 image angles; fall back to lines when images are absent."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RIG_RENDER_LINE"]
 section = "Animation constants"
-use = "cf::gfx::RIG_RENDER_LINE"
+use = "RIG_RENDER_LINE"
 does = "Draw bones as lines."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RIG_RENDER_FLAT"]
 section = "Animation constants"
-use = "cf::gfx::RIG_RENDER_FLAT"
+use = "RIG_RENDER_FLAT"
 does = "Draw bones as lines, matching LINE mode."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RigActor::STATE_POSE"]
 section = "Animation constants"
-use = "cf::gfx::RigActor::STATE_POSE"
+use = "RigActor::STATE_POSE"
 does = "Holding a pose."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RigActor::STATE_ANIMATION"]
 section = "Animation constants"
-use = "cf::gfx::RigActor::STATE_ANIMATION"
+use = "RigActor::STATE_ANIMATION"
 does = "Playing bone animation."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RigActor::STATE_RAGDOLL"]
 section = "Animation constants"
-use = "cf::gfx::RigActor::STATE_RAGDOLL"
+use = "RigActor::STATE_RAGDOLL"
 does = "Falling-body physics is active."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::RigActor::STATE_STANDING"]
 section = "Animation constants"
-use = "cf::gfx::RigActor::STATE_STANDING"
+use = "RigActor::STATE_STANDING"
 does = "Returning from physics to standing."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::kFocal"]
 section = "Animation constants"
-use = "cf::gfx::kFocal"
+use = "kFocal"
 does = "Perspective projection focal length in pixels."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::kNearZ"]
 section = "Animation constants"
-use = "cf::gfx::kNearZ"
+use = "kNearZ"
 does = "Minimum visible model depth."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::kDefaultDepth"]
 section = "Animation constants"
-use = "cf::gfx::kDefaultDepth"
+use = "kDefaultDepth"
 does = "Initial model viewing depth."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::kScaleBaseQ8"]
 section = "Animation constants"
-use = "cf::gfx::kScaleBaseQ8"
+use = "kScaleBaseQ8"
 does = "Normal model size; 256 means 1x."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::kMaxRigBones"]
 section = "Animation constants"
-use = "cf::gfx::kMaxRigBones"
+use = "kMaxRigBones"
 does = "Maximum bones for pose calculation."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::kMaxRigParticles"]
 section = "Animation constants"
-use = "cf::gfx::kMaxRigParticles"
+use = "kMaxRigParticles"
 does = "Maximum physics points for falling-body motion."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [symbols."cf::gfx::kMaxRigConstraints"]
 section = "Animation constants"
-use = "cf::gfx::kMaxRigConstraints"
+use = "kMaxRigConstraints"
 does = "Maximum physics connections."
-see = "../studio/overview.md#the-2d-workspace"
+see = "../studio/3d-models.md#using-a-model-in-an-app"
 
 [ignore]
 "AudioManager::AudioManager" = "Exposed only in emulator headers; outside the portable app intersection."

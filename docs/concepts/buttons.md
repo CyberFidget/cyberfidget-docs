@@ -101,3 +101,7 @@ A `ButtonEvent` groups information about one button action:
     ### Hold threshold
 
     The hold threshold (default 1500 ms) determines when a **Held** event is generated. You get one Held event per press; it fires after the button has been down for that long.
+
+## Functions on this page
+
+--8<-- "includes/reference/buttons.md"
