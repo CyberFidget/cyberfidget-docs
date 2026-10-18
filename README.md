@@ -193,6 +193,10 @@ markdown_extensions:
 
 ---
 
+## Developer tools
+
+- [Example compile checker](tools/check-examples/): validate documentation C/C++ examples against the firmware app headers.
+
 ## Contributing
 
 - Keep PRs small and focused.
