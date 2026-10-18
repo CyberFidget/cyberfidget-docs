@@ -216,6 +216,7 @@ Resume state is stored in NVS (`"mpstate"` namespace) with the file path and byt
 
 The firmware's power manager puts the device to sleep after 60 seconds of inactivity. During music playback, the app resets the interaction timer every update cycle:
 
+<!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```cpp
 if (isPlaying) {
     millis_APP_LASTINTERACTION = millis_NOW;

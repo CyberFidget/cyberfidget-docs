@@ -42,6 +42,7 @@ SD Card → AudioPlayer → MP3DecoderHelix → SpectrumAnalyzer → A2DPStream 
 
 `SpectrumAnalyzer` replaces the original `VolumeMeter` from arduino-audio-tools. It provides the same `volumeRatio()` API for LED reactive effects, plus 16-band FFT frequency analysis for the spectrum visualizer. Audio passes through unchanged — zero latency, zero quality impact.
 
+<!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```cpp
 // In createAudioPipeline():
 if (!pSpectrumAnalyzer) {

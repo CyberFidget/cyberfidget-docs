@@ -1,6 +1,8 @@
 # Buttons & Events
 
-Buttons on the Cyber Fidget don't get polled in your app — they *ring your functions* when something happens. You register a callback, and the framework calls it when the user presses, releases, or holds a button.
+After this page you can make a button press change your app.
+
+Buttons on the Cyber Fidget can *ring your functions* when something happens. You register a callback, and the framework calls it when the user presses, releases, or holds a button.
 
 ---
 
@@ -19,11 +21,11 @@ The `ButtonManager` generates three event types:
 
 | Event | When it fires |
 |-------|----------------|
-| **Pressed** | Button transitions from not pressed → pressed |
-| **Released** | Button transitions from pressed → not pressed |
+| **Pressed** | Button transitions from not pressed -> pressed |
+| **Released** | Button transitions from pressed -> not pressed |
 | **Held** | Button has been held down longer than the hold threshold (default 1500 ms) |
 
-You choose which events to handle. Many apps use **Pressed** for "do the thing" and **Released** for "back" (so you don't exit on accidental holds).
+You choose which events to handle. Many apps use **Pressed** for "do the thing" and **Released** for "back". A release event also follows a hold; it does not distinguish a tap from a long press by itself.
 
 ---
 
@@ -41,44 +43,45 @@ The device has 6 physical buttons. You refer to them by index or semantic name:
 | 5 | `button_BottomRightIndex` / `button_EnterIndex` | Select / Enter |
 
 !!! important "Back button convention"
-    **BottomLeft** (`button_BottomLeftIndex`) is the standard "back" or "exit" button. Users expect it to return to the menu or previous screen. Register a callback for it in `begin()` and unregister in `end()`.
+    **BottomLeft** (`button_BottomLeftIndex`) is the standard "back" or "exit" button. Users expect it to return to the menu or previous screen. The [studio starter](../getting-started/first-app.md) already registers and cleans up this callback. Keep it: it calls the app's `end()` and `MenuManager::instance().returnToMenu()`.
 
 ---
 
 ## Code example: callback registration
 
+Paste these sections into the starter's `.cpp` file. The bottom-right button adds one to the score. The bottom-left button keeps its exit action. A free `static` function at the top of the file needs no declaration in the app's `.h` file.
+
+Inside app methods, use `buttonManager`. In helpers outside the class, use `HAL::buttonManager()`. For continuous input you can also read `buttonManager.isPressed(button_RightIndex)` in `update()`.
+
 ```cpp
-// In begin(): register your callbacks
-void MyApp::begin() {
-    buttonManager.registerCallback(button_BottomLeftIndex, onButtonBackPressed);
-    buttonManager.registerCallback(button_BottomRightIndex, onButtonActionPressed);
+// Paste at the top of the file
+#include <stdio.h>
+static int score = 0;
+static void onActionPressed(const ButtonEvent& e) {
+    if (e.eventType == ButtonEvent_Pressed) ++score;
 }
 
-// In end(): unregister so the next app gets clean state
-void MyApp::end() {
-    buttonManager.unregisterCallback(button_BottomLeftIndex);
-    buttonManager.unregisterCallback(button_BottomRightIndex);
-}
+// Paste inside begin()
+score = 0;
+buttonManager.registerCallback(button_BottomRightIndex, onActionPressed);
 
-// Callback signature: void (const ButtonEvent&)
-static void MyApp::onButtonBackPressed(const ButtonEvent& e) {
-    if (e.eventType == ButtonEvent_Released) {
-        AppManager::instance().switchToApp(APP_MENU);  // Exit to menu
-    }
-}
+// Paste inside update(), just above display.display();
+display.clear();
+display.setFont(ArialMT_Plain_16);
+display.setTextAlignment(TEXT_ALIGN_CENTER);
+char text[24];
+snprintf(text, sizeof(text), "Score: %d", score);
+display.drawString(64, 24, text);
 
-static void MyApp::onButtonActionPressed(const ButtonEvent& e) {
-    if (e.eventType == ButtonEvent_Pressed) {
-        score++;  // Do something on press
-    }
-}
+// Paste inside end()
+buttonManager.unregisterCallback(button_BottomRightIndex);
 ```
 
-The `ButtonEvent` struct includes:
+A `ButtonEvent` groups information about one button action:
 
-- `buttonIndex` — Which button (0–5)
-- `eventType` — `ButtonEvent_Pressed`, `ButtonEvent_Released`, or `ButtonEvent_Held`
-- `duration` — How long the button was pressed (ms)
+- `buttonIndex` -- Which button (0-5)
+- `eventType` -- `ButtonEvent_Pressed`, `ButtonEvent_Released`, or `ButtonEvent_Held`
+- `duration` -- Time held on a hold or release event, in ms; zero on a press. Studio apps on the device estimate this from event delivery times.
 
 ---
 
@@ -86,11 +89,11 @@ The `ButtonEvent` struct includes:
 
 ### Ring buffer for events
 
-The `ButtonManager` stores events in a fixed-size ring buffer (`MAX_EVENTS = 16`). When a press, release, or hold is detected, it pushes an event. `AppManager::processButtonEvents()` drains the queue each loop and invokes the registered callback for each button that has one.
+Inside the firmware, `ButtonManager` stores up to 16 events in a ring buffer, a queue that reuses its space. When a press, release, or hold is detected, it pushes an event. The firmware drains the queue and delivers events to the active app. Studio apps run their registered callbacks before their next `update()`.
 
 ### Debouncing
 
-Physical buttons "bounce" — the electrical signal can flicker for a few milliseconds. The `ButtonManager` uses a configurable debounce time (default 20 ms). A state change is only registered after the reading has been stable for that duration. This prevents spurious double-presses.
+Physical buttons "bounce" -- the electrical signal can flicker for a few milliseconds. The `ButtonManager` uses a configurable debounce time (default 20 ms). A state change is only registered after the reading has been stable for that duration. This prevents spurious double-presses.
 
 ### Hold threshold
 

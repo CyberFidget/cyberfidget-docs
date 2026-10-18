@@ -8,18 +8,18 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 
 | Term | Definition |
 |------|------------|
-| **A2DP** | Advanced Audio Distribution Profile — Bluetooth stereo audio streaming protocol. |
-| **ADC** | Analog-to-Digital Converter — converts the slider's voltage to a number (e.g. 0–4095). |
-| **API** | Application Programming Interface — how code talks to a library or service. |
-| **BLE** | Bluetooth Low Energy — used for wireless features on the device. |
+| **A2DP** | Advanced Audio Distribution Profile -- Bluetooth stereo audio streaming protocol. |
+| **ADC** | Analog-to-Digital Converter -- converts the slider's voltage to a number (e.g. 0-4095). |
+| **API** | Application Programming Interface -- how code talks to a library or service. |
+| **BLE** | Bluetooth Low Energy -- used for wireless features on the device. |
 | **CC BY-SA** | Creative Commons Attribution-ShareAlike; reuse requires attribution and sharing adaptations under the same license. |
 | **MIT License** | Permissive code license requiring the license notice to stay with copies. |
 | **CC0** | Creative Commons Zero - a public-domain dedication that allows reuse without the usual copyright restrictions. |
-| **CI** | Continuous Integration — automated builds (e.g. GitHub Actions compiling WASM). |
+| **CI** | Continuous Integration -- automated builds (e.g. GitHub Actions compiling WASM). |
 | **CMake** | Cross-platform build system used to configure the WASM/Emscripten build. |
-| **CORS** | Cross-Origin Resource Sharing — browser rules that block loading WASM from `file://` URLs. |
-| **CSS** | Cascading Style Sheets — used to style the emulator (LEDs, layout). |
-| **DOM** | Document Object Model — the browser's representation of the page (buttons, canvas). |
+| **CORS** | Cross-Origin Resource Sharing -- browser rules that block loading WASM from `file://` URLs. |
+| **CSS** | Cascading Style Sheets -- used to style the emulator (LEDs, layout). |
+| **DOM** | Document Object Model -- the browser's representation of the page (buttons, canvas). |
 | **dB** | Decibel - a unit for comparing loudness. 3 dB quieter is about half the power. |
 | **EQ** | Equalizer - a filter that makes some pitches louder or quieter. The speaker's EQ lifts the pitches the small speaker plays well. |
 | **dBFS** | Decibels relative to Full Scale - a loudness scale where 0 is the loudest level the microphone can measure and quieter sounds are negative numbers (for example -60 for a quiet room). |
@@ -28,60 +28,66 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **DER** | Distinguished Encoding Rules - a compact binary layout; firmware update signatures use it before being written as base64 text. |
 | **DIO** | Dual input/output - a flash mode accepted in release metadata. |
 | **ECDSA** | Elliptic Curve Digital Signature Algorithm - the method used to sign firmware updates, so a Fidget can check that an update came from Cyber Fidget. |
-| **ESP32** | Espressif's 32-bit microcontroller — the main chip on Cyber Fidget hardware. |
-| **FPS** | Frames Per Second — the emulator runs at 50 FPS like the real device. |
-| **FreeRTOS** | Free Real-Time Operating System — the RTOS layer used by ESP-IDF under the hood. |
-| **GPIO** | General-Purpose Input/Output — physical pins used for buttons, etc. |
-| **HAL** | Hardware Abstraction Layer — the layer that swaps ESP32 drivers for browser equivalents in the emulator. |
+| **ESP32** | Espressif's 32-bit microcontroller -- the main chip on Cyber Fidget hardware. |
+| **FPS** | Frames Per Second -- the emulator runs at 50 FPS like the real device. |
+| **FreeRTOS** | Free Real-Time Operating System -- the RTOS layer used by ESP-IDF under the hood. |
+| **GPIO** | General-Purpose Input/Output -- physical pins used for buttons, etc. |
+| **HAL** | Hardware Abstraction Layer -- the layer that swaps ESP32 drivers for browser equivalents in the emulator. |
 | **Harmonics** | Quieter extra pitches at 2x, 3x, 4x... a note's frequency, mixed into the sound. A small speaker that cannot reproduce a low note can still play its harmonics, so the note stays recognizable but quieter. |
-| **Hz / kHz** | Hertz / kilohertz — vibrations per second (1 kHz = 1000 Hz); the unit of pitch. Higher is a higher note. |
-| **I2C** | Inter-Integrated Circuit — serial bus used for the OLED, accelerometer, and fuel gauge. |
-| **I2S** | Inter-IC Sound — digital audio bus used for the speaker amplifier and MEMS microphone. |
-| **IDE** | Integrated Development Environment — e.g. the App Builder on the website. |
-| **GPU** | Graphics Processing Unit — when the phone's browser exposes it, the companion transcribes speech much faster. |
+| **Hz / kHz** | Hertz / kilohertz -- vibrations per second (1 kHz = 1000 Hz); the unit of pitch. Higher is a higher note. |
+| **I2C** | Inter-Integrated Circuit -- serial bus used for the OLED, accelerometer, and fuel gauge. |
+| **I2S** | Inter-IC Sound -- digital audio bus used for the speaker amplifier and MEMS microphone. |
+| **IDE** | Integrated Development Environment -- e.g. the App Builder on the website. |
+| **GPU** | Graphics Processing Unit -- when the phone's browser exposes it, the companion transcribes speech much faster. |
 | **IPv4 / IPv6** | Internet Protocol version 4 / version 6 - the two kinds of network address. IPv4 is the familiar four-number form, like `192.168.4.1`; IPv6 is the newer, longer form. |
 | **IndexedDB** | Browser storage used to cache compiled WASM and the phone companion's one-time transcription download. |
 | **JS** | JavaScript. |
 | **JSON** | JavaScript Object Notation - a structured text format for storing data. |
 | **LED** | Light-Emitting Diode. |
-| **LiPo** | Lithium Polymer — rechargeable battery type used in Cyber Fidget (400 mAh). |
-| **Li-ion** | Lithium-ion — a family of rechargeable battery chemistries. |
-| **MCU** | Microcontroller Unit — the processor that controls an embedded device. |
-| **MEMS** | Micro-Electro-Mechanical Systems — miniaturized sensor technology used in the ICS-43434 microphone. |
+| **LiPo** | Lithium Polymer -- rechargeable battery type used in Cyber Fidget (400 mAh). |
+| **Li-ion** | Lithium-ion -- a family of rechargeable battery chemistries. |
+| **MCU** | Microcontroller Unit -- the processor that controls an embedded device. |
+| **MEMS** | Micro-Electro-Mechanical Systems -- miniaturized sensor technology used in the ICS-43434 microphone. |
 | **ms** | Millisecond - one thousandth of a second. |
 | **NeoPixel** | Adafruit's addressable RGB(W) LED product line; firmware uses a shim that matches its API. |
 | **NUL** | The character with code 0. C uses it to mark the end of text, so a serial command line may not contain one. |
 | **NVS** | Non-Volatile Storage - the small settings area in the ESP32's flash that keeps saved WiFi networks, the account link, and other settings across restarts. |
-| **OLED** | Organic Light-Emitting Diode — the 128×64 pixel display on Cyber Fidget. |
+| **OLED** | Organic Light-Emitting Diode -- the 128×64 pixel display on Cyber Fidget. |
 | **OTA** | Over-the-air update - firmware delivered over a network instead of a cable. On the device and website, the action is called an "update." |
 | **P-256** | A standard elliptic curve (also called prime256v1); the firmware update signing key must use it. |
 | **PCB** | Printed Circuit Board. |
 | **PEM** | Privacy-Enhanced Mail - a text format for storing keys, used for the release signing key. |
-| **PCM** | Pulse-Code Modulation — uncompressed digital audio stored as raw samples. |
+| **PCM** | Pulse-Code Modulation -- uncompressed digital audio stored as raw samples. |
 | **PNG** | Portable Network Graphics - a common lossless image file format. Aseprite can export its sprite sheets as PNG images. |
 | **PSRAM** | Pseudo-Static RAM - extra memory on the ESP32 module, used to buffer audio while recording and to run apps sent to the Fidget (a little slower than the chip's internal memory). |
 | **QIO** | Quad input/output - a flash mode accepted in release metadata. |
 | **RC** | Release Candidate - a test version of the firmware, tagged like `v1.4.0-rc1`. On the device and website it is called a "test version." |
-| **RGBW** | Red, Green, Blue, White — four-channel LED color. |
-| **RS-232** | Recommended Standard 232 — a serial communication standard. |
-| **SD** | Secure Digital — the micro-SD card slot. |
+| **RGBW** | Red, Green, Blue, White -- four-channel LED color. |
+| **RS-232** | Recommended Standard 232 -- a serial communication standard. |
+| **SD** | Secure Digital -- the micro-SD card slot. |
 | **SHA-256** | Secure Hash Algorithm 256-bit - a digest used to check that downloaded bytes match the update manifest. |
-| **SPI** | Serial Peripheral Interface — serial bus used for the SD card. |
-| **SPP** | Serial Port Profile — Bluetooth serial data streaming protocol. |
+| **SPI** | Serial Peripheral Interface -- serial bus used for the SD card. |
+| **SPP** | Serial Port Profile -- Bluetooth serial data streaming protocol. |
 | **SSD1306** | The display controller chip used in the Cyber Fidget OLED. |
-| **USB** | Universal Serial Bus — used for charging and serial communication via USB-C. |
+| **USB** | Universal Serial Bus -- used for charging and serial communication via USB-C. |
 | **URL** | Uniform Resource Locator - an address for a web resource. |
-| **USB-C** | USB Type-C — the reversible connector used for charging and serial communication. |
+| **USB-C** | USB Type-C -- the reversible connector used for charging and serial communication. |
 | **UVLO** | Under-voltage lockout - a protective shutdown that stops the device from draining its battery below a safe level. |
-| **VU** | Volume Unit — a level meter showing how loud the microphone is hearing you (used by the Voice Notes recorder). |
-| **WASM** | WebAssembly — binary format that runs in the browser; the emulator runs C++ apps as WASM. |
-| **WAV** | Waveform Audio File — uncompressed audio format; plays on nearly any phone or computer with no special software. Voice Notes recordings are saved as WAV. |
+| **VU** | Volume Unit -- a level meter showing how loud the microphone is hearing you (used by the Voice Notes recorder). |
+| **WASM** | WebAssembly -- binary format that runs in the browser; the emulator runs C++ apps as WASM. |
+| **WAV** | Waveform Audio File -- uncompressed audio format; plays on nearly any phone or computer with no special software. Voice Notes recordings are saved as WAV. |
 | **WebAssembly** | Binary instruction format for the web; the emulator compiles C++ to WASM. |
-| **WebSocket** | A persistent two-way connection between a browser page and a server — the phone companion's live caption link to the device. |
-| **Wi-Fi** | Wireless Fidelity — used for OTA and network features. |
+| **WebSocket** | A persistent two-way connection between a browser page and a server -- the phone companion's live caption link to the device. |
+| **Wi-Fi** | Wireless Fidelity -- used for OTA and network features. |
 | **Web Serial** | A browser feature that lets a web page talk to a device over a USB serial connection. Available in desktop Chromium-based browsers such as Chrome and Edge. |
-| **mDNS** | Multicast DNS — the local-network name service that makes `cyberfidget.local` resolve without any router configuration. |
+| **mDNS** | Multicast DNS -- the local-network name service that makes `cyberfidget.local` resolve without any router configuration. |
 | **microSD** | Compact removable Secure Digital memory-card format. |
+| **EMA** | Exponential Moving Average; smoothing that blends each reading with previous readings. |
+| **Kalman filter** | A calculation that estimates a stable value from noisy sensor readings. |
+| **XBM** | X BitMap; a one-bit image format with on/off pixels stored in bytes. |
+| **milli-g** | One thousandth of the acceleration due to gravity; 1000 milli-g is one g. |
+| **SPH** | Smoothed Particle Hydrodynamics; a way to simulate fluids with interacting particles. |
+| **NTP** | Network Time Protocol; a way to set a clock from a network time server. |
 
 ---
 
@@ -117,6 +123,16 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Wireframe model** | A 3D shape built from points (nodes) connected by straight lines (struts), with no solid surfaces -- drawn as spinning line art on the device. |
 | **Node** | A point in a wireframe model's shape, positioned in 3D space. |
 | **Strut** | A straight line connecting two nodes in a wireframe model. |
+| **buffer** | An area of memory holding data while code works on it; the drawing buffer holds the next screen image. |
+| **framebuffer** | A buffer that stores the pixel values for a screen image. |
+| **float** | A C++ number type that can hold a fractional part. |
+| **singleton** | An object shared through one instance. |
+| **macro** | Named code expanded by the C++ preprocessor before compilation. |
+| **lambda** | A short unnamed C++ function. |
+| **ring buffer** | A queue that reuses a fixed amount of memory. |
+| **potentiometer** | A variable resistor; moving the slider changes the voltage read by the device. |
+| **GRBW** | Green, Red, Blue, White; the order used to send channels to the LED hardware. |
+| **mg** | Milli-g in motion readings; one thousandth of the acceleration due to gravity. |
 
 ---
 
@@ -149,10 +165,10 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **.cfsprite.json** | Studio file containing one sprite. |
 | **.cpp** | C++ source file (implementation). |
 | **.h** | C/C++ header file (declarations). |
-| **.js** | JavaScript file — the Emscripten "loader" that loads and runs the WASM module. |
-| **.wasm** | WebAssembly binary — the compiled app. |
-| **.wav** | Waveform audio file — the uncompressed recordings made by the Voice Notes app. |
-| **.yml / .yaml** | YAML config — e.g. GitHub Actions workflow or MkDocs config. |
+| **.js** | JavaScript file -- the Emscripten "loader" that loads and runs the WASM module. |
+| **.wasm** | WebAssembly binary -- the compiled app. |
+| **.wav** | Waveform audio file -- the uncompressed recordings made by the Voice Notes app. |
+| **.yml / .yaml** | YAML config -- e.g. GitHub Actions workflow or MkDocs config. |
 
 ---
 
@@ -161,9 +177,9 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | Term | Meaning |
 |------|--------|
 | **Adafruit** | Maker electronics company; NeoPixel and many Arduino libraries. |
-| **AP2112K** | Diodes Inc. 3.3V LDO regulator — used for main logic, OLED, and LED power rails. |
+| **AP2112K** | Diodes Inc. 3.3V LDO regulator -- used for main logic, OLED, and LED power rails. |
 | **CircuitPython** | Adafruit's Python runtime for microcontrollers. Hardware support designed-in but currently untested on Cyber Fidget. |
-| **CP2102N** | Silicon Labs USB-to-UART bridge chip — provides the serial connection over USB-C. |
+| **CP2102N** | Silicon Labs USB-to-UART bridge chip -- provides the serial connection over USB-C. |
 | **CRC-32** | Cyclic Redundancy Check, 32-bit - a checksum used to detect damaged data. |
 | **CF_TEST_CLI** | Firmware build option that includes extra device testing commands. |
 | **chamfer** | A 45-degree angled cut on a corner. The case has one at each corner of the screen opening, hiding about 8 pixels of the display there. |
@@ -179,7 +195,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **MCP73831** | Microchip single-cell LiPo charge management controller. |
 | **pioarduino** | Community-maintained PlatformIO platform fork for ESP32 (ESP-IDF 5.1.4 + Arduino ESP32 3.0.3). |
 | **PlatformIO** | IDE and build system for embedded development; recommended for Cyber Fidget via the pioarduino fork. |
-| **SK6812** | Individually addressable RGBW LED (NeoPixel-compatible) — four are used in Cyber Fidget. |
+| **SK6812** | Individually addressable RGBW LED (NeoPixel-compatible) -- four are used in Cyber Fidget. |
 | **ThingPulse** | Source of the OLED font data used in the WASM shim. |
 
 ---
@@ -188,6 +204,6 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 
 | Term | Meaning |
 |------|--------|
-| **Bridge** | `wasm_bridge.js` — glue between the WASM module and the on-screen emulator. |
+| **Bridge** | `wasm_bridge.js` -- glue between the WASM module and the on-screen emulator. |
 | **Shim** | A stub header (e.g. `Arduino.h`, `SSD1306Wire.h`) that replaces real hardware libraries so the same app code compiles for the browser. |
 | **Serial Monitor** | The panel in the App Builder that shows `Serial.println()` output from the running app. |

@@ -1,25 +1,27 @@
 # App Builder
 
-The [App Builder](https://cyberfidget.com/build) is a browser-based tool for writing, generating, and testing Cyber Fidget apps — no local setup required.
+The [App Builder](https://cyberfidget.com/create/) is a browser-based tool for writing, generating, and testing Cyber Fidget apps -- no local setup required.
 
 ---
 
 ## What it does
 
-1. **Write or generate** a C++ app using the code editor or build assistant
-2. **Compile to WASM** — builds your app to WebAssembly via GitHub Actions to support emulator
-3. **Run in the emulator** — test with on-screen buttons, slider, OLED, and LEDs
-4. **Flash to hardware** — compile for the ESP32 and flash OTA or via USB
+1. **Write or generate** a C++ app using the code editor or code generator.
+2. **REBUILD & RUN** compiles your code and starts the app emulator, a copy of the device in your browser.
+3. **Try the controls** with on-screen buttons, the slider, tilt, lights and sound.
+4. **SEND TO MY FIDGET** stages the app. Open **MY FIDGET** to install your changes on a connected device. A [linked Fidget](link-your-fidget.md) can also collect changes over WiFi.
 
 ---
 
 ## Getting started
 
-1. Go to [cyberfidget.com/build](https://cyberfidget.com/build)
-2. Sign in with your GitHub account (required for compilation)
-3. Write or generate your app code in the editor
-4. Click **Compile Emulator** to build for the browser, then **Emulator** to run it
-5. When ready, compile for hardware and flash to your device
+1. Go to [cyberfidget.com/create/](https://cyberfidget.com/create/) and press **+ Create an app**.
+2. Choose **Code from Blank Template**, enter an App Name, and press **Create**.
+3. Edit the `.cpp` file on the **CODE** tab.
+4. Press **REBUILD & RUN** in the emulator panel. On a phone, use the **TEST** tab.
+5. Try your app in the emulator. To install it, use **SEND TO MY FIDGET**, then **MY FIDGET**.
+
+The [first-app guide](../getting-started/first-app.md) walks through each step. Its browser build does not require GitHub sign-in. The separate **Compile** action in the status bar is not needed for these examples.
 
 ---
 
@@ -29,20 +31,20 @@ Your app has a name you choose and a name your code uses, and they are
 allowed to be different.
 
 **Studio asks what you want to call it before it writes any code.** The
-question is the first thing on the start panel of a new app, and generating
+question is part of starting an app, and generating
 code waits until you have answered it. That is on purpose: the name you
 choose is what your code gets called, so choosing it first saves you
 hunting down a placeholder name afterwards.
 
 Use at least one letter or number. Anything else is fair game -- spaces,
 capitals, whatever reads best -- and Studio works out a sensible name for
-the code from it. "Lunar Lander" becomes `LunarLander`.
+the code from it. The dialog shows the Code Name that the studio derives from your chosen name.
 
 **The name you choose** is the one shown at the top of Studio, on your
 project card, and in the NAME box in Settings. It is also the label that
 appears in the menu on your Cyber Fidget.
 
-**To rename it, double-click the name at the top of Studio.** Type the new
+**To rename it, double-click the name at the top of Studio.** Type the chosen
 one and press Enter. Press Escape, or click away, to leave it as it was.
 Renaming from the NAME box in Settings does the same thing -- the two stay
 in step, and so does everywhere else the name appears.
@@ -82,41 +84,52 @@ If you use your own provider key (an API key from Anthropic, OpenAI, or Google),
 
 ## Compile vs Emulator
 
-| Action | What it does | Speed |
-|--------|-------------|-------|
-| **Compile Emulator** | Builds C++ to WASM via GitHub Actions | ~1–2 min (first time, cached after) |
-| **Emulator** | Loads the compiled WASM and runs it in the browser | Instant |
+| Action | What it does |
+|--------|-------------|
+| **REBUILD & RUN** | Compiles your current code, then runs it in the emulator |
+| **<< RESTART** | Starts the built app again without compiling |
+| **SEND TO MY FIDGET** | Adds your app to the changes waiting for your device |
 
-These are intentionally separate steps. Compilation is slow (cloud build), but the emulator loads instantly from the cached WASM in IndexedDB.
+Compilation turns code into a runnable app. The studio can build on your computer or use the build server, depending on its build settings and availability. The first browser build downloads compiler files; later builds can reuse them. The emulator runs the result. Editing code does not change the running copy until you rebuild.
 
 ---
 
 ## Emulator features
 
-The browser emulator maps all hardware to browser APIs:
+The browser emulator gives your app:
 
-- **Display** — 128x64 canvas matching the OLED
-- **Buttons** — Keyboard shortcuts (Q/E/A/D/Z/C) or click on-screen
-- **Slider** — Draggable slider control
-- **LEDs** — Rendered as colored circles
-- **Audio** — Web Audio API for tones
-- **Serial Monitor** — Shows `Serial.println()` output
+- **Display** - A 128 x 64 screen with the case covering about 8 pixels at each corner.
+- **Buttons** - Six on-screen buttons, or keyboard shortcuts `Q/E/A/D/Z/C`.
+- **Slider** - A draggable control with the same position ranges as the device.
+- **LEDs** - Four lights with red, green, blue and white channels.
+- **Audio** - Tones, notes and sequences; browser playback has volume and mute controls.
+- **Tilt** - Mouse input on desktop, or device orientation where the browser supports it.
 
-For full details, see the [Browser Emulator](emulator.md) page.
+The emulator has no microphone input. Test microphone apps on a Cyber Fidget. Studio apps also cannot use `Serial.println()`; the console can still show build and run messages. For details, see [Browser Emulator](emulator.md).
 
 ---
 
 ## App lifecycle
 
-Every app follows the same pattern:
+Every app follows the same pattern. Paste these sections into the **Code from Blank Template** starter, following the first comment in each section. Keep the starter's button setup and cleanup.
 
 ```cpp
-void begin();   // Runs once when app starts
-void update();  // Runs 50 times per second
-void end();     // Runs once when app exits
+// Paste inside begin()
+setColorsOff();
+
+// Paste inside update(), just above display.display();
+display.clear();
+display.setFont(ArialMT_Plain_16);
+display.setTextAlignment(TEXT_ALIGN_CENTER);
+display.drawString(64, 24, "Hello!");
+
+// Paste inside end()
+setColorsOff();
 ```
 
-See [How an App Works](../concepts/app-lifecycle.md) for the full lifecycle and [Concepts](../concepts/index.md) for how to use buttons, display, audio, LEDs, slider, and accelerometer.
+`begin()` runs once on opening, `update()` runs about 50 times per second, and `end()` runs on leaving. The starter already shows the screen at the end of `update()` and uses the bottom-left button to return to the menu.
+
+See [How an App Works](../concepts/app-lifecycle.md) for the lifecycle and [Concepts](../concepts/index.md) for buttons, the screen, audio, lights, the slider and motion sensing.
 
 ---
 
@@ -135,6 +148,6 @@ Besides flat pixel art, the App Builder can generate wireframe models -- 3D shap
 ## See also
 
 - [3D Models](../studio/3d-models.md) -- Build wireframe models in Studio's 3D tab
-- [Browser Emulator](emulator.md) — Detailed emulator guide, controls, and troubleshooting
-- [Apps](apps.md) — Built-in app catalog and how to add your own
-- [Concepts](../concepts/index.md) — Framework reference for all hardware features
+- [Browser Emulator](emulator.md) -- Detailed emulator guide, controls, and troubleshooting
+- [Apps](apps.md) -- Built-in app catalog and how to add your own
+- [Concepts](../concepts/index.md) -- Framework reference for all hardware features

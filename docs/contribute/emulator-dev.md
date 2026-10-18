@@ -140,6 +140,7 @@ Implements the `HAL` namespace that all apps depend on:
 
 **Critical detail**: The `Color()` function packs as WRGB to match the real Adafruit library:
 
+<!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```cpp
 // Color(r=255, g=0, b=0, w=0) → 0x00FF0000
 static uint32_t Color(uint8_t r, uint8_t g, uint8_t b, uint8_t w = 0) {
@@ -153,6 +154,7 @@ static uint32_t Color(uint8_t r, uint8_t g, uint8_t b, uint8_t w = 0) {
 
 The main loop runs at 50 FPS via `emscripten_set_main_loop`:
 
+<!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```cpp
 static void mainLoop() {
     HAL::loopHardware();  // timing, buttons, slider, LED push
