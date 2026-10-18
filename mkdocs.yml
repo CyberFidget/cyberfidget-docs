@@ -43,6 +43,7 @@ nav:
     - "Advanced: firmware with Arduino": getting-started/first-flash-arduino.md
   - Make apps:
     - Overview: concepts/index.md
+    - Function reference: reference/functions.md
     - How an App Works: concepts/app-lifecycle.md
     - The Update Loop: concepts/update-loop.md
     - Buttons & Events: concepts/buttons.md
@@ -54,7 +55,6 @@ nav:
     - Tools:
       - App Builder: software/ota-builder.md
       - Browser Emulator: software/emulator.md
-      - Writing for different firmware versions: reference/firmware-version.md
   - Your Fidget:
     - Built-in apps and features:
       - Built-in apps: software/apps.md
@@ -108,6 +108,7 @@ nav:
     - Releases and updates:
       - Release process: reference/release-process.md
       - Firmware update manifest: reference/firmware-update-manifest.md
+      - Firmware version: reference/firmware-version.md
     - Emulator Dev Guide: contribute/emulator-dev.md
     - Guides:
       - Guide Studio: studio/index.html
