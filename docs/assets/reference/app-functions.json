@@ -1768,7 +1768,7 @@
       "kind": "method",
       "section": "Leaving the app / app control",
       "use": "MenuManager::instance().returnToMenu();",
-      "does": "Ask to leave the app; device host switches after the current call returns.",
+      "does": "Go back to the menu. Your app closes once the function that called this (for example a button callback) finishes.",
       "see": "../concepts/app-lifecycle.md#the-lifecycle-in-practice",
       "targets": [
         "device",

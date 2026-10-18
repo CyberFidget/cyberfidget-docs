@@ -268,7 +268,7 @@ Use `#include "cf_gfx.h"` and your generated asset header. Examples use `cf::gfx
 | Call | What it does | Learn more |
 |---|---|---|
 | <span id="symbol-menumanager--instance"></span>`auto& menu = MenuManager::instance();` | Get the shared menu controller. | [Guide](../concepts/app-lifecycle.md#the-lifecycle-in-practice) |
-| <span id="symbol-menumanager--returntomenu"></span>`MenuManager::instance().returnToMenu();` | Ask to leave the app; device host switches after the current call returns. | [Guide](../concepts/app-lifecycle.md#the-lifecycle-in-practice) |
+| <span id="symbol-menumanager--returntomenu"></span>`MenuManager::instance().returnToMenu();` | Go back to the menu. Your app closes once the function that called this (for example a button callback) finishes. | [Guide](../concepts/app-lifecycle.md#the-lifecycle-in-practice) |
 | <span id="symbol-millis-app-lastinteraction"></span>`millis_APP_LASTINTERACTION = millis();` | Set this to millis() to count as activity, so the device does not go to sleep while your app runs. | [Guide](../concepts/app-lifecycle.md#the-lifecycle-in-practice) |
 
 </div>
