@@ -122,5 +122,4 @@
 *[potentiometer]: A variable resistor; moving the slider changes the voltage read by the device
 *[GRBW]: Green, Red, Blue, White; the order used to send channels to the LED hardware
 *[mg]: Milli-g in motion readings; one thousandth of the acceleration due to gravity
-*[host]: Firmware code that runs a studio app, on the device or in the browser emulator
 *[loadout]: The collection of apps and menu choices for your Fidget

@@ -3,13 +3,11 @@
 By the end of this page you will have written a small app, watched it run, and (if you have a Cyber Fidget handy) installed it on your device. There is nothing for you to install. You write and test in the browser; the studio builds on your computer when available, or uses its build server.
 
 !!! note "What you need"
-    - A computer with Chrome, Edge or Firefox, and an internet connection. Connecting over USB also needs browser support for a cable connection.
+    - A computer with Chrome, Edge or Firefox, and an internet connection.
     - About 15 minutes.
     - For the last step only: a Cyber Fidget and a USB-C cable that carries data (not a charge-only cable).
 
     You do not need a Cyber Fidget to do steps 1 to 6. The emulator is a copy of the device that runs on the page.
-
-    For step 7, setup must offer **Connect** to use the cable. If it does not, follow the WiFi or computer options in that step.
 
 ---
 
@@ -167,14 +165,14 @@ Looking for more functions to try? See the [function reference](../reference/fun
 
     ![The one-time setup page with cable connection instructions](../assets/first-app/my-fidget-setup.png)
 
-    1. Plug your Fidget into the computer with a USB-C cable that carries data. Press **Connect** and choose your device in the browser's list.
+    1. Plug your Fidget into the computer with a USB-C cable that carries data. Press **Connect**. Your browser shows a list of devices: pick **Cyber Fidget**. (No **Connect** button? See "If there is no Connect button" below these steps.)
     2. Follow any firmware check or update instructions the page shows.
     3. If asked "This browser has apps saved from before. Use them with this Fidget?", press **Use them** to assign those saved apps and changes to this device. **Not now** leaves them saved in the browser without assigning them.
     4. Queued changes can be sent automatically during setup while you name your Fidget. Keep the cable plugged in and check the send report. Enter a name and press **Save name**, or press **Skip** to keep the suggested name.
     5. Sign-in is optional. Press **Skip** if you only want to use the cable. Signing in lets you continue with WiFi setup and linking for cable-free changes; see [Link your Fidget](../software/link-your-fidget.md).
     6. Press **See my Loadout** to return to your app list. A loadout is the collection of apps and menu choices for your Fidget.
 
-3. If changes are still waiting, press **Send to my Fidget**. Keep the cable plugged in until sending finishes. Read the report; if it offers **Try again**, use that to retry the send.
+3. If changes are still waiting, press **Send to my Fidget**. The page counts up as it sends ("Sending... 1 of 1"). Keep the cable plugged in until sending finishes. Read the report; if it offers **Try again**, use that to retry the send.
 
 4. On the device, open your app from the menu. It is in the Menu Category you picked in step 2 (the default is Tools). Press the bottom-left button to go back to the menu.
 

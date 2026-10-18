@@ -2,7 +2,7 @@
 
 After this page you can start a project, build it and try it in the emulator.
 
-The [studio](https://cyberfidget.com/create/) is a browser-based tool for writing, generating and testing Cyber Fidget apps. There is nothing for you to install.
+The App Builder is the [studio](https://cyberfidget.com/create/), a browser-based tool for writing, generating and testing Cyber Fidget apps. There is nothing for you to install.
 
 ---
 
