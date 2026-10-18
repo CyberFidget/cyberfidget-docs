@@ -3,7 +3,7 @@
 *[API]: Application Programming Interface
 *[BLE]: Bluetooth Low Energy
 *[CC0]: Creative Commons Zero; a public-domain dedication that allows reuse without the usual copyright restrictions
-*[CI]: Continuous Integration
+*[CI]: Continuous Integration; automated checks and builds triggered by code changes
 *[CMake]: Cross-platform Make; build system used for the WASM build
 *[CORS]: Cross-Origin Resource Sharing
 *[CP2102N]: Silicon Labs USB-to-UART bridge chip
@@ -38,7 +38,7 @@
 *[I2C]: Inter-Integrated Circuit; serial bus used for OLED and some sensors
 *[I2S]: Inter-IC Sound; digital audio interface
 *[IDE]: Integrated Development Environment
-*[IndexedDB]: Browser key-value database used to cache compiled WASM and the companion's transcription pack
+*[IndexedDB]: A database built into the browser; used for studio built apps and the companion's transcription download
 *[JS]: JavaScript
 *[JSON]: JavaScript Object Notation; a structured text format for storing data
 *[LED]: Light-Emitting Diode
@@ -122,3 +122,4 @@
 *[potentiometer]: A variable resistor; moving the slider changes the voltage read by the device
 *[GRBW]: Green, Red, Blue, White; the order used to send channels to the LED hardware
 *[mg]: Milli-g in motion readings; one thousandth of the acceleration due to gravity
+*[loadout]: The collection of apps and menu choices for your Fidget

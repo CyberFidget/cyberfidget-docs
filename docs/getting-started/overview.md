@@ -1,6 +1,6 @@
 # Overview
 
-Cyber Fidget ships as a high-quality kit — no soldering required, just screws. By the end of this section you will have built your device and run your own app on it. The quickest route needs nothing installed: you write and test apps in your browser.
+Cyber Fidget ships as a high-quality kit -- no soldering required, just screws. By the end of this section you will have built your device and run your own app on it. The quickest route needs nothing installed: you write and test apps in your browser.
 
 ---
 
@@ -18,7 +18,7 @@ Cyber Fidget ships as a high-quality kit — no soldering required, just screws.
 
 ### 1. Assemble your device
 
-Follow the [Assembly Guide](assembly/guide.md) to put your Cyber Fidget together. Every screw and part is accessible — the enclosure is designed to be opened, explored, and modified.
+Follow the [Assembly Guide](assembly/guide.md) to put your Cyber Fidget together. Every screw and part is accessible -- the enclosure is designed to be opened, explored, and modified.
 
 ### 2. Build your first app in the browser
 
@@ -39,7 +39,7 @@ Build bigger apps with the [App Builder](https://cyberfidget.com/create/), or wo
 Most people never need this. If you want to change the firmware itself, or build with your own toolchain, connect via USB-C and flash the firmware. See [Advanced: firmware with Arduino](first-flash-arduino.md) for step-by-step instructions.
 
 !!! tip "Recommended toolchain"
-    **VS Code + PlatformIO** (via pioarduino) gives the best experience — automatic dependency management, built-in serial monitor, and one-click upload.
+    **VS Code + PlatformIO** (via pioarduino) gives the best experience -- automatic dependency management, built-in serial monitor, and one-click upload.
 
 ### Development options
 
@@ -54,8 +54,8 @@ Most people never need this. If you want to change the firmware itself, or build
 
 ## Where to go next
 
-- **[Build your first app](first-app.md)** — Write and run an app in your browser
-- **[Assembly Guide](assembly/guide.md)** — Build your device step by step
-- **[Advanced: firmware with Arduino](first-flash-arduino.md)** — Flash firmware for the first time
-- **[Concepts](../concepts/index.md)** — Learn how apps use buttons, display, audio, LEDs, and more
-- **[Hardware Specs](../hardware/specs.md)** — Full component list and dimensions
+- **[Build your first app](first-app.md)** -- Write and run an app in your browser
+- **[Assembly Guide](assembly/guide.md)** -- Build your device step by step
+- **[Advanced: firmware with Arduino](first-flash-arduino.md)** -- Flash firmware for the first time
+- **[Concepts](../concepts/index.md)** -- Learn how apps use buttons, display, audio, LEDs, and more
+- **[Hardware Specs](../hardware/specs.md)** -- Full component list and dimensions

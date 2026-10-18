@@ -56,8 +56,8 @@ Examples use your own `void onRight(const ButtonEvent& event)` callback (a funct
 
 | Call | What it does | Learn more |
 |---|---|---|
-| <span id="symbol-displayproxy--drawstring"></span>`display.drawString(0, 0, "Hi");` | Draw text using the current font and alignment. Returns 0 on the device. | [Guide](../concepts/display.md#text) |
-| <span id="symbol-displayproxy--drawstringmaxwidth"></span>`display.drawStringMaxWidth(0, 0, 80, "Hi");` | Draw text in a box this many pixels wide. On the device the text does not wrap; the emulator wraps it. | [Guide](../concepts/display.md#text) |
+| <span id="symbol-displayproxy--drawstring"></span>`display.drawString(0, 0, "Hi");` | Draw text using the current font and alignment. Studio apps return 0 on the device and in the browser emulator. | [Guide](../concepts/display.md#text) |
+| <span id="symbol-displayproxy--drawstringmaxwidth"></span>`display.drawStringMaxWidth(0, 0, 80, "Hi");` | Draw one unwrapped line in studio apps, on the device and in the browser emulator; the width argument is ignored. | [Guide](../concepts/display.md#text) |
 | <span id="symbol-displayproxy--getstringwidth"></span>`display.getStringWidth("Hi");` | Measure text width in pixels; also accepts text and length. | [Guide](../concepts/display.md#text) |
 | <span id="symbol-displayproxy--setfont"></span>`display.setFont(ArialMT_Plain_16);` | Select a 10, 16, or 24 pixel font handle. | [Guide](../concepts/display.md#text) |
 | <span id="symbol-displayproxy--settextalignment"></span>`display.setTextAlignment(TEXT_ALIGN_LEFT);` | Place text left, right, or centered on x; CENTER_BOTH also centers on y. | [Guide](../concepts/display.md#text) |
@@ -110,10 +110,10 @@ Pixel map: 0 Back, 1 Front Top, 2 Front Middle, 3 Front Bottom.
 | <span id="symbol-audiomanager--playnote"></span>`HAL::audioManager().playNote(440, 100);` | Play an additional note in Hz for ms; returns a handle, or -1 on failure. | [Guide](../concepts/audio.md#playing-tones) |
 | <span id="symbol-audiomanager--stopnote"></span>`HAL::audioManager().stopNote(handle);` | Stop the note identified by the handle returned from playNote(). | [Guide](../concepts/audio.md#playing-tones) |
 | <span id="symbol-audiomanager--stopnotes"></span>`HAL::audioManager().stopNotes();` | Stop all additional notes. | [Guide](../concepts/audio.md#playing-tones) |
-| <span id="symbol-audiomanager--playsequence"></span>`HAL::audioManager().playSequence(steps, count);` | Play static ToneStep data: freq in Hz (0 is rest), durationMs and gapAfterMs in ms; at most 128 steps on device. | [Guide](../concepts/audio.md#playing-tones) |
+| <span id="symbol-audiomanager--playsequence"></span>`HAL::audioManager().playSequence(steps, count);` | Play up to 64 copied ToneStep entries in studio apps, on the device and in the browser emulator: freq in Hz (0 is rest), durationMs and gapAfterMs in ms. | [Guide](../concepts/audio.md#playing-tones) |
 | <span id="symbol-audiomanager--stopsequence"></span>`HAL::audioManager().stopSequence();` | Stop the tone sequence. | [Guide](../concepts/audio.md#playing-tones) |
-| <span id="symbol-audiomanager--issequenceplaying"></span>`HAL::audioManager().isSequencePlaying();` | Always false on the device; the emulator reports whether the sequence is still playing. | [Guide](../concepts/audio.md#playing-tones) |
-| <span id="symbol-audiomanager--setvolume"></span>`HAL::audioManager().setVolume(0.5f);` | Does nothing on the device, where the owner sets the volume; the emulator accepts 0.0-1.0. | [Guide](../concepts/audio.md#playing-tones) |
+| <span id="symbol-audiomanager--issequenceplaying"></span>`HAL::audioManager().isSequencePlaying();` | Always false in studio apps, on the device and in the browser emulator. Time your app logic with millis() instead. | [Guide](../concepts/audio.md#playing-tones) |
+| <span id="symbol-audiomanager--setvolume"></span>`HAL::audioManager().setVolume(0.5f);` | Does nothing in studio apps, on the device and in the browser emulator. Use the emulator controls for browser volume. | [Guide](../concepts/audio.md#playing-tones) |
 | <span id="symbol-audiomanager--enablemic"></span>`HAL::audioManager().enableMic(true);` | Enable device microphone readings; false disables them; emulator has no microphone. | [Guide](../concepts/audio.md#playing-tones) |
 | <span id="symbol-audiomanager--getmicvolumelinear"></span>`HAL::audioManager().getMicVolumeLinear();` | Read microphone level 0.0-1.0; emulator stays at 0.0 (silent). | [Guide](../concepts/audio.md#playing-tones) |
 | <span id="symbol-audiomanager--getmicvolumedb"></span>`HAL::audioManager().getMicVolumeDb();` | Read microphone dBFS; 0 is full scale, quieter is negative; emulator returns -60. | [Guide](../concepts/audio.md#playing-tones) |
@@ -156,10 +156,10 @@ Pixel map: 0 Back, 1 Front Top, 2 Front Middle, 3 Front Bottom.
 |---|---|---|
 | <span id="symbol-millis"></span>`auto now = millis();` | Read elapsed time in ms; use unsigned subtraction to time actions across clock wraparound. | [Guide](../concepts/update-loop.md#millis-based-timing-vs-delay) |
 | <span id="symbol-micros"></span>`auto nowUs = micros();` | Read elapsed microseconds; both targets have only 1000-microsecond resolution. | [Guide](../concepts/update-loop.md#millis-based-timing-vs-delay) |
-| <span id="symbol-delay"></span>`delay(10);` | Does nothing on the device. Use millis() timing instead of pausing. | [Guide](../concepts/update-loop.md#millis-based-timing-vs-delay) |
+| <span id="symbol-delay"></span>`delay(10);` | Does nothing in studio apps, on the device and in the browser emulator. Use millis() timing instead of pausing. | [Guide](../concepts/update-loop.md#millis-based-timing-vs-delay) |
 | <span id="symbol-delaymicroseconds"></span>`delayMicroseconds(100);` | Does nothing on both targets; use the update loop for timing. | [Guide](../concepts/update-loop.md#millis-based-timing-vs-delay) |
 | <span id="symbol-random"></span>`auto roll = random(1, 7);` | Choose an integer from the first bound inclusive to the second exclusive; one argument starts at 0. | [Guide](../concepts/update-loop.md#millis-based-timing-vs-delay) |
-| <span id="symbol-randomseed"></span>`randomSeed(42);` | Seeds random numbers in the emulator; does nothing on the device. | [Guide](../concepts/update-loop.md#millis-based-timing-vs-delay) |
+| <span id="symbol-randomseed"></span>`randomSeed(42);` | Does nothing in studio apps, on the device and in the browser emulator. | [Guide](../concepts/update-loop.md#millis-based-timing-vs-delay) |
 | <span id="symbol-map"></span>`auto brightness = map(value, 0, 100, 0, 255);` | Rescale an integer range; does not clamp values outside the range. | [Guide](../concepts/update-loop.md#millis-based-timing-vs-delay) |
 | <span id="symbol-constrain"></span>`auto bounded = constrain(value, 0L, 100L);` | Clamp a value between inclusive bounds; use long integers on both targets. | [Guide](../concepts/update-loop.md#millis-based-timing-vs-delay) |
 | <span id="symbol-min"></span>`auto smaller = min(a, b);` | Choose the smaller of two values of the same type. | [Guide](../concepts/update-loop.md#millis-based-timing-vs-delay) |
@@ -268,7 +268,7 @@ Use `#include "cf_gfx.h"` and your generated asset header. Examples use `cf::gfx
 | Call | What it does | Learn more |
 |---|---|---|
 | <span id="symbol-menumanager--instance"></span>`auto& menu = MenuManager::instance();` | Get the shared menu controller. | [Guide](../concepts/app-lifecycle.md#the-lifecycle-in-practice) |
-| <span id="symbol-menumanager--returntomenu"></span>`MenuManager::instance().returnToMenu();` | Ask to leave the app; device host switches after the current call returns. | [Guide](../concepts/app-lifecycle.md#the-lifecycle-in-practice) |
+| <span id="symbol-menumanager--returntomenu"></span>`MenuManager::instance().returnToMenu();` | Go back to the menu. Your app closes once the function that called this (for example a button callback) finishes. | [Guide](../concepts/app-lifecycle.md#the-lifecycle-in-practice) |
 | <span id="symbol-millis-app-lastinteraction"></span>`millis_APP_LASTINTERACTION = millis();` | Set this to millis() to count as activity, so the device does not go to sleep while your app runs. | [Guide](../concepts/app-lifecycle.md#the-lifecycle-in-practice) |
 
 </div>

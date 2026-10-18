@@ -60,7 +60,7 @@ display.fillRect((int)paddleX - 20, 56, 40, 4);
 ```
 
 !!! note "Sign and scale"
-    The sign of `accelX`/`accelY` depends on orientation. Multiply by a small factor (e.g. 0.01) and tweak until movement feels right. You may need to negate for intuitive control.
+    The readings are in milli-g: 1000 mg is one g. The example multiplies `accelX` by -0.002, so a reading of 1000 moves the paddle by -2 pixels per update. Adjust that factor to change the speed, or flip its sign to reverse the direction.
 
 ---
 
@@ -80,19 +80,9 @@ HAL::setRgbLed(pixel_Front_Top, r, g, b, 0);
 
 ---
 
-## Framework details
+## Code example: read the motion values
 
-### LIS2DH12
-
-The accelerometer is an ST LIS2DH12, a 3-axis digital accelerometer. The firmware uses the SparkFun LIS2DH12 Arduino library for I2C communication.
-
-### TASK_50MS update rate
-
-The HAL reads the accelerometer every **50 ms** (20 Hz) in its `TASK_50MS` block. `accelX`, `accelY`, and `accelZ` are updated from `s_accel.getX()`, `getY()`, and `getZ()`. For most tilt-based apps, 20 Hz is sufficient; studio apps read the supplied values rather than changing the sensor polling rate.
-
-### Accessing the sensor directly
-
-Direct sensor access is part of firmware internals. Studio apps cannot call `HAL::accelerometer()` or configure sensor interrupts. Read `accelX`, `accelY` and `accelZ` instead; this example helps you inspect the values:
+Show the readings on the screen to see how they change as you turn the device.
 
 ```cpp
 // Paste at the top of the file
@@ -108,3 +98,19 @@ display.drawString(10, 16, text);
 snprintf(text, sizeof(text), "Z %d mg", (int)accelZ);
 display.drawString(10, 32, text);
 ```
+
+---
+
+## Framework details
+
+### LIS2DH12
+
+The accelerometer is an ST LIS2DH12, a 3-axis digital accelerometer. The firmware uses the SparkFun LIS2DH12 Arduino library for I2C communication.
+
+### TASK_50MS update rate
+
+The HAL reads the accelerometer every **50 ms** (20 Hz) in its `TASK_50MS` block. `accelX`, `accelY`, and `accelZ` are updated from `s_accel.getX()`, `getY()`, and `getZ()`. For most tilt-based apps, 20 Hz is sufficient; studio apps read the supplied values rather than changing the sensor polling rate.
+
+### Accessing the sensor directly
+
+Direct sensor access is part of firmware internals. Studio apps cannot call `HAL::accelerometer()` or configure sensor interrupts. Read `accelX`, `accelY` and `accelZ` instead.

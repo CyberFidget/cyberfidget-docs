@@ -1,5 +1,7 @@
 # Apps
 
+After this page you can choose a built-in app and add your own app from the studio.
+
 Cyber Fidget ships with 29+ built-in apps spanning games, screensavers, tools, and code examples. All apps follow the same [begin/update/end lifecycle](../concepts/app-lifecycle.md). Built-in apps are registered in the firmware; the studio adds your own apps to the menu for you.
 
 ---
@@ -69,20 +71,12 @@ These apps demonstrate individual framework features and are useful as starting 
 
 Open **Code from Blank Template** in the [studio](../getting-started/first-app.md). It creates an app class with three methods: `begin()` sets up, `update()` draws about 50 times per second, and `end()` cleans up. A method is a function that belongs to a class.
 
-Paste these sections into its `.cpp` file. Keep the starter's bottom-left exit button and its cleanup. This draws a greeting:
+Paste this fragment into its `.cpp` file. Keep the starter's bottom-left exit button and its cleanup, including `setColorsOff()` in `begin()` and `end()`. The starter sets the font and alignment; this fragment clears its text and draws your greeting:
 
 ```cpp
-// Paste inside begin()
-setColorsOff();
-
 // Paste inside update(), just above display.display();
 display.clear();
-display.setFont(ArialMT_Plain_16);
-display.setTextAlignment(TEXT_ALIGN_CENTER);
 display.drawString(64, 24, "Hello!");
-
-// Paste inside end()
-setColorsOff();
 ```
 
 Choose the Menu Category in the studio. You do not add an `APP_ENTRY` or edit `AppManifest.h` for a studio app. Built-in firmware registration is explained in [How an App Works](../concepts/app-lifecycle.md#the-app_entry-macro).

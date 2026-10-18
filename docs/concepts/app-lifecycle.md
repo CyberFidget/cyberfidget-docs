@@ -32,9 +32,9 @@ When you launch an app, the firmware does three things in order:
 
 ---
 
-## Code example: minimal app skeleton
+## Code example: reset and draw a score
 
-Start with **Code from Blank Template** in the [studio](../getting-started/first-app.md). Paste each section into the `.cpp` file where its comment says. "At the top" means below the `#include` lines and above the app object, not inside a method. Keep the starter's button setup and cleanup; its bottom-left button returns to the menu.
+Start with **Code from Blank Template** in the [studio](../getting-started/first-app.md). Paste each section into the `.cpp` file where its comment says. "At the top" means below the `#include` lines and above the app object, not inside a method. Keep the starter's button setup and cleanup, including `setColorsOff()` in `begin()` and `end()`; its bottom-left button returns to the menu.
 
 ```cpp
 // Paste at the top of the file
@@ -43,7 +43,6 @@ static int score = 0;
 
 // Paste inside begin()
 score = 0;
-setColorsOff();
 
 // Paste inside update(), just above display.display();
 display.clear();
@@ -52,9 +51,6 @@ display.setTextAlignment(TEXT_ALIGN_CENTER);
 char text[24];
 snprintf(text, sizeof(text), "Score: %d", score);
 display.drawString(64, 24, text);
-
-// Paste inside end()
-setColorsOff();
 ```
 
 `snprintf()` writes the score into a fixed-size `char` buffer, an array that holds the text. The screen draws that text. Change `score` in your app logic to change what appears.

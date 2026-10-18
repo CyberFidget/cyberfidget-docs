@@ -2,7 +2,7 @@
 
 After this page you can use the slider to control a light and show its position.
 
-The Cyber Fidget has an analog slider -- a physical control you can move from one end to the other. Your app reads its position as a number and uses it to control anything: brightness, speed, or selection. Studio apps on the device cannot change speaker volume with `setVolume()`; that setting is controlled outside the app.
+The Cyber Fidget has an analog slider -- a physical control you can move from one end to the other. Your app reads its position as a number and uses it to control anything: brightness, speed, or selection. Studio apps on the device or in the browser emulator cannot change speaker volume with `setVolume()`; that setting is controlled outside the app.
 
 ---
 
@@ -39,9 +39,9 @@ The raw ADC readings jump around due to electrical noise. The framework applies 
 
 ---
 
-## Code example: slider-controlled volume
+## Code example: slider-controlled brightness
 
-The slider can control volume inside built-in firmware apps. In studio apps on the device, `HAL::audioManager().setVolume()` has no effect. This example uses the same slider input for LED brightness instead, and shows the percentage on screen. Paste it into the [studio starter](../getting-started/first-app.md).
+The slider can control volume inside built-in firmware apps. In studio apps on the device or in the browser emulator, `HAL::audioManager().setVolume()` has no effect. This example uses the same slider input for LED brightness instead, and shows the percentage on screen. Paste it into the [studio starter](../getting-started/first-app.md).
 
 ```cpp
 // Paste at the top of the file
@@ -76,4 +76,4 @@ The slider is connected to **GPIO 35** (ADC1_CH7). The ESP32's 12-bit ADC yields
 
 ### Inverted variants
 
-The `*_Inverted_Filtered` values reverse the range: inverted percentage is 100 minus the ordinary percentage, and inverted 8-bit position is 255 minus the ordinary 8-bit position. Try both directions and choose the one that suits your app.
+The `*_Inverted_Filtered` values reverse the range: inverted percentage is 100 minus the ordinary percentage, and inverted 8-bit position is 255 minus the ordinary 8-bit position. Inverted 12-bit position is 4095 minus the ordinary position. Try both directions and choose the one that suits your app. This example uses the inverted values to match the other slider examples; change to the ordinary values if you prefer the opposite direction.

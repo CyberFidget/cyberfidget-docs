@@ -1,6 +1,6 @@
 # Build your first app in the browser
 
-By the end of this page you will have written a small app, watched it run, and (if you have a Cyber Fidget handy) installed it on your device. Nothing to install: the editor, the compiler and the emulator all run in your browser.
+By the end of this page you will have written a small app, watched it run, and (if you have a Cyber Fidget handy) installed it on your device. There is nothing for you to install. You write and test in the browser; the studio builds on your computer when available, or uses its build server.
 
 !!! note "What you need"
     - A computer with Chrome, Edge or Firefox, and an internet connection.
@@ -77,11 +77,16 @@ Change the text between the quote marks to anything you like, for example `Hi th
 
 ## 5. Rebuild and run
 
-Press **REBUILD & RUN** in the emulator panel on the right.
+!!! warning "Keep private information out of code"
+    Builds are public. Do not put names, addresses, passwords or anything private in your code.
 
-The studio compiles your code (turns it into a program the emulator can run) in your browser. This takes a couple of seconds. A line in the console at the bottom shows `build ok` when it worked. Then the device picture appears with your text on its screen, and the status reads "Emulator running your app - use buttons and slider to interact."
+Press **REBUILD & RUN** in the welcome panel on the right, or **REBUILD** in the emulator panel.
 
-On a phone, the emulator is on the **TEST** tab at the bottom of the screen, and **REBUILD & RUN** is there too.
+The studio compiles your code (turns it into a program the emulator can run). When building on your computer is available, the first build downloads about 23 MB of build tools, so it takes longer. Later builds on the computer can take a few seconds. If the computer cannot build, or building there is unavailable, the studio uses its build server; allow more time. When it succeeds, your app starts in the emulator.
+
+Builds sent to the build server have a daily limit. Builds done on your own computer do not count toward it.
+
+On a phone, the emulator is on the **TEST** tab at the bottom of the screen. The welcome action is **REBUILD & RUN**; the panel's build button is **REBUILD**. After editing code, press **REBUILD** to run your changes.
 
 ![The emulator on the TEST tab of a phone, showing the app text on the device screen](../assets/first-app/emulator-running-phone.png)
 
@@ -91,7 +96,7 @@ Try it:
 - Press the bottom-left button to leave your app. **<< RESTART** starts it again.
 
 !!! note "Two things you can ignore"
-    The **Compile** button with a lock in the bottom status bar, and the "Ready. Please sign in." text next to it, are not needed for anything on this page. **REBUILD & RUN** does the work.
+    The **Compile** button with a lock in the bottom status bar, and the "Ready. Please sign in." text next to it, are not needed for anything on this page. The emulator panel's **REBUILD** button does the work.
 
 ---
 
@@ -141,7 +146,7 @@ buttonManager.unregisterCallback(button_MiddleRightIndex);
 HAL::audioManager().stopTone();
 ```
 
-"The top of the file" means just below the `#include` lines, above the line that creates the app object. Now the middle-right button plays a short beep (880 Hz, for 100 milliseconds). The `end()` lines let go of the button and stop any sound when your app closes. See [Buttons & Events](../concepts/buttons.md) and [Sound & Music](../concepts/audio.md).
+"The top of the file" means just below the `#include` lines, above the line that creates the app object. The middle-right button plays a short beep (880 Hz, for 100 milliseconds). The `end()` lines let go of the button and stop any sound when your app closes. See [Buttons & Events](../concepts/buttons.md) and [Sound & Music](../concepts/audio.md).
 
 Looking for more functions to try? See the [function reference](../reference/functions.md).
 
@@ -156,17 +161,23 @@ Looking for more functions to try? See the [function reference](../reference/fun
 
     ![The studio after pressing Send to my Fidget, showing the message Added to your Fidget's changes and a badge on My Fidget in the top bar](../assets/first-app/send-to-my-fidget.png)
 
-2. Open **MY FIDGET** from the top bar. The first time, you see a one-time setup page:
+2. Open **MY FIDGET** from the top bar. The first time, you see **Set up your Fidget**, a one-time setup:
 
-    ![The one-time setup page: plug in your Fidget, press Connect, give it a name](../assets/first-app/my-fidget-setup.png)
+    ![The one-time setup page with cable connection instructions](../assets/first-app/my-fidget-setup.png)
 
-    1. Plug your Fidget into the computer with a USB-C cable that carries data.
-    2. Press **CONNECT**. Your browser asks which device you want. Pick the one named **Cyber Fidget**.
-    3. Give it a name, so you can tell your Fidgets apart.
+    1. Plug your Fidget into the computer with a USB-C cable that carries data. Press **Connect**. Your browser shows a list of devices: pick **Cyber Fidget**. (No **Connect** button? See "If there is no Connect button" below these steps.)
+    2. Follow any firmware check or update instructions the page shows.
+    3. If asked "This browser has apps saved from before. Use them with this Fidget?", press **Use them** to assign those saved apps and changes to this device. **Not now** leaves them saved in the browser without assigning them.
+    4. Queued changes can be sent automatically during setup while you name your Fidget. Keep the cable plugged in and check the send report. Enter a name and press **Save name**, or press **Skip** to keep the suggested name.
+    5. Sign-in is optional. Press **Skip** if you only want to use the cable. Signing in lets you continue with WiFi setup and linking for cable-free changes; see [Link your Fidget](../software/link-your-fidget.md).
+    6. Press **See my Loadout** to return to your app list. A loadout is the collection of apps and menu choices for your Fidget.
 
-3. Press **Send to my Fidget**. The page counts up as it sends ("Sending... 1 of 1"). Keep the cable plugged in until it finishes. If something doesn't make it across, the page says so, your Fidget is left as it was, and **Try again** sends it again.
+3. If changes are still waiting, press **Send to my Fidget**. The page counts up as it sends ("Sending... 1 of 1"). Keep the cable plugged in until sending finishes. Read the report; if it offers **Try again**, use that to retry the send.
 
 4. On the device, open your app from the menu. It is in the Menu Category you picked in step 2 (the default is Tools). Press the bottom-left button to go back to the menu.
+
+!!! note "If there is no Connect button"
+    When this browser cannot connect over USB, setup offers **Link with a code >** and instructions to set up WiFi from the Fidget's own screen. For the cable route, open the page on a computer with Chrome, Edge or Firefox that supports connecting over USB. For the WiFi route, follow [Link your Fidget](../software/link-your-fidget.md); it needs an account.
 
 !!! tip "Optional extra: updates over WiFi"
     You can also link your Fidget to your account. Once it has saved a WiFi network, it can pick up your changes without a cable. See [Link your Fidget](../software/link-your-fidget.md).
@@ -175,7 +186,7 @@ Looking for more functions to try? See the [function reference](../reference/fun
 
 ## If something goes wrong
 
-- **A typo.** The studio shows the compiler's error message in a box. Read the first error line. It names the line number in your file. Fix that line, then press **REBUILD & RUN** again.
+- **A typo.** The studio shows the compiler's error message in a box. Read the first error line. It names the line number in your file. Fix that line, then press **REBUILD** again.
 - **Your Fidget is not in the browser's list.** The most common cause is a charge-only cable. Try another USB-C cable. The setup page also has a **Not showing up?** link with more help.
 - **Did I lose my work?** **Save** keeps your project in this browser. The studio shows "saved on this browser" when it has.
 - **Stuck on the emulator?** See the troubleshooting section of the [emulator guide](../software/emulator.md).
