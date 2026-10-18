@@ -2,7 +2,7 @@
 
 After this page you can set each light and change its color with the slider.
 
-Your app controls 4 SK6812 RGBW LEDs (NeoPixel-compatible), each with red, green, blue and white channels. The device also has a separate red-only LED under the front grill and a red charge indicator on the back. Studio apps cannot control the separate red LED, and the studio emulator does not show it. The emulator's colored glow under the grill represents the bottom RGBW LED.
+Your app controls 4 SK6812 RGBW LEDs (NeoPixel-compatible), each with red, green, blue and white channels. The device also has a separate red-only LED under the front grill and a red charge indicator on the back. Studio apps cannot control the separate red LED, and the studio emulator does not show it. The emulator's colored glow under the grill shows the front-bottom RGBW LED (`pixel_Front_Bottom`).
 
 ---
 
@@ -95,17 +95,15 @@ The inverted slider value is low at the bottom and high at the top of the device
 
     This reduces blocking and avoids flicker while keeping updates smooth.
 
-    ### Helper functions
+    ### Firmware-only helpers
+
+    The LED functions your app can call are listed under [Functions on this page](#functions-on-this-page). These are used inside the firmware:
 
     | Function | Description |
     |----------|-------------|
     | `initRGB()` | Firmware only: initialize strip at boot |
     | `updateStrip()` | Does nothing in studio apps; firmware sends colors automatically |
-    | `setDeterminedColorsAll(r,g,b,w)` | Set all 4 LEDs |
-    | `setDeterminedColorsFront(r,g,b,w)` | Set front 3 LEDs |
-    | `setColorsOff()` | Turn all off |
     | `rainbow(int wait)` | Firmware only; studio apps can time colors with `millis()` |
-    | `mapToRainbow(input, dim, r, g, b)` | Map input 0-4095 to red, green and blue; dim sets brightness 0-255 |
 
 ## Functions on this page
 

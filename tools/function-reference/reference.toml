@@ -249,7 +249,7 @@ see = "../concepts/audio.md#playing-tones"
 [symbols."AudioManager::playNote"]
 section = "Sound"
 use = "HAL::audioManager().playNote(440, 100);"
-does = "Play an additional note in Hz for ms; returns a handle, or -1 on failure."
+does = "Play a note alongside others (a chord); duration 0 holds it until stopNote(). Returns a handle, or -1 if the note could not start."
 see = "../concepts/audio.md#playing-tones"
 
 [symbols."AudioManager::stopNote"]

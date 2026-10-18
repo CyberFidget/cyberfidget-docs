@@ -23,7 +23,7 @@ The `ButtonManager` generates three event types:
 |-------|----------------|
 | **Pressed** | Button transitions from not pressed -> pressed |
 | **Released** | Button transitions from pressed -> not pressed |
-| **Held** | Button has been held down longer than the hold threshold (default 1500 ms) |
+| **Held** | Button has been held down longer than the hold threshold (default 1500 ms). You get one Held event per press. |
 
 You choose which events to handle. Many apps use **Pressed** for "do the thing" and **Released** for "back". A release event also follows a hold; it does not distinguish a tap from a long press by itself.
 

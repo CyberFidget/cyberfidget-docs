@@ -10,7 +10,7 @@
 | [`auto& audio = HAL::audioManager();`](../reference/functions.md#symbol-hal--audiomanager) | Get the sound manager for tones, notes, and microphone readings. |
 | [`HAL::audioManager().playTone(880, 100);`](../reference/functions.md#symbol-audiomanager--playtone) | Play a tone at 880 Hz for 100 ms; duration 0 plays until stopped. |
 | [`HAL::audioManager().stopTone();`](../reference/functions.md#symbol-audiomanager--stoptone) | Stop the tone; call when leaving an app that uses tones. |
-| [`HAL::audioManager().playNote(440, 100);`](../reference/functions.md#symbol-audiomanager--playnote) | Play an additional note in Hz for ms; returns a handle, or -1 on failure. |
+| [`HAL::audioManager().playNote(440, 100);`](../reference/functions.md#symbol-audiomanager--playnote) | Play a note alongside others (a chord); duration 0 holds it until stopNote(). Returns a handle, or -1 if the note could not start. |
 | [`HAL::audioManager().stopNote(handle);`](../reference/functions.md#symbol-audiomanager--stopnote) | Stop the note identified by the handle returned from playNote(). |
 | [`HAL::audioManager().stopNotes();`](../reference/functions.md#symbol-audiomanager--stopnotes) | Stop all additional notes. |
 | [`HAL::audioManager().playSequence(steps, count);`](../reference/functions.md#symbol-audiomanager--playsequence) | Play up to 64 copied ToneStep entries in studio apps, on the device and in the browser emulator: freq in Hz (0 is rest), durationMs and gapAfterMs in ms. |
