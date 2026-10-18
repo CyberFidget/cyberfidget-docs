@@ -71,25 +71,28 @@ display.fillRect(PADDLE_X, paddleY, 3, PADDLE_H);
 // The dot starts at the left edge, at a random height.
 static int dotX = 8;
 static int dotY = 32;
+// Pixels to move each frame. Zero pauses the dot.
+static int dotSpeed = 1;
 static void newDot() {
     dotX = 8;
-    dotY = random(10, 54);
+    dotY = random(12, 54);
 }
 ```
 
 ```cpp
 // Paste inside begin(), below setColorsOff();
 newDot();
+dotSpeed = 1;
 ```
 
 ```cpp
 // Paste inside update(), just above display.display();
-// Move the dot one pixel to the right each frame, then draw it.
-dotX += 1;
+// Move the dot at its current speed, then draw it.
+dotX += dotSpeed;
 display.fillCircle(dotX, dotY, 2);
 ```
 
-`newDot()` is a small function of our own. `random(10, 54)` picks a whole number from 10 up to 53, so the dot never starts under the score line we add in step 4. `update()` runs about 50 times a second, so the dot moves about 50 pixels a second.
+`newDot()` is a small function of our own. `random(12, 54)` picks a whole number from 12 up to 53. The score in step 4 lights pixels down to y=9. The dot has a radius of 2, so its top pixel stays at y=10 or below, clear of the score. `dotSpeed` starts at 1 pixel per frame; step 8 will change it. `update()` runs about 50 times a second, so the dot moves about 50 pixels a second.
 
 **Press REBUILD.** One dot crosses the screen and flies off the right edge. It does not come back yet: that is the next step. Press **<< RESTART** to watch it again.
 
@@ -113,13 +116,15 @@ static bool missed = false;
 // Start every game fresh when the app opens.
 score = 0;
 lives = 3;
+caught = false;
+missed = false;
 ```
 
 ```cpp
 // Paste inside update(), just above display.display();
 caught = false;
 missed = false;
-if (dotX >= PADDLE_X - 2) {
+if (lives > 0 && dotX >= PADDLE_X - 2) {
     if (dotY >= paddleY - 2 && dotY <= paddleY + PADDLE_H + 1) {
         caught = true;
         score++;
@@ -160,7 +165,7 @@ display.drawString(64, 0, text);
 
 The text is centered at the top middle of the screen. The case hides about 8 pixels at each corner, so keep text out of the corners.
 
-**Press REBUILD.** The score goes up when you catch a dot, and the lives go down when you miss one. Lives can go below zero until step 7 adds the game over.
+**Press REBUILD.** The score goes up when you catch a dot, and the lives go down when you miss one. At zero lives, the counting stops. Use **<< RESTART** to reset the game until step 7 adds the game over screen and a restart button.
 
 ---
 
@@ -171,6 +176,12 @@ The text is centered at the top middle of the screen. The case hides about 8 pix
 // When the lights came on, so they can go off again.
 static bool lit = false;
 static unsigned long litAt = 0;
+```
+
+```cpp
+// Paste inside begin(), below setColorsOff();
+lit = false;
+litAt = 0;
 ```
 
 ```cpp
@@ -191,7 +202,7 @@ if (lit && millis() - litAt > 200) {
 }
 ```
 
-`setDeterminedColorsAll()` sets all four LEDs. Its numbers are red, green, blue and white, each from 0 (off) to 255 (full). `millis()` is the time in milliseconds (thousandths of a second), so the lights turn off 200 milliseconds after they came on. The game keeps running in the meantime: there is no pause.
+`setDeterminedColorsAll()` sets all four LEDs. Its numbers are red, green, blue and white, each from 0 (off) to 255 (full). `millis()` is the time in milliseconds (thousandths of a second), so the lights turn off just after 200 milliseconds. Subtracting unsigned times (`millis() - litAt`) also works when the clock wraps back to zero. The game keeps running in the meantime: there is no pause.
 
 **Press REBUILD.** The LEDs on the emulator flash green when you catch a dot and red when you miss.
 
@@ -231,7 +242,14 @@ static void onRestart(const ButtonEvent& e) {
     if (e.eventType == ButtonEvent_Pressed && lives <= 0) {
         score = 0;
         lives = 3;
+        caught = false;
+        missed = false;
+        lit = false;
+        litAt = 0;
+        setColorsOff();
+        HAL::audioManager().stopTone();
         newDot();
+        dotSpeed = 1;
     }
 }
 ```
@@ -244,8 +262,12 @@ buttonManager.registerCallback(button_MiddleRightIndex, onRestart);
 ```cpp
 // Paste inside update(), just above display.display();
 if (lives <= 0) {
-    // Keep the dot parked at the left so nothing else happens.
+    // Pause movement and clear every effect.
+    dotSpeed = 0;
     dotX = 8;
+    setColorsOff();
+    lit = false;
+    HAL::audioManager().stopTone();
     display.clear();
     display.setFont(ArialMT_Plain_16);
     display.drawString(64, 10, "Game over");
@@ -263,7 +285,7 @@ buttonManager.unregisterCallback(button_MiddleRightIndex);
 
 `onRestart` is a callback: a function the device calls for you when the button changes. It is registered in `begin()` and let go of in `end()`, so the button does nothing once the game closes. It only restarts when the game is over, so a press during play does nothing.
 
-The game over code reuses the `text` buffer from step 4, because both are inside `update()`. While the game is over, the dot is put back at the left edge every frame, so it never reaches the paddle and the score and lives stop changing. The text is still centered, because step 4 set the alignment earlier in the same frame.
+The game over code reuses the `text` buffer from step 4, because both are inside `update()`. At game over, the dot is parked at the left with speed 0. The catch check also requires lives above 0. The score and lives stay fixed, and the lights and sound turn off. Restarting clears the score, effects and catch flags, restores three lives and the starting speed, and picks another dot height. The text is still centered, because step 4 set the alignment earlier in the same frame.
 
 **Press REBUILD.** Miss three dots on purpose. The game over screen shows your score. Press the middle-right button (**Middle Right - Right** in the emulator) to play again. The bottom-left button still closes the game.
 
@@ -273,13 +295,15 @@ The game over code reuses the `text` buffer from step 4, because both are inside
 
 ```cpp
 // Paste inside update(), just above display.display();
-// One extra pixel per frame for every 5 points.
-dotX += score / 5;
+// Set the next frame's speed only while playing.
+if (lives > 0) {
+    dotSpeed = min(3, 1 + score / 5);
+}
 ```
 
-Dividing whole numbers in C++ drops the remainder, so `score / 5` is 0 for scores 0 to 4, 1 for 5 to 9, and so on. The dot already moves 1 pixel each frame from step 2; this adds more as the score grows.
+Dividing whole numbers in C++ drops the remainder, so `score / 5` is 0 for scores 0 to 4, 1 for 5 to 9, and so on. `min(3, ...)` chooses the smaller number, so the speed stops growing at 3 pixels per frame. At about 50 frames per second, even the fastest dot takes about 0.7 seconds to reach the paddle. This leaves time to aim with the slider. The speed applies on the next frame and stays at 0 during game over.
 
-**Press REBUILD.** After 5 catches the dots move twice as fast, after 10 three times as fast. How far can you get?
+**Press REBUILD.** After 5 catches the dots move twice as fast. After 10 they reach their top speed of 3 pixels per frame. Miss three dots, wait on the game over screen, then restart: the dots begin slowly again.
 
 ---
 
@@ -301,9 +325,11 @@ static int paddleY = 25;
 // The dot starts at the left edge, at a random height.
 static int dotX = 8;
 static int dotY = 32;
+// Pixels to move each frame. Zero pauses the dot.
+static int dotSpeed = 1;
 static void newDot() {
     dotX = 8;
-    dotY = random(10, 54);
+    dotY = random(12, 54);
 }
 static int score = 0;
 static int lives = 3;
@@ -319,7 +345,14 @@ static void onRestart(const ButtonEvent& e) {
     if (e.eventType == ButtonEvent_Pressed && lives <= 0) {
         score = 0;
         lives = 3;
+        caught = false;
+        missed = false;
+        lit = false;
+        litAt = 0;
+        setColorsOff();
+        HAL::audioManager().stopTone();
         newDot();
+        dotSpeed = 1;
     }
 }
 
@@ -335,9 +368,14 @@ void Catcher::begin() {
     registerButtonCallbacks();
     setColorsOff();
     newDot();
+    dotSpeed = 1;
     // Start every game fresh when the app opens.
     score = 0;
     lives = 3;
+    caught = false;
+    missed = false;
+    lit = false;
+    litAt = 0;
     buttonManager.registerCallback(button_MiddleRightIndex, onRestart);
 }
 
@@ -355,12 +393,12 @@ void Catcher::update() {
     // Slider at the top puts the paddle at the top of the screen.
     paddleY = map(sliderPosition_8Bits_Inverted_Filtered, 0, 255, 64 - PADDLE_H, 0);
     display.fillRect(PADDLE_X, paddleY, 3, PADDLE_H);
-    // Move the dot one pixel to the right each frame, then draw it.
-    dotX += 1;
+    // Move the dot at its current speed, then draw it.
+    dotX += dotSpeed;
     display.fillCircle(dotX, dotY, 2);
     caught = false;
     missed = false;
-    if (dotX >= PADDLE_X - 2) {
+    if (lives > 0 && dotX >= PADDLE_X - 2) {
         if (dotY >= paddleY - 2 && dotY <= paddleY + PADDLE_H + 1) {
             caught = true;
             score++;
@@ -397,8 +435,12 @@ void Catcher::update() {
         HAL::audioManager().playTone(900, 150);
     }
     if (lives <= 0) {
-        // Keep the dot parked at the left so nothing else happens.
+        // Pause movement and clear every effect.
+        dotSpeed = 0;
         dotX = 8;
+        setColorsOff();
+        lit = false;
+        HAL::audioManager().stopTone();
         display.clear();
         display.setFont(ArialMT_Plain_16);
         display.drawString(64, 10, "Game over");
@@ -407,14 +449,17 @@ void Catcher::update() {
         display.drawString(64, 30, text);
         display.drawString(64, 44, "Right: play again");
     }
-    // One extra pixel per frame for every 5 points.
-    dotX += score / 5;
+    // Set the next frame's speed only while playing.
+    if (lives > 0) {
+        dotSpeed = min(3, 1 + score / 5);
+    }
     display.display();
 }
 
 // end() runs when your app closes. Let go of the buttons and turn the
 // lights off (if your app plays sounds, call stopTone() here too).
 void Catcher::end() {
+
     HAL::audioManager().stopTone();
     buttonManager.unregisterCallback(button_MiddleRightIndex);
     unregisterButtonCallbacks();

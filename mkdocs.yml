@@ -130,6 +130,8 @@ markdown_extensions:
           format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.highlight
   - pymdownx.snippets:
+      base_path: [!relative $config_dir]
+      check_paths: true
       auto_append:
         - includes/abbreviations.md
   - toc:

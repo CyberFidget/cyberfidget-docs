@@ -122,6 +122,58 @@ class ExampleTests(unittest.TestCase):
         self.assertEqual(''.join(part for _, _, part in sections), code)
         self.assertEqual(checker.classify(self.block(code))[0], "fragment:file+begin")
 
+    def test_plain_assembly_preserves_embedded_canonical_markers(self):
+        code = (TOP + 'const char* text = u8R"tag(\n' + BEGIN + ')tag";\n'
+                '/*\n' + END + '*/\n' + UPDATE + 'display.clear();\n')
+        files, _, _ = checker.assemble([self.block(code)], plain=True)
+        cpp = files['MyApp.cpp']
+        self.assertIn('u8R"tag(\n' + BEGIN + ')tag"', cpp)
+        self.assertIn('/*\n' + END + '*/', cpp)
+        self.assertNotIn(TOP, cpp)
+        self.assertNotIn(UPDATE, cpp)
+
+    def test_renaming_is_exact_and_does_not_cascade(self):
+        original = ('MyApp myApp; MYAPP_H MyAppHelper myAppHelper MYAPP_HELPER '
+                    '#include "MyApp.h" MyApp.cpp')
+        for app in ('Catcher', 'UsemyApp', 'MyAppExtra'):
+            with self.subTest(app=app):
+                instance = app[0].lower() + app[1:]
+                self.assertEqual(checker.renamed(original, app),
+                    f'{app} {instance}; {app.upper()}_H MyAppHelper myAppHelper '
+                    f'MYAPP_HELPER #include "{app}.h" {app}.cpp')
+                files, _, actual_instance = checker.assemble([], app=app, plain=True)
+                self.assertEqual(set(files), {app + '.h', app + '.cpp'})
+                self.assertIn(f'#ifndef {app.upper()}_H', files[app + '.h'])
+                self.assertIn(f'{app} {instance}(', files[app + '.cpp'])
+                self.assertEqual(actual_instance, instance)
+
+    def test_cpp_tokens_preserve_literals_and_operator_boundaries(self):
+        tokens = checker.cpp_tokens
+        self.assertEqual(tokens('x+=1; /* note */ y = 1e+2; // note\n'),
+                         tokens('x += 1 ; y=1e+2;'))
+        self.assertNotEqual(tokens('x += 1;'), tokens('x + = 1;'))
+        self.assertNotEqual(tokens('float x = 1e+2;'), tokens('float x = 1e + 2;'))
+        for literal in ('"Score %d  Lives %d"', "' '", 'u8R"tag(a  b\n// text)tag"'):
+            with self.subTest(literal=literal):
+                self.assertIn(literal, tokens('auto text = ' + literal + ';'))
+        self.assertNotEqual(tokens('"/* keep */"'), tokens('"/*keep*/"'))
+
+    def test_final_comparison_accepts_formatting_but_rejects_literal_changes(self):
+        for original, changed in (('"Score %d  Lives %d"', '"Score %d Lives %d"'),
+                                  ("' '", "'\\t'"),
+                                  ('R"tag(a  b)tag"', 'R"tag(a b)tag"')):
+            step = self.block(TOP + 'const auto text = ' + original + ';\n' +
+                              UPDATE + 'int x = 0; x+=1;\n')
+            files, _, _ = checker.assemble([step], app='Catcher', plain=True)
+            listing = files['Catcher.cpp'].replace('x+=1', 'x += 1')
+            block = checker.Block('page.md', 1, listing, 'cpp', final=True,
+                                  cumulative=True, prior=[step])
+            with self.subTest(literal=original), tempfile.TemporaryDirectory() as folder:
+                checker.materialize_final(block, Path(folder))
+                block.code = listing.replace(original, changed)
+                with self.assertRaisesRegex(ValueError, 'final listing differs'):
+                    checker.materialize_final(block, Path(folder))
+
     def test_comment_tokens_in_ordinary_strings(self):
         code = (TOP +
                 'const char* text = "\\\"/* R\\\"tag(";\n'
@@ -207,8 +259,8 @@ class ExampleTests(unittest.TestCase):
                 checker.materialize(block, "final", Path(folder))
         message = str(caught.exception)
         self.assertIn("final listing differs", message)
-        self.assertIn("-display.drawProgressBar(0, 20, 100, 8, taps % 101);", message)
-        self.assertIn("+display.drawProgressBar(0, 20, 100, 8, taps % 50);", message)
+        self.assertIn("-101", message)
+        self.assertIn("+50", message)
 
     def test_final_listing_needs_a_cumulative_page(self):
         block = checker.Block("page.md", 3, "void A::begin() {}\n", "cpp", final=True)

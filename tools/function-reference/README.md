@@ -21,7 +21,7 @@ Exit 0 means generation or validation succeeded. Exit 1 means invalid descriptio
 
 Each concept table contains the symbols whose `see` destination is that concept page, regardless of heading anchor, in sidecar order. Constants and readable globals are included once each. The two columns are Call and What it does; each call links to its symbol anchor in the full reference. Tables reuse the full reference's fixed layout and wrapping CSS for phone widths.
 
-Concept pages embed their table with `--8<-- "includes/reference/audio.md"` (substitute the page name). `pymdownx.snippets` defaults its `base_path` to the working directory, which is the repository root for MkDocs commands, just like the existing `includes/abbreviations.md` auto-append. No MkDocs configuration change is needed.
+Concept pages embed their table with `--8<-- "includes/reference/audio.md"` (substitute the page name). `--check` rejects missing snippet lines, missing concept pages and orphan files in `includes/reference/`, as well as missing or stale outputs. The MkDocs snippets configuration uses `base_path: [!relative $config_dir]` to resolve paths from the repository root even when the command runs elsewhere. `check_paths: true` makes missing includes fail the build. The `includes/abbreviations.md` auto-append uses that same base path.
 
 ## Header scope
 

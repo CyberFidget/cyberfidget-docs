@@ -20,7 +20,7 @@ Examples use your own `void onRight(const ButtonEvent& event)` callback (a funct
     - [Beep](#symbol-audiomanager--playtone): `HAL::audioManager().playTone(880, 100);`
     - [React to the right button](#symbol-buttonmanager--registercallback): `buttonManager.registerCallback(button_RightIndex, onRight);`
     - [Draw text](#symbol-displayproxy--drawstring): `display.drawString(0, 0, "Hi");`
-    - [Draw a sprite](#symbol-cf--gfx--drawsprite): `drawSprite(display, sprite, 0, 0);`
+    - [Draw a sprite](#symbol-cf--gfx--drawsprite): `drawSprite(display, sprite, 0, 0);` (after `using namespace cf::gfx;`)
     - [Read the slider](#symbol-sliderposition-percentage-filtered): `sliderPosition_Percentage_Filtered`
 
 ## Screen
@@ -172,9 +172,11 @@ Pixel map: 0 Back, 1 Front Top, 2 Front Middle, 3 Front Bottom.
 
 ## Sprites and animation
 
-Add `using namespace cf::gfx;` at the top of your file, below the #include lines, to use these names.
+Studio apps already have `cf_gfx.h` and their generated project art available. You do not need to add those #include lines. Add `using namespace cf::gfx;` at the top of the file, below the #include lines, to use these short names.
 
-Use `#include "cf_gfx.h"` and your generated asset header when using project art. Examples use `Actor player`, `AnimationPlayer clock`, `MeshActor model`, and `RigActor figure`. A pivot is the point on a sprite placed at its screen position.
+When building an app into the firmware by hand, add `#include "cf_gfx.h"` and your generated asset header (if your project has art) at the top of the file. Then put `using namespace cf::gfx;` below the #include lines.
+
+Examples use `Actor player`, `AnimationPlayer clock`, `MeshActor model`, and `RigActor figure`. A pivot is the point on a sprite placed at its screen position.
 
 <div class="reference-calls" markdown="1">
 
@@ -183,7 +185,7 @@ Use `#include "cf_gfx.h"` and your generated asset header when using project art
 | <span id="symbol-cf--gfx--drawsprite"></span>`drawSprite(display, sprite, 0, 0);` | Draw a sprite with its top-left at x, y; ignores its pivot. | [Guide](../concepts/sprites.md#drawing-a-sprite) |
 | <span id="symbol-cf--gfx--drawspritepivoted"></span>`drawSpritePivoted(display, sprite, 64, 32);` | Draw a sprite with its pivot at x, y. | [Guide](../concepts/sprites.md#pivots) |
 | <span id="symbol-cf--gfx--findanimation"></span>`findAnimation(sheet, "run");` | Find a named animation in a sheet; returns nullptr if missing. | [Guide](../concepts/sprites.md#animations-and-sprite-sheets) |
-| <span id="symbol-cf--gfx--samplesprite"></span>`sampleSprite(sprite, 0, 0);` | Read one on/off pixel in sprite-local coordinates; outside is false. | [Guide](../concepts/sprites.md#collision) |
+| <span id="symbol-cf--gfx--samplesprite"></span>`sampleSprite(sprite, 0, 0);` | Read one on/off pixel in sprite-local coordinates; outside is false. | [Guide](../concepts/sprites.md#reading-single-pixels) |
 | <span id="symbol-cf--gfx--pixelcollides"></span>`pixelCollides(player, enemy);` | Check overlapping lit pixels; Actor form applies pivots, Sprite form takes top-left positions. | [Guide](../concepts/sprites.md#collision) |
 | <span id="symbol-cf--gfx--actor--actor"></span>`Actor player;` | Create an actor with a position and an animation player. | [Guide](../concepts/sprites.md#actors) |
 | <span id="symbol-cf--gfx--actor--setsheet"></span>`player.setSheet(&sheet);` | Bind a sprite sheet for looking up animations by name. | [Guide](../concepts/sprites.md#actors) |

@@ -232,6 +232,12 @@ HAL::audioManager().enableMic(false);
 
 ---
 
+## Functions on this page
+
+The note and microphone functions need firmware 1.5.0 or newer.
+
+--8<-- "includes/reference/audio.md"
+
 ## Framework details
 
 ??? info "Advanced: how the firmware handles audio"
@@ -254,9 +260,3 @@ HAL::audioManager().enableMic(false);
     - **I2S1** -- Microphone (RX) on pins 25 (LRCLK), 32 (BCLK), 33 (DATA IN)
 
     The mic runs in a separate FreeRTOS task and publishes `micVolumeAtomic` roughly every 20 ms.
-
-## Functions on this page
-
-The note functions each need firmware 1.5.0 or newer.
-
---8<-- "includes/reference/audio.md"

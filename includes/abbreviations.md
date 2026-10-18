@@ -127,3 +127,4 @@
 *[GRBW]: Green, Red, Blue, White; the order used to send channels to the LED hardware
 *[mg]: Milli-g in motion readings; one thousandth of the acceleration due to gravity
 *[loadout]: The collection of apps and menu choices for your Fidget
+*[PROGMEM]: Program memory; marks constant data for storage with the program on embedded boards

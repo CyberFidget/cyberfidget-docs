@@ -136,6 +136,10 @@ if (ready) display.fillCircle(64, 52, 4);
 
 ---
 
+## Functions on this page
+
+--8<-- "includes/reference/display.md"
+
 ## Framework detail: DisplayProxy wrapping SSD1306Wire
 
 ??? info "Advanced: how the firmware drives the display"
@@ -150,7 +154,3 @@ if (ready) display.fillCircle(64, 52, 4);
     ```
 
     The firmware's `DisplayProxy` also manages overlays, drawings such as status icons over an app. Studio apps have a smaller set of functions: they do not control display contrast or orientation, and their overlay setters have no effect. Use the [app function reference](../reference/functions.md) for the calls available to your app; methods from the driver's documentation are not necessarily available.
-
-## Functions on this page
-
---8<-- "includes/reference/display.md"
