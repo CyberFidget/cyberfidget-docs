@@ -29,8 +29,10 @@ class ExampleTests(unittest.TestCase):
             for block in blocks:
                 checker.materialize(block, checker.classify(block)[0], Path(folder))
                 cpp = (Path(folder) / "MyApp.cpp").read_text()
-                self.assertIn(block.code, cpp)
-                self.assertEqual(cpp.count("#line"), 2)
+                sections = checker.fragment_sections(block.code)
+                for _, _, code in sections:
+                    self.assertIn(code, cpp)
+                self.assertEqual(cpp.count("#line"), 2 * len(sections))
 
     def test_classification(self):
         blocks = self.blocks("classification.md")
