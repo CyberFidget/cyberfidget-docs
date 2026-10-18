@@ -35,7 +35,7 @@ There are three ways to get a sprite into an app.
 
 **1. Draw it in the Studio.** Open the **2D** tab of your project. Under **Project Files**, choose **New sprite**, give it a **Sprite name** such as `Ball`, and press **Create**. Draw it, and add frames and animations if you like (see [Animations and frames](../studio/animations-and-frames.md)). When you build the app, the Studio turns every sprite in the project into code and adds it to your app for you. There is nothing to export. See [Sprites travel with your app](../studio/your-sprite-library.md#sprites-travel-with-your-app).
 
-For easy names, use lowercase letters and digits, starting with a letter. Otherwise the Studio removes accent marks, replaces each run of characters other than English letters, digits or `_` with `_`, trims underscores from both ends, and makes letters lowercase. Existing underscores inside the name stay as they are. A name starting with a digit gets `_` in front. For example, `Café!! Hero` becomes `cafe_hero`, `__Ball__` becomes `ball`, and `1UP` becomes `_1up`. A name with no usable letters or digits becomes `sprite`. Your code uses that name:
+Give sprites simple names: lowercase English letters and digits, starting with a letter, like `ball` or `hero2`. The Studio makes the name lowercase, turns each run of other characters (spaces, punctuation, accented letters) into one `_`, and trims `_` from both ends. A name starting with a digit gets `_` in front, and a second sprite with the same name gets `_2` on the end. For example, `Big Ball` becomes `big_ball`, `1UP` becomes `_1up`, and a second `Ball` becomes `ball_2`. A name with no usable letters or digits becomes `sprite`. Your code uses that name:
 
 | Name in code | What it is |
 |--------------|------------|
@@ -61,7 +61,7 @@ ball.update(millis());
 ball.draw(display);
 ```
 
-**Press REBUILD & RUN.** You see the `idle` animation of a sprite named `Ball`, exactly where it was drawn. [Actors](#actors) explains each line.
+**Press REBUILD.** You see the `idle` animation of a sprite named `Ball`, exactly where it was drawn. [Actors](#actors) explains each line.
 
 **2. Copy a Starter Sprite.** In the 2D tab's library, **Starter Sprites** has free sprites anyone may reuse. **Copy as C++** puts one on your clipboard as code: an array of bytes named after the sprite, its width and height, and a credit line. See [Your Sprite Library](../studio/your-sprite-library.md#starter-sprites). Paste it at the top of your file, then wrap it in a `Sprite` (explained in [Drawing a sprite](#drawing-a-sprite)) to use the functions on this page:
 
@@ -82,7 +82,7 @@ static const Sprite dot = {dot_bmp, dot_w, dot_h, 0, 0, BO_LSB_FIRST};
 drawSprite(display, dot, 62, 50);
 ```
 
-**Press REBUILD & RUN.** You see a small dot near the bottom of the screen.
+**Press REBUILD.** You see a small dot near the bottom of the screen.
 
 `PROGMEM` marks constant picture data for storage in program memory on embedded boards. Keep it when copying sprite code; the Studio build supplies its definition.
 
@@ -117,7 +117,7 @@ display.clear();
 drawSprite(display, smile, 60, 28);
 ```
 
-**Press REBUILD & RUN.** You see an 8 x 8 smiley face in the middle of the screen.
+**Press REBUILD.** You see an 8 x 8 smiley face in the middle of the screen.
 
 The bytes are in **XBM** order. Each row of the picture uses one byte for every 8 pixels of width. Inside a byte, the lowest bit is the leftmost pixel. Take the first row, `0x3c`: in binary that is `00111100`. Read it from right to left and you get off, off, on, on, on, on, off, off: the top of the face. A sprite 10 pixels wide needs 2 bytes per row, and the unused bits are ignored.
 
@@ -148,7 +148,7 @@ drawSpritePivoted(display, smile, 40, 40);
 drawSprite(display, smile, 80, 40);
 ```
 
-**Press REBUILD & RUN.** You see two faces and a horizontal line. The left face sits on the line. The right face hangs below it. Pivots can also sit outside the picture, and they can be negative.
+**Press REBUILD.** You see two faces and a horizontal line. The left face sits on the line. The right face hangs below it. Pivots can also sit outside the picture, and they can be negative.
 
 ---
 
@@ -157,8 +157,6 @@ drawSprite(display, smile, 80, 40);
 An **animation** is a list of **frames** (sprites) and how long each one shows, in milliseconds (thousandths of a second). A **sprite sheet** groups the animations of one character, so you can pick one by name.
 
 An `Animation` holds: its name, its frames, a list of times for each frame (or `nullptr` when every frame shows for the same time), that same time in milliseconds, the number of frames, and its [loop mode](#loop-modes). A `SpriteSheet` holds: its name, its animations, how many there are, and a kind (`"sprite"` is fine; the device does not use it).
-
-`&eyesOpen` means "the address of `eyesOpen`": where that sprite is stored in memory. `blinkFrames` and `stareFrames` are arrays (lists) of pointers, values that hold those addresses. They refer to the sprites without copying their picture data. `const Sprite* const` keeps both the pictures and the addresses in the list unchanged.
 
 An `AnimationPlayer` works out which frame to show. Start it with `play()`, call `update()` every frame with the time, and draw whatever `sprite()` returns.
 
@@ -193,7 +191,10 @@ blinker.update(millis());
 if (blinker.sprite()) drawSpritePivoted(display, *blinker.sprite(), 64, 40);
 ```
 
-**Press REBUILD & RUN.** You see a face that blinks every 1.65 seconds.
+`&eyesOpen` means "the address of `eyesOpen`": where that sprite is stored in memory. `blinkFrames` and `stareFrames` are arrays (lists) of pointers, values that hold those addresses. They refer to the sprites without copying their picture data. `const Sprite* const` keeps both the pictures and the addresses in the list unchanged.
+
+
+**Press REBUILD.** You see a face that blinks every 1.65 seconds.
 
 `findAnimation()` looks up an animation in a sheet by name. It returns `nullptr` when there is no animation with that name, and `play(nullptr, ...)` stops the player, so a typo shows nothing at all. Change `"blink"` to `"stare"` to see the other animation.
 
@@ -232,7 +233,7 @@ hero.update(millis());
 hero.draw(display);
 ```
 
-**Press REBUILD & RUN.** You see a blinking face standing at (64, 40). `&face` passes the address of the sprite sheet to the actor.
+**Press REBUILD.** You see a blinking face standing at (64, 40). `&face` passes the address of the sprite sheet to the actor.
 
 - `setSheet()` gives the actor its sprite sheet, so `play()` can find animations by name. `play()` returns `false` and changes nothing when the name is not in the sheet.
 - `play()` on an actor does not restart an animation that is already playing, so you can call it every frame, for example `hero.play(moving ? "run" : "idle", millis())`. You can also pass an animation itself instead of a name: `hero.play(&faceAnimations[0], millis())`.
@@ -275,7 +276,7 @@ display.clear();
 hero.draw(display);
 ```
 
-**Press REBUILD & RUN.** The slider moves the face up and down. Hold a middle button to move it sideways.
+**Press REBUILD.** The slider moves the face up and down. Hold a middle button to move it sideways.
 
 `buttonManager.isPressed()` is true while a button is held down, which suits movement. For one action per press, use a callback instead (see [Buttons & Events](buttons.md)). `constrain()` keeps the face away from the screen edges.
 
@@ -329,7 +330,7 @@ display.drawString(64, 44, grower.finished() ? "Finished" : "Playing");
 buttonManager.unregisterCallback(button_MiddleRightIndex);
 ```
 
-**Press REBUILD & RUN.** A square grows, then stays large with "Finished" below it. Press the middle-right button to replay it.
+**Press REBUILD.** A square grows, then stays large with "Finished" below it. Press the middle-right button to replay it.
 
 ---
 
@@ -370,7 +371,7 @@ if (pixelCollides(smile, 60, 28, block, blockX, 28)) {
 }
 ```
 
-**Press REBUILD & RUN.** You see a face and a small block. Slide slowly to move the block. The two sprites' boxes overlap a little before "Touching" appears, because the face's top corners are blank. The starter's `end()` turns the LED off when the app closes.
+**Press REBUILD.** You see a face and a small block. Slide slowly to move the block. The two sprites' boxes overlap a little before "Touching" appears, because the face's top corners are blank. The starter's `end()` turns the LED off when the app closes.
 
 ### Reading single pixels
 
@@ -394,7 +395,7 @@ for (int y = 0; y < 8; y++) {
 }
 ```
 
-**Press REBUILD & RUN.** You see the smiley face enlarged to 32 x 32 pixels.
+**Press REBUILD.** You see the smiley face enlarged to 32 x 32 pixels.
 
 ---
 
