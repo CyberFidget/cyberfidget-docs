@@ -5,6 +5,7 @@ import importlib.util
 import io
 import json
 from pathlib import Path
+import re
 import subprocess
 import sys
 import tempfile
@@ -56,7 +57,7 @@ class ReferenceTests(unittest.TestCase):
             page.parent.mkdir(parents=True)
             page.write_text('drift', encoding='utf-8')
             with patch.object(gen, 'ROOT', root), patch.object(gen, 'build',
-                    return_value=('expected', '{}\n', {}, {})):
+                    return_value=('expected', '{}\n', {}, {}, {})):
                 error, output = io.StringIO(), io.StringIO()
                 with contextlib.redirect_stderr(error), contextlib.redirect_stdout(output):
                     code = gen.main(['--check', '--firmware', str(self.firmware)])
@@ -114,7 +115,7 @@ public:
         self.assertEqual(next(row for row in rows if row['name'] == 'DisplayProxy::Mode::AUTO')['value'], '5')
 
     def test_outputs_match_and_provenance_is_complete(self):
-        page, symbols, counts, only = gen.build(self.firmware, TOOL / 'reference.toml')
+        page, symbols, counts, only, includes = gen.build(self.firmware, TOOL / 'reference.toml')
         self.assertEqual((gen.ROOT / 'docs/reference/functions.md').read_text(encoding='utf-8'), page)
         self.assertEqual((gen.ROOT / 'docs/assets/reference/app-functions.json').read_text(encoding='utf-8'), symbols)
         payload = json.loads(symbols)
@@ -125,6 +126,46 @@ public:
             for row in symbol['declarations']:
                 source_line = (self.firmware / row['header']).read_text(encoding='utf-8').splitlines()[row['line'] - 1]
                 self.assertTrue(source_line.strip())
+
+    def test_concept_tables_match_destinations_and_reference_anchors(self):
+        page, symbols, _, _, includes = gen.build(self.firmware, TOOL / 'reference.toml')
+        rows = json.loads(symbols)['symbols']
+        self.assertEqual(set(includes), {f'includes/reference/{p}.md' for p in gen.CONCEPT_PAGES})
+        for concept in gen.CONCEPT_PAGES:
+            path = f'includes/reference/{concept}.md'
+            table = includes[path]
+            self.assertEqual((gen.ROOT / path).read_text(encoding='utf-8'), table)
+            self.assertIn('| Call | What it does |', table)
+            self.assertNotIn('Learn more', table)
+            expected = [row for row in rows if row['see'].partition('#')[0] == f'../concepts/{concept}.md']
+            self.assertTrue(expected, concept)
+            self.assertEqual(len(re.findall(r'^\| \[', table, re.M)), len(expected))
+            for row in expected:
+                self.assertIn(row['use'].replace('|', '&#124;'), table)
+            for anchor in re.findall(r'functions\.md#([^)]+)', table):
+                self.assertIn(f'id="{anchor}"', page)
+
+    def test_missing_or_stale_include_fails_check_without_writing(self):
+        for initial in (None, 'stale table'):
+            with self.subTest(initial=initial), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                for filename, content in [('docs/reference/functions.md', 'expected'),
+                                          ('docs/assets/reference/app-functions.json', '{}\n')]:
+                    path = root / filename
+                    path.parent.mkdir(parents=True, exist_ok=True)
+                    path.write_text(content, encoding='utf-8')
+                include = root / 'includes/reference/audio.md'
+                if initial is not None:
+                    include.parent.mkdir(parents=True)
+                    include.write_text(initial, encoding='utf-8')
+                with patch.object(gen, 'ROOT', root), patch.object(gen, 'build',
+                        return_value=('expected', '{}\n', {}, {}, {'includes/reference/audio.md': 'current'})):
+                    error, output = io.StringIO(), io.StringIO()
+                    with contextlib.redirect_stderr(error), contextlib.redirect_stdout(output):
+                        code = gen.main(['--check', '--firmware', str(self.firmware)])
+                self.assertEqual(code, 1)
+                self.assertIn('reference/audio.md differs', error.getvalue().replace('\\', '/'))
+                self.assertEqual(include.read_text(encoding='utf-8') if include.exists() else None, initial)
 
 
 if __name__ == '__main__':

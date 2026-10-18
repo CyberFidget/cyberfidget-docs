@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: GPL-3.0-or-later -->
 # App function reference generator
 
-Generates `docs/reference/functions.md`, a one-page app cheat sheet, and `docs/assets/reference/app-functions.json`, a symbol list intended for editor autocomplete. Requires Python 3.11+ and Git; uses only Python's standard library.
+Generates `docs/reference/functions.md`, a one-page app cheat sheet, `docs/assets/reference/app-functions.json`, a symbol list intended for editor autocomplete, and nine concept-page tables under `includes/reference/`. Requires Python 3.11+ and Git; uses only Python's standard library.
 
 ## Run
 
@@ -17,7 +17,11 @@ python -m unittest discover -s tools/function-reference/tests -v
 
 The default firmware search walks upward from this repository looking for a sibling `cyberfidget-firmware`, including when this checkout lives inside `.worktrees/`. No server, ports, environment variables, or third-party packages are needed. The firmware checkout is read-only; Git reads its HEAD with a process-local safe-directory override for that exact input checkout.
 
-Exit 0 means generation or validation succeeded. Exit 1 means invalid descriptions, missing coverage, broken guide links/anchors, unreadable inputs, Git failure, or output drift during `--check`. Argument errors exit 2. `--check` never writes output files. Compare against the checked-in outputs; regenerate and review both files before committing. The firmware revision is part of the JSON, so a changed HEAD requires regeneration even when its declarations are identical.
+Exit 0 means generation or validation succeeded. Exit 1 means invalid descriptions, missing coverage, broken guide links/anchors, unreadable inputs, Git failure, or output drift during `--check`, including missing or stale concept includes. Argument errors exit 2. `--check` never writes output files. Compare against the checked-in outputs; regenerate and review all outputs before committing. The firmware revision is part of the JSON, so a changed HEAD requires regeneration even when its declarations are identical.
+
+Each concept table contains the symbols whose `see` destination is that concept page, regardless of heading anchor, in sidecar order. Constants and readable globals are included once each. The two columns are Call and What it does; each call links to its symbol anchor in the full reference. Tables reuse the full reference's fixed layout and wrapping CSS for phone widths.
+
+Concept pages embed their table with `--8<-- "includes/reference/audio.md"` (substitute the page name). `pymdownx.snippets` defaults its `base_path` to the working directory, which is the repository root for MkDocs commands, just like the existing `includes/abbreviations.md` auto-append. No MkDocs configuration change is needed.
 
 ## Header scope
 

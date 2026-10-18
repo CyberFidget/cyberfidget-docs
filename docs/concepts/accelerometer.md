@@ -117,3 +117,7 @@ display.drawString(10, 32, text);
     ### Accessing the sensor directly
 
     Direct sensor access is part of firmware internals. Studio apps cannot call `HAL::accelerometer()` or configure sensor interrupts. Read `accelX`, `accelY` and `accelZ` instead.
+
+## Functions on this page
+
+--8<-- "includes/reference/accelerometer.md"

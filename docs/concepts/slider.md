@@ -87,3 +87,7 @@ display.drawString(64, 24, text);
     ### Inverted variants
 
     The `*_Inverted_Filtered` values reverse the range: inverted percentage is 100 minus the ordinary percentage, and inverted 8-bit position is 255 minus the ordinary 8-bit position. Inverted 12-bit position is 4095 minus the ordinary position. On the device, inverted values increase from bottom to top; ordinary values decrease. Use an ordinary value when moving the slider up should reduce your app's setting.
+
+## Functions on this page
+
+--8<-- "includes/reference/slider.md"

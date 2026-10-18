@@ -46,7 +46,7 @@ MARKERS = {spec["marker"]: slot for slot, spec in CONFIG["slots"].items()}
 def looks_cpp(code):
     return bool(re.search(
         r"^\s*#\s*include\s*[<\"]|\bvoid\s+\w+\s*\(|"
-        r"\bclass\s+\w+\s*\{|\bHAL::\w+|\b(?:display|d)\.\w+\([^\n]*;",
+        r"\bclass\s+\w+\s*\{|\bHAL::\w+|\bcf::gfx::|\b(?:display|d)\.\w+\([^\n]*;",
         code, re.M))
 
 
@@ -193,6 +193,10 @@ def bad_marker_message(block, bad):
 def classify(block):
     if block.skip:
         return "skipped", block.skip
+    if "cf::gfx::" in block.code:
+        return "studio-incompatible", ("The studio refuses cf::gfx:: in projects without art; "
+                                       "add using namespace cf::gfx; at the top of the file, "
+                                       "below the #include lines, and use short names.")
     if block.final:
         if not block.cumulative:
             return "final", "a final listing needs <!-- check-examples: cumulative --> on its page"
@@ -470,7 +474,8 @@ def main(argv=None):
         if result["result"] == "failed" and result["output"]:
             print(textwrap.indent("\n".join(result["output"].splitlines()[:15]), "  "))
     totals = {"blocks": len(results), "complete": 0, "fragments": 0, "skipped-with-marker": 0,
-              "untagged": 0, "no-placement": 0, "bad-marker": 0, "final": 0, "passed": 0, "failed": 0}
+              "untagged": 0, "no-placement": 0, "bad-marker": 0, "studio-incompatible": 0,
+              "final": 0, "passed": 0, "failed": 0}
     for result in results:
         kind = result["kind"]
         key = "fragments" if kind.startswith("fragment:") else "skipped-with-marker" if kind == "skipped" else kind

@@ -20,7 +20,7 @@ Examples use your own `void onRight(const ButtonEvent& event)` callback (a funct
     - [Beep](#symbol-audiomanager--playtone): `HAL::audioManager().playTone(880, 100);`
     - [React to the right button](#symbol-buttonmanager--registercallback): `buttonManager.registerCallback(button_RightIndex, onRight);`
     - [Draw text](#symbol-displayproxy--drawstring): `display.drawString(0, 0, "Hi");`
-    - [Draw a sprite](#symbol-cf--gfx--drawsprite): `cf::gfx::drawSprite(display, sprite, 0, 0);`
+    - [Draw a sprite](#symbol-cf--gfx--drawsprite): `drawSprite(display, sprite, 0, 0);`
     - [Read the slider](#symbol-sliderposition-percentage-filtered): `sliderPosition_Percentage_Filtered`
 
 ## Screen
@@ -172,92 +172,94 @@ Pixel map: 0 Back, 1 Front Top, 2 Front Middle, 3 Front Bottom.
 
 ## Sprites and animation
 
-Use `#include "cf_gfx.h"` and your generated asset header. Examples use `cf::gfx::Actor player`, `cf::gfx::AnimationPlayer clock`, `cf::gfx::MeshActor model`, and `cf::gfx::RigActor figure`. A pivot is the point on a sprite placed at its screen position.
+Add `using namespace cf::gfx;` at the top of your file, below the #include lines, to use these names.
+
+Use `#include "cf_gfx.h"` and your generated asset header when using project art. Examples use `Actor player`, `AnimationPlayer clock`, `MeshActor model`, and `RigActor figure`. A pivot is the point on a sprite placed at its screen position.
 
 <div class="reference-calls" markdown="1">
 
 | Call | What it does | Learn more |
 |---|---|---|
-| <span id="symbol-cf--gfx--drawsprite"></span>`cf::gfx::drawSprite(display, sprite, 0, 0);` | Draw a sprite with its top-left at x, y; ignores its pivot. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--drawspritepivoted"></span>`cf::gfx::drawSpritePivoted(display, sprite, 64, 32);` | Draw a sprite with its pivot at x, y. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--findanimation"></span>`cf::gfx::findAnimation(sheet, "run");` | Find a named animation in a sheet; returns nullptr if missing. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--samplesprite"></span>`cf::gfx::sampleSprite(sprite, 0, 0);` | Read one on/off pixel in sprite-local coordinates; outside is false. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--pixelcollides"></span>`cf::gfx::pixelCollides(player, enemy);` | Check overlapping lit pixels; Actor form applies pivots, Sprite form takes top-left positions. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--actor--actor"></span>`cf::gfx::Actor player;` | Create an actor with a position and an animation player. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--actor--setsheet"></span>`player.setSheet(&sheet);` | Bind a sprite sheet for looking up animations by name. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--actor--sheet"></span>`player.sheet();` | Read the bound sheet pointer, or nullptr if none. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--actor--play"></span>`player.play("run", millis());` | Play by name or animation pointer; same animation keeps running; false if missing. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--actor--update"></span>`player.update(millis());` | Advance animation using time in ms; true if the visible sprite changed. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--actor--draw"></span>`player.draw(display);` | Draw the current sprite with its pivot at the actor's position. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--actor--setpos"></span>`player.setPos(64, 32);` | Place the actor's pivot at x, y in screen pixels. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--actor--setposq8"></span>`player.setPosQ8(64 * 256, 32 * 256);` | Place the pivot in fractional pixels; 256 units equal one pixel. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--actor--x"></span>`player.x();` | Read horizontal position in pixels, rounded down. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--actor--y"></span>`player.y();` | Read vertical position in pixels, rounded down. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--actor--xq8"></span>`player.xQ8();` | Read horizontal position in units of 1/256 pixel. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--actor--yq8"></span>`player.yQ8();` | Read vertical position in units of 1/256 pixel. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--actor--sprite"></span>`player.sprite();` | Read the current sprite pointer; nullptr means nothing to draw. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--actor--animation"></span>`player.animation();` | Read the selected animation pointer, or nullptr if none. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--actor--finished"></span>`player.finished();` | Check whether playback has finished or stopped. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--animationplayer--animationplayer"></span>`cf::gfx::AnimationPlayer clock;` | Create an animation clock without a screen position. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--animationplayer--play"></span>`clock.play(&animation, millis());` | Start or restart at frame 0 using time in ms; nullptr stops. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--animationplayer--setifchanged"></span>`clock.setIfChanged(&animation, millis());` | Start only if the animation pointer differs; safe every update. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--animationplayer--update"></span>`clock.update(millis());` | Advance by elapsed ms; true if the sprite changed; 0 ms frames hold indefinitely. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--animationplayer--stop"></span>`clock.stop();` | Clear playback; sprite and animation pointers become nullptr. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--animationplayer--sprite"></span>`clock.sprite();` | Read the current sprite pointer; nullptr means nothing to draw. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--animationplayer--animation"></span>`clock.animation();` | Read the selected animation pointer, including after it finishes. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--animationplayer--frameindex"></span>`clock.frameIndex();` | Read the current frame number, starting at 0. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--animationplayer--finished"></span>`clock.finished();` | Check whether playback has finished or stopped. | [Guide](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--meshactor--meshactor"></span>`cf::gfx::MeshActor model;` | Create a wireframe model actor with default depth 48 and scale 256. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--meshactor--setmesh"></span>`model.setMesh(&mesh);` | Bind the model's points and connecting lines. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--meshactor--mesh"></span>`model.mesh();` | Read the bound model pointer, or nullptr if none. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--meshactor--setpos"></span>`model.setPos(64, 32);` | Place the model's anchor in screen pixels. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--meshactor--x"></span>`model.x();` | Read the anchor's horizontal screen position in pixels. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--meshactor--y"></span>`model.y();` | Read the anchor's vertical screen position in pixels. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--meshactor--setscaleq8"></span>`model.setScaleQ8(256);` | Set model size; 256 is normal size and 512 is double. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--meshactor--scaleq8"></span>`model.scaleQ8();` | Read size in units where 256 is normal size. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--meshactor--setrotation"></span>`model.setRotation(0, 64, 0);` | Rotate about vertical, horizontal, and depth axes; 256 units equal one turn. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--meshactor--spin"></span>`model.spin(1, 0, 0);` | Add yaw, pitch, roll steps; 256 steps equal one turn. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--meshactor--yaw"></span>`model.yaw();` | Read rotation about the model's vertical axis; 0-255 is one turn. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--meshactor--pitch"></span>`model.pitch();` | Read rotation about the model's horizontal axis; 0-255 is one turn. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--meshactor--roll"></span>`model.roll();` | Read rotation about the model's depth axis; 0-255 is one turn. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--meshactor--setperspective"></span>`model.setPerspective(48);` | Set viewing depth; 0 disables perspective size changes with distance. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--meshactor--perspective"></span>`model.perspective();` | Read the viewing depth; 0 means no perspective. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--meshactor--draw"></span>`model.draw(display);` | Draw model lines; skip lines with either end behind the near viewing plane. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--meshactor--projectpoint"></span>`model.projectPoint(0, 0, 0, x, y);` | Convert a model point to screen x/y; keep coordinates within about +/-8192; false if hidden. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--rigactor--rigactor"></span>`cf::gfx::RigActor figure;` | Create an actor for connected bones, poses, and falling-body motion. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--rigactor--setrig"></span>`figure.setRig(&rig);` | Bind bones and poses, clearing playback and physics state. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--rigactor--rig"></span>`figure.rig();` | Read the bound rig pointer, or nullptr if none. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--rigactor--setpos"></span>`figure.setPos(64, 32);` | Place the rig's origin in screen pixels. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--rigactor--x"></span>`figure.x();` | Read the horizontal screen position in pixels. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--rigactor--y"></span>`figure.y();` | Read the vertical screen position in pixels. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--rigactor--state"></span>`figure.state();` | Read whether the figure is posing, animating, falling, or standing up. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--rigactor--isragdoll"></span>`figure.isRagdoll();` | True during falling-body motion or standing up. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--rigactor--play"></span>`figure.play("walk");` | Play a named animation or pose; also accepts an animation pointer or reference; false if missing. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--rigactor--blend"></span>`figure.blend("idle", "reach", 128);` | Blend two poses; amount 0-255 moves smoothly from the first to the second. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--rigactor--ragdoll"></span>`figure.ragdoll(1.0f, -2.0f);` | Start falling-body physics with x/y impulse; false without a valid rig of at most 11 bones. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--rigactor--pin"></span>`figure.pin("head", 64, 16);` | Hold one bone at screen x/y during falling-body motion; also accepts a bone index. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--rigactor--unpin"></span>`figure.unpin();` | Release the held bone. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--rigactor--standup"></span>`figure.standUp();` | Start standing up from a falling-body pose. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--rigactor--update"></span>`figure.update(millis());` | Advance animation by ms or physics by one step; call each update. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--rigactor--draw"></span>`figure.draw(display);` | Draw the current connected-bone figure. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--rigactor--bonecount"></span>`figure.boneCount();` | Read the number of bones in the bound rig. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--rigactor--bonetransform"></span>`figure.boneTransform(0);` | Read a valid bone index's calculated start, end, and angle; no bounds check. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--rigactor--particlecount"></span>`figure.particleCount();` | Read the number of physics points used by falling-body motion. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--rigactor--particle"></span>`figure.particle(0);` | Read a physics point's x/y; invalid index returns (0, 0). | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--rigactor--maxhardconstrainterror"></span>`figure.maxHardConstraintError();` | Read the largest length error in pixels for rigid physics connections. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--sinq14"></span>`cf::gfx::sinQ14(64);` | Read sine scaled by 16384; 256 angle units equal one turn. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--cosq14"></span>`cf::gfx::cosQ14(0);` | Read cosine scaled by 16384; 256 angle units equal one turn. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--degreestobinaryangle"></span>`cf::gfx::degreesToBinaryAngle(90);` | Convert degrees to a wrapped 0-255 angle; 256 units equal one turn. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--blendbinaryangle"></span>`cf::gfx::blendBinaryAngle(0, 64, 128);` | Blend angles by the shorter turn; amount 0-255 selects first to second. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--interpolateriginteger"></span>`cf::gfx::interpolateRigInteger(0, 100, 128);` | Blend integers; amount 0-255 selects first to second, rounding halfway away from zero. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--rotaterigoffset"></span>`cf::gfx::rotateRigOffset(10, 0, 64, x, y);` | Rotate a pixel offset into output x/y; 256 angle units equal one turn. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--rigposedegrees"></span>`cf::gfx::rigPoseDegrees(&pose, 0);` | Read a valid bone index's pose angle in degrees; null pose data returns 0. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--rigposerootdy"></span>`cf::gfx::rigPoseRootDy(&pose);` | Read a pose's vertical origin offset in pixels; null pose returns 0. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--rigroundratiohalfawayfromzero"></span>`cf::gfx::rigRoundRatioHalfAwayFromZero(5, 2);` | Divide with halfway values rounded away from zero; denominator must be positive. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--solverigpose"></span>`cf::gfx::solveRigPose(rig, &pose, transforms, 16);` | Calculate bone positions; also accepts two poses and a 0-255 blend; false for invalid capacity or bone order. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--findrigpose"></span>`cf::gfx::findRigPose(rig, "idle");` | Look up a pose by name; nullptr if missing. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--findriganimation"></span>`cf::gfx::findRigAnimation(rig, "walk");` | Look up a bone animation by name; nullptr if missing. | [Guide](../studio/overview.md#the-workspace-tabs) |
-| <span id="symbol-cf--gfx--smoothsteprigamount"></span>`cf::gfx::smoothstepRigAmount(128);` | Ease a 0-255 blend amount so its start and finish are gradual. | [Guide](../studio/overview.md#the-workspace-tabs) |
+| <span id="symbol-cf--gfx--drawsprite"></span>`drawSprite(display, sprite, 0, 0);` | Draw a sprite with its top-left at x, y; ignores its pivot. | [Guide](../concepts/sprites.md#drawing-a-sprite) |
+| <span id="symbol-cf--gfx--drawspritepivoted"></span>`drawSpritePivoted(display, sprite, 64, 32);` | Draw a sprite with its pivot at x, y. | [Guide](../concepts/sprites.md#pivots) |
+| <span id="symbol-cf--gfx--findanimation"></span>`findAnimation(sheet, "run");` | Find a named animation in a sheet; returns nullptr if missing. | [Guide](../concepts/sprites.md#animations-and-sprite-sheets) |
+| <span id="symbol-cf--gfx--samplesprite"></span>`sampleSprite(sprite, 0, 0);` | Read one on/off pixel in sprite-local coordinates; outside is false. | [Guide](../concepts/sprites.md#collision) |
+| <span id="symbol-cf--gfx--pixelcollides"></span>`pixelCollides(player, enemy);` | Check overlapping lit pixels; Actor form applies pivots, Sprite form takes top-left positions. | [Guide](../concepts/sprites.md#collision) |
+| <span id="symbol-cf--gfx--actor--actor"></span>`Actor player;` | Create an actor with a position and an animation player. | [Guide](../concepts/sprites.md#actors) |
+| <span id="symbol-cf--gfx--actor--setsheet"></span>`player.setSheet(&sheet);` | Bind a sprite sheet for looking up animations by name. | [Guide](../concepts/sprites.md#actors) |
+| <span id="symbol-cf--gfx--actor--sheet"></span>`player.sheet();` | Read the bound sheet pointer, or nullptr if none. | [Guide](../concepts/sprites.md#actors) |
+| <span id="symbol-cf--gfx--actor--play"></span>`player.play("run", millis());` | Play by name or animation pointer; same animation keeps running; false if missing. | [Guide](../concepts/sprites.md#actors) |
+| <span id="symbol-cf--gfx--actor--update"></span>`player.update(millis());` | Advance animation using time in ms; true if the visible sprite changed. | [Guide](../concepts/sprites.md#actors) |
+| <span id="symbol-cf--gfx--actor--draw"></span>`player.draw(display);` | Draw the current sprite with its pivot at the actor's position. | [Guide](../concepts/sprites.md#actors) |
+| <span id="symbol-cf--gfx--actor--setpos"></span>`player.setPos(64, 32);` | Place the actor's pivot at x, y in screen pixels. | [Guide](../concepts/sprites.md#moving-an-actor) |
+| <span id="symbol-cf--gfx--actor--setposq8"></span>`player.setPosQ8(64 * 256, 32 * 256);` | Place the pivot in fractional pixels; 256 units equal one pixel. | [Guide](../concepts/sprites.md#moving-an-actor) |
+| <span id="symbol-cf--gfx--actor--x"></span>`player.x();` | Read horizontal position in pixels, rounded down. | [Guide](../concepts/sprites.md#moving-an-actor) |
+| <span id="symbol-cf--gfx--actor--y"></span>`player.y();` | Read vertical position in pixels, rounded down. | [Guide](../concepts/sprites.md#moving-an-actor) |
+| <span id="symbol-cf--gfx--actor--xq8"></span>`player.xQ8();` | Read horizontal position in units of 1/256 pixel. | [Guide](../concepts/sprites.md#moving-an-actor) |
+| <span id="symbol-cf--gfx--actor--yq8"></span>`player.yQ8();` | Read vertical position in units of 1/256 pixel. | [Guide](../concepts/sprites.md#moving-an-actor) |
+| <span id="symbol-cf--gfx--actor--sprite"></span>`player.sprite();` | Read the current sprite pointer; nullptr means nothing to draw. | [Guide](../concepts/sprites.md#actors) |
+| <span id="symbol-cf--gfx--actor--animation"></span>`player.animation();` | Read the selected animation pointer, or nullptr if none. | [Guide](../concepts/sprites.md#actors) |
+| <span id="symbol-cf--gfx--actor--finished"></span>`player.finished();` | Check whether playback has finished or stopped. | [Guide](../concepts/sprites.md#actors) |
+| <span id="symbol-cf--gfx--animationplayer--animationplayer"></span>`AnimationPlayer clock;` | Create an animation clock without a screen position. | [Guide](../concepts/sprites.md#animations-and-sprite-sheets) |
+| <span id="symbol-cf--gfx--animationplayer--play"></span>`clock.play(&animation, millis());` | Start or restart at frame 0 using time in ms; nullptr stops. | [Guide](../concepts/sprites.md#animations-and-sprite-sheets) |
+| <span id="symbol-cf--gfx--animationplayer--setifchanged"></span>`clock.setIfChanged(&animation, millis());` | Start only if the animation pointer differs; safe every update. | [Guide](../concepts/sprites.md#animations-and-sprite-sheets) |
+| <span id="symbol-cf--gfx--animationplayer--update"></span>`clock.update(millis());` | Advance by elapsed ms; true if the sprite changed; 0 ms frames hold indefinitely. | [Guide](../concepts/sprites.md#animations-and-sprite-sheets) |
+| <span id="symbol-cf--gfx--animationplayer--stop"></span>`clock.stop();` | Clear playback; sprite and animation pointers become nullptr. | [Guide](../concepts/sprites.md#animations-and-sprite-sheets) |
+| <span id="symbol-cf--gfx--animationplayer--sprite"></span>`clock.sprite();` | Read the current sprite pointer; nullptr means nothing to draw. | [Guide](../concepts/sprites.md#animations-and-sprite-sheets) |
+| <span id="symbol-cf--gfx--animationplayer--animation"></span>`clock.animation();` | Read the selected animation pointer, including after it finishes. | [Guide](../concepts/sprites.md#animations-and-sprite-sheets) |
+| <span id="symbol-cf--gfx--animationplayer--frameindex"></span>`clock.frameIndex();` | Read the current frame number, starting at 0. | [Guide](../concepts/sprites.md#animations-and-sprite-sheets) |
+| <span id="symbol-cf--gfx--animationplayer--finished"></span>`clock.finished();` | Check whether playback has finished or stopped. | [Guide](../concepts/sprites.md#animations-and-sprite-sheets) |
+| <span id="symbol-cf--gfx--meshactor--meshactor"></span>`MeshActor model;` | Create a wireframe model actor with default depth 48 and scale 256. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--meshactor--setmesh"></span>`model.setMesh(&mesh);` | Bind the model's points and connecting lines. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--meshactor--mesh"></span>`model.mesh();` | Read the bound model pointer, or nullptr if none. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--meshactor--setpos"></span>`model.setPos(64, 32);` | Place the model's anchor in screen pixels. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--meshactor--x"></span>`model.x();` | Read the anchor's horizontal screen position in pixels. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--meshactor--y"></span>`model.y();` | Read the anchor's vertical screen position in pixels. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--meshactor--setscaleq8"></span>`model.setScaleQ8(256);` | Set model size; 256 is normal size and 512 is double. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--meshactor--scaleq8"></span>`model.scaleQ8();` | Read size in units where 256 is normal size. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--meshactor--setrotation"></span>`model.setRotation(0, 64, 0);` | Rotate about vertical, horizontal, and depth axes; 256 units equal one turn. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--meshactor--spin"></span>`model.spin(1, 0, 0);` | Add yaw, pitch, roll steps; 256 steps equal one turn. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--meshactor--yaw"></span>`model.yaw();` | Read rotation about the model's vertical axis; 0-255 is one turn. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--meshactor--pitch"></span>`model.pitch();` | Read rotation about the model's horizontal axis; 0-255 is one turn. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--meshactor--roll"></span>`model.roll();` | Read rotation about the model's depth axis; 0-255 is one turn. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--meshactor--setperspective"></span>`model.setPerspective(48);` | Set viewing depth; 0 disables perspective size changes with distance. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--meshactor--perspective"></span>`model.perspective();` | Read the viewing depth; 0 means no perspective. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--meshactor--draw"></span>`model.draw(display);` | Draw model lines; skip lines with either end behind the near viewing plane. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--meshactor--projectpoint"></span>`model.projectPoint(0, 0, 0, x, y);` | Convert a model point to screen x/y; keep coordinates within about +/-8192; false if hidden. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigactor--rigactor"></span>`RigActor figure;` | Create an actor for connected bones, poses, and falling-body motion. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigactor--setrig"></span>`figure.setRig(&rig);` | Bind bones and poses, clearing playback and physics state. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigactor--rig"></span>`figure.rig();` | Read the bound rig pointer, or nullptr if none. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigactor--setpos"></span>`figure.setPos(64, 32);` | Place the rig's origin in screen pixels. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigactor--x"></span>`figure.x();` | Read the horizontal screen position in pixels. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigactor--y"></span>`figure.y();` | Read the vertical screen position in pixels. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigactor--state"></span>`figure.state();` | Read whether the figure is posing, animating, falling, or standing up. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigactor--isragdoll"></span>`figure.isRagdoll();` | True during falling-body motion or standing up. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigactor--play"></span>`figure.play("walk");` | Play a named animation or pose; also accepts an animation pointer or reference; false if missing. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigactor--blend"></span>`figure.blend("idle", "reach", 128);` | Blend two poses; amount 0-255 moves smoothly from the first to the second. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigactor--ragdoll"></span>`figure.ragdoll(1.0f, -2.0f);` | Start falling-body physics with x/y impulse; false without a valid rig of at most 11 bones. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigactor--pin"></span>`figure.pin("head", 64, 16);` | Hold one bone at screen x/y during falling-body motion; also accepts a bone index. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigactor--unpin"></span>`figure.unpin();` | Release the held bone. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigactor--standup"></span>`figure.standUp();` | Start standing up from a falling-body pose. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigactor--update"></span>`figure.update(millis());` | Advance animation by ms or physics by one step; call each update. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigactor--draw"></span>`figure.draw(display);` | Draw the current connected-bone figure. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigactor--bonecount"></span>`figure.boneCount();` | Read the number of bones in the bound rig. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigactor--bonetransform"></span>`figure.boneTransform(0);` | Read a valid bone index's calculated start, end, and angle; no bounds check. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigactor--particlecount"></span>`figure.particleCount();` | Read the number of physics points used by falling-body motion. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigactor--particle"></span>`figure.particle(0);` | Read a physics point's x/y; invalid index returns (0, 0). | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigactor--maxhardconstrainterror"></span>`figure.maxHardConstraintError();` | Read the largest length error in pixels for rigid physics connections. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--sinq14"></span>`sinQ14(64);` | Read sine scaled by 16384; 256 angle units equal one turn. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--cosq14"></span>`cosQ14(0);` | Read cosine scaled by 16384; 256 angle units equal one turn. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--degreestobinaryangle"></span>`degreesToBinaryAngle(90);` | Convert degrees to a wrapped 0-255 angle; 256 units equal one turn. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--blendbinaryangle"></span>`blendBinaryAngle(0, 64, 128);` | Blend angles by the shorter turn; amount 0-255 selects first to second. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--interpolateriginteger"></span>`interpolateRigInteger(0, 100, 128);` | Blend integers; amount 0-255 selects first to second, rounding halfway away from zero. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rotaterigoffset"></span>`rotateRigOffset(10, 0, 64, x, y);` | Rotate a pixel offset into output x/y; 256 angle units equal one turn. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigposedegrees"></span>`rigPoseDegrees(&pose, 0);` | Read a valid bone index's pose angle in degrees; null pose data returns 0. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigposerootdy"></span>`rigPoseRootDy(&pose);` | Read a pose's vertical origin offset in pixels; null pose returns 0. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigroundratiohalfawayfromzero"></span>`rigRoundRatioHalfAwayFromZero(5, 2);` | Divide with halfway values rounded away from zero; denominator must be positive. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--solverigpose"></span>`solveRigPose(rig, &pose, transforms, 16);` | Calculate bone positions; also accepts two poses and a 0-255 blend; false for invalid capacity or bone order. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--findrigpose"></span>`findRigPose(rig, "idle");` | Look up a pose by name; nullptr if missing. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--findriganimation"></span>`findRigAnimation(rig, "walk");` | Look up a bone animation by name; nullptr if missing. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--smoothsteprigamount"></span>`smoothstepRigAmount(128);` | Ease a 0-255 blend amount so its start and finish are gradual. | [Guide](../studio/3d-models.md#using-a-model-in-an-app) |
 
 </div>
 
@@ -363,26 +365,26 @@ Use `#include "cf_gfx.h"` and your generated asset header. Examples use `cf::gfx
 
 | Name | Value | What it does |
 |---|---|---|
-| <span id="symbol-cf--gfx--loop-once"></span>`cf::gfx::LOOP_ONCE` | `0` | Play once then draw nothing. [More](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--loop-once-hold"></span>`cf::gfx::LOOP_ONCE_HOLD` | `1` | Play once and keep the last frame. [More](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--loop-loop"></span>`cf::gfx::LOOP_LOOP` | `2` | Repeat from the first frame. [More](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--loop-pingpong"></span>`cf::gfx::LOOP_PINGPONG` | `3` | Play forward then backward, repeating. [More](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--bo-lsb-first"></span>`cf::gfx::BO_LSB_FIRST` | `0` | Lowest bit first per byte; required for drawing sprites correctly. [More](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--bo-msb-first"></span>`cf::gfx::BO_MSB_FIRST` | `1` | Highest bit first; collision can read it but drawing mirrors each byte. [More](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--rig-render-baked16"></span>`cf::gfx::RIG_RENDER_BAKED16` | `0` | Use one of 16 image angles; fall back to lines when images are absent. [More](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--rig-render-line"></span>`cf::gfx::RIG_RENDER_LINE` | `1` | Draw bones as lines. [More](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--rig-render-flat"></span>`cf::gfx::RIG_RENDER_FLAT` | `2` | Draw bones as lines, matching LINE mode. [More](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--rigactor--state-pose"></span>`cf::gfx::RigActor::STATE_POSE` | `0` | Holding a pose. [More](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--rigactor--state-animation"></span>`cf::gfx::RigActor::STATE_ANIMATION` | `1` | Playing bone animation. [More](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--rigactor--state-ragdoll"></span>`cf::gfx::RigActor::STATE_RAGDOLL` | `2` | Falling-body physics is active. [More](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--rigactor--state-standing"></span>`cf::gfx::RigActor::STATE_STANDING` | `3` | Returning from physics to standing. [More](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--kfocal"></span>`cf::gfx::kFocal` | `110` | Perspective projection focal length in pixels. [More](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--knearz"></span>`cf::gfx::kNearZ` | `8` | Minimum visible model depth. [More](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--kdefaultdepth"></span>`cf::gfx::kDefaultDepth` | `48` | Initial model viewing depth. [More](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--kscalebaseq8"></span>`cf::gfx::kScaleBaseQ8` | `256` | Normal model size; 256 means 1x. [More](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--kmaxrigbones"></span>`cf::gfx::kMaxRigBones` | `16` | Maximum bones for pose calculation. [More](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--kmaxrigparticles"></span>`cf::gfx::kMaxRigParticles` | `11` | Maximum physics points for falling-body motion. [More](../studio/overview.md#the-2d-workspace) |
-| <span id="symbol-cf--gfx--kmaxrigconstraints"></span>`cf::gfx::kMaxRigConstraints` | `11` | Maximum physics connections. [More](../studio/overview.md#the-2d-workspace) |
+| <span id="symbol-cf--gfx--loop-once"></span>`LOOP_ONCE` | `0` | Play once then draw nothing. [More](../concepts/sprites.md#loop-modes) |
+| <span id="symbol-cf--gfx--loop-once-hold"></span>`LOOP_ONCE_HOLD` | `1` | Play once and keep the last frame. [More](../concepts/sprites.md#loop-modes) |
+| <span id="symbol-cf--gfx--loop-loop"></span>`LOOP_LOOP` | `2` | Repeat from the first frame. [More](../concepts/sprites.md#loop-modes) |
+| <span id="symbol-cf--gfx--loop-pingpong"></span>`LOOP_PINGPONG` | `3` | Play forward then backward, repeating. [More](../concepts/sprites.md#loop-modes) |
+| <span id="symbol-cf--gfx--bo-lsb-first"></span>`BO_LSB_FIRST` | `0` | Lowest bit first per byte; required for drawing sprites correctly. [More](../concepts/sprites.md#drawing-a-sprite) |
+| <span id="symbol-cf--gfx--bo-msb-first"></span>`BO_MSB_FIRST` | `1` | Highest bit first; collision can read it but drawing mirrors each byte. [More](../concepts/sprites.md#drawing-a-sprite) |
+| <span id="symbol-cf--gfx--rig-render-baked16"></span>`RIG_RENDER_BAKED16` | `0` | Use one of 16 image angles; fall back to lines when images are absent. [More](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rig-render-line"></span>`RIG_RENDER_LINE` | `1` | Draw bones as lines. [More](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rig-render-flat"></span>`RIG_RENDER_FLAT` | `2` | Draw bones as lines, matching LINE mode. [More](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigactor--state-pose"></span>`RigActor::STATE_POSE` | `0` | Holding a pose. [More](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigactor--state-animation"></span>`RigActor::STATE_ANIMATION` | `1` | Playing bone animation. [More](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigactor--state-ragdoll"></span>`RigActor::STATE_RAGDOLL` | `2` | Falling-body physics is active. [More](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--rigactor--state-standing"></span>`RigActor::STATE_STANDING` | `3` | Returning from physics to standing. [More](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--kfocal"></span>`kFocal` | `110` | Perspective projection focal length in pixels. [More](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--knearz"></span>`kNearZ` | `8` | Minimum visible model depth. [More](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--kdefaultdepth"></span>`kDefaultDepth` | `48` | Initial model viewing depth. [More](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--kscalebaseq8"></span>`kScaleBaseQ8` | `256` | Normal model size; 256 means 1x. [More](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--kmaxrigbones"></span>`kMaxRigBones` | `16` | Maximum bones for pose calculation. [More](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--kmaxrigparticles"></span>`kMaxRigParticles` | `11` | Maximum physics points for falling-body motion. [More](../studio/3d-models.md#using-a-model-in-an-app) |
+| <span id="symbol-cf--gfx--kmaxrigconstraints"></span>`kMaxRigConstraints` | `11` | Maximum physics connections. [More](../studio/3d-models.md#using-a-model-in-an-app) |
 
 </div>
 
