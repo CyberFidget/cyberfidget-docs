@@ -110,6 +110,9 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Internal storage** | Storage built into the Cyber Fidget where apps live. |
 | **Project** | A person's Studio work, including its code, art, captures, and settings. |
 | **Project file** | A `.cfapp.json` file containing a whole Studio project. |
+| **pivot** | The point on a sprite placed at its screen position. |
+| **rig** | Connected bones and poses used to animate a figure. |
+| **pose** | A set of bone angles describing how a figure is positioned. |
 | **Sprite** | An image or animation used by an app for a character, object, or effect. |
 | **Wireframe model** | A 3D shape built from points (nodes) connected by straight lines (struts), with no solid surfaces -- drawn as spinning line art on the device. |
 | **Node** | A point in a wireframe model's shape, positioned in 3D space. |

@@ -103,3 +103,6 @@
 *[emulator]: A copy of the device that runs in your browser, so you can try an app without a Cyber Fidget
 *[compile]: Turn the code you wrote into a program the device (or the emulator) can run
 *[callback]: A function you give the device to call for you when something happens, such as a button press
+*[pivot]: The point on a sprite placed at its screen position
+*[rig]: Connected bones and poses used to animate a figure
+*[pose]: A set of bone angles describing how a figure is positioned
