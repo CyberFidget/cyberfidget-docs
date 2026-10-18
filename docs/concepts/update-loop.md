@@ -44,11 +44,11 @@ Use `millis()` for timing. Paste these examples into the [studio starter](../get
 - **millis()** -- Returns elapsed milliseconds since boot. Check it each frame and act when enough time has passed.
 
 ```cpp
-// Paste at the top of the file
+// Paste at the top of the file, below the #include lines
 static unsigned long lastFrameTime = 0;
 static int currentFrame = 0;
 
-// Paste inside begin()
+// Paste inside begin(), below setColorsOff();
 lastFrameTime = millis();
 currentFrame = 0;
 
@@ -70,11 +70,11 @@ display.fillCircle(15 + currentFrame * 14, 32, 5);
 ## Code example: frame-based animation
 
 ```cpp
-// Paste at the top of the file
+// Paste at the top of the file, below the #include lines
 static unsigned long lastStep = 0;
 static int dropY = 8;
 
-// Paste inside begin()
+// Paste inside begin(), below setColorsOff();
 lastStep = millis();
 dropY = 8;
 
@@ -92,31 +92,34 @@ for (int column = 0; column < 6; ++column) {
 }
 ```
 
-You can update logic at a different rate than the draw rate. For example, update game state every 30 ms but still draw every 20 ms for smoother visuals.
+You can update logic at a different rate than the draw rate. For example, change the `100` in the elapsed-time check to `30` to use a 30 ms movement threshold, while drawing on every update. Movement happens on the first update after that threshold, so its timing is approximate.
 
 ---
 
 ## Framework detail: TASK_20MS and HAL::loopHardware()
 
-Inside the firmware, the main loop uses a 20 ms task interval (`TASK_20MS = 20`). This firmware-source excerpt is not code for a studio app:
+??? info "Advanced: how the firmware schedules updates"
+    You do not need these details to build apps in the studio. They describe the firmware internals for readers writing an app by hand and building it into the firmware.
 
-<!-- check-examples: skip - firmware source excerpt, not a studio app -->
-```cpp
-// In AppManager::loop(), with other firmware work between these lines:
-HAL::loopHardware();
+    Inside the firmware, the main loop uses a 20 ms task interval (`TASK_20MS = 20`). This firmware-source excerpt is not code for a studio app:
 
-if ((millis_NOW - millis_APP_TASK_20MS) >= TASK_20MS) {
-    millis_APP_TASK_20MS = millis_NOW;
-    runActiveApp();
-}
-```
+    <!-- check-examples: skip - firmware source excerpt, not a studio app -->
+    ```cpp
+    // In AppManager::loop(), with other firmware work between these lines:
+    HAL::loopHardware();
 
-`HAL::loopHardware()` runs every main loop iteration and handles:
+    if ((millis_NOW - millis_APP_TASK_20MS) >= TASK_20MS) {
+        millis_APP_TASK_20MS = millis_NOW;
+        runActiveApp();
+    }
+    ```
 
-- Button state polling (`s_buttonManager.update()`)
-- Slider reading (every 20 ms)
-- Accelerometer (every 50 ms)
-- Battery (every 200 ms)
-- RGB strip updates
+    `HAL::loopHardware()` runs every main loop iteration and handles:
 
-Your app's `update()` is only called when the 20 ms timer fires, so about 50 updates per second is the target. Slow work can make updates arrive later; keep each call short. Do not call `HAL::loopHardware()` from a studio app.
+    - Button state polling (`s_buttonManager.update()`)
+    - Slider reading (every 20 ms)
+    - Accelerometer (every 50 ms)
+    - Battery (every 200 ms)
+    - RGB strip updates
+
+    Your app's `update()` is only called when the 20 ms timer fires, so about 50 updates per second is the target. Slow work can make updates arrive later; keep each call short. Do not call `HAL::loopHardware()` from a studio app.

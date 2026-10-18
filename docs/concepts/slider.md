@@ -28,6 +28,10 @@ The hardware abstraction layer (HAL) reads the slider about every 20 ms and make
 | `sliderPosition_12Bits_Filtered` | 0-4095 (float) | Full ADC resolution |
 | `sliderPosition_12Bits_Inverted_Filtered` | 0-4095 (float) | Same, inverted |
 
+On the device, variables with `_Inverted_` read low with the slider at the bottom and high at the top: about 0 to 100%, 0 to 255, or 0 to 4095. The plain variables run the other way: high at the bottom, low at the top. The brightness example uses inverted values so moving the slider up makes the light brighter.
+
+The studio emulator follows the same direction: moving the slider up increases the inverted values.
+
 !!! note "Filtered vs raw"
     The "Filtered" variants are smoothed to reduce jitter. Prefer these for UI and control logic. Unfiltered readings such as `sliderPosition_12Bits` belong to firmware internals and are not available to studio apps.
 
@@ -35,7 +39,10 @@ The hardware abstraction layer (HAL) reads the slider about every 20 ms and make
 
 ## Kalman filtering
 
-The raw ADC readings jump around due to electrical noise. The framework applies a **Kalman filter** plus an **Exponential Moving Average (EMA)** on the percentage to smooth the signal. You get stable, responsive values without coding the math yourself.
+??? info "Advanced: how slider readings are smoothed"
+    You do not need these details to build apps in the studio; use the filtered variables above.
+
+    The raw ADC readings jump around due to electrical noise. The framework applies a **Kalman filter** plus an **Exponential Moving Average (EMA)** on the percentage to smooth the signal. You get stable, responsive values without coding the math yourself.
 
 ---
 
@@ -44,7 +51,7 @@ The raw ADC readings jump around due to electrical noise. The framework applies 
 The slider can control volume inside built-in firmware apps. In studio apps on the device or in the browser emulator, `HAL::audioManager().setVolume()` has no effect. This example uses the same slider input for LED brightness instead, and shows the percentage on screen. Paste it into the [studio starter](../getting-started/first-app.md).
 
 ```cpp
-// Paste at the top of the file
+// Paste at the top of the file, below the #include lines
 #include <stdio.h>
 
 // Paste inside update(), just above display.display();
@@ -63,17 +70,20 @@ display.drawString(64, 24, text);
 
 ## Framework details
 
-### ADC reading
+??? info "Advanced: how the firmware reads the slider"
+    You do not need these details to build apps in the studio. They describe the firmware internals for readers writing an app by hand and building it into the firmware.
 
-The slider is connected to **GPIO 35** (ADC1_CH7). The ESP32's 12-bit ADC yields values 0-4095. The HAL reads this in `sliderPositionRead()` and updates all derived variables.
+    ### ADC reading
 
-### Filtering pipeline
+    The slider is connected to **GPIO 35** (ADC1_CH7). The ESP32's 12-bit ADC yields values 0-4095. The HAL reads this in `sliderPositionRead()` and updates all derived variables.
 
-1. **Raw read** -- `analogRead()` -> 0-4095
-2. **Kalman filter** -- Smooths 12-bit value
-3. **Derived values** -- 8-bit = (12-bit / 4095) x 255; percentage = (12-bit / 4095) x 100
-4. **EMA on percentage** -- Reduces jitter in the 0-100% output
+    ### Filtering pipeline
 
-### Inverted variants
+    1. **Raw read** -- `analogRead()` -> 0-4095
+    2. **Kalman filter** -- Smooths 12-bit value
+    3. **Derived values** -- 8-bit = (12-bit / 4095) x 255; percentage = (12-bit / 4095) x 100
+    4. **EMA on percentage** -- Reduces jitter in the 0-100% output
 
-The `*_Inverted_Filtered` values reverse the range: inverted percentage is 100 minus the ordinary percentage, and inverted 8-bit position is 255 minus the ordinary 8-bit position. Inverted 12-bit position is 4095 minus the ordinary position. Try both directions and choose the one that suits your app. This example uses the inverted values to match the other slider examples; change to the ordinary values if you prefer the opposite direction.
+    ### Inverted variants
+
+    The `*_Inverted_Filtered` values reverse the range: inverted percentage is 100 minus the ordinary percentage, and inverted 8-bit position is 255 minus the ordinary 8-bit position. Inverted 12-bit position is 4095 minus the ordinary position. On the device, inverted values increase from bottom to top; ordinary values decrease. Use an ordinary value when moving the slider up should reduce your app's setting.

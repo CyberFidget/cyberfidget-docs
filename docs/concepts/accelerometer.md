@@ -44,10 +44,10 @@ The [studio starter](../getting-started/first-app.md) already includes `HAL.h` t
 ## Code example: tilt-controlled paddle
 
 ```cpp
-// Paste at the top of the file
+// Paste at the top of the file, below the #include lines
 static float paddleX = 64.0f;
 
-// Paste inside begin()
+// Paste inside begin(), below setColorsOff();
 paddleX = 64.0f;
 
 // Paste inside update(), just above display.display();
@@ -85,7 +85,7 @@ HAL::setRgbLed(pixel_Front_Top, r, g, b, 0);
 Show the readings on the screen to see how they change as you turn the device.
 
 ```cpp
-// Paste at the top of the file
+// Paste at the top of the file, below the #include lines
 #include <stdio.h>
 
 // Paste inside update(), just above display.display();
@@ -103,14 +103,17 @@ display.drawString(10, 32, text);
 
 ## Framework details
 
-### LIS2DH12
+??? info "Advanced: how the firmware reads motion"
+    You do not need these details to build apps in the studio. They describe the firmware internals for readers writing an app by hand and building it into the firmware.
 
-The accelerometer is an ST LIS2DH12, a 3-axis digital accelerometer. The firmware uses the SparkFun LIS2DH12 Arduino library for I2C communication.
+    ### LIS2DH12
 
-### TASK_50MS update rate
+    The accelerometer is an ST LIS2DH12, a 3-axis digital accelerometer. The firmware uses the SparkFun LIS2DH12 Arduino library for I2C communication.
 
-The HAL reads the accelerometer every **50 ms** (20 Hz) in its `TASK_50MS` block. `accelX`, `accelY`, and `accelZ` are updated from `s_accel.getX()`, `getY()`, and `getZ()`. For most tilt-based apps, 20 Hz is sufficient; studio apps read the supplied values rather than changing the sensor polling rate.
+    ### TASK_50MS update rate
 
-### Accessing the sensor directly
+    The HAL reads the accelerometer every **50 ms** (20 Hz) in its `TASK_50MS` block. `accelX`, `accelY`, and `accelZ` are updated from `s_accel.getX()`, `getY()`, and `getZ()`. For most tilt-based apps, 20 Hz is sufficient; studio apps read the supplied values rather than changing the sensor polling rate.
 
-Direct sensor access is part of firmware internals. Studio apps cannot call `HAL::accelerometer()` or configure sensor interrupts. Read `accelX`, `accelY` and `accelZ` instead.
+    ### Accessing the sensor directly
+
+    Direct sensor access is part of firmware internals. Studio apps cannot call `HAL::accelerometer()` or configure sensor interrupts. Read `accelX`, `accelY` and `accelZ` instead.

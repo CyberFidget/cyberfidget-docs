@@ -94,7 +94,7 @@ display.drawVerticalLine(64, 8, 48);
 ### Bitmaps (drawXbm)
 
 ```cpp
-// Paste at the top of the file
+// Paste at the top of the file, below the #include lines
 static const uint8_t smile[8] = {
     0x3c, 0x42, 0xa5, 0x81, 0xa5, 0x99, 0x42, 0x3c
 };
@@ -111,8 +111,10 @@ A bitmap is an array of pixels. XBM stores one on/off bit per pixel, with the le
 
 ## Code example: text and shapes
 
+The fixed `score` value below demonstrates drawing text. For a score that changes when you press a button, use the state and callback in [Buttons & Events](buttons.md#code-example-callback-registration). Change `ready` to `false` to draw only the circle outline.
+
 ```cpp
-// Paste at the top of the file
+// Paste at the top of the file, below the #include lines
 #include <stdio.h>
 
 // Paste inside update(), just above display.display();
@@ -136,12 +138,15 @@ if (ready) display.fillCircle(64, 52, 4);
 
 ## Framework detail: DisplayProxy wrapping SSD1306Wire
 
-Inside the firmware, the HAL creates a `SSD1306Wire` display driver and wraps it in a `DisplayProxy`. A driver is code that talks to a hardware part. This firmware-source excerpt is not for a studio app:
+??? info "Advanced: how the firmware drives the display"
+    You do not need these details to build apps in the studio. They describe the firmware internals for readers writing an app by hand and building it into the firmware.
 
-<!-- check-examples: skip - firmware source excerpt, not a studio app -->
-```cpp
-static SSD1306Wire s_realDisplay(0x3C, SDA, SCL);
-static DisplayProxy s_displayProxy(s_realDisplay);
-```
+    Inside the firmware, the HAL creates a `SSD1306Wire` display driver and wraps it in a `DisplayProxy`. A driver is code that talks to a hardware part. This firmware-source excerpt is not for a studio app:
 
-The firmware's `DisplayProxy` also manages overlays, drawings such as status icons over an app. Studio apps have a smaller set of functions: they do not control display contrast or orientation, and their overlay setters have no effect. Use the [app function reference](../reference/functions.md) for the calls available to your app; methods from the driver's documentation are not necessarily available.
+    <!-- check-examples: skip - firmware source excerpt, not a studio app -->
+    ```cpp
+    static SSD1306Wire s_realDisplay(0x3C, SDA, SCL);
+    static DisplayProxy s_displayProxy(s_realDisplay);
+    ```
+
+    The firmware's `DisplayProxy` also manages overlays, drawings such as status icons over an app. Studio apps have a smaller set of functions: they do not control display contrast or orientation, and their overlay setters have no effect. Use the [app function reference](../reference/functions.md) for the calls available to your app; methods from the driver's documentation are not necessarily available.

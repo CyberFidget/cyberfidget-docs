@@ -43,7 +43,7 @@ Choose **Code from Blank Template** to write code, **Modify a Demo App** to expl
 Press **REBUILD & RUN** in the welcome panel, or **REBUILD** in the emulator panel. Compilation turns your C++ code into a runnable app. When building on your computer is available, the first build downloads about 23 MB of build tools; allow it to finish. Later builds on the computer can take a few seconds. If the computer cannot build, or building there is unavailable, the studio uses its build server; allow more time.
 
 !!! warning "Keep private information out of code"
-    Builds are public. Do not put names, addresses, passwords or anything private in your code.
+    Builds on your computer keep your code on your computer. If the studio uses the build server instead, that build is public. Keep personal information and secrets out of your code either way.
 
 Builds sent to the build server have a daily limit. Builds done on your own computer do not count toward it.
 
