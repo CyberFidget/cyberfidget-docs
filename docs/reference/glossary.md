@@ -100,6 +100,8 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Built app** | The runnable copy produced when Studio builds an app. |
 | **Build** | Studio's step that turns your project, including its art, into a runnable app. |
 | **Emulator** | A copy of the device that runs in your browser, so you can try an app without a Cyber Fidget. |
+| **Compile** | Turn the code you wrote into a program the device (or the emulator) can run. |
+| **Callback** | A function you give the device to call for you when something happens, such as a button press. |
 | **Firmware** | The built-in software that runs on the device. |
 | **Flow** | How densely the Brush paints or the Erase tool removes pixels, from 0 to 100%. |
 | **MB** | Megabyte; a unit of file size, about one million bytes. |
