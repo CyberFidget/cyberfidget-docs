@@ -24,6 +24,7 @@ Why:
 - AudioPlayer and AudioSourceIdxSD have intertwined ring buffers and decoder contexts
 
 !!! warning "Create once, reuse forever"
+    <!-- check-examples: skip - firmware source excerpt, not a studio app -->
     ```cpp
     // In createAudioPipeline() — only runs once per app lifetime
     if (pA2dpStream == nullptr) {
@@ -50,6 +51,7 @@ The A2DP buffer (`BufferRTOS<uint8_t>`) uses `portMAX_DELAY` for both reads and 
 
 ### The fix: unblock the buffer before disconnecting
 
+<!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```cpp
 void MusicPlayerApp::disconnectBT() {
     // 1. Tell library not to auto-reconnect
@@ -76,6 +78,7 @@ void MusicPlayerApp::disconnectBT() {
 
 When reconnecting, restore the blocking timeout so the data callback waits for data instead of returning silence:
 
+<!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```cpp
 auto* buf = pA2dpStream->getBuffer();
 if (buf) buf->setReadMaxWait(portMAX_DELAY);
@@ -87,6 +90,7 @@ if (buf) buf->setReadMaxWait(portMAX_DELAY);
 
 `AudioPlayer::stop()` calls `setActive(false)` which triggers an auto-fade that writes 2KB+ of silence to the A2DP stream. After multiple BT disconnect/reconnect cycles, these writes can hang.
 
+<!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```cpp
 // Safe stop sequence
 pPlayer->setAutoFade(false);
@@ -106,6 +110,7 @@ This means `set_auto_reconnect(false)` doesn't actually prevent reconnection.
 
 In `BluetoothA2DPSource.cpp`, the heartbeat handler needs a guard:
 
+<!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```cpp
 // In bt_app_av_state_unconnected_hdlr():
 if (reconnect_status != NoReconnect) {  // ← ADD THIS CHECK
@@ -121,6 +126,7 @@ Without this patch, the device will reconnect to the old speaker ~10 seconds aft
 
 `BluetoothA2DPCommon::disconnect()` calls `esp_a2d_sink_disconnect()` — this is the **sink** API. For source mode, you need:
 
+<!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```cpp
 #include <esp_a2dp_api.h>
 esp_a2d_source_disconnect(address);
@@ -141,6 +147,7 @@ The library maintains two different address variables:
 
 Add to `BluetoothA2DPCommon.h`:
 
+<!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```cpp
 esp_bd_addr_t* get_current_peer_address() {
     return &peer_bd_addr;
@@ -155,6 +162,7 @@ This lets you read the actual address the heartbeat timer will try to connect to
 
 `A2DPStream::write()` has a polling loop that checks `availableForWrite()` every 5ms. The default `tx_write_timeout_ms = -1` means it polls forever — blocking when BT drops during playback.
 
+<!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```cpp
 auto cfg = pA2dpStream->defaultConfig(TX_MODE);
 cfg.tx_write_timeout_ms = 200;  // Give up after 200ms
@@ -168,6 +176,7 @@ This is a backstop. The primary protection is detecting `!isConnected()` in `upd
 
 Without active detection, a BT drop during playback causes `pPlayer->copy()` to block on A2DP writes:
 
+<!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```cpp
 // In update(), before calling copy():
 if (pA2dpStream && !pA2dpStream->isConnected()) {
@@ -179,6 +188,7 @@ if (pA2dpStream && !pA2dpStream->isConnected()) {
 
 Also detect heartbeat auto-reconnect recovery:
 
+<!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```cpp
 if (pA2dpStream && pA2dpStream->isConnected() && !btConnected) {
     btConnected = true;  // Heartbeat reconnected us

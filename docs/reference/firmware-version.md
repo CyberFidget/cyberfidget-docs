@@ -161,6 +161,7 @@ firmware reports them honestly via the boot banner).
 The firmware exposes preprocessor macros so user-app code can adapt to
 different firmware versions at compile time:
 
+<!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```c
 #include "version.h"
 
@@ -181,6 +182,7 @@ At runtime, the same values are available from the firmware globals
 header (no namespace; these are build-time identification, not hardware
 abstractions):
 
+<!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```cpp
 #include "globals.h"
 

@@ -315,6 +315,7 @@ After solving IRAM, the firmware compiled and flashed successfully. The menu sys
 
 The `MusicPlayerApp` was declared as a **global variable**:
 
+<!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```cpp
 // MusicPlayerApp.cpp
 MusicPlayerApp musicPlayerApp(HAL::buttonManager());
@@ -322,6 +323,7 @@ MusicPlayerApp musicPlayerApp(HAL::buttonManager());
 
 The constructor initialized `AudioSourceIdxSD` and `AudioPlayer` as direct member variables:
 
+<!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```cpp
 // Old MusicPlayerApp.h (broken)
 class MusicPlayerApp {
@@ -339,6 +341,7 @@ Problems:
 
 Changed audio pipeline members to **pointers**, initialized to `nullptr`:
 
+<!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```cpp
 // New MusicPlayerApp.h (working)
 class MusicPlayerApp {
@@ -350,6 +353,7 @@ class MusicPlayerApp {
 
 Audio pipeline is now created on demand in `initAudioPipeline()`, called only when the user actually connects to a BT device:
 
+<!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```cpp
 bool MusicPlayerApp::initAudioPipeline() {
     if (audioPipelineReady) return true;
@@ -371,6 +375,7 @@ bool MusicPlayerApp::initAudioPipeline() {
 
 The `begin()` method now only sets state and registers button callbacks - no hardware init at all:
 
+<!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```cpp
 void MusicPlayerApp::begin() {
     currentState = STATE_BT_SCAN;
@@ -385,6 +390,7 @@ void MusicPlayerApp::begin() {
 ```
 
 All audio operations check for null before use:
+<!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```cpp
 void MusicPlayerApp::update() {
     if (audioPipelineReady && pPlayer) {
@@ -395,6 +401,7 @@ void MusicPlayerApp::update() {
 ```
 
 Cleanup in `end()` properly frees heap memory:
+<!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```cpp
 void MusicPlayerApp::end() {
     stopPlayback();

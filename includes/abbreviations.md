@@ -106,3 +106,19 @@
 *[pivot]: The point on a sprite placed at its screen position
 *[rig]: Connected bones and poses used to animate a figure
 *[pose]: A set of bone angles describing how a figure is positioned
+*[EMA]: Exponential Moving Average; smoothing that blends each reading with previous readings
+*[Kalman filter]: A calculation that estimates a stable value from noisy sensor readings
+*[XBM]: X BitMap; a one-bit image format with on/off pixels stored in bytes
+*[milli-g]: One thousandth of the acceleration due to gravity; 1000 milli-g is one g
+*[SPH]: Smoothed Particle Hydrodynamics; a way to simulate fluids with interacting particles
+*[NTP]: Network Time Protocol; a way to set a clock from a network time server
+*[buffer]: An area of memory holding data while code works on it; the drawing buffer holds the next screen image
+*[framebuffer]: A buffer that stores the pixel values for a screen image
+*[float]: A C++ number type that can hold a fractional part
+*[singleton]: An object shared through one instance
+*[macro]: Named code expanded by the C++ preprocessor before compilation
+*[lambda]: A short unnamed C++ function
+*[ring buffer]: A queue that reuses a fixed amount of memory
+*[potentiometer]: A variable resistor; moving the slider changes the voltage read by the device
+*[GRBW]: Green, Red, Blue, White; the order used to send channels to the LED hardware
+*[mg]: Milli-g in motion readings; one thousandth of the acceleration due to gravity
