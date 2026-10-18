@@ -2,6 +2,10 @@
 
 Welcome! This site covers setup, hardware, and app development for Cyber Fidget.
 
+## Start here
+
+**[Build your first app in the browser](getting-started/first-app.md)** — write an app, watch it run, and send it to your Cyber Fidget. Nothing to install.
+
 ## Quick links
 - **Buy / Pre-order:** [https://cyberfidget.com/buy.html](https://cyberfidget.com/buy.html)
 - **Main site:** [https://cyberfidget.com](https://cyberfidget.com)
@@ -29,8 +33,9 @@ Cyber Fidget's firmware and documentation are open source. Browse the code, lear
 
 ## Already own a Cyber Fidget?
 
+- **[Build your first app](getting-started/first-app.md)** — Write and run an app in your browser.
 - **[Assembly Guide](getting-started/assembly/guide.md)** — Build your device step by step.
-- **[First Flash](getting-started/first-flash-arduino.md)** — Flash firmware and start using your device.
+- **[Advanced: firmware with Arduino](getting-started/first-flash-arduino.md)** — Flash firmware and work on the firmware itself.
 - **[Apps](software/apps.md)** — Explore the 28+ built-in games, tools, and examples.
 
 ---
@@ -41,14 +46,15 @@ You can **run real Cyber Fidget apps in your browser** — no hardware required.
 
 !!! success "No device? No problem."
     - **[Browser Emulator (how-to)](software/emulator.md)** — Quick start, controls, compilation, and troubleshooting.
-    - **[App Builder](https://cyberfidget.com/build)** — Write or generate an app, then click **Compile Emulator** and **Emulator** to run it.
+    - **[App Builder](https://cyberfidget.com/create/)** — Write or generate an app, then click **Compile Emulator** and **Emulator** to run it.
 
 ---
 
 ## Getting started
 
 !!! tip "Keep it simple"
-    Use the "Getting started" pages to flash your first app in minutes. Hover over acronyms for definitions, or see the [Glossary](reference/glossary.md).
+    Use the "Getting started" pages to build and run your first app in minutes. Hover over acronyms for definitions, or see the [Glossary](reference/glossary.md).
 
+- **[Build your first app in the browser](getting-started/first-app.md)** — The quickest way to run your own code.
 - **[Assembly Guide](getting-started/assembly/guide.md)** — Build your device step by step.
-- **[First flash (Arduino)](getting-started/first-flash-arduino.md)** — Flash firmware from the Arduino IDE.
+- **[Advanced: firmware with Arduino](getting-started/first-flash-arduino.md)** — Flash firmware from the Arduino IDE.

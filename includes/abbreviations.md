@@ -100,3 +100,6 @@
 
 *[CC BY-SA]: Creative Commons Attribution-ShareAlike; reuse requires attribution and sharing adaptations under the same license
 *[MIT License]: Permissive code license requiring the license notice to stay with copies
+*[emulator]: A copy of the device that runs in your browser, so you can try an app without a Cyber Fidget
+*[compile]: Turn the code you wrote into a program the device (or the emulator) can run
+*[callback]: A function you give the device to call for you when something happens, such as a button press
