@@ -116,14 +116,14 @@ The arguments are red, green, blue, white. Drag the slider in the emulator and t
 
 The six buttons are numbered like this:
 
-| Position | Name in code |
-|----------|--------------|
-| Top left | `button_TopLeftIndex` |
-| Top right | `button_TopRightIndex` |
-| Middle left | `button_MiddleLeftIndex` |
-| Middle right | `button_MiddleRightIndex` |
-| Bottom left | `button_BottomLeftIndex` (the starter uses this one to go back to the menu) |
-| Bottom right | `button_BottomRightIndex` |
+| Position | Label in the emulator | Name in code |
+|----------|-----------------------|--------------|
+| Top left | Top Left - Up | `button_TopLeftIndex` |
+| Top right | Top Right - Down | `button_TopRightIndex` |
+| Middle left | Middle Left - Left | `button_MiddleLeftIndex` |
+| Middle right | Middle Right - Right | `button_MiddleRightIndex` |
+| Bottom left | Bottom Left - Back | `button_BottomLeftIndex` (the starter uses this one to go back to the menu) |
+| Bottom right | Bottom Right - Select | `button_BottomRightIndex` |
 
 This block has three parts, and each part says where it goes. A "callback" is a function the device calls for you when something happens, here a button press.
 
@@ -150,7 +150,7 @@ Looking for more functions to try? See the [function reference](../reference/fun
 ## 7. Install it on your Cyber Fidget
 
 !!! note "Optional"
-    You only need this step if you have a Cyber Fidget. You can skip it and keep playing in the emulator.
+    You only need this step if you have a Cyber Fidget. You can skip it and keep playing in the emulator. Installing over the cable needs no account and no sign-in.
 
 1. Press **SEND TO MY FIDGET** at the top right of the studio. This adds your app to your Fidget's list of changes. It does not install it yet. A message says "Added to your Fidget's changes. Open My Fidget to send." (If you have not built the app yet, it asks you to build first.)
 
@@ -164,7 +164,7 @@ Looking for more functions to try? See the [function reference](../reference/fun
     2. Press **CONNECT**. Your browser asks which device you want. Pick the one named **Cyber Fidget**.
     3. Give it a name, so you can tell your Fidgets apart.
 
-3. Press **Send to my Fidget**. Wait until it says it is done.
+3. Press **Send to my Fidget**. The page counts up as it sends ("Sending... 1 of 1"). Keep the cable plugged in until it finishes. If something doesn't make it across, the page says so, your Fidget is left as it was, and **Try again** sends it again.
 
 4. On the device, open your app from the menu. It is in the Menu Category you picked in step 2 (the default is Tools). Press the bottom-left button to go back to the menu.
 
