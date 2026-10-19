@@ -223,7 +223,7 @@ The studio has a library of free starter sprites that anyone may reuse. **Copy a
 
 The copied code has four parts: a credit line, the picture as a list of bytes (`heart_bmp`), its width (`heart_w`) and height (`heart_h`), and a comment showing one way to draw it. Those declarations are already at the top of your file. To use the sprite functions, wrap the picture in a `Sprite` and draw it.
 
-**Replace the copied lines with the top-of-file section below, rather than adding a second copy.** It includes the same picture declarations followed by the wrapper. Keep each of `heart_bmp`, `heart_w` and `heart_h` exactly once. (Copied a different starter? Keep your copied lines, and add only the wrapper line, using your sprite's names.) Then insert the `update()` section just above `display.display();`.
+**Replace the copied lines with the top-of-file section below, rather than adding a second copy.** It includes the same picture declarations followed by the wrapper. Keep each of `heart_bmp`, `heart_w` and `heart_h` exactly once. (Copied a different starter? Keep your copied lines, and below them add only the `using namespace cf::gfx;` line and the `static const Sprite ...` line from the block, with your sprite's names in place of `heart_bmp`, `heart_w` and `heart_h`. If you give the `Sprite` a different name than `heartSprite`, use that name in `drawSprite()` too.) Then insert the `update()` section just above `display.display();`.
 
 ![The heart sprite enlarged: a 16 x 16 grid with a white heart shape](../assets/sprites/heart.png){ width="97" }
 
