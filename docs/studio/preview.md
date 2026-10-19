@@ -15,4 +15,6 @@ Speed sets both playback and the saved frame durations. Move it right to play fa
 
 To loop one named animation, use its Play button in the [timeline](animations-and-frames.md). To save a playable image file, use [Download animation](files-and-versions.md).
 
-<!-- Screenshot: live preview, Device toggle, playback and Speed readout. -->
+![Preview - live at the top of the right panel, showing a ball, with the Device button, the play button, the Speed slider and its readout](../assets/media/2d-animation-frames-preview.png)
+
+The [Animations and frames](animations-and-frames.md) page has a clip of the preview playing a four-frame animation while **Speed** changes.

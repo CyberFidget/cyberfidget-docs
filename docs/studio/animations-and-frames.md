@@ -30,4 +30,8 @@ Warnings identify animations the app's code expects but that have no frames. Add
 
 Set timing with [Preview and Speed](preview.md). See [Animation names](animation-states.md) for the relationship to app code.
 
+<video src="../../assets/media/2d-animation-frames.webm" poster="../../assets/media/2d-animation-frames.png" autoplay loop muted playsinline width="560"></video>
+
+*A ball rolls across the screen in four frames: each **+ Frame** copies the current frame, and the Move tool shifts the copy to the right. The frame readout under the timeline counts them (`frame 4 / 4`). The preview plays the frames in a loop; dragging **Speed** slows it down and speeds it up.*
+
 <!-- Screenshot: named animation groups, shared badge, warning and frame menu. -->
