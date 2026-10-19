@@ -17,12 +17,12 @@ LIBS = ('HAL', 'DisplayProxy', 'ButtonManager', 'AudioManager', 'RGBController',
 CLASSES = {'DisplayProxy', 'ButtonManager', 'AudioManager', 'MenuManager',
            'Actor', 'AnimationPlayer', 'MeshActor', 'RigActor'}
 SECTIONS = ['Screen', 'Text', 'Buttons', 'LEDs', 'Sound', 'Slider', 'Motion',
-            'Time', 'Sprites and animation', 'Leaving the app / app control']
+            'Time and math', 'Sprites and animation', 'Leaving the app / app control']
 TABLES = ['Button names', 'LED names', 'Colors', 'Fonts', 'Text alignment',
           'Button event types', 'Animation constants', 'Readable globals']
 CONCEPT_PAGES = ('app-lifecycle', 'update-loop', 'buttons', 'display', 'audio',
-                 'leds', 'slider', 'accelerometer', 'sprites')
-TABLE_STYLE = '<style>.function-reference table { table-layout: fixed; width: 100%; } .function-reference th, .function-reference td { min-width: 0 !important; padding: .6em .5em !important; overflow-wrap: anywhere; } .function-reference th:first-child { width: 44%; } .reference-calls th:nth-child(2), .reference-constants th:last-child { width: 42%; } .reference-calls th:last-child, .reference-constants th:nth-child(2) { width: 14%; } .function-reference code { white-space: normal; overflow-wrap: anywhere; }</style>'
+                 'leds', 'slider', 'accelerometer', 'sprites', '3d-models')
+TABLE_STYLE = '<style>.function-reference table { table-layout: fixed; width: 100%; } .function-reference th, .function-reference td { min-width: 0 !important; padding: .6em .5em !important; overflow-wrap: anywhere; } .function-reference th:first-child { width: 44%; } .reference-calls th:nth-child(2) { width: 42%; } .reference-calls th:last-child, .reference-constants th:nth-child(2), .reference-constants th:last-child { width: 14%; } .reference-constants th:first-child { width: 36%; } .reference-constants th:nth-child(3) { width: 36%; } .function-reference code { white-space: normal; overflow-wrap: anywhere; }</style>'
 
 
 def find_firmware():
@@ -126,7 +126,7 @@ def parse_header(path, firmware):
                     if m[2]:
                         value = int(m[2].strip(), 0)
                     else: value += 1
-                    add(prefix + m[1], m[0].strip().rstrip(','), 'enum', pos+1+m.start(), str(value))
+                    add(prefix + m[1], enum[2] + ' ' + m[0].strip().rstrip(','), 'enum', pos+1+m.start(), str(value))
             elif aggregate:
                 if aggregate[2] in CLASSES:
                     walk(pos + 1, body_end, scope + aggregate[2] + '::',
@@ -212,6 +212,48 @@ def validate_link(link):
             raise ValueError(f'Link {link} has no heading anchor. Fix see in reference.toml; valid anchors: {", ".join(headings)}')
 
 
+def readable_signatures(row):
+    """Keep header types/names/defaults, qualifying calls as in starter methods."""
+    receivers = {'DisplayProxy': 'display', 'ButtonManager': 'buttonManager',
+                 'AudioManager': 'HAL::audioManager()', 'MenuManager': 'MenuManager::instance()',
+                 'Actor': 'player', 'AnimationPlayer': 'clock', 'MeshActor': 'model',
+                 'RigActor': 'figure'}
+    name = row['name']
+    short = name.rsplit('::', 1)[-1]
+    scope = name.rsplit('::', 1)[0] if '::' in name else ''
+    cls = scope.rsplit('::', 1)[-1]
+    constructor = row['kind'] == 'method' and short == cls
+    if constructor:
+        shown = short
+    elif row['kind'] == 'method':
+        shown = receivers.get(cls, cls) + '.' + short
+    elif row['kind'] == 'function':
+        shown = name.removeprefix('cf::gfx::')
+    else:
+        shown = short
+    result = []
+    for declaration in row['declarations']:
+        if declaration['target'] != 'device':
+            continue
+        signature = re.sub(r'\b(?:inline|extern|static)\s+', '', declaration['signature'])
+        if constructor:
+            # The first parameter list can contain nested calls or function types.
+            depth = 0
+            for index in range(signature.index('('), len(signature)):
+                if signature[index] == '(':
+                    depth += 1
+                elif signature[index] == ')':
+                    depth -= 1
+                    if depth == 0:
+                        signature = signature[:index + 1]
+                        break
+        signature = re.sub(r'\b' + re.escape(short) + r'(?=\s*\()',
+                           lambda match: shown, signature, count=1)
+        if signature not in result:
+            result.append(signature)
+    return result
+
+
 def build(firmware, sidecar):
     targets, headers = inventory(firmware)
     data = tomllib.loads(sidecar.read_text(encoding='utf-8'))
@@ -231,7 +273,11 @@ def build(firmware, sidecar):
         for key in ('section', 'use', 'does', 'see'):
             if not isinstance(entry.get(key), str) or not entry[key].strip(): errors.append(f'{name}: add nonempty {key} in {sidecar}.')
         if entry.get('section') not in SECTIONS + TABLES: errors.append(f'{name}: choose a documented section in {sidecar}.')
-        if entry.get('see'):
+        if entry.get('see') == 'none' and name in common:
+            declarations = targets['device'][name] + targets['emulator'][name]
+            if not all(Path(row['header']).name == 'cf_gfx_rig.h' for row in declarations):
+                errors.append(f'{name}: see = "none" is only allowed for cf_gfx_rig.h symbols; add a guide.')
+        if isinstance(entry.get('see'), str) and entry['see'].strip() and entry['see'] != 'none':
             try: validate_link(entry['see'])
             except ValueError as exc: errors.append(str(exc))
     if errors: raise ValueError('\n'.join(errors))
@@ -247,10 +293,29 @@ def build(firmware, sidecar):
     # Keep the authored reader order on the page, and a stable name order in JSON.
     def cell(value): return value.replace('|', '&#124;').replace('\n', ' ')
     def anchor(name): return 'symbol-' + re.sub(r'[^a-z0-9-]', '-', name.lower())
+    def entry(row):
+        signatures = '<br>'.join('`' + cell(sig) + '`' for sig in readable_signatures(row))
+        return signatures + '<br><small>*Example:* `' + cell(row['use']) + '`</small>'
     lines = ['<!-- generated by tools/function-reference/generate.py from the firmware headers - edit reference.toml, not this page. -->',
+             '<!-- SPDX-License-Identifier: CC-BY-SA-4.0 -->',
              '# App function reference', '',
-             'Every function your app can call, on one page. Each row links to the page that explains it.', '',
-             'How to read this: copy a call into your app; start with the [first-app guide](../getting-started/first-app.md).', '',
+             'Every function your app can call, on one page. Guide links lead to explanations; a dash means there is no guide yet.', '',
+             'Start with the [first-app guide](../getting-started/first-app.md).', '',
+             '## Reading the signatures', '',
+             'A signature gives the return type, function name, and each parameter type and name. `void` means no value is returned. A default such as `durationMs = 0` can be left out of a call. The smaller Example line shows concrete values; copy that call rather than the signature.', '',
+             '| Type or symbol | Meaning |', '|---|---|',
+             '| `uint8_t` | Whole number from 0 to 255. |',
+             '| `int16_t` | Whole number from -32,768 to 32,767. |',
+             '| `uint16_t` | Whole number from 0 to 65,535. |',
+             '| `int32_t`, `int`, `long` | Signed whole number; on the device, -2,147,483,648 to 2,147,483,647. |',
+             '| `uint32_t`, `unsigned long` | Whole number from 0 to 4,294,967,295 on the device; used for elapsed time. |',
+             '| `float` | Number that can include a fractional part, such as `0.5f`; about seven significant digits. |',
+             '| `bool` | Either `true` or `false`. |',
+             '| `const char*`, `String` | Text: a pointer to characters ending with a zero character, or a text object. |',
+             '| `const` | The value cannot be changed through this declaration. After a method signature, the method does not change its object. |',
+             '| `&` | In a parameter type, a reference to an existing object, rather than a copy; before a value, its address. |',
+             '| `*`, `nullptr` | A pointer holds an address; `*` in a declaration marks a pointer, and before a pointer reads the object it points to. `nullptr` means no object. |',
+             '| `T` | A type chosen from your arguments; use matching types, such as three `long` values for `constrain()`. |', '',
              TABLE_STYLE, '',
              '<div class="function-reference" markdown="1">', '',
              'These calls are available on both the device and the app emulator. The screen is 128 x 64 pixels with (0, 0) at the top-left; x goes right and y goes down. LEDs are RGBW (red, green, blue, white), with each channel from 0-255.', '',
@@ -275,20 +340,21 @@ def build(firmware, sidecar):
             continue
         constant = section in TABLES and section != 'Readable globals'
         lines += [f'<div class="reference-{"constants" if constant else "calls"}" markdown="1">', '']
-        lines += ['| Name | Value | What it does |' if constant else '| Call | What it does | Learn more |',
-                  '|---|---|---|']
+        lines += ['| Name | Value | What it does | Learn more |' if constant else '| Call | What it does | Learn more |',
+                  '|---|---|---|---|' if constant else '|---|---|---|']
         for row in rows:
             suffix = '-summary' if section == 'Readable globals' else ''
             ident = f'<span id="{anchor(row["name"])}{suffix}"></span>'
+            guide = '-' if row['see'] == 'none' else f'[Guide]({row["see"]})'
             if constant:
                 value = targets['device'][row['name']][0].get('value') or 'font handle'
                 seen = set()
                 while value in targets['device'] and value not in seen:
                     seen.add(value)
                     value = targets['device'][value][0].get('value') or value
-                lines.append(f'| {ident}`{cell(row["use"])}` | `{cell(value)}` | {cell(row["does"])} [More]({row["see"]}) |')
+                lines.append(f'| {ident}{entry(row)} | `{cell(value)}` | {cell(row["does"])} | {guide} |')
             else:
-                lines.append(f'| {ident}`{cell(row["use"])}` | {cell(row["does"])} | [Guide]({row["see"]}) |')
+                lines.append(f'| {ident}{entry(row)} | {cell(row["does"])} | {guide} |')
         lines += ['', '</div>', '']
     lines += ['</div>', '']
     includes = {}
@@ -300,7 +366,8 @@ def build(firmware, sidecar):
                  '', TABLE_STYLE, '', '<div class="function-reference" markdown="1">', '',
                  '| Call | What it does |', '|---|---|']
         for row in rows:
-            table.append(f'| [`{cell(row["use"])}`](../reference/functions.md#{anchor(row["name"])}) | {cell(row["does"])} |')
+            signatures = '<br>'.join('`' + cell(sig) + '`' for sig in readable_signatures(row))
+            table.append(f'| [{signatures}](../reference/functions.md#{anchor(row["name"])})<br><small>*Example:* `{cell(row["use"])}`</small> | {cell(row["does"])} |')
         table += ['', '</div>', '']
         includes[f'includes/reference/{page}.md'] = '\n'.join(table)
     stats = {target: len(rows) for target, rows in targets.items()}

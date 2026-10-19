@@ -2,6 +2,6 @@
 # Invalid fragment
 
 ```cpp
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 missingExampleSymbol();
 ```

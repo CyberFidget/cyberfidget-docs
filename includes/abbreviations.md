@@ -57,6 +57,8 @@
 *[PCM]: Pulse-Code Modulation; uncompressed digital audio samples
 *[PNG]: Portable Network Graphics; a common lossless image file format
 *[PSRAM]: Pseudo-Static RAM; extra memory used to buffer audio while recording and to run apps sent to the Fidget
+*[Q8]: A whole number that stands for a fraction: divide it by 256 to get the real value, so 256 means 1.0
+*[Q14]: A whole number that stands for a fraction: divide it by 16384 to get the real value, so 16384 means 1.0
 *[QIO]: Quad input/output flash mode
 *[RC]: Release Candidate; a test version of the firmware, tagged like v1.4.0-rc1
 *[RGBW]: Red, Green, Blue, White (four-channel LED)
@@ -112,13 +114,18 @@
 *[pose]: A set of bone angles describing how a figure is positioned
 *[EMA]: Exponential Moving Average; smoothing that blends each reading with previous readings
 *[Kalman filter]: A calculation that estimates a stable value from noisy sensor readings
+*[array]: A numbered list of values of one type, such as the bytes of a picture
+*[namespace]: A family name for a group of C++ names that keeps them apart from other code
+*[pointer]: A value that holds the address of something else in memory
+*[fixed-point]: Counting in fractions with whole numbers, for example 256 units per pixel
+*[animation player]: Code that keeps track of time and says which frame of an animation to show
+*[loop mode]: What an animation does after its last frame
 *[XBM]: X BitMap; a one-bit image format with on/off pixels stored in bytes
 *[milli-g]: One thousandth of the acceleration due to gravity; 1000 milli-g is one g
 *[SPH]: Smoothed Particle Hydrodynamics; a way to simulate fluids with interacting particles
 *[NTP]: Network Time Protocol; a way to set a clock from a network time server
 *[buffer]: An area of memory holding data while code works on it; the drawing buffer holds the next screen image
 *[framebuffer]: A buffer that stores the pixel values for a screen image
-*[float]: A C++ number type that can hold a fractional part
 *[singleton]: An object shared through one instance
 *[macro]: Named code expanded by the C++ preprocessor before compilation
 *[lambda]: A short unnamed C++ function

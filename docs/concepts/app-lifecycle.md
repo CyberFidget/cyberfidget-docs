@@ -34,17 +34,17 @@ When you launch an app, the firmware does three things in order:
 
 ## Code example: reset and draw a score
 
-Start with **Code from Blank Template** in the [studio](../getting-started/first-app.md). Paste each section into the `.cpp` file where its comment says. "At the top" means below the `#include` lines and above the app object, not inside a method. Keep the starter's button setup and cleanup, including `setColorsOff()` in `begin()` and `end()`; its bottom-left button returns to the menu.
+Start with **Code from Blank Template** in the [studio](../getting-started/first-app.md). Add each section into the `.cpp` file where its comment says. "At the top" means below the `#include` lines and above the app object, not inside a method. Keep the starter's button setup and cleanup, including `setColorsOff()` in `begin()` and `end()`; its bottom-left button returns to the menu.
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 #include <stdio.h>
 static int score = 0;
 
-// Paste inside begin(), below setColorsOff();
+// Insert inside begin(), below setColorsOff();
 score = 0;
 
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 display.clear();
 display.setFont(ArialMT_Plain_16);
 display.setTextAlignment(TEXT_ALIGN_CENTER);
@@ -65,10 +65,10 @@ The studio adds your app to the menu using the Menu Category you choose. You do 
 
 ## Framework details: how it all connects
 
-??? info "Advanced: how the firmware runs your app"
+!!! advanced "Advanced: how the firmware runs your app"
     You do not need these details to build apps in the studio. The studio and firmware handle app registration and scheduling for you; this section is for writing an app by hand and building it into the firmware.
 
-    **Firmware-source excerpt:** built-in apps are registered in `AppManifest.h` with `APP_ENTRY`. This excerpt assumes the app class, global `myApp` instance and app identifier are defined in the firmware; it is not code to paste into a studio app.
+    **Firmware-source excerpt:** built-in apps are registered in `AppManifest.h` with `APP_ENTRY`. This excerpt assumes the app class, global `myApp` instance and app identifier are defined in the firmware; it is not code to add into a studio app.
 
     <!-- check-examples: skip - firmware source excerpt, not a studio app -->
     ```cpp

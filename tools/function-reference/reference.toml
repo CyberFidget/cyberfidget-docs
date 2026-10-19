@@ -230,7 +230,7 @@ see = "../concepts/leds.md#setting-colors"
 # Sound
 [symbols."HAL::audioManager"]
 section = "Sound"
-use = "auto& audio = HAL::audioManager();"
+use = "AudioManager& audio = HAL::audioManager();"
 does = "Get the sound manager for tones, notes, and microphone readings."
 see = "../concepts/audio.md#playing-tones"
 
@@ -370,81 +370,81 @@ use = "tempC"
 does = "Temperature placeholder in degrees Celsius; both app targets leave it at 0."
 see = "../concepts/accelerometer.md#global-variables"
 
-# Time
+# Time and math
 [symbols."millis"]
-section = "Time"
-use = "auto now = millis();"
+section = "Time and math"
+use = "unsigned long now = millis();"
 does = "Read elapsed time in ms; use unsigned subtraction to time actions across clock wraparound."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 
 [symbols."micros"]
-section = "Time"
-use = "auto nowUs = micros();"
+section = "Time and math"
+use = "unsigned long nowUs = micros();"
 does = "Read elapsed microseconds; both targets have only 1000-microsecond resolution."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 
 [symbols."delay"]
-section = "Time"
+section = "Time and math"
 use = "delay(10);"
-does = "Does nothing in studio apps, on the device and in the browser emulator. Use millis() timing instead of pausing."
+does = "Does nothing on the device or in the app emulator - use millis() timing."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 
 [symbols."delayMicroseconds"]
-section = "Time"
+section = "Time and math"
 use = "delayMicroseconds(100);"
-does = "Does nothing on both targets; use the update loop for timing."
+does = "Does nothing on the device or in the app emulator - use millis() timing."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 
 [symbols."random"]
-section = "Time"
-use = "auto roll = random(1, 7);"
+section = "Time and math"
+use = "int roll = random(1, 7);"
 does = "Choose an integer from the first bound inclusive to the second exclusive; one argument starts at 0."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 
 [symbols."randomSeed"]
-section = "Time"
+section = "Time and math"
 use = "randomSeed(42);"
 does = "Does nothing in studio apps, on the device and in the browser emulator."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 
 [symbols."map"]
-section = "Time"
-use = "auto brightness = map(value, 0, 100, 0, 255);"
+section = "Time and math"
+use = "long brightness = map(value, 0, 100, 0, 255);"
 does = "Rescale an integer range; does not clamp values outside the range."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 
 [symbols."constrain"]
-section = "Time"
-use = "auto bounded = constrain(value, 0L, 100L);"
+section = "Time and math"
+use = "long bounded = constrain(value, 0L, 100L);"
 does = "Clamp a value between inclusive bounds; use long integers on both targets."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 
 [symbols."min"]
-section = "Time"
-use = "auto smaller = min(a, b);"
+section = "Time and math"
+use = "int smaller = min(a, b);"
 does = "Choose the smaller of two values of the same type."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 
 [symbols."max"]
-section = "Time"
-use = "auto larger = max(a, b);"
+section = "Time and math"
+use = "int larger = max(a, b);"
 does = "Choose the larger of two values of the same type."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 
 [symbols."radians"]
-section = "Time"
-use = "auto angle = radians(90.0f);"
+section = "Time and math"
+use = "float angle = radians(90.0f);"
 does = "Convert degrees to radians (one full turn is about 6.283 radians)."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 
 [symbols."degrees"]
-section = "Time"
-use = "auto angle = degrees(1.0f);"
+section = "Time and math"
+use = "float angle = degrees(1.0f);"
 does = "Convert radians to degrees (360 degrees is one full turn)."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 
 [symbols."millis_NOW"]
-section = "Time"
+section = "Time and math"
 use = "millis_NOW"
 does = "The time in ms when this frame started; read it instead of calling millis() repeatedly."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
@@ -628,312 +628,312 @@ see = "../concepts/sprites.md#animations-and-sprite-sheets"
 section = "Sprites and animation"
 use = "MeshActor model;"
 does = "Create a wireframe model actor with default depth 48 and scale 256."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "../concepts/3d-models.md#drawing-a-model"
 
 [symbols."cf::gfx::MeshActor::setMesh"]
 section = "Sprites and animation"
 use = "model.setMesh(&mesh);"
 does = "Bind the model's points and connecting lines."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "../concepts/3d-models.md#drawing-a-model"
 
 [symbols."cf::gfx::MeshActor::mesh"]
 section = "Sprites and animation"
 use = "model.mesh();"
 does = "Read the bound model pointer, or nullptr if none."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "../concepts/3d-models.md#drawing-a-model"
 
 [symbols."cf::gfx::MeshActor::setPos"]
 section = "Sprites and animation"
 use = "model.setPos(64, 32);"
 does = "Place the model's anchor in screen pixels."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "../concepts/3d-models.md#drawing-a-model"
 
 [symbols."cf::gfx::MeshActor::x"]
 section = "Sprites and animation"
 use = "model.x();"
 does = "Read the anchor's horizontal screen position in pixels."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "../concepts/3d-models.md#size-and-perspective"
 
 [symbols."cf::gfx::MeshActor::y"]
 section = "Sprites and animation"
 use = "model.y();"
 does = "Read the anchor's vertical screen position in pixels."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "../concepts/3d-models.md#size-and-perspective"
 
 [symbols."cf::gfx::MeshActor::setScaleQ8"]
 section = "Sprites and animation"
 use = "model.setScaleQ8(256);"
 does = "Set model size; 256 is normal size and 512 is double."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "../concepts/3d-models.md#size-and-perspective"
 
 [symbols."cf::gfx::MeshActor::scaleQ8"]
 section = "Sprites and animation"
 use = "model.scaleQ8();"
 does = "Read size in units where 256 is normal size."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "../concepts/3d-models.md#size-and-perspective"
 
 [symbols."cf::gfx::MeshActor::setRotation"]
 section = "Sprites and animation"
 use = "model.setRotation(0, 64, 0);"
 does = "Rotate about vertical, horizontal, and depth axes; 256 units equal one turn."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "../concepts/3d-models.md#how-turning-works"
 
 [symbols."cf::gfx::MeshActor::spin"]
 section = "Sprites and animation"
 use = "model.spin(1, 0, 0);"
 does = "Add yaw, pitch, roll steps; 256 steps equal one turn."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "../concepts/3d-models.md#how-turning-works"
 
 [symbols."cf::gfx::MeshActor::yaw"]
 section = "Sprites and animation"
 use = "model.yaw();"
 does = "Read rotation about the model's vertical axis; 0-255 is one turn."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "../concepts/3d-models.md#how-turning-works"
 
 [symbols."cf::gfx::MeshActor::pitch"]
 section = "Sprites and animation"
 use = "model.pitch();"
 does = "Read rotation about the model's horizontal axis; 0-255 is one turn."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "../concepts/3d-models.md#how-turning-works"
 
 [symbols."cf::gfx::MeshActor::roll"]
 section = "Sprites and animation"
 use = "model.roll();"
 does = "Read rotation about the model's depth axis; 0-255 is one turn."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "../concepts/3d-models.md#how-turning-works"
 
 [symbols."cf::gfx::MeshActor::setPerspective"]
 section = "Sprites and animation"
 use = "model.setPerspective(48);"
 does = "Set viewing depth; 0 disables perspective size changes with distance."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "../concepts/3d-models.md#size-and-perspective"
 
 [symbols."cf::gfx::MeshActor::perspective"]
 section = "Sprites and animation"
 use = "model.perspective();"
 does = "Read the viewing depth; 0 means no perspective."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "../concepts/3d-models.md#size-and-perspective"
 
 [symbols."cf::gfx::MeshActor::draw"]
 section = "Sprites and animation"
 use = "model.draw(display);"
 does = "Draw model lines; skip lines with either end behind the near viewing plane."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "../concepts/3d-models.md#drawing-a-model"
 
 [symbols."cf::gfx::MeshActor::projectPoint"]
 section = "Sprites and animation"
 use = "model.projectPoint(0, 0, 0, x, y);"
 does = "Convert a model point to screen x/y; keep coordinates within about +/-8192; false if hidden."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "../concepts/3d-models.md#pinning-something-to-a-point-on-the-model"
 
 [symbols."cf::gfx::RigActor::RigActor"]
 section = "Sprites and animation"
 use = "RigActor figure;"
 does = "Create an actor for connected bones, poses, and falling-body motion."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::RigActor::setRig"]
 section = "Sprites and animation"
 use = "figure.setRig(&rig);"
 does = "Bind bones and poses, clearing playback and physics state."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::RigActor::rig"]
 section = "Sprites and animation"
 use = "figure.rig();"
 does = "Read the bound rig pointer, or nullptr if none."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::RigActor::setPos"]
 section = "Sprites and animation"
 use = "figure.setPos(64, 32);"
 does = "Place the rig's origin in screen pixels."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::RigActor::x"]
 section = "Sprites and animation"
 use = "figure.x();"
 does = "Read the horizontal screen position in pixels."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::RigActor::y"]
 section = "Sprites and animation"
 use = "figure.y();"
 does = "Read the vertical screen position in pixels."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::RigActor::state"]
 section = "Sprites and animation"
 use = "figure.state();"
 does = "Read whether the figure is posing, animating, falling, or standing up."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::RigActor::isRagdoll"]
 section = "Sprites and animation"
 use = "figure.isRagdoll();"
 does = "True during falling-body motion or standing up."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::RigActor::play"]
 section = "Sprites and animation"
 use = "figure.play(\"walk\");"
 does = "Play a named animation or pose; also accepts an animation pointer or reference; false if missing."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::RigActor::blend"]
 section = "Sprites and animation"
 use = "figure.blend(\"idle\", \"reach\", 128);"
 does = "Blend two poses; amount 0-255 moves smoothly from the first to the second."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::RigActor::ragdoll"]
 section = "Sprites and animation"
 use = "figure.ragdoll(1.0f, -2.0f);"
 does = "Start falling-body physics with x/y impulse; false without a valid rig of at most 11 bones."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::RigActor::pin"]
 section = "Sprites and animation"
 use = "figure.pin(\"head\", 64, 16);"
 does = "Hold one bone at screen x/y during falling-body motion; also accepts a bone index."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::RigActor::unpin"]
 section = "Sprites and animation"
 use = "figure.unpin();"
 does = "Release the held bone."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::RigActor::standUp"]
 section = "Sprites and animation"
 use = "figure.standUp();"
 does = "Start standing up from a falling-body pose."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::RigActor::update"]
 section = "Sprites and animation"
 use = "figure.update(millis());"
 does = "Advance animation by ms or physics by one step; call each update."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::RigActor::draw"]
 section = "Sprites and animation"
 use = "figure.draw(display);"
 does = "Draw the current connected-bone figure."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::RigActor::boneCount"]
 section = "Sprites and animation"
 use = "figure.boneCount();"
 does = "Read the number of bones in the bound rig."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::RigActor::boneTransform"]
 section = "Sprites and animation"
 use = "figure.boneTransform(0);"
 does = "Read a valid bone index's calculated start, end, and angle; no bounds check."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::RigActor::particleCount"]
 section = "Sprites and animation"
 use = "figure.particleCount();"
 does = "Read the number of physics points used by falling-body motion."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::RigActor::particle"]
 section = "Sprites and animation"
 use = "figure.particle(0);"
 does = "Read a physics point's x/y; invalid index returns (0, 0)."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::RigActor::maxHardConstraintError"]
 section = "Sprites and animation"
 use = "figure.maxHardConstraintError();"
 does = "Read the largest length error in pixels for rigid physics connections."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::sinQ14"]
 section = "Sprites and animation"
 use = "sinQ14(64);"
 does = "Read sine scaled by 16384; 256 angle units equal one turn."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "../concepts/3d-models.md#the-drawing-math"
 
 [symbols."cf::gfx::cosQ14"]
 section = "Sprites and animation"
 use = "cosQ14(0);"
 does = "Read cosine scaled by 16384; 256 angle units equal one turn."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "../concepts/3d-models.md#the-drawing-math"
 
 [symbols."cf::gfx::degreesToBinaryAngle"]
 section = "Sprites and animation"
 use = "degreesToBinaryAngle(90);"
 does = "Convert degrees to a wrapped 0-255 angle; 256 units equal one turn."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::blendBinaryAngle"]
 section = "Sprites and animation"
 use = "blendBinaryAngle(0, 64, 128);"
 does = "Blend angles by the shorter turn; amount 0-255 selects first to second."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::interpolateRigInteger"]
 section = "Sprites and animation"
 use = "interpolateRigInteger(0, 100, 128);"
 does = "Blend integers; amount 0-255 selects first to second, rounding halfway away from zero."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::rotateRigOffset"]
 section = "Sprites and animation"
 use = "rotateRigOffset(10, 0, 64, x, y);"
 does = "Rotate a pixel offset into output x/y; 256 angle units equal one turn."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::rigPoseDegrees"]
 section = "Sprites and animation"
 use = "rigPoseDegrees(&pose, 0);"
 does = "Read a valid bone index's pose angle in degrees; null pose data returns 0."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::rigPoseRootDy"]
 section = "Sprites and animation"
 use = "rigPoseRootDy(&pose);"
 does = "Read a pose's vertical origin offset in pixels; null pose returns 0."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::rigRoundRatioHalfAwayFromZero"]
 section = "Sprites and animation"
 use = "rigRoundRatioHalfAwayFromZero(5, 2);"
 does = "Divide with halfway values rounded away from zero; denominator must be positive."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::solveRigPose"]
 section = "Sprites and animation"
 use = "solveRigPose(rig, &pose, transforms, 16);"
 does = "Calculate bone positions; also accepts two poses and a 0-255 blend; false for invalid capacity or bone order."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::findRigPose"]
 section = "Sprites and animation"
 use = "findRigPose(rig, \"idle\");"
 does = "Look up a pose by name; nullptr if missing."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::findRigAnimation"]
 section = "Sprites and animation"
 use = "findRigAnimation(rig, \"walk\");"
 does = "Look up a bone animation by name; nullptr if missing."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::smoothstepRigAmount"]
 section = "Sprites and animation"
 use = "smoothstepRigAmount(128);"
 does = "Ease a 0-255 blend amount so its start and finish are gradual."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 # Leaving the app / app control
 [symbols."MenuManager::instance"]
 section = "Leaving the app / app control"
-use = "auto& menu = MenuManager::instance();"
+use = "MenuManager& menu = MenuManager::instance();"
 does = "Get the shared menu controller."
 see = "../concepts/app-lifecycle.md#the-lifecycle-in-practice"
 
@@ -1176,85 +1176,85 @@ see = "../concepts/sprites.md#drawing-a-sprite"
 section = "Animation constants"
 use = "RIG_RENDER_BAKED16"
 does = "Use one of 16 image angles; fall back to lines when images are absent."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::RIG_RENDER_LINE"]
 section = "Animation constants"
 use = "RIG_RENDER_LINE"
 does = "Draw bones as lines."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::RIG_RENDER_FLAT"]
 section = "Animation constants"
 use = "RIG_RENDER_FLAT"
 does = "Draw bones as lines, matching LINE mode."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::RigActor::STATE_POSE"]
 section = "Animation constants"
 use = "RigActor::STATE_POSE"
 does = "Holding a pose."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::RigActor::STATE_ANIMATION"]
 section = "Animation constants"
 use = "RigActor::STATE_ANIMATION"
 does = "Playing bone animation."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::RigActor::STATE_RAGDOLL"]
 section = "Animation constants"
 use = "RigActor::STATE_RAGDOLL"
 does = "Falling-body physics is active."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::RigActor::STATE_STANDING"]
 section = "Animation constants"
 use = "RigActor::STATE_STANDING"
 does = "Returning from physics to standing."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::kFocal"]
 section = "Animation constants"
 use = "kFocal"
 does = "Perspective projection focal length in pixels."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "../concepts/3d-models.md#the-drawing-math"
 
 [symbols."cf::gfx::kNearZ"]
 section = "Animation constants"
 use = "kNearZ"
 does = "Minimum visible model depth."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "../concepts/3d-models.md#the-drawing-math"
 
 [symbols."cf::gfx::kDefaultDepth"]
 section = "Animation constants"
 use = "kDefaultDepth"
 does = "Initial model viewing depth."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "../concepts/3d-models.md#size-and-perspective"
 
 [symbols."cf::gfx::kScaleBaseQ8"]
 section = "Animation constants"
 use = "kScaleBaseQ8"
 does = "Normal model size; 256 means 1x."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "../concepts/3d-models.md#size-and-perspective"
 
 [symbols."cf::gfx::kMaxRigBones"]
 section = "Animation constants"
 use = "kMaxRigBones"
 does = "Maximum bones for pose calculation."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::kMaxRigParticles"]
 section = "Animation constants"
 use = "kMaxRigParticles"
 does = "Maximum physics points for falling-body motion."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [symbols."cf::gfx::kMaxRigConstraints"]
 section = "Animation constants"
 use = "kMaxRigConstraints"
 does = "Maximum physics connections."
-see = "../studio/3d-models.md#using-a-model-in-an-app"
+see = "none"
 
 [ignore]
 "AudioManager::AudioManager" = "Exposed only in emulator headers; outside the portable app intersection."

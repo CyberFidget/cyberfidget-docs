@@ -21,12 +21,12 @@ The display works like an Etch A Sketch: you clear it, draw everything fresh, th
 - **Type:** Monochrome OLED (black and white)
 - **Coordinate system:** (0, 0) is top-left. X increases right, Y increases down.
 
-Inside the [studio starter](../getting-started/first-app.md), `display` is ready to use in `begin()`, `update()` and `end()`. Paste fragments where their comments say; the starter shows the drawing with its final `display.display()` call.
+Inside the [studio starter](../getting-started/first-app.md), `display` is ready to use in `begin()`, `update()` and `end()`. Add fragments where their comments say; the starter shows the drawing with its final `display.display()` call.
 
 `DisplayProxy` is the app interface, the set of drawing functions your app can use. In a helper at the top of the file, use `HAL::displayProxy()` to get the screen instead of the class member `display`.
 
 ```cpp
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 display.clear();
 display.setTextAlignment(TEXT_ALIGN_CENTER);
 display.setFont(ArialMT_Plain_16);
@@ -67,7 +67,7 @@ Until you call `display()`, nothing appears on the OLED. All drawing goes to an 
 ### Text
 
 ```cpp
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 display.clear();
 display.setFont(ArialMT_Plain_10);
 display.setTextAlignment(TEXT_ALIGN_LEFT);
@@ -80,7 +80,7 @@ display.drawStringMaxWidth(10, 30, 108, "Short text");
 ### Shapes
 
 ```cpp
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 display.clear();
 display.drawRect(10, 10, 50, 20);
 display.fillRect(10, 40, 50, 16);
@@ -93,13 +93,15 @@ display.drawVerticalLine(64, 8, 48);
 
 ### Bitmaps (drawXbm)
 
+`const` keeps the image data unchanged. Each `uint8_t` is a whole number from 0 to 255, stored in one byte.
+
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 static const uint8_t smile[8] = {
     0x3c, 0x42, 0xa5, 0x81, 0xa5, 0x99, 0x42, 0x3c
 };
 
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 display.clear();
 // drawXbm(x, y, width, height, data)
 display.drawXbm(60, 28, 8, 8, smile);
@@ -114,10 +116,10 @@ A bitmap is an array of pixels. XBM stores one on/off bit per pixel, with the le
 The fixed `score` value below demonstrates drawing text. For a score that changes when you press a button, use the state and callback in [Buttons & Events](buttons.md#code-example-callback-registration). Change `ready` to `false` to draw only the circle outline.
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 #include <stdio.h>
 
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 int score = 42;       // Replace with your game's score.
 bool ready = true;
 display.clear();
@@ -131,7 +133,9 @@ char text[24];
 snprintf(text, sizeof(text), "Score: %d", score);
 display.drawString(14, 28, text);
 display.drawCircle(64, 52, 6);
-if (ready) display.fillCircle(64, 52, 4);
+if (ready) {
+    display.fillCircle(64, 52, 4);
+}
 ```
 
 ---
@@ -142,7 +146,7 @@ if (ready) display.fillCircle(64, 52, 4);
 
 ## Framework detail: DisplayProxy wrapping SSD1306Wire
 
-??? info "Advanced: how the firmware drives the display"
+!!! advanced "Advanced: how the firmware drives the display"
     You do not need these details to build apps in the studio. They describe the firmware internals for readers writing an app by hand and building it into the firmware.
 
     Inside the firmware, the HAL creates a `SSD1306Wire` display driver and wraps it in a `DisplayProxy`. A driver is code that talks to a hardware part. This firmware-source excerpt is not for a studio app:

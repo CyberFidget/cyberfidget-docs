@@ -2,11 +2,11 @@
 
 A layer is a separate set of pixels in a frame. Layers let you edit part of a picture without disturbing the rest. Their order determines how the drawing is assembled on the device.
 
-On desktop and laptop, **Layers** is in the right panel below Preview. On a phone it is below Preview in the stack beneath the canvas.
+On desktop and laptop, **Layers** is in the right panel below Preview. On a phone, tap the **Layers** chip in the bar below the canvas to open the **Layers** sheet. **New** sits in the sheet's title row.
 
 | Control | What it does | Shortcut | Touch equivalent |
 |---|---|---|---|
-| New layer | Add a layer to draw on. | None | Tap New layer beside Layers. |
+| New layer | Add a layer to draw on. | None | Tap New in the Layers sheet. |
 | New layers on all frames | Add new layers across frames rather than only the current frame. | None | Tap the checkbox beneath the list before adding a layer. |
 | Layer row | Select the layer to edit; the highlighted row marks the active layer. | Shift+Up / Shift+Down selects previous / next layer | Tap its row. |
 | Drag handle | Reorder layers; this changes drawing order on the device. | None | Drag the handle to another position. |
@@ -15,6 +15,6 @@ On desktop and laptop, **Layers** is in the right panel below Preview. On a phon
 | Clear layer | Remove the active layer's pixels while keeping the layer. | None | Tap **... > Clear layer**, or **Edit > Clear layer**. |
 | Delete | Remove the layer. | None | Tap **... > Delete**. |
 
-Select a layer by choosing its row; the highlighted row is the layer you are drawing on. The reorder hint describes draw order. It is hidden on laptop-width screens (993 to 1500 pixels wide) and shows on wider desktops and in the phone layout.
+Select a layer by choosing its row; the highlighted row is the layer you are drawing on. The reorder hint describes draw order. It is hidden on laptop-width screens (993 to 1500 pixels wide), shows on wider desktops, and is not part of the phone layout.
 
 <!-- Screenshot: layer rows with selection, visibility and the row menu. -->

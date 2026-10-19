@@ -8,7 +8,7 @@ In a timeline with animation groups, each animation has a header with its name, 
 
 ![State strip with colored run, duck, and jump animation groups](../assets/studio/art-states-strip.png)
 
-On desktop and laptop, the timeline is beneath the canvas. On a phone it is below Preview, Layers and saving controls.
+On desktop and laptop, the timeline is beneath the canvas. On a phone, tap the **Frames** chip below the canvas to open the **Frames** sheet, which holds the animation groups.
 
 ## Work with an animation
 

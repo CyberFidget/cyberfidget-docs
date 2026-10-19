@@ -37,12 +37,12 @@ Use these constants when setting individual LEDs. The strip order is GRBW (see [
 
 ## Setting colors
 
-Paste each example into `update()` of the [studio starter](../getting-started/first-app.md), where its comment says. The starter calls `setColorsOff()` in `begin()` and `end()`, so every app starts and finishes with its lights off.
+Add each example into `update()` of the [studio starter](../getting-started/first-app.md), where its comment says. The starter calls `setColorsOff()` in `begin()` and `end()`, so every app starts and finishes with its lights off.
 
 You can set all lights, the front three, or one pixel:
 
 ```cpp
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 // Arguments after the pixel index are red, green, blue, white (0-255).
 setDeterminedColorsAll(255, 0, 0, 0);          // All four red.
 setDeterminedColorsFront(0, 255, 0, 0);        // Front three green.
@@ -58,7 +58,7 @@ LED changes appear automatically. Studio apps do not need `updateStrip()`; that 
 ## Code example: color cycling and reactive LEDs
 
 ```cpp
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 // mapToRainbow takes a hue from 0 to 4095 and a brightness from 0 to 255.
 int input = (millis() / 20) % 4096;
 uint8_t r, g, b;
@@ -82,7 +82,7 @@ The inverted slider value is low at the bottom and high at the top of the device
 
 ## Framework details
 
-??? info "Advanced: how the firmware drives the LEDs"
+!!! advanced "Advanced: how the firmware drives the LEDs"
     You do not need these details to build apps in the studio. They describe the firmware internals for readers writing an app by hand and building it into the firmware.
 
     ### RGBController and SK6812

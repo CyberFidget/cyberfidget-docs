@@ -73,6 +73,58 @@ class ReferenceTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'has no page'):
             gen.validate_link('../concepts/imaginary-page.md')
 
+    def test_explicit_no_guide_renders_dash_and_stays_out_of_concept_tables(self):
+        page, symbols, _, _, includes = gen.build(self.firmware, TOOL / 'reference.toml')
+        rows = json.loads(symbols)['symbols']
+        without_guides = [row for row in rows if row['see'] == 'none']
+        self.assertTrue(without_guides)
+        self.assertTrue(any(row['kind'] == 'method' for row in without_guides))
+        self.assertTrue(any(row['section'] in gen.TABLES for row in without_guides))
+        for row in without_guides:
+            anchor = 'symbol-' + re.sub(r'[^a-z0-9-]', '-', row['name'].lower())
+            line = next(line for line in page.splitlines() if f'id="{anchor}"' in line)
+            self.assertTrue(line.endswith(' - |'), line)
+            self.assertNotIn('[Guide]', line)
+            self.assertNotIn('[More]', line)
+            for table in includes.values():
+                self.assertNotIn(f'functions.md#{anchor})', table)
+        self.assertNotIn('](none)', page)
+
+    def test_missing_blank_or_invalid_guide_is_rejected(self):
+        for replacement in ('', 'see = ""', 'see = "   "', 'see = false'):
+            with self.subTest(replacement=replacement):
+                content = self.sidecar.replace('see = "none"', replacement, 1)
+                error = self.check_sidecar(content)
+                self.assertIn('cf::gfx::RigActor::RigActor: add nonempty see', error)
+
+    def test_no_guide_marker_does_not_allow_broken_links(self):
+        content = self.sidecar.replace('see = "none"',
+            'see = "../concepts/3d-models.md#imaginary-heading"', 1)
+        self.assertIn('has no heading anchor', self.check_sidecar(content))
+
+    def test_no_guide_marker_is_restricted_to_rig_header(self):
+        # Select a known non-rig symbol independently of its current guide anchor.
+        content = re.sub(r'(\[symbols\."HAL::setRgbLed"\][\s\S]*?see = )"[^"]+"',
+                         r'\1"none"', self.sidecar, count=1)
+        self.assertIn('HAL::setRgbLed: see = "none" is only allowed for cf_gfx_rig.h',
+                      self.check_sidecar(content))
+
+    def test_constructor_declarations_and_constant_guide_column(self):
+        page, symbols, _, _, _ = gen.build(self.firmware, TOOL / 'reference.toml')
+        rows = {row['name']: row for row in json.loads(symbols)['symbols']}
+        for cls in ('Actor', 'AnimationPlayer', 'MeshActor', 'RigActor'):
+            signatures = gen.readable_signatures(rows[f'cf::gfx::{cls}::{cls}'])
+            for signature in signatures:
+                self.assertTrue(signature.startswith(cls + '('), signature)
+                self.assertNotRegex(signature, r'\)\s*:')
+        self.assertIn('| Name | Value | What it does | Learn more |', page)
+        for row in rows.values():
+            if row['section'] in gen.TABLES and row['see'] == 'none':
+                anchor = 'symbol-' + re.sub(r'[^a-z0-9-]', '-', row['name'].lower())
+                line = next(line for line in page.splitlines() if f'id="{anchor}"' in line)
+                self.assertEqual(line.split('|')[-2].strip(), '-')
+                self.assertEqual(line.split('|')[-3].strip(), row['does'])
+
     def test_parser_preserves_overloads_visibility_and_lines(self):
         header = '''// hidden() is not a declaration.
 #ifdef HOST_TEST
@@ -126,6 +178,35 @@ public:
             for row in symbol['declarations']:
                 source_line = (self.firmware / row['header']).read_text(encoding='utf-8').splitlines()[row['line'] - 1]
                 self.assertTrue(source_line.strip())
+
+    def test_signatures_examples_defaults_overloads_and_types(self):
+        page, symbols, _, _, includes = gen.build(self.firmware, TOOL / 'reference.toml')
+        rows = {row['name']: row for row in json.loads(symbols)['symbols']}
+        self.assertIn('## Reading the signatures', page)
+        for term in ('uint8_t', 'int16_t', 'uint16_t', 'uint32_t', 'float', 'bool',
+                     'const char*', 'String', 'nullptr'):
+            self.assertIn('`' + term + '`', page)
+        for name, text in (
+                ('HAL::setRgbLed', 'void HAL::setRgbLed(int index, uint8_t r, uint8_t g, uint8_t b, uint8_t w)'),
+                ('DisplayProxy::drawString', 'uint16_t display.drawString(int16_t x, int16_t y, const String& text)'),
+                ('sliderPosition_8Bits_Filtered', 'int sliderPosition_8Bits_Filtered')):
+            self.assertIn(text, gen.readable_signatures(rows[name]))
+            self.assertIn('`' + text + '`<br><small>*Example:* `' + rows[name]['use'], page)
+        self.assertGreater(len(gen.readable_signatures(rows['random'])), 1)
+        self.assertTrue(any('= 0' in sig for sig in gen.readable_signatures(rows['AudioManager::playNote'])))
+        self.assertTrue(gen.readable_signatures(rows['WHITE'])[0].startswith('OLEDDISPLAY_COLOR WHITE'))
+        for row in rows.values():
+            self.assertTrue(row['signature'])
+            self.assertTrue(row['use'])
+            for signature in gen.readable_signatures(row):
+                self.assertIn('`' + signature.replace('|', '&#124;') + '`', page)
+        self.assertIn('## Time and math', page)
+        self.assertNotRegex('\n'.join(row['use'] for row in rows.values()), r'\bauto\b')
+        for name in ('delay', 'delayMicroseconds'):
+            self.assertIn('Does nothing on the device', rows[name]['does'])
+            self.assertIn('use millis() timing', rows[name]['does'])
+        self.assertIn('uint16_t display.drawString(', includes['includes/reference/display.md'])
+        self.assertIn('<small>*Example:*', includes['includes/reference/display.md'])
 
     def test_concept_tables_match_destinations_and_reference_anchors(self):
         page, symbols, _, _, includes = gen.build(self.firmware, TOOL / 'reference.toml')

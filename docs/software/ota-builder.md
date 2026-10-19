@@ -56,7 +56,7 @@ out of your app's code: whatever your code calls itself is what appears
 there. To change it, change the name in your code and this follows.
 
 Renaming your app does not rewrite your code. That is deliberate -- if you
-pasted or hand-wrote your app, a rename that quietly renamed things inside
+wrote your app by hand, a rename that quietly renamed things inside
 it would be editing your work without asking.
 
 ---
@@ -117,10 +117,10 @@ The emulator has no microphone input. Test microphone apps on a Cyber Fidget. Th
 
 ## App lifecycle
 
-To light the LEDs blue while the app runs, paste this fragment into the **Code from Blank Template** starter. The four arguments are red, green, blue and white brightness, from 0 to 255. Keep its button setup and cleanup, including `setColorsOff()` in `begin()` and `end()`.
+To light the LEDs blue while the app runs, add this fragment into the **Code from Blank Template** starter. The four arguments are red, green, blue and white brightness, from 0 to 255. Keep its button setup and cleanup, including `setColorsOff()` in `begin()` and `end()`.
 
 ```cpp
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 setDeterminedColorsAll(0, 0, 64, 0);
 ```
 

@@ -38,21 +38,21 @@ The firmware keeps a drawing buffer, a working copy of the screen in memory. You
 
 ## millis()-based timing vs delay()
 
-Use `millis()` for timing. Paste these examples into the [studio starter](../getting-started/first-app.md) where each comment says. The starter already calls `display.display()` at the end of `update()`.
+Use `millis()` for timing. Add these examples into the [studio starter](../getting-started/first-app.md) where each comment says. The starter already calls `display.display()` at the end of `update()`.
 
 - **delay(100)** - Does nothing in studio apps on the device or in the browser emulator. It does not create a pause. In built-in firmware code it can block the calling task.
 - **millis()** -- Returns elapsed milliseconds since boot. Check it each frame and act when enough time has passed.
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 static unsigned long lastFrameTime = 0;
 static int currentFrame = 0;
 
-// Paste inside begin(), below setColorsOff();
+// Insert inside begin(), below setColorsOff();
 lastFrameTime = millis();
 currentFrame = 0;
 
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 unsigned long frameTime = millis();
 if (frameTime - lastFrameTime >= 100) {  // 10 animation steps per second
     lastFrameTime = frameTime;
@@ -70,20 +70,22 @@ display.fillCircle(15 + currentFrame * 14, 32, 5);
 ## Code example: frame-based animation
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 static unsigned long lastStep = 0;
 static int dropY = 8;
 
-// Paste inside begin(), below setColorsOff();
+// Insert inside begin(), below setColorsOff();
 lastStep = millis();
 dropY = 8;
 
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 unsigned long frameTime = millis();
 if (frameTime - lastStep >= 100) {
     lastStep = frameTime;
     dropY += 4;
-    if (dropY > 56) dropY = 8;
+    if (dropY > 56) {
+        dropY = 8;
+    }
 }
 // Draw on every update, even between movement steps.
 display.clear();
@@ -102,7 +104,7 @@ You can update logic at a different rate than the draw rate. For example, change
 
 ## Framework detail: TASK_20MS and HAL::loopHardware()
 
-??? info "Advanced: how the firmware schedules updates"
+!!! advanced "Advanced: how the firmware schedules updates"
     You do not need these details to build apps in the studio. They describe the firmware internals for readers writing an app by hand and building it into the firmware.
 
     Inside the firmware, the main loop uses a 20 ms task interval (`TASK_20MS = 20`). This firmware-source excerpt is not code for a studio app:

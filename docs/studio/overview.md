@@ -67,7 +67,7 @@ An account holds up to 30 projects and 10 megabytes (MB) in total. When it is fu
 
 Signing out hides your account projects in that browser; they come back when you sign in again. Deleting an account project deletes it from your account and from the browser.
 
-Signing in also adds **My Assets**, an account-level library of sprites and models you can reuse across projects -- see [Your Sprite Library](your-sprite-library.md).
+Signing in also lets you keep a **My library**, an account-level library of sprites and models you can reuse across projects. You save into it with **Save to My Assets** and take art out of it from the **All files** window -- see [Your Sprite Library](your-sprite-library.md).
 
 Taking something out of a library copies it into your project. Editing that copy never changes the original.
 
@@ -76,15 +76,19 @@ Taking something out of a library copies it into your project. Editing that copy
 ## Where to go next
 
 - [Drawing and Version History](drawing-and-versions.md) -- saving checkpoints and restoring earlier work
-- [Your Sprite Library](your-sprite-library.md) -- Project Files, My Assets, and Starter Sprites
+- [Your Sprite Library](your-sprite-library.md) -- the All files window, Add art, My library, and Free starters
 - [Animation names](animation-states.md) -- giving a sprite more than one action
 - [3D Models](3d-models.md) -- building and using wireframe models
 
 ## The 2D workspace
 
+On desktop and laptop, a strip of file tabs runs above the workspace. At its left are two buttons: **All files** (with a count of the project's files) opens a window with **In this project**, **My library** and **Free starters** tabs, and **Add art** opens a menu to draw a new sprite or bring art in. Each open file is a tab beside them. The [Your Sprite Library](your-sprite-library.md) page covers both.
+
 On desktop and laptop, tools sit left of the canvas, options and Edit above it, view controls below it, the timeline beneath that, and Preview, Layers and file controls in the right panel. A narrower laptop can hide the current tool's name in the options bar; its settings remain available.
 
-On a phone, Project Files sits above wrapping tool rows. The editor then stacks options, canvas, view controls, Preview, Layers, saving controls and the timeline. Scroll to reach the lower sections. The tool bar provides the tools and Undo/Redo; Grid is in the canvas footer and Edit menu.
+![The 2D workspace on a desktop: file tabs on top, tools on the left, canvas in the middle, and Preview, Layers and version controls on the right](../assets/media/new-sprite-drawn.png)
+
+On a phone, the 2D tab is a single column. From top to bottom: a bar with the **Files** chip (it shows the open sprite's name) and the Grid, zoom and **Fit** controls; the canvas; a bar with **Layers**, the frame thumbnails, **Frames** and **Play**; a bar with the current tool's hint or option buttons plus **Edit**, **Undo** and **Redo**; and a row of tools ending in **More**. The chips open sheets that slide up over the canvas: **Files**, **Layers**, **Frames**, **Edit**, the tool's options, and **All tools**. On a short phone held sideways, the tools move to the left of the canvas.
 
 - [Tools](tools.md) -- drawing and selecting pixels
 - [Tool options](tool-options.md) -- settings for the selected tool and its hint
@@ -95,6 +99,3 @@ On a phone, Project Files sits above wrapping tool rows. The editor then stacks 
 - [Preview and Speed](preview.md) -- playback and timing
 - [Files and versions](files-and-versions.md) -- saves and downloads
 - [Sharing](sharing.md) -- project and sprite links
-
-
-<!-- Screenshot: desktop and phone workspace. -->

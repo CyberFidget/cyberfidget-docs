@@ -11,6 +11,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **A2DP** | Advanced Audio Distribution Profile -- Bluetooth stereo audio streaming protocol. |
 | **ADC** | Analog-to-Digital Converter -- converts the slider's voltage to a number (e.g. 0-4095). |
 | **API** | Application Programming Interface -- how code talks to a library or service. |
+| **Binary angle** | An angle stored as a whole number from 0 to 255, where 256 steps make one full turn (64 is a quarter turn). The 3D model functions use binary angles. |
 | **BLE** | Bluetooth Low Energy -- used for wireless features on the device. |
 | **CC BY-SA** | Creative Commons Attribution-ShareAlike; reuse requires attribution and sharing adaptations under the same license. |
 | **CC0** | Creative Commons Zero - a public-domain dedication that allows reuse without the usual copyright restrictions. |
@@ -66,6 +67,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **PEM** | Privacy-Enhanced Mail - a text format for storing keys, used for the release signing key. |
 | **PNG** | Portable Network Graphics - a common lossless image file format. Aseprite can export its sprite sheets as PNG images. |
 | **PSRAM** | Pseudo-Static RAM - extra memory on the ESP32 module, used to buffer audio while recording and to run apps sent to the Fidget (a little slower than the chip's internal memory). |
+| **Q8 / Q14** | Whole numbers that stand for fractions: a Q8 value divided by 256, or a Q14 value divided by 16384, gives the real value. A model size of 256 in Q8 means 1.0, normal size. |
 | **QIO** | Quad input/output - a flash mode accepted in release metadata. |
 | **RC** | Release Candidate - a test version of the firmware, tagged like `v1.4.0-rc1`. On the device and website it is called a "test version." |
 | **RGBW** | Red, Green, Blue, White -- four-channel LED color. |
@@ -87,6 +89,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **WebAssembly** | Binary instruction format for the web; the emulator compiles C++ to WASM. |
 | **WebSocket** | A persistent two-way connection between a browser page and a server -- the phone companion's live caption link to the device. |
 | **Wi-Fi** | Wireless Fidelity -- used for OTA and network features. |
+| **Wireframe** | A 3D shape drawn only as points and the straight lines between them, with no solid sides. |
 | **XBM** | X BitMap; a one-bit image format with on/off pixels stored in bytes. |
 
 ---
@@ -95,21 +98,30 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 
 | Term | Meaning |
 |------|---------|
+| ***** | In a declaration, marks a pointer that holds an address; before a pointer, reads the object at that address. |
+| **&** | In a parameter type, a reference to an existing object rather than a copy; before a value, its address. |
 | **Actor** | A thing on the screen in an app: a position plus an animation that is playing. See [Sprites & Animation](../concepts/sprites.md#actors). |
 | **Animation** | Named sequence of sprite frames for one action; the editor's name for an animation state. |
+| **Animation player** | Code that keeps track of time and says which frame of an animation to show; `AnimationPlayer` in the sprite functions. See [Sprites & Animation](../concepts/sprites.md#animations-and-sprite-sheets). |
 | **Animation state** | A named sequence of sprite frames for one action, such as running or jumping. |
+| **Array** | A numbered list of values of one type, such as the bytes of a picture. |
 | **Asset** | A sprite or model that can be used in a Studio project. |
 | **Bitmap** | A picture stored as a grid of on/off pixels. |
+| **bool** | A C++ type holding either true or false. |
 | **buffer** | An area of memory holding data while code works on it; the drawing buffer holds the next screen image. |
 | **Build** | Studio's step that turns your project, including its art, into a runnable app. |
 | **Built app** | The runnable copy produced when Studio builds an app. |
 | **Callback** | A function you give the device to call for you when something happens, such as a button press. |
 | **Capture** | An item stored in a Studio project's captures. |
+| **Cel** | An animator's word for one picture of an animation; the studio names a sprite's frames `cel_0`, `cel_1` and so on in code. |
 | **Collision** | Two sprites touching, where a lit pixel of one sits on a lit pixel of the other. See [Sprites & Animation](../concepts/sprites.md#collision). |
 | **Companion page** | The phone companion's web page, built into firmware and optionally overridden from the memory card. |
 | **Compile** | Turn the code you wrote into a program the device (or the emulator) can run. |
+| **const** | Marks a value that cannot be changed through this declaration; after a method signature, the method does not change its object. |
+| **const char*** | A pointer to text ending with a zero character; the characters cannot be changed through this pointer. |
 | **Emulator** | A copy of the device that runs in your browser, so you can try an app without a Cyber Fidget. |
 | **Firmware** | The built-in software that runs on the device. |
+| **Fixed-point** | Counting in fractions with whole numbers, for example 256 units per pixel, so movement can be smoother than one pixel at a time. |
 | **float** | A C++ number type that can hold a fractional part. |
 | **Flow** | How densely the Brush paints or the Erase tool removes pixels, from 0 to 100%. |
 | **Frame** | One picture in an animation sequence. |
@@ -117,14 +129,22 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **framebuffer** | A buffer that stores the pixel values for a screen image. |
 | **GIF** | Graphics Interchange Format; an image file format that can store an animation. |
 | **GRBW** | Green, Red, Blue, White; the order used to send channels to the LED hardware. |
+| **int** | A signed whole number; on the device, -2,147,483,648 to 2,147,483,647. |
+| **int16_t** | A signed whole number from -32,768 to 32,767. |
+| **int32_t** | A signed whole number from -2,147,483,648 to 2,147,483,647. |
 | **Internal storage** | Storage built into the Cyber Fidget where apps live. |
 | **lambda** | A short unnamed C++ function. |
 | **Layer** | Separate set of pixels in a frame, with its own drawing order and visibility. |
+| **long** | A signed whole number; on the device, -2,147,483,648 to 2,147,483,647. |
+| **Loop mode** | What an animation does after its last frame: start again, play backward, stop, or hold the last frame. See [Loop modes](../concepts/sprites.md#loop-modes). |
 | **macro** | Named code expanded by the C++ preprocessor before compilation. |
 | **MB** | Megabyte; a unit of file size, about one million bytes. |
 | **mg** | Milli-g in motion readings; one thousandth of the acceleration due to gravity. |
+| **Namespace** | A family name for a group of C++ names, such as `cf::gfx`, that keeps them apart from other code using the same names. |
 | **Node** | A point in a wireframe model's shape, positioned in 3D space. |
+| **nullptr** | A C++ value meaning a pointer does not point to an object. |
 | **pivot** | The point on a sprite placed at its screen position. |
+| **Pointer** | A value that holds the address of something else in memory, written with `*` in its type, such as `const Sprite*`. |
 | **pose** | A set of bone angles describing how a figure is positioned. |
 | **potentiometer** | A variable resistor; moving the slider changes the voltage read by the device. |
 | **Project** | A person's Studio work, including its code, art, captures, and settings. |
@@ -134,8 +154,15 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **singleton** | An object shared through one instance. |
 | **Sprite** | An image or animation used by an app for a character, object, or effect. |
 | **Sprite sheet** | A named group of animations for one character or object. See [Sprites & Animation](../concepts/sprites.md#animations-and-sprite-sheets). |
+| **static** | In front of a variable or function at the top of a file: keeps it to that file, and a variable keeps its value for as long as the app runs. |
+| **String** | A C++ object holding text. |
 | **Strut** | A straight line connecting two nodes in a wireframe model. |
+| **uint16_t** | A whole number from 0 to 65,535. |
+| **uint32_t** | A whole number from 0 to 4,294,967,295. |
+| **uint8_t** | A whole number from 0 to 255. |
+| **unsigned long** | A non-negative whole number; on the device, 0 to 4,294,967,295, used for elapsed time. |
 | **Viewport** | Visible area of the canvas. |
+| **void** | A return type meaning that a function returns no value. |
 | **Wireframe model** | A 3D shape built from points (nodes) connected by straight lines (struts), with no solid surfaces -- drawn as spinning line art on the device. |
 
 ---

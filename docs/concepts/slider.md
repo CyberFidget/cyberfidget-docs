@@ -39,13 +39,13 @@ The studio emulator follows the same direction: moving the slider up increases t
 
 ## Code example: slider-controlled brightness
 
-The slider can control volume inside built-in firmware apps. In studio apps on the device or in the browser emulator, `HAL::audioManager().setVolume()` has no effect. This example uses the same slider input for LED brightness instead, and shows the percentage on screen. Paste it into the [studio starter](../getting-started/first-app.md).
+The slider can control volume inside built-in firmware apps. In studio apps on the device or in the browser emulator, `HAL::audioManager().setVolume()` has no effect. This example uses the same slider input for LED brightness instead, and shows the percentage on screen. Add it into the [studio starter](../getting-started/first-app.md).
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 #include <stdio.h>
 
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 int brightness = sliderPosition_8Bits_Inverted_Filtered;
 HAL::setRgbLed(pixel_Front_Top, brightness, 0, 0, 0);
 display.clear();
@@ -65,7 +65,7 @@ display.drawString(64, 24, text);
 
 ## Kalman filtering
 
-??? info "Advanced: how slider readings are smoothed"
+!!! advanced "Advanced: how slider readings are smoothed"
     You do not need these details to build apps in the studio; use the filtered variables above.
 
     The raw ADC readings jump around due to electrical noise. The framework applies a **Kalman filter** plus an **Exponential Moving Average (EMA)** on the percentage to smooth the signal. You get stable, responsive values without coding the math yourself.
@@ -74,7 +74,7 @@ display.drawString(64, 24, text);
 
 ## Framework details
 
-??? info "Advanced: how the firmware reads the slider"
+!!! advanced "Advanced: how the firmware reads the slider"
     You do not need these details to build apps in the studio. They describe the firmware internals for readers writing an app by hand and building it into the firmware.
 
     ### ADC reading
