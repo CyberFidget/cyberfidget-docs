@@ -142,7 +142,9 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Loop mode** | What an animation does after its last frame: start again, play backward, stop, or hold the last frame. See [Loop modes](../concepts/sprites.md#loop-modes). |
 | **macro** | Named code expanded by the C++ preprocessor before compilation. |
 | **MB** | Megabyte; a unit of file size, about one million bytes. |
+| **Mesh** | A 3D model's data: its list of points and its list of lines. `Mesh` in the 3D functions. See [3D Models](../concepts/3d-models.md). |
 | **mg** | Milli-g in motion readings; one thousandth of the acceleration due to gravity. |
+| **Mirror twin** | In the 3D tab with Mirror on, the matching point or line on the other side of a model's middle; editing one changes the other the same way. See [3D Models in the Studio](../studio/3d-models.md#editing-a-model). |
 | **Namespace** | A family name for a group of C++ names, such as `cf::gfx`, that keeps them apart from other code using the same names. |
 | **Node** | A point in a wireframe model's shape, positioned in 3D space. |
 | **nullptr** | A C++ value meaning a pointer does not point to an object. |

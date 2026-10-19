@@ -17,10 +17,18 @@ A wireframe model is a 3D shape made of **points** (also called nodes, positione
 
 Click **3D** in Studio's tab strip (alongside **Generate**, **Code**, and **2D**) to open the model workspace. On a desktop or laptop, models use the same two buttons above the workspace as sprites do: **All files** and **Add art**. See [Your Sprite Library](your-sprite-library.md) for how they work. For models:
 
-- **Add art > Build a 3D model** asks for a **Model name** and starts a blank model. **Add art > Import from a file** brings in a `.cfmesh.json`, `.obj` or `.stl` file.
+- **Add art > Build a 3D model** opens a **New model** dialog that asks for a **Model name** (it suggests one such as `Model 1`). **Create** starts a new model: two points joined by one line. **Add art > Import from a file** brings in a `.cfmesh.json`, `.obj` or `.stl` file.
 - **All files > In this project** lists every model already in this project, under the heading **3D models**.
 - **All files > My library** holds your account's saved models, under the heading **My Assets**. Sign in to use this; it's shared with your sprite library, holding up to 50 assets total between the two.
-- **All files > Free starters** has a **Starter Models** section with three ready-made shapes (**SHIP**, **CUBE**, **PYRAMID**) to reshape instead of starting from nothing. Click one to add it to the project.
+- **All files > Free starters** has a **Starter Models** section with three ready-made shapes (**SHIP**, **CUBE**, **PYRAMID**) to reshape instead of starting from nothing. Click one to add it to the project. The section is below the starter sprites, so scroll down inside the window to reach it.
+
+![The Add art menu open on the 3D tab, with Build a 3D model under Draw a new sprite](../assets/media/3d-add-art-menu.png)
+
+<video src="../../assets/media/3d-new-model.webm" poster="../../assets/media/3d-new-model.png" autoplay loop muted playsinline width="560"></video>
+
+*Opening the 3D tab, then Add art > Build a 3D model, naming the model Arrow and choosing Create.*
+
+![The Free starters tab scrolled down to Starter Models, with SHIP, CUBE and PYRAMID cards](../assets/media/3d-starter-models.png)
 
 ---
 
@@ -30,9 +38,19 @@ The model stage in the middle of the workspace is an interactive 3D view. Three 
 
 - **Move** -- drag the model to spin it; drag a point to reshape it; scroll to zoom the view in or out; click a line to select it.
 - **Connect** -- click one point, then another, to draw a line between them (or remove one that's already there). Press Esc to cancel a pending connection.
-- **Add point** -- click empty space to place a new point; click an existing line to split it, inserting a fresh point at its midpoint.
+- **Add point** -- click empty space to place a new point; click an existing line to split it, inserting a fresh point at its midpoint. A new point lands on the flat slice through the middle of the model that faces you, so turn the view first to place a point nearer or farther.
+
+The hint under the stage repeats what the current tool does.
+
+<video src="../../assets/media/3d-add-points-lines.webm" poster="../../assets/media/3d-add-points-lines.png" autoplay loop muted playsinline width="560"></video>
+
+*Add point with Mirror on (each point off the middle line gets a twin), then Connect to join the points into an arrow, then Move to turn the view.*
 
 A **Mirror** toggle (it reads **Mirror: on** or **Mirror: off**) keeps the model symmetric left-to-right. With Mirror on, editing a point or line on one side updates its mirrored twin on the other side of the center line automatically -- handy for anything meant to look the same from both sides, like a ship or a face.
+
+<video src="../../assets/media/3d-move-rotate-view.webm" poster="../../assets/media/3d-move-rotate-view.png" autoplay loop muted playsinline width="560"></video>
+
+*The SHIP starter with the Move tool: turning and zooming the view, dragging a point (its twin follows), selecting a line, then Mirror off so a drag moves one point only, and Undo.*
 
 **Undo** and **Redo** buttons step back and forward through your edits (also available as Ctrl+Z, Ctrl+Shift+Z, and Ctrl+Y). Delete or Backspace, or the **Delete selection** button, removes whichever point or line is currently selected.
 
@@ -64,11 +82,21 @@ to models and sprites alike.
 
 ## Using a model in an app
 
-Once you have a model you like, select **Try it in an app**:
+Once you have a model you like, select **Try it in an app** (in the right-hand column, under **Save to My Assets**):
 
-- If your project has no app code yet, Studio starts you from a small example app that shows the model spinning full-screen, switches you to the **Code** tab, and builds it so you can run it.
+- If your project has no app code yet, Studio starts you from a small viewer app named after the model (for example `Arrow Viewer`) that shows the model spinning, switches you to the **Code** tab, and builds it so you can run it. In the emulator, the slider makes the model bigger or smaller.
 - If your project already has app code, Studio switches to the **Generate** tab with a request already filled in, asking to add this model to your existing app.
 
-After you've saved a model, Studio also shows a one-line **Use in code** reference with a **Copy** button, for pasting into app code you're writing by hand.
+<video src="../../assets/media/3d-try-in-app.webm" poster="../../assets/media/3d-try-in-app.png" autoplay loop muted playsinline width="560"></video>
+
+<video src="../../assets/media/3d-try-in-app-emulator.webm" poster="../../assets/media/3d-try-in-app-emulator.png" autoplay loop muted playsinline width="240"></video>
+
+*Try it in an app in a project with no code: the viewer app opens in the Code tab and builds; then the emulator spins the model and the slider zooms it.*
+
+While a model is open, Studio also shows a one-line **Use in code** reference with a **Copy** button under **Try it in an app**, for pasting into app code you're writing by hand. Scroll the right-hand column down if you don't see it.
+
+![The Use in code line, model.setMesh(&cf::gfx::ship::ship); with a Copy button](../assets/media/3d-use-in-code.png)
+
+For a step-by-step walk from a new model to a running app, and how the model becomes code, see [Draw a wireframe model in the Studio](../concepts/3d-models.md#draw-a-wireframe-model-in-the-studio).
 
 For what to ask the App Builder for when generating an app around a 3D model, see [App Builder: generating apps with 3D models](../software/ota-builder.md#generating-apps-with-3d-models).
