@@ -18,7 +18,8 @@
       }
     }
 
-    // Markup keeps controls and a poster for readers without JavaScript.
+    // Deferred clips have no controls in the markup: without JavaScript the
+    // reader sees the poster still. This script adds controls where needed.
     // Only an intersecting clip receives a source; reduced motion keeps
     // its controls for manual playback instead of starting it automatically.
     const observer = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {

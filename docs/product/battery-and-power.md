@@ -6,7 +6,7 @@ Cyber Fidget looks after its rechargeable battery whether you are using the devi
 
 ## Going to sleep
 
-After about a minute without interaction (pressing a button or moving the slider), when running on battery, Cyber Fidget shows a sleep message and enters deep sleep. Press the bottom-right button to wake it.
+After about a minute without interaction (pressing a button or moving the slider), when running on battery, Cyber Fidget shows "Going to sleep now..." and enters deep sleep. Press the bottom-right button to wake it.
 
 While it sleeps, the device briefly wakes itself about once an hour to check the battery level, then goes right back to sleep. This takes only a fraction of a second. The screen stays dark and the lights stay off, so you will not notice the check.
 

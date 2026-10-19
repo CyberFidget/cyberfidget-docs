@@ -54,7 +54,7 @@ Every screw and part is accessible. The enclosure is built to be opened, explore
 
 - **Re-color it** -- swap screen colors (blue, red, teal, and more)
 - **Redesign it** -- 3D print your own backplate or case modifications
-- **Hack it** -- make your own apps in the studio or integrate them with the firmware source code
+- **Hack it** -- make your own apps in the studio, or change the firmware source code itself
 - **Learn from it** -- ideal for learning how to code, embedded systems, sensors, and human-machine interfaces
 
 ---

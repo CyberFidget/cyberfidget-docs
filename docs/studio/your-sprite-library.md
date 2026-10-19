@@ -91,7 +91,7 @@ The three buttons sit below the scrolling grid, so scroll down inside the window
 
 ![A starter heart sprite selected, with Add to open sprite, Copy to Project and Copy as C++ buttons visible below the preview](../assets/media/free-starters-copy-as-cpp.png)
 
-<video preload="none" controls data-src="../../assets/media/free-starters-copy.webm" poster="../../assets/media/free-starters-copy.png" loop muted playsinline width="560"></video>
+<video preload="none" data-src="../../assets/media/free-starters-copy.webm" poster="../../assets/media/free-starters-copy.png" loop muted playsinline width="560"></video>
 
 ### Upload your own
 

@@ -480,7 +480,7 @@ async function rebuildAndRun(page, show = false) {
   const welcome = page.getByRole('button', { name: 'REBUILD & RUN', exact: true });
   const button = await welcome.isVisible()
     ? welcome
-    : page.getByRole('button', { name: 'REBUILD', exact: true });
+    : page.locator('#builder-compile-wasm');
   await tap(page, button, show);
   await waitForApp(page);
 }

@@ -71,7 +71,7 @@ By the end of this section you will have drawn a model with the mouse in the Stu
 
 **2. Make a new model.** Click **3D** in the tab rail. Choose **Add art > Build a 3D model**. A **New model** dialog asks for a **Model name**; it suggests one such as `Model 1`. Type a one-word name, such as `Arrow`, and choose **Create**.
 
-<video preload="none" controls data-src="../../assets/media/3d-new-model.webm" poster="../../assets/media/3d-new-model.png" loop muted playsinline width="560"></video>
+<video preload="none" data-src="../../assets/media/3d-new-model.webm" poster="../../assets/media/3d-new-model.png" loop muted playsinline width="560"></video>
 
 What you'll see: the model opens in its own tab above the workspace. A new model is a short line: two points joined by one line. The stage in the middle shows it over a floor grid, and **Preview · live** on the right shows it the way the Fidget will draw it.
 
@@ -84,7 +84,7 @@ A new point lands on the flat slice through the middle of the model that faces y
 
 **4. Join points with lines.** Choose **Connect**, click one point, then another: a line joins them. With Mirror on, the twin points get a twin line. Clicking two points that are already joined removes their line. Press Esc to cancel after the first click.
 
-<video preload="none" controls data-src="../../assets/media/3d-add-points-lines.webm" poster="../../assets/media/3d-add-points-lines.png" loop muted playsinline width="560"></video>
+<video preload="none" data-src="../../assets/media/3d-add-points-lines.webm" poster="../../assets/media/3d-add-points-lines.png" loop muted playsinline width="560"></video>
 
 What you'll see: the bar above the stage counts your points and lines (for example `7 points - 8 lines`), and the preview shows the new shape.
 
@@ -100,13 +100,13 @@ What you'll see: the bar above the stage counts your points and lines (for examp
 | Take an edit back | **Undo** and **Redo** at the bottom of the tool column, or Ctrl+Z and Ctrl+Y. |
 | Remove a point or line | Select it, then **Delete selection** (or press Delete). |
 
-<video preload="none" controls data-src="../../assets/media/3d-move-rotate-view.webm" poster="../../assets/media/3d-move-rotate-view.png" loop muted playsinline width="560"></video>
+<video preload="none" data-src="../../assets/media/3d-move-rotate-view.webm" poster="../../assets/media/3d-move-rotate-view.png" loop muted playsinline width="560"></video>
 
 A point moves across the view, so to push a point toward you or away, turn the view sideways first and then drag it.
 
 **6. Try it in an app.** Choose **Try it in an app**, in the column on the right under **Save to My Assets**. In a project with no app code, the Studio writes a small viewer app named after your model (for a model called `Arrow`, the app is `Arrow Viewer`), switches to the **Code** tab and builds it.
 
-<video preload="none" controls data-src="../../assets/media/3d-try-in-app.webm" poster="../../assets/media/3d-try-in-app.png" loop muted playsinline width="560"></video>
+<video preload="none" data-src="../../assets/media/3d-try-in-app.webm" poster="../../assets/media/3d-try-in-app.png" loop muted playsinline width="560"></video>
 
 What you'll see: after the build (a few seconds to about a minute), the emulator shows your model spinning. Drag the emulator's slider up to make it bigger, down to make it smaller. The bottom-left button returns to the menu. The clip at the top of this section shows it.
 

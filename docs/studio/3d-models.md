@@ -42,13 +42,13 @@ The model stage in the middle of the workspace is an interactive 3D view. Three 
 
 The hint under the stage repeats what the current tool does.
 
-<video preload="none" controls data-src="../../assets/media/3d-add-points-lines.webm" poster="../../assets/media/3d-add-points-lines.png" loop muted playsinline width="560"></video>
+<video preload="none" data-src="../../assets/media/3d-add-points-lines.webm" poster="../../assets/media/3d-add-points-lines.png" loop muted playsinline width="560"></video>
 
 *Add point with Mirror on (each point off the middle line gets a twin), then Connect to join the points into an arrow, then Move to turn the view.*
 
 A **Mirror** toggle (it reads **Mirror: on** or **Mirror: off**) keeps the model symmetric left-to-right. With Mirror on, editing a point or line on one side updates its mirrored twin on the other side of the center line automatically -- handy for anything meant to look the same from both sides, like a ship or a face.
 
-<video preload="none" controls data-src="../../assets/media/3d-move-rotate-view.webm" poster="../../assets/media/3d-move-rotate-view.png" loop muted playsinline width="560"></video>
+<video preload="none" data-src="../../assets/media/3d-move-rotate-view.webm" poster="../../assets/media/3d-move-rotate-view.png" loop muted playsinline width="560"></video>
 
 *The SHIP starter with the Move tool: turning and zooming the view, dragging a point (its twin follows), selecting a line, then Mirror off so a drag moves one point only, and Undo.*
 
@@ -87,9 +87,9 @@ Once you have a model you like, select **Try it in an app** (in the right-hand c
 - If your project has no app code, Studio starts you from a small viewer app named after the model (for example `Arrow Viewer`) that shows the model spinning, switches you to the **Code** tab, and builds it so you can run it. In the emulator, the slider makes the model bigger or smaller.
 - If your project already has app code, Studio switches to the **Generate** tab with a request already filled in, asking to add this model to your existing app.
 
-<video preload="none" controls data-src="../../assets/media/3d-try-in-app.webm" poster="../../assets/media/3d-try-in-app.png" loop muted playsinline width="560"></video>
+<video preload="none" data-src="../../assets/media/3d-try-in-app.webm" poster="../../assets/media/3d-try-in-app.png" loop muted playsinline width="560"></video>
 
-<video preload="none" controls data-src="../../assets/media/3d-try-in-app-emulator.webm" poster="../../assets/media/3d-try-in-app-emulator.png" loop muted playsinline width="240"></video>
+<video preload="none" data-src="../../assets/media/3d-try-in-app-emulator.webm" poster="../../assets/media/3d-try-in-app-emulator.png" loop muted playsinline width="240"></video>
 
 *Try it in an app in a project with no code: the viewer app opens in the Code tab and builds; then the emulator spins the model and the slider zooms it.*
 

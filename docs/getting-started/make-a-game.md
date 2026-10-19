@@ -613,7 +613,7 @@ void Catcher::unregisterButtonCallbacks() {
 
 ### The finished game
 
-<video preload="none" controls data-src="../../assets/media/emulator-catcher.webm" poster="../../assets/media/emulator-catcher.png" loop muted playsinline width="300"></video>
+<video preload="none" data-src="../../assets/media/emulator-catcher.webm" poster="../../assets/media/emulator-catcher.png" loop muted playsinline width="300"></video>
 
 *The finished Catcher in the emulator: dots fly in from the left, the paddle catches them, and a miss costs a life.*
 
