@@ -11,6 +11,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **A2DP** | Advanced Audio Distribution Profile -- Bluetooth stereo audio streaming protocol. |
 | **ADC** | Analog-to-Digital Converter -- converts the slider's voltage to a number (e.g. 0-4095). |
 | **API** | Application Programming Interface -- how code talks to a library or service. |
+| **Binary angle** | An angle stored as a whole number from 0 to 255, where 256 steps make one full turn (64 is a quarter turn). The 3D model functions use binary angles. |
 | **BLE** | Bluetooth Low Energy -- used for wireless features on the device. |
 | **CC BY-SA** | Creative Commons Attribution-ShareAlike; reuse requires attribution and sharing adaptations under the same license. |
 | **CC0** | Creative Commons Zero - a public-domain dedication that allows reuse without the usual copyright restrictions. |
@@ -66,6 +67,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **PEM** | Privacy-Enhanced Mail - a text format for storing keys, used for the release signing key. |
 | **PNG** | Portable Network Graphics - a common lossless image file format. Aseprite can export its sprite sheets as PNG images. |
 | **PSRAM** | Pseudo-Static RAM - extra memory on the ESP32 module, used to buffer audio while recording and to run apps sent to the Fidget (a little slower than the chip's internal memory). |
+| **Q8 / Q14** | Whole numbers that stand for fractions: a Q8 value divided by 256, or a Q14 value divided by 16384, gives the real value. A model size of 256 in Q8 means 1.0, normal size. |
 | **QIO** | Quad input/output - a flash mode accepted in release metadata. |
 | **RC** | Release Candidate - a test version of the firmware, tagged like `v1.4.0-rc1`. On the device and website it is called a "test version." |
 | **RGBW** | Red, Green, Blue, White -- four-channel LED color. |
@@ -87,6 +89,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **WebAssembly** | Binary instruction format for the web; the emulator compiles C++ to WASM. |
 | **WebSocket** | A persistent two-way connection between a browser page and a server -- the phone companion's live caption link to the device. |
 | **Wi-Fi** | Wireless Fidelity -- used for OTA and network features. |
+| **Wireframe** | A 3D shape drawn only as points and the straight lines between them, with no solid sides. |
 | **XBM** | X BitMap; a one-bit image format with on/off pixels stored in bytes. |
 
 ---
