@@ -60,7 +60,7 @@
 
 <p class="muted">The cross-section below shows how the slider, case pocket, and screw fit together:</p>
 
-<img src="../../assets/slider-cross-section.png" alt="Slider cross-section showing assembly" style="max-width: 100%; border-radius: 8px; margin: 1em 0;">
+<img src="../../../assets/slider-cross-section.png" alt="Slider cross-section showing assembly" style="max-width: 100%; border-radius: 8px; margin: 1em 0;">
 
 <div class="cf-step-gallery">
   <a class="cf-zoom" href="../3/1.jpg" target="_blank" rel="noopener">
