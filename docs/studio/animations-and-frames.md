@@ -2,7 +2,7 @@
 
 A frame is one picture in a sequence. An animation is a named sequence of frames for an action, such as `walk` or `jump`.
 
-On desktop and laptop, the timeline sits under the canvas and scrolls sideways. On a phone it wraps beneath the right-panel content, after Preview, Layers and saving controls.
+On desktop and laptop, the timeline sits under the canvas and scrolls sideways. On a phone, a strip of frame thumbnails sits below the canvas, between **Layers** and **Play**. The **Frames** chip (it shows the current animation and frame, such as `walk 2/4`) opens a **Frames** sheet with the animation groups, **Add animation**, the previous and next frame buttons, and **Speed**. Tap a thumbnail to select it. Tap the **...** button on the selected thumbnail, or press and hold any thumbnail, for **Duplicate frame** and **Delete frame**.
 
 | Control | What it does | Shortcut | Touch equivalent |
 |---|---|---|---|
@@ -20,7 +20,7 @@ On desktop and laptop, the timeline sits under the canvas and scrolls sideways. 
 | Rename a frame | Change the frame's name. | None | Double-click the frame name, or double-tap it on a touch screen. |
 | Previous / next frame | Step through pictures; the frame n / N readout shows position and total. | Alt+Up / Alt+Down | Tap the timeline navigation buttons. |
 
-Animation and frame menus use **☰** buttons; a screen reader announces each one as **Actions for ...** followed by the name. On a phone, tap the visible menu button in a timeline with animation groups, or the inline **Delete** buttons in a timeline without animation headers. Use thumbnails to select frames, and the frame menu, **+ Frame** or the inline buttons to duplicate or delete them.
+Animation and frame menus use **☰** buttons; a screen reader announces each one as **Actions for ...** followed by the name. On a phone, the animation groups and their menus are in the **Frames** sheet, and the thumbnail strip under the canvas has its own **...** menu with **Duplicate frame** and **Delete frame**.
 
 ## Groups and warnings
 

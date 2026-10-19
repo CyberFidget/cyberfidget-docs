@@ -1,6 +1,6 @@
 # Tool options
 
-Select a [tool](tools.md) first. On desktop and laptop its settings appear in the options bar above the canvas. On a phone the same settings wrap below the tool rows and above the canvas.
+Select a [tool](tools.md) first. On desktop and laptop its settings appear in the options bar above the canvas. On a phone, the bar above the tool row shows the tool's settings as buttons (for example **Size**, **Flow**, **Width**), each with its current value. Tap one to open the tool's options sheet. **Select** shows **Copy**, **Cut** and **Paste**; **Move** shows its nudge arrows; **Transform** shows **Apply** and **Cancel**; **Zoom** shows an **In** / **Out** button, **Fit** and **100%**.
 
 Unless a shortcut is listed, a setting has no dedicated keyboard shortcut. On touch screens, tap buttons, checkboxes and lists, and drag sliders. Draw and Fill have a hint instead of settings.
 
@@ -20,10 +20,10 @@ Unless a shortcut is listed, a setting has no dedicated keyboard shortcut. On to
 | Transform: Keep proportions | Preserve the ratio of width to height while resizing. | Hold Shift | Tap **Keep proportions**. |
 | Transform: Flip & rotate | Open commands to reverse or rotate pixels. | None | Tap the menu, then a command. |
 | Transform: Apply / Cancel | Commit the transform or discard its pending changes. | Enter / Esc | Tap **Apply** / **Cancel**. |
-| Zoom: Zoom out | Switch canvas taps from enlarging to shrinking the view. | Hold Alt while clicking | Tap **Zoom out**. |
+| Zoom: Zoom out | Switch canvas taps from enlarging to shrinking the view. | Hold Alt while clicking | Tap **Zoom out** (on a phone, the **In** / **Out** button). |
 | Zoom: Fit / 100% | Fit the canvas into the available space or return to its base display size. | Ctrl+Shift+J for Fit; none for 100% | Tap **Fit** / **100%**. |
 
-The canvas-footer hint describes the current tool. Transform status also appears there; on a phone this footer is below the canvas. Status and hints have no shortcut or touch action: read them to see what the tool is waiting for.
+The canvas-footer hint describes the current tool. Transform status also appears there. On a phone, the hint for **Draw** and **Fill** sits in the bar above the tool row. Status and hints have no shortcut or touch action: read them to see what the tool is waiting for.
 
 Undo and Redo are commands in the tool bar, not settings. See [Edit commands](edit-commands.md).
 

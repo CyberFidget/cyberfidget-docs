@@ -2,7 +2,7 @@
 
 Open a sprite in Studio's **2D** workspace. A sprite is an image or animation for an app. The canvas is the 128 by 64 pixel drawing area; edits affect the active layer of the selected frame.
 
-On desktop and laptop, all twelve tools are in the tool bar to the left of the canvas. On a phone, all twelve are in wrapping rows above the options and canvas. Tap a tool to select it, then use the touch action below.
+On desktop and laptop, all twelve tools are in the tool bar to the left of the canvas. On a phone, the row of tools below the canvas shows **Draw**, **Erase**, **Fill**, **Select** and **Move**, plus the last other tool you picked, then a **More** button. **More** opens the **All tools** sheet with all twelve; choosing one there puts it in the row. Tap a tool to select it, then use the touch action below.
 
 Keyboard letters work while the editor has focus, outside text fields. For commands using Ctrl, a Mac can use Command. **None** means there is no dedicated keyboard shortcut.
 
@@ -25,4 +25,4 @@ Right-click on the canvas to erase pixels. On touch screens, select **Erase** an
 
 Read [Tool options](tool-options.md) for settings, [Edit commands](edit-commands.md) for clipboard operations, and [View](view.md) for gestures and guides.
 
-<!-- Screenshot: shipped tool bar and current phone wrapping tool rows. -->
+![The 2D tool bar on a desktop, with the twelve tools in groups and Undo and Redo at the bottom](../assets/media/new-sprite-drawn.png)
