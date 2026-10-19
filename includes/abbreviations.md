@@ -145,7 +145,6 @@
 *[int]: A signed whole number; on the device, -2,147,483,648 to 2,147,483,647.
 *[int16_t]: A signed whole number from -32,768 to 32,767.
 *[int32_t]: A signed whole number from -2,147,483,648 to 2,147,483,647.
-*[long]: A signed whole number; on the device, -2,147,483,648 to 2,147,483,647.
 *[nullptr]: A C++ value meaning a pointer does not point to an object.
 *[String]: A C++ object holding text.
 *[uint8_t]: A whole number from 0 to 255.

@@ -562,7 +562,7 @@ scenes['emulator-sprites'] = async (r) => {
   const page = await rec.open({ cursor: false });
   await newBlankApp(page, r.base, 'Hello');
   const template = await readEditorCode(page);
-  const block = docsBlock('concepts/sprites.md', 'hero.setPosQ8(x, y * 256);');
+  const block = docsBlock('concepts/sprites.md', 'heroActor.setPosQ8(x, y * 256);');
   const code = assembleFragments(template, block);
   await setCode(page, code);
   await rebuildAndRun(page);
