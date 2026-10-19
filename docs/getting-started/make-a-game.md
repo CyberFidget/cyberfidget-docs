@@ -1,13 +1,18 @@
 <!-- check-examples: cumulative -->
 # Make a game, step by step
 
-By the end of this page you will have built a small game called Catcher. Dots fly across the screen, you slide a paddle up and down to catch them, and the game keeps score, flashes the lights, beeps, and ends when you run out of lives.
+By the end of this page you will have planned and built a small game called Catcher. Dots fly across the screen from the left, and you slide a paddle up and down to catch them. A catch scores a point, flashes the lights green and plays a short high beep. A miss costs one of your three lives, flashes the lights red and plays a lower, longer tone. The dots get faster as your score grows. When your lives run out, the game shows your score, and a button starts a new game.
 
 <video src="../../assets/media/emulator-catcher.webm" poster="../../assets/media/emulator-catcher.png" autoplay loop muted playsinline width="300"></video>
 
 *What you'll make: Catcher running in the emulator. The slider moves the paddle on the right; the score and lives are at the top.*
 
-You build it in eight small steps. Each step adds a few lines and you run the game after each one, so you always know which change did what.
+You plan it first, then build it in eight small steps. Each step adds a few lines and you run the game after each one, so you always know which change did what.
+
+!!! tip "Two ways to start"
+    **You already have an idea for a game:** this page is for you. It starts from one sentence about your game and turns that sentence into steps you can build.
+
+    **You'd rather see what the Fidget can do first:** start with [Explore what it can do](explore.md). Try the screen, buttons, slider, lights and sound, then come back here when an idea grabs you.
 
 !!! note "One app, built up step by step"
     This page builds **one** app across all its steps. Every step adds to the code from the steps before it, so do them in order and do not skip any. (The [Make apps](../concepts/index.md) pages work differently: each of their examples stands alone and goes into a fresh blank template.)
@@ -16,6 +21,96 @@ You build it in eight small steps. Each step adds a few lines and you run the ga
     - A computer with Chrome, Edge or Firefox, and an internet connection. A Cyber Fidget is optional: the emulator, a copy of the device that runs on the page, is enough.
     - About 30 minutes.
     - It helps to have done [Build your first app](first-app.md) first. This page assumes you know where **REBUILD** is.
+
+---
+
+## Step 0: plan the game
+
+Before any code, turn your idea into a list of small pieces, and decide which step builds each one. Then every step below has a reason: you always know which part of the game you are making. This takes five minutes with a pencil.
+
+*Already planned, or just want to code? Skip to [Step 1](#step-1-a-paddle-that-follows-the-slider).*
+
+### 1. Write the idea as one sentence, and box each feature
+
+Say what the game is in one sentence, the way you'd tell a friend. It doesn't need to be exact yet. Then draw a box around each separate thing the game does. This is the first sentence for Catcher, with each box in its own color:
+
+<p class="cf-vision">
+<span class="cf-piece cf-p0"><b class="cf-badge">Start</b> A game called Catcher</span> where
+<span class="cf-piece cf-p2"><b class="cf-badge">2</b> dots fly across the screen</span>,
+<span class="cf-piece cf-p1"><b class="cf-badge">1</b> you slide a paddle up and down to catch them</span>, and
+<span class="cf-piece cf-p3"><b class="cf-badge">3-4</b> the game keeps score</span>,
+<span class="cf-piece cf-p5"><b class="cf-badge">5</b> flashes the lights</span>,
+<span class="cf-piece cf-p6"><b class="cf-badge">6</b> beeps</span>, and
+<span class="cf-piece cf-p7"><b class="cf-badge">7</b> ends when you run out of lives</span>.
+</p>
+
+The number on each box is the step that builds it. In the table below, press a number to jump to that step.
+
+### 2. List the boxes as steps, and sharpen each one
+
+Put the boxes in the order you'd build them: first what you need to see anything at all, then the rules, then the extras. As you write each one down, make vague words exact. "Flashes the lights" becomes "flashes green on a catch, red on a miss". A piece is the right size when you can build it in a few lines and see it change when you run the game.
+
+| Step | From the sentence | Sharpened into something you can build |
+|------|-------------------|----------------------------------------|
+| [<b class="cf-badge cf-b0">Start</b>](#start-a-blank-app-called-catcher) | a game called Catcher | A blank app named Catcher. |
+| [<b class="cf-badge cf-b1">1</b>](#step-1-a-paddle-that-follows-the-slider) | you slide a paddle up and down | A bar near the right edge that follows the slider. |
+| [<b class="cf-badge cf-b2">2</b>](#step-2-a-dot-that-flies-across) | dots fly across the screen | One dot at a time, from the left edge at a random height. |
+| [<b class="cf-badge cf-b3">3</b>](#step-3-catch-or-miss) | to catch them; keeps score | When the dot reaches the paddle: a catch scores a point, a miss costs one of three lives. |
+| [<b class="cf-badge cf-b3">4</b>](#step-4-show-the-score) | keeps score | Show the score and lives at the top of the screen. |
+| [<b class="cf-badge cf-b5">5</b>](#step-5-flash-the-lights) | flashes the lights | Green on a catch, red on a miss, off again after a fifth of a second. |
+| [<b class="cf-badge cf-b6">6</b>](#step-6-add-sound) | beeps | A short high beep on a catch, a lower, longer tone on a miss. |
+| [<b class="cf-badge cf-b7">7</b>](#step-7-game-over-and-play-again) | ends when you run out of lives | A game over screen with your score, and a button to play again. |
+| [<b class="cf-badge cf-b8">8</b>](#step-8-speed-up-as-you-score) | *(not in the sentence)* | The dots get faster the more you score, up to a top speed. |
+
+Step 8 isn't in the first sentence. Writing the list made it clear the game would get boring at one speed, so it gained a feature. Planning is the cheapest time to change your mind: changing a line in a list costs nothing.
+
+Breaking a big idea into small pieces like this is called decomposition. It is one of the four parts of computational thinking that school computing classes teach, alongside spotting patterns, leaving out detail you don't need, and writing step-by-step instructions.
+
+### 3. Ask the same questions about each piece
+
+For each piece, think about these five things. You don't need code words for them yet:
+
+- **Input:** what the player does. (The slider moves the paddle; a button restarts.)
+- **What to remember:** the numbers the game keeps from one moment to the next. (Paddle position, dot position, speed, score, lives.)
+- **Rules:** what happens when. (The dot reaches the paddle: catch or miss.)
+- **Feedback:** how the player finds out. (The score on screen, a flash, a beep.)
+- **The end:** when it stops, and how to start again. (No lives left: game over; a button plays again.)
+
+### 4. Write it in plain words
+
+Last, write the game as pseudo-code: the steps in plain English, laid out like code but not yet in any programming language. Every app has three parts, which the code below calls `begin()`, `update()` and `end()`, so the outline uses them too:
+
+```text
+Remember between frames:
+    paddle position, dot position,
+    dot speed, score, lives
+
+begin(): once, when the game opens
+    start fresh: score 0, 3 lives,
+        a new dot at the left, slow speed
+    listen to the middle-right button
+
+update(): about 50 times a second
+    (input) read the slider, move the paddle
+    move the dot right by its speed
+    (rule) if the dot reached the paddle:
+        paddle in the way? catch: score + 1
+            green flash, high beep
+        otherwise? miss: lives - 1
+            red flash, lower tone
+        start a new dot at the left
+    (feedback) draw paddle, dot, score, lives
+    turn the lights off soon after a flash
+    (the end) if no lives are left:
+        stop the dot, show game over and score
+    otherwise: faster as the score grows
+
+end(): once, when the game closes
+    stop the sound, let go of the button,
+    lights off
+```
+
+Each step below turns a few lines of this outline into C++.
 
 ---
 
