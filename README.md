@@ -197,6 +197,7 @@ markdown_extensions:
 
 - [Example compile checker](tools/check-examples/): validate documentation C/C++ examples against the firmware app headers.
 - [App function reference](tools/function-reference/): generate the portable app cheat sheet and editor symbol list from firmware headers.
+- [Media capture](tools/capture-media/): re-run the documentation screenshots and short looping clips from the studio.
 
 ## Contributing
 
