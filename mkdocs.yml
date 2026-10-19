@@ -22,6 +22,7 @@ hooks:
   - tools/full-code/full_code.py
 
 extra_javascript:
+  - assets/lazy-video.js
   - assets/guide.js
   - assets/multi.js
 

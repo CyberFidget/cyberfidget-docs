@@ -474,10 +474,14 @@ async function waitForApp(page) {
   await page.waitForFunction(() => /running your app/i.test(document.getElementById('builder-emulator-status')?.innerText || ''), null, { timeout: 120000 });
 }
 
-// Click REBUILD & RUN (the welcome button of the first build) and wait for
+// Click REBUILD & RUN for the first build, or REBUILD for later builds; wait for
 // the emulator to say it is running.
 async function rebuildAndRun(page, show = false) {
-  await tap(page, page.getByRole('button', { name: 'REBUILD & RUN' }), show);
+  const welcome = page.getByRole('button', { name: 'REBUILD & RUN', exact: true });
+  const button = await welcome.isVisible()
+    ? welcome
+    : page.getByRole('button', { name: 'REBUILD', exact: true });
+  await tap(page, button, show);
   await waitForApp(page);
 }
 
@@ -1007,7 +1011,7 @@ scenes['3d-move-rotate-view'] = async (r) => {
   await clickAt(page, line.x, line.y);
   await sleep(1000);
 
-  // Mirror off: now only the dragged point moves.
+  // With mirror off, only the dragged point moves.
   await tap(page, page.locator('.model-mirror-tool'));
   await sleep(600);
   p = await modelPoint(page, pick);

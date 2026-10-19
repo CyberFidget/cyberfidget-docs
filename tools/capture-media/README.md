@@ -75,7 +75,7 @@ Every scene follows the same pattern, and `capture.mjs` has a small helper for e
 |--------|--------------|
 | `openStudio(page, base)` | Opens `<base>/create/` and waits for the landing page. |
 | `newBlankApp(page, base, 'Hello')` | **Create an app > Code from Blank Template**, with that App Name: a project whose code is the blank template. |
-| `newEmptyProject(page, base)` | **Create an app** only: a project with no app code yet (what **Try it in an app** needs to write its viewer app). |
+| `newEmptyProject(page, base)` | **Create an app** only: a project with no app code (what **Try it in an app** needs to write its viewer app). |
 | `openTab(page, 'pixel')` | Clicks a tab in the rail: `builder` (Generate), `ide` (Code), `pixel` (2D), `model` (3D), `settings`. |
 | `newSprite(page, 'Ball')`, `newModel(page, 'Arrow')` | **Add art > Draw a new sprite** or **Build a 3D model**, type the name, **Create**. |
 | `addStarterModel(page, 'ship')` | **All files > Free starters**, then a starter model (`ship`, `cube`, `pyramid`). |
@@ -84,7 +84,7 @@ Every scene follows the same pattern, and `capture.mjs` has a small helper for e
 ### Put full code in the editor and build
 
 - `setCode(page, code)` replaces the code in the visible editor. Take the code from the docs, so the clip follows the page: `finalListing('getting-started/make-a-game.md')` (the listing after `check-examples: final`), or `assembleFragments(await readEditorCode(page), docsBlock('concepts/sprites.md', 'some line'))` to put an "Insert ..." example into the blank template the way a reader does.
-- `rebuildAndRun(page)` clicks **REBUILD & RUN** (the first build of a project; later builds use **REBUILD**) and waits until the emulator says it is running your app. `waitForApp(page)` only waits, for builds started some other way (**Try it in an app** starts one by itself).
+- `rebuildAndRun(page)` clicks the visible **REBUILD & RUN** button for the first build or **REBUILD** for later builds and waits until the emulator says it is running your app. `waitForApp(page)` only waits, for builds started some other way (**Try it in an app** starts one by itself).
 - A build takes from a few seconds to about a minute. Don't keep the wait in a clip: cut one clip before it and one after (see "Cut, crop and time a clip").
 
 ### Play the emulator with the mouse

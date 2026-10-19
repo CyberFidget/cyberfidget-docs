@@ -46,7 +46,7 @@
 
     ---
 
-    There is no teacher guide yet. What works today: the browser path needs no installs and no device, and the tutorials say up front what you will be able to do.
+    The browser path needs no installs and no device, and the tutorials say up front what you will be able to do. A teacher guide is not available.
 
     [Build your first app](getting-started/first-app.md) | [Explore what it can do](getting-started/explore.md) | [Contact us](https://cyberfidget.com/contact.php)
 

@@ -31,7 +31,7 @@ Near the end of assembly you flip the battery switch on the board to **On** ([As
 | Bottom right (Enter) | Open the highlighted item |
 | Bottom left (Back) | Go back; inside most apps, return to the menu |
 
-After about a minute without a press, it goes to sleep to save battery. Press the bottom-right button to wake it. Charge it with a USB-C cable. More in [Battery and Power](../product/battery-and-power.md).
+After about a minute without interaction (pressing a button or moving the slider), when running on battery, it goes to sleep to save power. Press the bottom-right button to wake it. Charge it with a USB-C cable. More in [Battery and Power](../product/battery-and-power.md).
 
 ### 3. Explore built-in apps
 

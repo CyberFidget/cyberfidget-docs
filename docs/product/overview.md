@@ -8,8 +8,8 @@ A machined-aluminum, pocket-sized gadget built for play, tinkering, and experime
 
 Cyber Fidget is two things at once:
 
-1. **An electronic fidget toy** — beyond a spinner or clicker, something with a screen, buttons, LEDs, and sound that's fun to hold and play with
-2. **An approachable dev board** — with everything already included: display, buttons, slider, speaker, mic, accelerometer, LEDs, SD card, Wi-Fi, and Bluetooth
+1. **An electronic fidget toy** -- beyond a spinner or clicker, something with a screen, buttons, LEDs, and sound that's fun to hold and play with
+2. **An approachable dev board** -- with everything already included: display, buttons, slider, speaker, mic, accelerometer, LEDs, SD card, Wi-Fi, and Bluetooth
 
 It's meant to feel good in your hands, be easy to use without knowing how it works, and be fully hackable when you're ready to dig in.
 
@@ -36,7 +36,7 @@ For the full component list with part numbers, see [Hardware Specs](../hardware/
 
 ## What's in the kit
 
-Cyber Fidget primarily ships as a self-assembly kit — no soldering, just screws. The kit includes:
+Cyber Fidget primarily ships as a self-assembly kit -- no soldering, just screws. The kit includes:
 
 - Machined aluminum chassis (front and back)
 - Assembled PCB with all components pre-soldered
@@ -52,28 +52,30 @@ Assembly takes about 15 minutes. See the [Assembly Guide](../getting-started/ass
 
 Every screw and part is accessible. The enclosure is built to be opened, explored, and modified:
 
-- **Re-color it** — swap screen colors (blue, red, teal, and more)
-- **Redesign it** — 3D print your own backplate or case modifications
-- **Hack it** — apps run off the SD card (soon) or integrate with the source code
-- **Learn from it** — ideal for learning how to code, embedded systems, sensors, and human-machine interfaces
+- **Re-color it** -- swap screen colors (blue, red, teal, and more)
+- **Redesign it** -- 3D print your own backplate or case modifications
+- **Hack it** -- make your own apps in the studio or integrate them with the firmware source code
+- **Learn from it** -- ideal for learning how to code, embedded systems, sensors, and human-machine interfaces
 
 ---
 
 ## Software
 
-The firmware ships with 28+ built-in apps (games, screensavers, tools, examples). You can also write your own using the [App Builder](https://cyberfidget.com/build.html) in your browser or by cloning the [firmware repo](https://github.com/cyberfidget/cyberfidget-firmware).
+The firmware ships with 28+ built-in apps (games, screensavers, tools, examples). See [Apps](../software/apps.md) for the catalog.
 
-Best experience with VS Code + PlatformIO (via pioarduino). CircuitPython hardware support is designed-in but currently untested.
+Make your own apps in the [studio](https://cyberfidget.com/create/) in your browser. [Build your first app](../getting-started/first-app.md) takes you from a blank template to an app running in the emulator and on your Cyber Fidget. [Make a game, step by step](../getting-started/make-a-game.md) builds a paddle game with lights, sound and a score.
 
-See [Apps](../software/apps.md) for the full catalog.
+### Advanced: firmware development
+
+Studio apps do not need this route. To change the firmware or add built-in apps, clone the [firmware repo](https://github.com/cyberfidget/cyberfidget-firmware) and use VS Code with PlatformIO (via pioarduino), the tools that build and install the firmware. See [Firmware development](../firmware/index.md) for setup. The hardware is designed to support CircuitPython, but that support is untested.
 
 ---
 
 ## See also
 
-- [Hardware Specs](../hardware/specs.md) — Full specifications with part numbers
-- [Pinout](../hardware/pinout.md) — GPIO assignments
-- [Accessories](accessories.md) — Color gels, backplates, and 3D printing
-- [Assembly Guide](../getting-started/assembly/guide.md) — Build your device
-- [First Flash](../getting-started/first-flash-arduino.md) — Flash firmware for the first time
-- [Open Source](open-source.md) — Repos, licenses, and how to contribute
+- [Hardware Specs](../hardware/specs.md) -- Full specifications with part numbers
+- [Pinout](../hardware/pinout.md) -- GPIO assignments
+- [Accessories](accessories.md) -- Color gels, backplates, and 3D printing
+- [Assembly Guide](../getting-started/assembly/guide.md) -- Build your device
+- [First Flash](../getting-started/first-flash-arduino.md) -- Flash firmware for the first time
+- [Open Source](open-source.md) -- Repos, licenses, and how to contribute

@@ -1,4 +1,4 @@
-/* guide.css — minimal styles for annotated images and print-friendly steps */
+/* guide.css -- minimal styles for annotated images and print-friendly steps */
 .cf-annot-wrap { position: relative; display: inline-block; }
 .cf-annot-overlay { pointer-events: none; }
 

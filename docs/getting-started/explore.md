@@ -1,6 +1,6 @@
 # Explore what it can do
 
-After this page you will know what each part of a Cyber Fidget can do, and you will have seen a few lines of code that make each part do something. You don't need a plan or a device yet: every example runs in the emulator in your browser.
+After this page you will know what each part of a Cyber Fidget can do, and you will have seen a few lines of code that make each part do something. You don't need a plan or a device: every example runs in the emulator in your browser.
 
 <video src="../../assets/media/emulator-catcher.webm" poster="../../assets/media/emulator-catcher.png" autoplay loop muted playsinline width="260"></video>
 
@@ -43,7 +43,7 @@ More: [Drawing to the Screen](../concepts/display.md).
 
 ## The buttons
 
-Six buttons: up, down, left, right, Back (bottom left) and Enter (bottom right). Your app can check whether a button is down right now, or ask to be told the moment it is pressed.
+Six buttons: up, down, left, right, Back (bottom left) and Enter (bottom right). Your app can check whether a button is down at any moment, or ask to be told the moment it is pressed.
 
 ```cpp
 // Insert inside update(), just above display.display();
@@ -165,41 +165,43 @@ More: [Motion Sensing](../concepts/accelerometer.md).
 
 ## Sprites and animation
 
-A sprite is a small picture for a character or object. An animation shows several sprites one after another. You can draw sprites in the studio and it writes this code for you; here is one made by hand: a face that blinks.
+A sprite is a small picture for a character or object. An animation shows several sprites one after another. Draw sprites in the studio, or try the blinking face below.
 
 ![Frame 0, eyes open: an 8 x 8 face with tall eyes](../assets/sprites/eyes-open.png){ width="81" } ![Frame 1, eyes shut: the same face with short eyes](../assets/sprites/eyes-shut.png){ width="81" }
 
-```cpp
-// Insert at the top of the file, below the #include lines
-#include "cf_gfx.h"
-using namespace cf::gfx;
-// Two 8 x 8 faces. Each byte is one row of pixels, top to bottom.
-static const uint8_t openBits[] = {0x3c, 0x42, 0xa5, 0xa5, 0x81, 0xbd, 0x42, 0x3c};
-static const uint8_t shutBits[] = {0x3c, 0x42, 0x81, 0xa5, 0x81, 0xbd, 0x42, 0x3c};
-// bytes, width, height, pivot x, pivot y, bit order
-static const Sprite eyesOpen = {openBits, 8, 8, 4, 8, BO_LSB_FIRST};
-static const Sprite eyesShut = {shutBits, 8, 8, 4, 8, BO_LSB_FIRST};
-// The frames in order, and how long each one shows in milliseconds.
-static const Sprite* const blinkFrames[] = {&eyesOpen, &eyesShut};
-static const uint16_t blinkTimes[] = {1500, 150};
-static const Animation blink = {"blink", blinkFrames, blinkTimes, 0, 2, LOOP_LOOP};
-static AnimationPlayer blinker;
+??? example "Try it"
 
-// Insert inside begin(), below setColorsOff();
-blinker.play(&blink, millis());
+    ```cpp
+    // Insert at the top of the file, below the #include lines
+    #include "cf_gfx.h"
+    using namespace cf::gfx;
+    // Two 8 x 8 faces. Each byte is one row of pixels, top to bottom.
+    static const uint8_t openBits[] = {0x3c, 0x42, 0xa5, 0xa5, 0x81, 0xbd, 0x42, 0x3c};
+    static const uint8_t shutBits[] = {0x3c, 0x42, 0x81, 0xa5, 0x81, 0xbd, 0x42, 0x3c};
+    // bytes, width, height, pivot x, pivot y, bit order
+    static const Sprite eyesOpen = {openBits, 8, 8, 4, 8, BO_LSB_FIRST};
+    static const Sprite eyesShut = {shutBits, 8, 8, 4, 8, BO_LSB_FIRST};
+    // The frames in order, and how long each one shows in milliseconds.
+    static const Sprite* const blinkFrames[] = {&eyesOpen, &eyesShut};
+    static const uint16_t blinkTimes[] = {1500, 150};
+    static const Animation blink = {"blink", blinkFrames, blinkTimes, 0, 2, LOOP_LOOP};
+    static AnimationPlayer blinker;
 
-// Insert inside update(), just above display.display();
-display.clear();
-blinker.update(millis());
-const Sprite* frame = blinker.sprite();
-if (frame != nullptr) {
-    drawSpritePivoted(display, *frame, 64, 40);
-}
-```
+    // Insert inside begin(), below setColorsOff();
+    blinker.play(&blink, millis());
+
+    // Insert inside update(), just above display.display();
+    display.clear();
+    blinker.update(millis());
+    const Sprite* frame = blinker.sprite();
+    if (frame != nullptr) {
+        drawSpritePivoted(display, *frame, 64, 40);
+    }
+    ```
+
+    The sprites page explains `*`, `&` and `nullptr` one at a time, and shows how to draw your own sprites in the studio instead of typing bytes.
 
 **What you'll see:** a small face in the middle of the screen that blinks about every one and a half seconds.
-
-Don't worry about the `*`, `&` and `nullptr` yet: the sprites page explains them one at a time, and shows how to draw your own sprites in the studio instead of typing bytes.
 
 More: [Sprites & Animation](../concepts/sprites.md), and for artists, the [Studio overview](../studio/overview.md).
 
@@ -207,38 +209,42 @@ More: [Sprites & Animation](../concepts/sprites.md), and for artists, the [Studi
 
 ## 3D models
 
-The screen can show spinning 3D wireframe models: shapes made of points joined by straight lines. This one is a box, described by its 8 corners and 12 edges.
+The screen can show spinning 3D wireframe models: shapes made of points joined by straight lines. The example in **Try it** spins a box, described by its 8 corners and 12 edges.
 
-```cpp
-// Insert at the top of the file, below the #include lines
-#include "cf_gfx.h"
-using namespace cf::gfx;
-// The 8 corners of a box. Each corner is {x, y, z}.
-static const MeshVertex boxPoints[] = {
-    {-8, -8, -8}, {8, -8, -8}, {8, 8, -8}, {-8, 8, -8},
-    {-8, -8, 8},  {8, -8, 8},  {8, 8, 8},  {-8, 8, 8},
-};
-// The 12 edges. Each edge joins two corners, by their number in boxPoints.
-static const uint8_t boxLines[][2] = {
-    {0, 1}, {1, 2}, {2, 3}, {3, 0},
-    {4, 5}, {5, 6}, {6, 7}, {7, 4},
-    {0, 4}, {1, 5}, {2, 6}, {3, 7},
-};
-// name, points, point count, lines, line count
-static const Mesh boxMesh = {"box", boxPoints, 8, boxLines, 12};
-static MeshActor boxModel;
+![A wireframe model on the emulator screen](../assets/media/3d-try-in-app-emulator.png){ width="180" }
 
-// Insert inside begin(), below setColorsOff();
-boxModel.setMesh(&boxMesh);
-boxModel.setPos(64, 32);
-boxModel.setRotation(0, 24, 0);
+??? example "Try it"
 
-// Insert inside update(), just above display.display();
-// Turn the box a little more every frame.
-boxModel.spin(1, 0, 0);
-display.clear();
-boxModel.draw(display);
-```
+    ```cpp
+    // Insert at the top of the file, below the #include lines
+    #include "cf_gfx.h"
+    using namespace cf::gfx;
+    // The 8 corners of a box. Each corner is {x, y, z}.
+    static const MeshVertex boxPoints[] = {
+        {-8, -8, -8}, {8, -8, -8}, {8, 8, -8}, {-8, 8, -8},
+        {-8, -8, 8},  {8, -8, 8},  {8, 8, 8},  {-8, 8, 8},
+    };
+    // The 12 edges. Each edge joins two corners, by their number in boxPoints.
+    static const uint8_t boxLines[][2] = {
+        {0, 1}, {1, 2}, {2, 3}, {3, 0},
+        {4, 5}, {5, 6}, {6, 7}, {7, 4},
+        {0, 4}, {1, 5}, {2, 6}, {3, 7},
+    };
+    // name, points, point count, lines, line count
+    static const Mesh boxMesh = {"box", boxPoints, 8, boxLines, 12};
+    static MeshActor boxModel;
+
+    // Insert inside begin(), below setColorsOff();
+    boxModel.setMesh(&boxMesh);
+    boxModel.setPos(64, 32);
+    boxModel.setRotation(0, 24, 0);
+
+    // Insert inside update(), just above display.display();
+    // Turn the box a little more every frame.
+    boxModel.spin(1, 0, 0);
+    display.clear();
+    boxModel.draw(display);
+    ```
 
 **What you'll see:** a wireframe box spinning in the middle of the screen.
 
@@ -246,7 +252,7 @@ More: [3D Models](../concepts/3d-models.md), and to build models without typing 
 
 ---
 
-## Got an idea now?
+## Got an idea?
 
 - **Make a game:** [Make a game, step by step](make-a-game.md) builds the game in the clip above, and helps you plan your own.
 - **Start small:** [Build your first app](first-app.md) walks through the studio from the very first click and ends with your app on a real Cyber Fidget.
