@@ -15,13 +15,20 @@ checker = importlib.util.module_from_spec(spec)
 sys.modules[spec.name] = checker
 spec.loader.exec_module(checker)
 FIXTURES = TOOL / "tests/fixtures"
-TOP = "// Paste at the top of the file, below the #include lines\n"
-BEGIN = "// Paste inside begin(), below setColorsOff();\n"
-UPDATE = "// Paste inside update(), just above display.display();\n"
-END = "// Paste inside end(), above unregisterButtonCallbacks();\n"
+TOP = "// Insert at the top of the file, below the #include lines\n"
+BEGIN = "// Insert inside begin(), below setColorsOff();\n"
+UPDATE = "// Insert inside update(), just above display.display();\n"
+END = "// Insert inside end(), above unregisterButtonCallbacks();\n"
 
 
 class ExampleTests(unittest.TestCase):
+    def test_old_placement_vocabulary_is_rejected_with_insert_message(self):
+        for marker in checker.MARKERS:
+            block = self.block(marker.replace('Insert', 'Paste') + '\nint value = 1;\n')
+            kind, message = checker.classify(block)
+            self.assertEqual(kind, 'bad-marker')
+            self.assertIn('write exactly "' + marker + '"', message)
+
     def test_studio_incompatible_examples_fail_before_compilation(self):
         for code in (UPDATE + 'cf::gfx::drawSprite(display, sprite, 0, 0);',
                      TOP + '// cf::gfx::Actor is a full name',
@@ -61,7 +68,7 @@ class ExampleTests(unittest.TestCase):
                          ["fragment:update", "fragment:begin", "fragment:end", "fragment:file",
                       "fragment:file+begin+update"])
         self.assertEqual(blocks[0].line, 5)
-        self.assertEqual(blocks[1].code.splitlines()[0], "// Paste inside begin(), below setColorsOff();")
+        self.assertEqual(blocks[1].code.splitlines()[0], "// Insert inside begin(), below setColorsOff();")
         with tempfile.TemporaryDirectory() as folder:
             for block in blocks:
                 checker.materialize(block, checker.classify(block)[0], Path(folder))
@@ -102,19 +109,19 @@ class ExampleTests(unittest.TestCase):
             with self.subTest(delimiter=delimiter):
                 code = (TOP +
                         f'const char* text = u8R"{delimiter}(\n'
-                        '// Paste inside begin()\n'
+                        '// Insert inside begin()\n'
                         '/* a comment-looking string */\n'
                         f'){delimiter}";\n' +
                         UPDATE + 'display.clear();\n')
                 sections = checker.fragment_sections(code)
                 self.assertEqual([slot for slot, _, _ in sections], ["file", "update"])
-                self.assertIn('// Paste inside begin()', sections[0][2])
+                self.assertIn('// Insert inside begin()', sections[0][2])
                 self.assertEqual(''.join(part for _, _, part in sections), code)
                 self.assertEqual(checker.classify(self.block(code))[0], "fragment:file+update")
 
     def test_markers_inside_block_comments_and_after_close(self):
         code = (TOP + '/*\n'
-                '// Paste inside end()\nR"fake(\n*/\n' +
+                '// Insert inside end()\nR"fake(\n*/\n' +
                 BEGIN + 'int value = 1;\n')
         sections = checker.fragment_sections(code)
         self.assertEqual([slot for slot, _, _ in sections], ["file", "begin"])
@@ -192,23 +199,23 @@ class ExampleTests(unittest.TestCase):
                              ("fragment:" + slot, ""))
 
     def test_bad_marker_names_the_canonical_text(self):
-        for line, slot in (("// Paste inside update()", "update"),
-                           ("// Paste inside begin(): set up.", "begin"),
+        for line, slot in (("// Insert inside update()", "update"),
+                           ("// Insert inside begin(): set up.", "begin"),
                            ("// paste inside END()", "end"),
-                           ("// Paste at the top of the file", "file"),
-                           ("  // Paste inside update(), just above display.display();", "update")):
+                           ("// Insert at the top of the file", "file"),
+                           ("  // Insert inside update(), just above display.display();", "update")):
             with self.subTest(line=line):
                 kind, message = checker.classify(self.block(line + "\nint x = 1;\n"))
                 self.assertEqual(kind, "bad-marker")
                 self.assertIn("line 10", message)
                 self.assertIn('"' + checker.CONFIG["slots"][slot]["marker"] + '"', message)
-        kind, message = checker.classify(self.block("// Paste this anywhere\nint x = 1;\n"))
+        kind, message = checker.classify(self.block("// Insert this anywhere\nint x = 1;\n"))
         self.assertEqual(kind, "bad-marker")
         for marker in checker.MARKERS:
             self.assertIn(marker, message)
 
     def test_bad_marker_in_a_later_section(self):
-        kind, message = checker.classify(self.block(TOP + "int x = 1;\n\n// Paste inside begin()\nx = 2;\n"))
+        kind, message = checker.classify(self.block(TOP + "int x = 1;\n\n// Insert inside begin()\nx = 2;\n"))
         self.assertEqual(kind, "bad-marker")
         self.assertIn("line 13", message)
         self.assertIn(BEGIN.strip(), message)

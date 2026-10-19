@@ -27,7 +27,7 @@ Both are opt-in: enable the mic when your app needs it, and disable it when you'
 
 ### Playing tones
 
-Paste each block into the [studio starter](../getting-started/first-app.md) where its comments say. Each block works on its own. Keep the starter's bottom-left exit button and its `setColorsOff()` calls in `begin()` and `end()`.
+Add each block into the [studio starter](../getting-started/first-app.md) where its comments say. Each block works on its own. Keep the starter's bottom-left exit button and its `setColorsOff()` calls in `begin()` and `end()`.
 
 You play a tone by specifying its **frequency** in Hertz (Hz). Higher Hz = higher pitch. Musical notes have standard frequencies:
 
@@ -64,19 +64,21 @@ To play a short melody or alert without writing your own timing code, describe i
 | `durationMs` | Length of the tone or rest in milliseconds |
 | `gapAfterMs` | Silence after that step, in milliseconds |
 
+`const` marks data that this code cannot change. In a type such as `const ToneStep*`, `*` means a pointer, an address used to read the steps. In `const ButtonEvent& e` below, `&` passes the existing event by reference rather than making a copy.
+
 ```cpp
-// Paste inside begin(), below setColorsOff();
+// Insert inside begin(), below setColorsOff();
 // Each step has frequency in Hz, duration in ms, then gap in ms.
 static const AudioManager::ToneStep step[] = { {880, 100, 50} };
 HAL::audioManager().playSequence(step, 1);
 
-// Paste inside end(), above unregisterButtonCallbacks();
+// Insert inside end(), above unregisterButtonCallbacks();
 HAL::audioManager().stopSequence();
 HAL::audioManager().stopTone();
 ```
 
 ```cpp
-// Paste inside begin(), below setColorsOff();
+// Insert inside begin(), below setColorsOff();
 static const AudioManager::ToneStep WIN_JINGLE[] = {
     { 1046.50f, 100, 50 },  // C6, then a 50 ms pause
     { 0,         80,  0 },  // Rest for 80 ms
@@ -85,7 +87,7 @@ static const AudioManager::ToneStep WIN_JINGLE[] = {
 static const int WIN_JINGLE_LEN = sizeof(WIN_JINGLE) / sizeof(WIN_JINGLE[0]);
 HAL::audioManager().playSequence(WIN_JINGLE, WIN_JINGLE_LEN);
 
-// Paste inside end(), above unregisterButtonCallbacks();
+// Insert inside end(), above unregisterButtonCallbacks();
 HAL::audioManager().stopSequence();
 HAL::audioManager().stopTone();
 ```
@@ -114,13 +116,13 @@ The mic is **opt-in**. Call `enableMic(true)` in `begin()` and `enableMic(false)
 `playTone()` makes one sound at a time. A **note** is a tone that can sound together with other notes, which is called **polyphony** (many voices at once). Notes are how you play a chord, or let another note start while one is still ringing.
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 static int noteHandle = -1;
 
-// Paste inside begin(), below setColorsOff();
+// Insert inside begin(), below setColorsOff();
 noteHandle = HAL::audioManager().playNote(1046.5f); // Hold C6 until stopped.
 
-// Paste inside end(), above unregisterButtonCallbacks();
+// Insert inside end(), above unregisterButtonCallbacks();
 HAL::audioManager().stopNote(noteHandle);
 HAL::audioManager().stopNotes();
 HAL::audioManager().stopTone();
@@ -137,7 +139,7 @@ Low notes below about 700 Hz are hard to hear on the speaker, so keep important 
 This example plays a C major chord (C5, E5, G5) while you are holding the first button, and stops it when you let go:
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 static int chord[3] = { -1, -1, -1 };
 static void onFirstButton(const ButtonEvent& e) {
     if (e.eventType == ButtonEvent_Pressed) {
@@ -153,10 +155,10 @@ static void onFirstButton(const ButtonEvent& e) {
     }
 }
 
-// Paste inside begin(), below setColorsOff();
+// Insert inside begin(), below setColorsOff();
 buttonManager.registerCallback(button_TopLeftIndex, onFirstButton);
 
-// Paste inside end(), above unregisterButtonCallbacks();
+// Insert inside end(), above unregisterButtonCallbacks();
 buttonManager.unregisterCallback(button_TopLeftIndex);
 HAL::audioManager().stopNotes();
 HAL::audioManager().stopTone();
@@ -170,16 +172,16 @@ HAL::audioManager().stopTone();
 The microphone can drive your app: a level bar, an LED that brightens with sound, a clap detector. Turn it on, read the level every frame, and turn it off when you are done:
 
 ```cpp
-// Paste inside begin(), below setColorsOff();
+// Insert inside begin(), below setColorsOff();
 HAL::audioManager().enableMic(true);
 
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 float level = HAL::audioManager().getMicVolumeLinear();
 display.clear();
 display.drawRect(10, 28, 108, 8);
 display.fillRect(11, 29, (int)(level * 106), 6);
 
-// Paste inside end(), above unregisterButtonCallbacks();
+// Insert inside end(), above unregisterButtonCallbacks();
 HAL::audioManager().enableMic(false);
 ```
 
@@ -198,16 +200,16 @@ If your app exits without turning the microphone off, the system turns it off fo
 ## Code example: melody and sound reaction
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 static unsigned long lastNote = 0;
 static int noteIndex = 0;
 
-// Paste inside begin(), below setColorsOff();
+// Insert inside begin(), below setColorsOff();
 lastNote = millis();
 noteIndex = 0;
 HAL::audioManager().enableMic(true);
 
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 static const float notes[] = { 1046.50f, 1318.51f, 1567.98f }; // C6, E6, G6
 unsigned long frameTime = millis();
 if (frameTime - lastNote >= 500) {
@@ -219,7 +221,7 @@ float micLevel = HAL::audioManager().getMicVolumeLinear();
 uint8_t brightness = (uint8_t)(micLevel * 255);
 HAL::setRgbLed(pixel_Front_Top, brightness, 0, 0, 0);
 
-// Paste inside end(), above unregisterButtonCallbacks();
+// Insert inside end(), above unregisterButtonCallbacks();
 HAL::audioManager().stopTone();
 HAL::audioManager().enableMic(false);
 ```
@@ -240,7 +242,7 @@ The note and microphone functions need firmware 1.5.0 or newer.
 
 ## Framework details
 
-??? info "Advanced: how the firmware handles audio"
+!!! advanced "Advanced: how the firmware handles audio"
     You do not need these details to build apps in the studio. They describe the firmware internals for readers writing an app by hand and building it into the firmware.
 
     ### AudioManager

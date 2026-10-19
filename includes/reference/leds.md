@@ -7,16 +7,16 @@
 
 | Call | What it does |
 |---|---|
-| [`HAL::setRgbLed(pixel_Front_Middle, 0, 0, 255, 0);`](../reference/functions.md#symbol-hal--setrgbled) | Set one RGBW LED; red, green, blue, white channels each use 0-255. |
-| [`HAL::setRgbLedsOff();`](../reference/functions.md#symbol-hal--setrgbledsoff) | Turn all four RGBW LEDs off. |
-| [`setColorsOff();`](../reference/functions.md#symbol-setcolorsoff) | Turn all four LEDs off; call in begin() and end(). |
-| [`setDeterminedColorsFront(0, 0, 255, 0);`](../reference/functions.md#symbol-setdeterminedcolorsfront) | Set the three front LEDs; RGBW channels each use 0-255. |
-| [`setDeterminedColorsAll(0, 0, 255, 0);`](../reference/functions.md#symbol-setdeterminedcolorsall) | Set all four LEDs; RGBW channels each use 0-255. |
-| [`setRandomColors();`](../reference/functions.md#symbol-setrandomcolors) | Give the three front LEDs random red/green/blue channels from 0-9, with white off; back LED is unchanged. |
-| [`mapToRainbow(1024, 64, r, g, b);`](../reference/functions.md#symbol-maptorainbow) | Convert hue 0-4095 to red, green, blue output variables; dim scales brightness from 0-255. |
-| [`pixel_Back`](../reference/functions.md#symbol-pixel-back) | Back RGBW LED. |
-| [`pixel_Front_Bottom`](../reference/functions.md#symbol-pixel-front-bottom) | Front Bottom RGBW LED. |
-| [`pixel_Front_Middle`](../reference/functions.md#symbol-pixel-front-middle) | Front Middle RGBW LED. |
-| [`pixel_Front_Top`](../reference/functions.md#symbol-pixel-front-top) | Front Top RGBW LED. |
+| [`void HAL::setRgbLed(int index, uint8_t r, uint8_t g, uint8_t b, uint8_t w)`](../reference/functions.md#symbol-hal--setrgbled)<br><small>*Example:* `HAL::setRgbLed(pixel_Front_Middle, 0, 0, 255, 0);`</small> | Set one RGBW LED; red, green, blue, white channels each use 0-255. |
+| [`void HAL::setRgbLedsOff()`](../reference/functions.md#symbol-hal--setrgbledsoff)<br><small>*Example:* `HAL::setRgbLedsOff();`</small> | Turn all four RGBW LEDs off. |
+| [`void setColorsOff()`](../reference/functions.md#symbol-setcolorsoff)<br><small>*Example:* `setColorsOff();`</small> | Turn all four LEDs off; call in begin() and end(). |
+| [`void setDeterminedColorsFront(uint8_t r, uint8_t g, uint8_t b, uint8_t w)`](../reference/functions.md#symbol-setdeterminedcolorsfront)<br><small>*Example:* `setDeterminedColorsFront(0, 0, 255, 0);`</small> | Set the three front LEDs; RGBW channels each use 0-255. |
+| [`void setDeterminedColorsAll(uint8_t r, uint8_t g, uint8_t b, uint8_t w)`](../reference/functions.md#symbol-setdeterminedcolorsall)<br><small>*Example:* `setDeterminedColorsAll(0, 0, 255, 0);`</small> | Set all four LEDs; RGBW channels each use 0-255. |
+| [`void setRandomColors()`](../reference/functions.md#symbol-setrandomcolors)<br><small>*Example:* `setRandomColors();`</small> | Give the three front LEDs random red/green/blue channels from 0-9, with white off; back LED is unchanged. |
+| [`void mapToRainbow(int input, uint8_t dim, uint8_t &red, uint8_t &green, uint8_t &blue)`](../reference/functions.md#symbol-maptorainbow)<br><small>*Example:* `mapToRainbow(1024, 64, r, g, b);`</small> | Convert hue 0-4095 to red, green, blue output variables; dim scales brightness from 0-255. |
+| [`const uint16_t pixel_Back = 0`](../reference/functions.md#symbol-pixel-back)<br><small>*Example:* `pixel_Back`</small> | Back RGBW LED. |
+| [`const uint16_t pixel_Front_Bottom = 3`](../reference/functions.md#symbol-pixel-front-bottom)<br><small>*Example:* `pixel_Front_Bottom`</small> | Front Bottom RGBW LED. |
+| [`const uint16_t pixel_Front_Middle = 2`](../reference/functions.md#symbol-pixel-front-middle)<br><small>*Example:* `pixel_Front_Middle`</small> | Front Middle RGBW LED. |
+| [`const uint16_t pixel_Front_Top = 1`](../reference/functions.md#symbol-pixel-front-top)<br><small>*Example:* `pixel_Front_Top`</small> | Front Top RGBW LED. |
 
 </div>

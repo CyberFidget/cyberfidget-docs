@@ -95,11 +95,14 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 
 | Term | Meaning |
 |------|---------|
+| ***** | In a declaration, marks a pointer that holds an address; before a pointer, reads the object at that address. |
+| **&** | In a parameter type, a reference to an existing object rather than a copy; before a value, its address. |
 | **Actor** | A thing on the screen in an app: a position plus an animation that is playing. See [Sprites & Animation](../concepts/sprites.md#actors). |
 | **Animation** | Named sequence of sprite frames for one action; the editor's name for an animation state. |
 | **Animation state** | A named sequence of sprite frames for one action, such as running or jumping. |
 | **Asset** | A sprite or model that can be used in a Studio project. |
 | **Bitmap** | A picture stored as a grid of on/off pixels. |
+| **bool** | A C++ type holding either true or false. |
 | **buffer** | An area of memory holding data while code works on it; the drawing buffer holds the next screen image. |
 | **Build** | Studio's step that turns your project, including its art, into a runnable app. |
 | **Built app** | The runnable copy produced when Studio builds an app. |
@@ -108,6 +111,8 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Collision** | Two sprites touching, where a lit pixel of one sits on a lit pixel of the other. See [Sprites & Animation](../concepts/sprites.md#collision). |
 | **Companion page** | The phone companion's web page, built into firmware and optionally overridden from the memory card. |
 | **Compile** | Turn the code you wrote into a program the device (or the emulator) can run. |
+| **const** | Marks a value that cannot be changed through this declaration; after a method signature, the method does not change its object. |
+| **const char*** | A pointer to text ending with a zero character; the characters cannot be changed through this pointer. |
 | **Emulator** | A copy of the device that runs in your browser, so you can try an app without a Cyber Fidget. |
 | **Firmware** | The built-in software that runs on the device. |
 | **float** | A C++ number type that can hold a fractional part. |
@@ -117,13 +122,18 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **framebuffer** | A buffer that stores the pixel values for a screen image. |
 | **GIF** | Graphics Interchange Format; an image file format that can store an animation. |
 | **GRBW** | Green, Red, Blue, White; the order used to send channels to the LED hardware. |
+| **int** | A signed whole number; on the device, -2,147,483,648 to 2,147,483,647. |
+| **int16_t** | A signed whole number from -32,768 to 32,767. |
+| **int32_t** | A signed whole number from -2,147,483,648 to 2,147,483,647. |
 | **Internal storage** | Storage built into the Cyber Fidget where apps live. |
 | **lambda** | A short unnamed C++ function. |
 | **Layer** | Separate set of pixels in a frame, with its own drawing order and visibility. |
+| **long** | A signed whole number; on the device, -2,147,483,648 to 2,147,483,647. |
 | **macro** | Named code expanded by the C++ preprocessor before compilation. |
 | **MB** | Megabyte; a unit of file size, about one million bytes. |
 | **mg** | Milli-g in motion readings; one thousandth of the acceleration due to gravity. |
 | **Node** | A point in a wireframe model's shape, positioned in 3D space. |
+| **nullptr** | A C++ value meaning a pointer does not point to an object. |
 | **pivot** | The point on a sprite placed at its screen position. |
 | **pose** | A set of bone angles describing how a figure is positioned. |
 | **potentiometer** | A variable resistor; moving the slider changes the voltage read by the device. |
@@ -134,8 +144,14 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **singleton** | An object shared through one instance. |
 | **Sprite** | An image or animation used by an app for a character, object, or effect. |
 | **Sprite sheet** | A named group of animations for one character or object. See [Sprites & Animation](../concepts/sprites.md#animations-and-sprite-sheets). |
+| **String** | A C++ object holding text. |
 | **Strut** | A straight line connecting two nodes in a wireframe model. |
+| **uint16_t** | A whole number from 0 to 65,535. |
+| **uint32_t** | A whole number from 0 to 4,294,967,295. |
+| **uint8_t** | A whole number from 0 to 255. |
+| **unsigned long** | A non-negative whole number; on the device, 0 to 4,294,967,295, used for elapsed time. |
 | **Viewport** | Visible area of the canvas. |
+| **void** | A return type meaning that a function returns no value. |
 | **Wireframe model** | A 3D shape built from points (nodes) connected by straight lines (struts), with no solid surfaces -- drawn as spinning line art on the device. |
 
 ---

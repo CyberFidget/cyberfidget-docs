@@ -66,7 +66,7 @@ The starter already hooks up the bottom-left button to close your app and return
 
 Find the line in `update()` that draws the text. It looks like this, with your own code name between the quote marks:
 
-<!-- check-examples: skip - a line to find and edit in the starter, not code to paste -->
+<!-- check-examples: skip - a line to find and edit in the starter, not code to add -->
 ```cpp
 display.drawString(64, 24, "Hello");
 ```
@@ -102,7 +102,7 @@ Try it:
 
 ## 6. Add a light and a sound
 
-Two short additions. Paste each block where its first comment says. Rebuild and run after each one.
+Two short additions. Add each block where its first comment says. Rebuild and run after each one.
 
 The Cyber Fidget has four [RGBW](../reference/glossary.md) LEDs: red, green, blue and white, each from 0 (off) to 255 (full).
 
@@ -111,7 +111,7 @@ The Cyber Fidget has four [RGBW](../reference/glossary.md) LEDs: red, green, blu
 The slider reports a number from 0 to 255. On the device, the inverted value used here is low at the bottom and high at the top, so moving the slider up makes the blue lights brighter.
 
 ```cpp
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 setDeterminedColorsAll(0, 0, sliderPosition_8Bits_Inverted_Filtered, 0);
 ```
 
@@ -132,21 +132,25 @@ The six buttons are numbered like this:
 
 This block has three parts, and each part says where it goes. A "callback" is a function the device calls for you when something happens, here a button press.
 
+In `const ButtonEvent& e`, `&` passes the existing event by reference rather than making a copy; `const` means this function cannot change it.
+
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 static void onRightPressed(const ButtonEvent& e) {
-    if (e.eventType == ButtonEvent_Pressed) HAL::audioManager().playTone(880, 100);
+    if (e.eventType == ButtonEvent_Pressed) {
+        HAL::audioManager().playTone(880, 100);
+    }
 }
 
-// Paste inside begin(), below setColorsOff();
+// Insert inside begin(), below setColorsOff();
 buttonManager.registerCallback(button_MiddleRightIndex, onRightPressed);
 
-// Paste inside end(), above unregisterButtonCallbacks();
+// Insert inside end(), above unregisterButtonCallbacks();
 buttonManager.unregisterCallback(button_MiddleRightIndex);
 HAL::audioManager().stopTone();
 ```
 
-Paste the first section below the `#include` lines and above the line that creates the app object. Paste the `begin()` section below its existing `setColorsOff();` line, and the `end()` section above its existing `unregisterButtonCallbacks();` line. The middle-right button plays a short beep (880 Hz, for 100 milliseconds). The `end()` lines let go of the button and stop any sound when your app closes. See [Buttons & Events](../concepts/buttons.md) and [Sound & Music](../concepts/audio.md).
+Add the first section below the `#include` lines and above the line that creates the app object. Add the `begin()` section below its existing `setColorsOff();` line, and the `end()` section above its existing `unregisterButtonCallbacks();` line. The middle-right button plays a short beep (880 Hz, for 100 milliseconds). The `end()` lines let go of the button and stop any sound when your app closes. See [Buttons & Events](../concepts/buttons.md) and [Sound & Music](../concepts/audio.md).
 
 Looking for more functions to try? See the [function reference](../reference/functions.md).
 

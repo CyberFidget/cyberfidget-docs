@@ -7,27 +7,27 @@
 
 | Call | What it does |
 |---|---|
-| [`HAL::buttonManager()`](../reference/functions.md#symbol-hal--buttonmanager) | The buttons, for code outside your app's functions. Inside begin(), update() and end(), the starter already calls it `buttonManager`. |
-| [`buttonManager.registerCallback(button_RightIndex, onRight);`](../reference/functions.md#symbol-buttonmanager--registercallback) | Call onRight for press, release, and hold events; replaces that button's callback. |
-| [`buttonManager.unregisterCallback(button_RightIndex);`](../reference/functions.md#symbol-buttonmanager--unregistercallback) | Remove the button callback when leaving the app. |
-| [`buttonManager.isPressed(button_RightIndex);`](../reference/functions.md#symbol-buttonmanager--ispressed) | Read whether the button is down right now. |
-| [`buttonManager.hasCallback(button_RightIndex);`](../reference/functions.md#symbol-buttonmanager--hascallback) | Check whether a button has a registered callback. |
-| [`buttonManager.getCallback(button_RightIndex);`](../reference/functions.md#symbol-buttonmanager--getcallback) | Read the registered callback, or nullptr if none. |
-| [`button_BottomLeftIndex`](../reference/functions.md#symbol-button-bottomleftindex) | BottomLeft button; aliases refer to the same physical button. |
-| [`button_BottomRightIndex`](../reference/functions.md#symbol-button-bottomrightindex) | BottomRight button; aliases refer to the same physical button. |
-| [`button_DownIndex`](../reference/functions.md#symbol-button-downindex) | Down button; aliases refer to the same physical button. |
-| [`button_EnterIndex`](../reference/functions.md#symbol-button-enterindex) | Enter button; aliases refer to the same physical button. |
-| [`button_LeftIndex`](../reference/functions.md#symbol-button-leftindex) | Left button; aliases refer to the same physical button. |
-| [`button_MiddleLeftIndex`](../reference/functions.md#symbol-button-middleleftindex) | MiddleLeft button; aliases refer to the same physical button. |
-| [`button_MiddleRightIndex`](../reference/functions.md#symbol-button-middlerightindex) | MiddleRight button; aliases refer to the same physical button. |
-| [`button_RightIndex`](../reference/functions.md#symbol-button-rightindex) | Right button; aliases refer to the same physical button. |
-| [`button_SelectIndex`](../reference/functions.md#symbol-button-selectindex) | Select button; aliases refer to the same physical button. |
-| [`button_TopLeftIndex`](../reference/functions.md#symbol-button-topleftindex) | TopLeft button; aliases refer to the same physical button. |
-| [`button_TopRightIndex`](../reference/functions.md#symbol-button-toprightindex) | TopRight button; aliases refer to the same physical button. |
-| [`button_UpIndex`](../reference/functions.md#symbol-button-upindex) | Up button; aliases refer to the same physical button. |
-| [`ButtonEvent_None`](../reference/functions.md#symbol-buttonevent-none) | No button event. |
-| [`ButtonEvent_Pressed`](../reference/functions.md#symbol-buttonevent-pressed) | Button went down. |
-| [`ButtonEvent_Released`](../reference/functions.md#symbol-buttonevent-released) | Button went up; duration is time held in ms. |
-| [`ButtonEvent_Held`](../reference/functions.md#symbol-buttonevent-held) | Button passed the 1500 ms hold threshold; duration is time held in ms. |
+| [`ButtonManager& HAL::buttonManager()`](../reference/functions.md#symbol-hal--buttonmanager)<br><small>*Example:* `HAL::buttonManager()`</small> | The buttons, for code outside your app's functions. Inside begin(), update() and end(), the starter already calls it `buttonManager`. |
+| [`void buttonManager.registerCallback(int buttonIndex, ButtonCallback callback)`](../reference/functions.md#symbol-buttonmanager--registercallback)<br><small>*Example:* `buttonManager.registerCallback(button_RightIndex, onRight);`</small> | Call onRight for press, release, and hold events; replaces that button's callback. |
+| [`void buttonManager.unregisterCallback(int buttonIndex)`](../reference/functions.md#symbol-buttonmanager--unregistercallback)<br><small>*Example:* `buttonManager.unregisterCallback(button_RightIndex);`</small> | Remove the button callback when leaving the app. |
+| [`bool buttonManager.isPressed(int buttonIndex) const`](../reference/functions.md#symbol-buttonmanager--ispressed)<br><small>*Example:* `buttonManager.isPressed(button_RightIndex);`</small> | Read whether the button is down right now. |
+| [`bool buttonManager.hasCallback(int buttonIndex) const`](../reference/functions.md#symbol-buttonmanager--hascallback)<br><small>*Example:* `buttonManager.hasCallback(button_RightIndex);`</small> | Check whether a button has a registered callback. |
+| [`ButtonCallback buttonManager.getCallback(int buttonIndex) const`](../reference/functions.md#symbol-buttonmanager--getcallback)<br><small>*Example:* `buttonManager.getCallback(button_RightIndex);`</small> | Read the registered callback, or nullptr if none. |
+| [`const int button_BottomLeftIndex = 4`](../reference/functions.md#symbol-button-bottomleftindex)<br><small>*Example:* `button_BottomLeftIndex`</small> | BottomLeft button; aliases refer to the same physical button. |
+| [`const int button_BottomRightIndex = 5`](../reference/functions.md#symbol-button-bottomrightindex)<br><small>*Example:* `button_BottomRightIndex`</small> | BottomRight button; aliases refer to the same physical button. |
+| [`const int button_DownIndex = button_TopRightIndex`](../reference/functions.md#symbol-button-downindex)<br><small>*Example:* `button_DownIndex`</small> | Down button; aliases refer to the same physical button. |
+| [`const int button_EnterIndex = button_BottomRightIndex`](../reference/functions.md#symbol-button-enterindex)<br><small>*Example:* `button_EnterIndex`</small> | Enter button; aliases refer to the same physical button. |
+| [`const int button_LeftIndex = button_MiddleLeftIndex`](../reference/functions.md#symbol-button-leftindex)<br><small>*Example:* `button_LeftIndex`</small> | Left button; aliases refer to the same physical button. |
+| [`const int button_MiddleLeftIndex = 2`](../reference/functions.md#symbol-button-middleleftindex)<br><small>*Example:* `button_MiddleLeftIndex`</small> | MiddleLeft button; aliases refer to the same physical button. |
+| [`const int button_MiddleRightIndex = 3`](../reference/functions.md#symbol-button-middlerightindex)<br><small>*Example:* `button_MiddleRightIndex`</small> | MiddleRight button; aliases refer to the same physical button. |
+| [`const int button_RightIndex = button_MiddleRightIndex`](../reference/functions.md#symbol-button-rightindex)<br><small>*Example:* `button_RightIndex`</small> | Right button; aliases refer to the same physical button. |
+| [`const int button_SelectIndex = button_BottomLeftIndex`](../reference/functions.md#symbol-button-selectindex)<br><small>*Example:* `button_SelectIndex`</small> | Select button; aliases refer to the same physical button. |
+| [`const int button_TopLeftIndex = 0`](../reference/functions.md#symbol-button-topleftindex)<br><small>*Example:* `button_TopLeftIndex`</small> | TopLeft button; aliases refer to the same physical button. |
+| [`const int button_TopRightIndex = 1`](../reference/functions.md#symbol-button-toprightindex)<br><small>*Example:* `button_TopRightIndex`</small> | TopRight button; aliases refer to the same physical button. |
+| [`const int button_UpIndex = button_TopLeftIndex`](../reference/functions.md#symbol-button-upindex)<br><small>*Example:* `button_UpIndex`</small> | Up button; aliases refer to the same physical button. |
+| [`ButtonEventType ButtonEvent_None`](../reference/functions.md#symbol-buttonevent-none)<br><small>*Example:* `ButtonEvent_None`</small> | No button event. |
+| [`ButtonEventType ButtonEvent_Pressed`](../reference/functions.md#symbol-buttonevent-pressed)<br><small>*Example:* `ButtonEvent_Pressed`</small> | Button went down. |
+| [`ButtonEventType ButtonEvent_Released`](../reference/functions.md#symbol-buttonevent-released)<br><small>*Example:* `ButtonEvent_Released`</small> | Button went up; duration is time held in ms. |
+| [`ButtonEventType ButtonEvent_Held`](../reference/functions.md#symbol-buttonevent-held)<br><small>*Example:* `ButtonEvent_Held`</small> | Button passed the 1500 ms hold threshold; duration is time held in ms. |
 
 </div>

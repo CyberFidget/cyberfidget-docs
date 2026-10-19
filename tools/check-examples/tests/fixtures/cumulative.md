@@ -3,34 +3,34 @@
 # Cumulative steps
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 static int taps = 0;
 
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 display.drawString(0, 0, "Taps");
 ```
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 static void onTap(const ButtonEvent& e) {
     if (e.eventType == ButtonEvent_Pressed) taps++;
 }
 
-// Paste inside begin(), below setColorsOff();
+// Insert inside begin(), below setColorsOff();
 buttonManager.registerCallback(button_MiddleRightIndex, onTap);
 
-// Paste inside end(), above unregisterButtonCallbacks();
+// Insert inside end(), above unregisterButtonCallbacks();
 buttonManager.unregisterCallback(button_MiddleRightIndex);
 ```
 
 <!-- check-examples: skip - skipped blocks do not accumulate -->
 ```cpp
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 this is not code;
 ```
 
 ```cpp
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 display.drawProgressBar(0, 20, 100, 8, taps % 101);
 ```
 

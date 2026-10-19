@@ -26,10 +26,10 @@ You are looking at the starter code in the `.cpp` file. Every step below is one 
 
 | First line of the part | Where to paste it |
 |------------------------|-------------------|
-| `// Paste at the top of the file, below the #include lines` | Under the four `#include` lines at the top, above the line `Catcher catcher(HAL::buttonManager());`. |
-| `// Paste inside begin(), below setColorsOff();` | Inside `begin()`, under the line `setColorsOff();`. |
-| `// Paste inside update(), just above display.display();` | Inside `update()`, on the line above `display.display();`. |
-| `// Paste inside end(), above unregisterButtonCallbacks();` | Inside `end()`, above the line `unregisterButtonCallbacks();`. |
+| `// Insert at the top of the file, below the #include lines` | Under the four `#include` lines at the top, above the line `Catcher catcher(HAL::buttonManager());`. |
+| `// Insert inside begin(), below setColorsOff();` | Inside `begin()`, under the line `setColorsOff();`. |
+| `// Insert inside update(), just above display.display();` | Inside `update()`, on the line above `display.display();`. |
+| `// Insert inside end(), above unregisterButtonCallbacks();` | Inside `end()`, above the line `unregisterButtonCallbacks();`. |
 
 When a step pastes into a place you have already used, put the new lines **below** the lines you pasted there before. Paste the comment lines too: they keep your file readable, and they match the finished listing at the end of this page.
 
@@ -42,7 +42,7 @@ Never delete or change earlier lines. Every step only adds.
 The paddle is a thin upright bar near the right edge of the screen. The slider moves it.
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 // The paddle: a thin upright bar near the right edge.
 static const int PADDLE_X = 116;
 static const int PADDLE_H = 14;
@@ -50,7 +50,7 @@ static int paddleY = 25;
 ```
 
 ```cpp
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 // Wipe the template's title so the game has the whole screen.
 display.clear();
 // Slider at the top puts the paddle at the top of the screen.
@@ -67,7 +67,7 @@ display.fillRect(PADDLE_X, paddleY, 3, PADDLE_H);
 ## Step 2: a dot that flies across
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 // The dot starts at the left edge, at a random height.
 static int dotX = 8;
 static int dotY = 32;
@@ -80,13 +80,13 @@ static void newDot() {
 ```
 
 ```cpp
-// Paste inside begin(), below setColorsOff();
+// Insert inside begin(), below setColorsOff();
 newDot();
 dotSpeed = 1;
 ```
 
 ```cpp
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 // Move the dot at its current speed, then draw it.
 dotX += dotSpeed;
 display.fillCircle(dotX, dotY, 2);
@@ -103,7 +103,7 @@ display.fillCircle(dotX, dotY, 2);
 When the dot reaches the paddle, the game checks whether the paddle is in its way.
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 static int score = 0;
 static int lives = 3;
 // Set for one frame when the dot is caught or missed.
@@ -112,7 +112,7 @@ static bool missed = false;
 ```
 
 ```cpp
-// Paste inside begin(), below setColorsOff();
+// Insert inside begin(), below setColorsOff();
 // Start every game fresh when the app opens.
 score = 0;
 lives = 3;
@@ -121,7 +121,7 @@ missed = false;
 ```
 
 ```cpp
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 caught = false;
 missed = false;
 if (lives > 0 && dotX >= PADDLE_X - 2) {
@@ -147,12 +147,12 @@ The dot is a circle with a radius of 2 pixels, so it touches the paddle when its
 ## Step 4: show the score
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 #include <stdio.h>
 ```
 
 ```cpp
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 // Write the score and lives into a short piece of text, then draw it.
 char text[24];
 snprintf(text, sizeof(text), "Score %d  Lives %d", score, lives);
@@ -172,20 +172,20 @@ The text is centered at the top middle of the screen. The case hides about 8 pix
 ## Step 5: flash the lights
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 // When the lights came on, so they can go off again.
 static bool lit = false;
 static unsigned long litAt = 0;
 ```
 
 ```cpp
-// Paste inside begin(), below setColorsOff();
+// Insert inside begin(), below setColorsOff();
 lit = false;
 litAt = 0;
 ```
 
 ```cpp
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 if (caught) {
     setDeterminedColorsAll(0, 255, 0, 0);
     lit = true;
@@ -211,7 +211,7 @@ if (lit && millis() - litAt > 200) {
 ## Step 6: add sound
 
 ```cpp
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 if (caught) {
     HAL::audioManager().playTone(1568, 60);
 }
@@ -221,7 +221,7 @@ if (missed) {
 ```
 
 ```cpp
-// Paste inside end(), above unregisterButtonCallbacks();
+// Insert inside end(), above unregisterButtonCallbacks();
 HAL::audioManager().stopTone();
 ```
 
@@ -236,7 +236,7 @@ HAL::audioManager().stopTone();
 When the lives run out, the game shows a game over screen. The middle-right button starts a new game.
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 // The middle-right button starts a new game after game over.
 static void onRestart(const ButtonEvent& e) {
     if (e.eventType == ButtonEvent_Pressed && lives <= 0) {
@@ -255,12 +255,12 @@ static void onRestart(const ButtonEvent& e) {
 ```
 
 ```cpp
-// Paste inside begin(), below setColorsOff();
+// Insert inside begin(), below setColorsOff();
 buttonManager.registerCallback(button_MiddleRightIndex, onRestart);
 ```
 
 ```cpp
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 if (lives <= 0) {
     // Pause movement and clear every effect.
     dotSpeed = 0;
@@ -279,7 +279,7 @@ if (lives <= 0) {
 ```
 
 ```cpp
-// Paste inside end(), above unregisterButtonCallbacks();
+// Insert inside end(), above unregisterButtonCallbacks();
 buttonManager.unregisterCallback(button_MiddleRightIndex);
 ```
 
@@ -294,7 +294,7 @@ The game over code reuses the `text` buffer from step 4, because both are inside
 ## Step 8: speed up as you score
 
 ```cpp
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 // Set the next frame's speed only while playing.
 if (lives > 0) {
     dotSpeed = min(3, 1 + score / 5);

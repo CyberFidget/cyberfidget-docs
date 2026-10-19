@@ -1,5 +1,24 @@
-/* multi.css — minimal hover-to-swap gallery for step images */
+/* SPDX-License-Identifier: CC-BY-SA-4.0 */
+/* multi.css - minimal hover-to-swap gallery for step images */
 .cf-step-gallery .cf-main img { max-width: 100%; height: auto; display:block; }
+
+/* Visible firmware detail, distinct from cyan information blocks. */
+.md-typeset .admonition.advanced {
+  border-color: #b5a0df;
+}
+.md-typeset .advanced > .admonition-title {
+  background-color: #b5a0df1a;
+}
+.md-typeset .advanced > .admonition-title::before {
+  background-color: #c9b6ee;
+  /* A settings gear, available without an external icon service. */
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m19.4 13 .1-1-.1-1 2-1.5-2-3.5-2.4 1a8 8 0 0 0-1.7-1L15 3h-4l-.4 3a8 8 0 0 0-1.7 1L6.5 6l-2 3.5L6.5 11l-.1 1 .1 1-2 1.5 2 3.5 2.4-1a8 8 0 0 0 1.7 1l.4 3h4l.4-3a8 8 0 0 0 1.7-1l2.4 1 2-3.5ZM13 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z'/%3E%3C/svg%3E");
+}
+.function-reference small {
+  display: inline-block;
+  margin-top: .5em;
+  font-size: .85em;
+}
 
 /* Let each step set --cf-main-w and --cf-thumb-w if desired */
 .cf-step-gallery .cf-main {

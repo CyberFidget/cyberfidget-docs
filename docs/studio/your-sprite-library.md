@@ -65,7 +65,7 @@ You can use a starter sprite in three ways:
 
 - **Add to open sprite** combines the starter art with your current drawing as a new layer.
 - **Copy to Project** adds the starter sprite to the project as its own sprite file.
-- **Copy as C++** copies the sprite to your clipboard as C++ code you can paste into an app you write by hand. The code holds the sprite's pixels as a 1-bit bitmap (every visible pixel is on), its width and height, a credit line naming its author and license, and a ready-to-use drawing line, `display.drawXbm(x, y, width, height, bitmap)`. See [Bitmaps](../concepts/display.md#bitmaps-drawxbm) for how the device draws it. The button briefly shows how many bytes were copied.
+- **Copy as C++** copies the sprite to your clipboard as C++ code you can add to an app you write by hand. The code holds the sprite's pixels as a 1-bit bitmap (every visible pixel is on), its width and height, a credit line naming its author and license, and a ready-to-use drawing line, `display.drawXbm(x, y, width, height, bitmap)`. See [Bitmaps](../concepts/display.md#bitmaps-drawxbm) for how the device draws it. The button briefly shows how many bytes were copied.
 
 ---
 

@@ -47,16 +47,16 @@ A sprite with no animations gets one called `idle`, which loops through all its 
 
 <!-- check-examples: skip - needs a sprite named Ball in the project's art -->
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 #include "cf_gfx.h"
 static cf::gfx::Actor ball;
 
-// Paste inside begin(), below setColorsOff();
+// Insert inside begin(), below setColorsOff();
 ball.setSheet(&cf::gfx::ball::sheet);
 ball.setPos(64, 64);
 ball.play("idle", millis());
 
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 ball.update(millis());
 ball.draw(display);
 ```
@@ -66,7 +66,7 @@ ball.draw(display);
 **2. Copy a Starter Sprite.** In the 2D tab's library, **Starter Sprites** has free sprites anyone may reuse. **Copy as C++** puts one on your clipboard as code: an array of bytes named after the sprite, its width and height, and a credit line. See [Your Sprite Library](../studio/your-sprite-library.md#starter-sprites). Paste it at the top of your file, then wrap it in a `Sprite` (explained in [Drawing a sprite](#drawing-a-sprite)) to use the functions on this page:
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 #include "cf_gfx.h"
 using namespace cf::gfx;
 // Code in the shape Copy as C++ gives you, for a made-up 4 x 4 sprite called dot.
@@ -78,7 +78,7 @@ const int dot_h = 4;
 // Wrap it in a Sprite: bytes, width, height, pivot x, pivot y, bit order.
 static const Sprite dot = {dot_bmp, dot_w, dot_h, 0, 0, BO_LSB_FIRST};
 
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 drawSprite(display, dot, 62, 50);
 ```
 
@@ -102,7 +102,7 @@ drawSprite(display, dot, 62, 50);
 A `Sprite` holds six things: the bytes of the picture, its width and height in pixels, its pivot (x and y), and the bit order, which is always `BO_LSB_FIRST`. `drawSprite()` draws it with its top-left corner at the x, y you give.
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 #include "cf_gfx.h"
 using namespace cf::gfx;
 // An 8 x 8 smiley face. Each byte is one row, top to bottom.
@@ -112,7 +112,7 @@ static const uint8_t smileBits[] = {
 // bytes, width, height, pivot x, pivot y, bit order
 static const Sprite smile = {smileBits, 8, 8, 0, 0, BO_LSB_FIRST};
 
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 display.clear();
 drawSprite(display, smile, 60, 28);
 ```
@@ -130,7 +130,7 @@ The bytes are in **XBM** order. Each row of the picture uses one byte for every 
 The **pivot** is the point on a sprite that lands on the screen position you give. With the pivot at the middle of the bottom edge, a character "stands" on the y you give, wherever its feet are. `drawSpritePivoted()` uses the pivot; `drawSprite()` ignores it.
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 #include "cf_gfx.h"
 using namespace cf::gfx;
 static const uint8_t smileBits[] = {
@@ -139,7 +139,7 @@ static const uint8_t smileBits[] = {
 // The pivot is (4, 8): the middle of the bottom edge.
 static const Sprite smile = {smileBits, 8, 8, 4, 8, BO_LSB_FIRST};
 
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 display.clear();
 display.drawHorizontalLine(16, 40, 96);
 // The pivot lands on (40, 40), so the face sits on the line.
@@ -161,7 +161,7 @@ An `Animation` holds: its name, its frames, a list of times for each frame (or `
 An `AnimationPlayer` works out which frame to show. Start it with `play()`, call `update()` every frame with the time, and draw whatever `sprite()` returns.
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 #include "cf_gfx.h"
 using namespace cf::gfx;
 static const uint8_t openBits[] = {0x3c, 0x42, 0xa5, 0xa5, 0x81, 0xbd, 0x42, 0x3c};
@@ -181,10 +181,10 @@ static const Animation faceAnimations[] = {
 static const SpriteSheet face = {"face", faceAnimations, 2, "sprite"};
 static AnimationPlayer blinker;
 
-// Paste inside begin(), below setColorsOff();
+// Insert inside begin(), below setColorsOff();
 blinker.play(findAnimation(face, "blink"), millis());
 
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 display.clear();
 blinker.update(millis());
 // sprite() is nullptr when there is nothing to draw.
@@ -207,7 +207,7 @@ if (blinker.sprite()) drawSpritePivoted(display, *blinker.sprite(), 64, 40);
 An **actor** is a sprite sheet, an animation player and a screen position in one object. Most game characters are actors. Its position is where its pivot lands.
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 #include "cf_gfx.h"
 using namespace cf::gfx;
 static const uint8_t openBits[] = {0x3c, 0x42, 0xa5, 0xa5, 0x81, 0xbd, 0x42, 0x3c};
@@ -222,12 +222,12 @@ static const Animation faceAnimations[] = {
 static const SpriteSheet face = {"face", faceAnimations, 1, "sprite"};
 static Actor hero;
 
-// Paste inside begin(), below setColorsOff();
+// Insert inside begin(), below setColorsOff();
 hero.setSheet(&face);
 hero.setPos(64, 40);
 hero.play("blink", millis());
 
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 display.clear();
 hero.update(millis());
 hero.draw(display);
@@ -247,7 +247,7 @@ Change the position each frame and the actor moves. `setPos()` takes whole pixel
 This example moves a face up and down with the slider and left and right with the middle buttons.
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 #include "cf_gfx.h"
 using namespace cf::gfx;
 static const uint8_t smileBits[] = {
@@ -258,11 +258,11 @@ static const Sprite* const stillFrames[] = {&smile};
 static const Animation still = {"still", stillFrames, nullptr, 0, 1, LOOP_LOOP};
 static Actor hero;
 
-// Paste inside begin(), below setColorsOff();
+// Insert inside begin(), below setColorsOff();
 hero.setPos(64, 40);
 hero.play(&still, millis());
 
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 // Slider at the top: face at the top.
 int32_t y = map(sliderPosition_8Bits_Inverted_Filtered, 0, 255, 56, 16);
 // Middle-left and middle-right buttons: half a pixel per frame.
@@ -298,7 +298,7 @@ A frame time of 0 holds that frame forever, whatever the loop mode.
 This example grows a square once and holds it. Press the middle-right button to play it again. Change `LOOP_ONCE_HOLD` to each of the other modes and rebuild to compare them.
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 #include "cf_gfx.h"
 using namespace cf::gfx;
 static const uint8_t smallBits[] = {0x00, 0x00, 0x00, 0x18, 0x18, 0x00, 0x00, 0x00};
@@ -315,18 +315,18 @@ static void onReplay(const ButtonEvent& e) {
     if (e.eventType == ButtonEvent_Pressed) grower.play(&grow, millis());
 }
 
-// Paste inside begin(), below setColorsOff();
+// Insert inside begin(), below setColorsOff();
 grower.play(&grow, millis());
 buttonManager.registerCallback(button_MiddleRightIndex, onReplay);
 
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 grower.update(millis());
 display.clear();
 if (grower.sprite()) drawSpritePivoted(display, *grower.sprite(), 64, 28);
 display.setFont(ArialMT_Plain_10);
 display.drawString(64, 44, grower.finished() ? "Finished" : "Playing");
 
-// Paste inside end(), above unregisterButtonCallbacks();
+// Insert inside end(), above unregisterButtonCallbacks();
 buttonManager.unregisterCallback(button_MiddleRightIndex);
 ```
 
@@ -346,7 +346,7 @@ There are two forms:
 Do not mix them: if you draw with pivots, give the sprite form top-left positions, or use the actor form.
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 #include "cf_gfx.h"
 using namespace cf::gfx;
 static const uint8_t smileBits[] = {
@@ -357,7 +357,7 @@ static const Sprite smile = {smileBits, 8, 8, 0, 0, BO_LSB_FIRST};
 static const uint8_t blockBits[] = {0x07, 0x07};
 static const Sprite block = {blockBits, 3, 2, 0, 0, BO_LSB_FIRST};
 
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 display.clear();
 // The slider moves the block from left to right, across the top of the face.
 int blockX = map(sliderPosition_8Bits_Inverted_Filtered, 0, 255, 40, 80);
@@ -378,7 +378,7 @@ if (pixelCollides(smile, 60, 28, block, blockX, 28)) {
 `sampleSprite(sprite, x, y)` tells you whether one pixel of a sprite is lit. The x and y count from the sprite's own top-left corner, and anything outside the sprite reads as off. This example uses it to draw the face four times bigger.
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 #include "cf_gfx.h"
 using namespace cf::gfx;
 static const uint8_t smileBits[] = {
@@ -386,7 +386,7 @@ static const uint8_t smileBits[] = {
 };
 static const Sprite smile = {smileBits, 8, 8, 0, 0, BO_LSB_FIRST};
 
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 display.clear();
 for (int y = 0; y < 8; y++) {
     for (int x = 0; x < 8; x++) {

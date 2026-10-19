@@ -4,7 +4,7 @@ After this page you can choose a guide for the input or output your app needs.
 
 These guides explain the core concepts behind Cyber Fidget apps. Whether you're just curious or ready to dive into code, each page has something for you.
 
-Start with **Code from Blank Template** in the [studio](../getting-started/first-app.md). Each code block says where to paste its sections in the `.cpp` file. "At the top of the file" means below the `#include` lines, above the line that creates the app object. Keep the starter's methods; paste a section inside them instead of adding another `begin()`, `update()` or `end()`. Each block works on its own.
+Start with **Code from Blank Template** in the [studio](../getting-started/first-app.md). Each code block says where to add its sections in the `.cpp` file. "At the top of the file" means below the `#include` lines, above the line that creates the app object. Keep the starter's methods; add a section inside them instead of adding another `begin()`, `update()` or `end()`. Each block works on its own.
 
 Each concept page is written in layers:
 

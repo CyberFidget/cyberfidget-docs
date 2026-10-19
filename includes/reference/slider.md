@@ -7,11 +7,11 @@
 
 | Call | What it does |
 |---|---|
-| [`sliderPosition_12Bits_Filtered`](../reference/functions.md#symbol-sliderposition-12bits-filtered) | Slider 0-4095. Smoothed on device. |
-| [`sliderPosition_12Bits_Inverted_Filtered`](../reference/functions.md#symbol-sliderposition-12bits-inverted-filtered) | Slider 0-4095. Direction reversed. Emulator leaves this at 0. |
-| [`sliderPosition_8Bits_Filtered`](../reference/functions.md#symbol-sliderposition-8bits-filtered) | Slider 0-255. Smoothed on device. |
-| [`sliderPosition_8Bits_Inverted_Filtered`](../reference/functions.md#symbol-sliderposition-8bits-inverted-filtered) | Slider 0-255. Direction reversed. |
-| [`sliderPosition_Percentage_Filtered`](../reference/functions.md#symbol-sliderposition-percentage-filtered) | Slider 0-100 %. Smoothed on device. |
-| [`sliderPosition_Percentage_Inverted_Filtered`](../reference/functions.md#symbol-sliderposition-percentage-inverted-filtered) | Slider 0-100 %. Direction reversed. |
+| [`float sliderPosition_12Bits_Filtered`](../reference/functions.md#symbol-sliderposition-12bits-filtered)<br><small>*Example:* `sliderPosition_12Bits_Filtered`</small> | Slider 0-4095. Smoothed on device. |
+| [`float sliderPosition_12Bits_Inverted_Filtered`](../reference/functions.md#symbol-sliderposition-12bits-inverted-filtered)<br><small>*Example:* `sliderPosition_12Bits_Inverted_Filtered`</small> | Slider 0-4095. Direction reversed. Emulator leaves this at 0. |
+| [`int sliderPosition_8Bits_Filtered`](../reference/functions.md#symbol-sliderposition-8bits-filtered)<br><small>*Example:* `sliderPosition_8Bits_Filtered`</small> | Slider 0-255. Smoothed on device. |
+| [`int sliderPosition_8Bits_Inverted_Filtered`](../reference/functions.md#symbol-sliderposition-8bits-inverted-filtered)<br><small>*Example:* `sliderPosition_8Bits_Inverted_Filtered`</small> | Slider 0-255. Direction reversed. |
+| [`float sliderPosition_Percentage_Filtered`](../reference/functions.md#symbol-sliderposition-percentage-filtered)<br><small>*Example:* `sliderPosition_Percentage_Filtered`</small> | Slider 0-100 %. Smoothed on device. |
+| [`float sliderPosition_Percentage_Inverted_Filtered`](../reference/functions.md#symbol-sliderposition-percentage-inverted-filtered)<br><small>*Example:* `sliderPosition_Percentage_Inverted_Filtered`</small> | Slider 0-100 %. Direction reversed. |
 
 </div>

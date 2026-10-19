@@ -7,8 +7,8 @@
 
 | Call | What it does |
 |---|---|
-| [`auto& menu = MenuManager::instance();`](../reference/functions.md#symbol-menumanager--instance) | Get the shared menu controller. |
-| [`MenuManager::instance().returnToMenu();`](../reference/functions.md#symbol-menumanager--returntomenu) | Go back to the menu. Your app closes once the function that called this (for example a button callback) finishes. |
-| [`millis_APP_LASTINTERACTION = millis();`](../reference/functions.md#symbol-millis-app-lastinteraction) | Set this to millis() to count as activity, so the device does not go to sleep while your app runs. |
+| [`MenuManager& MenuManager::instance().instance()`](../reference/functions.md#symbol-menumanager--instance)<br><small>*Example:* `MenuManager& menu = MenuManager::instance();`</small> | Get the shared menu controller. |
+| [`void MenuManager::instance().returnToMenu()`](../reference/functions.md#symbol-menumanager--returntomenu)<br><small>*Example:* `MenuManager::instance().returnToMenu();`</small> | Go back to the menu. Your app closes once the function that called this (for example a button callback) finishes. |
+| [`unsigned long millis_APP_LASTINTERACTION`](../reference/functions.md#symbol-millis-app-lastinteraction)<br><small>*Example:* `millis_APP_LASTINTERACTION = millis();`</small> | Set this to millis() to count as activity, so the device does not go to sleep while your app runs. |
 
 </div>

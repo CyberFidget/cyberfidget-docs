@@ -37,24 +37,28 @@ The HAL updates these every 50 ms:
 | `accelY` | float | Forward-backward acceleration |
 | `accelZ` | float | Up-down acceleration |
 
-The [studio starter](../getting-started/first-app.md) already includes `HAL.h` through its `.cpp` file. Paste the sections below where their comments say. In the emulator, use its tilt controls; test the feel on a device too.
+The [studio starter](../getting-started/first-app.md) already includes `HAL.h` through its `.cpp` file. Add the sections below where their comments say. In the emulator, use its tilt controls; test the feel on a device too.
 
 ---
 
 ## Code example: tilt-controlled paddle
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 static float paddleX = 64.0f;
 
-// Paste inside begin(), below setColorsOff();
+// Insert inside begin(), below setColorsOff();
 paddleX = 64.0f;
 
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 paddleX += accelX * -0.002f;
 // Keep the whole 40-pixel paddle on the screen.
-if (paddleX < 20) paddleX = 20;
-if (paddleX > 108) paddleX = 108;
+if (paddleX < 20) {
+    paddleX = 20;
+}
+if (paddleX > 108) {
+    paddleX = 108;
+}
 display.clear();
 display.fillRect((int)paddleX - 20, 56, 40, 4);
 ```
@@ -67,7 +71,7 @@ display.fillRect((int)paddleX - 20, 56, 40, 4);
 ## Code example: tilt-to-color
 
 ```cpp
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 // Clamp first: a shake can exceed the range seen when tilting.
 long x = constrain((long)accelX, -1000L, 1000L);
 long y = constrain((long)accelY, -1000L, 1000L);
@@ -85,10 +89,10 @@ HAL::setRgbLed(pixel_Front_Top, r, g, b, 0);
 Show the readings on the screen to see how they change as you turn the device.
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 #include <stdio.h>
 
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 display.clear();
 display.setFont(ArialMT_Plain_10);
 display.setTextAlignment(TEXT_ALIGN_LEFT);
@@ -107,7 +111,7 @@ display.drawString(10, 32, text);
 
 ## Framework details
 
-??? info "Advanced: how the firmware reads motion"
+!!! advanced "Advanced: how the firmware reads motion"
     You do not need these details to build apps in the studio. They describe the firmware internals for readers writing an app by hand and building it into the firmware.
 
     ### LIS2DH12

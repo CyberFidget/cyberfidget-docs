@@ -71,10 +71,10 @@ These apps demonstrate individual framework features and are useful as starting 
 
 Open **Code from Blank Template** in the [studio](../getting-started/first-app.md). It creates an app class with three methods: `begin()` sets up, `update()` draws about 50 times per second, and `end()` cleans up. A method is a function that belongs to a class.
 
-Paste this fragment into its `.cpp` file. Keep the starter's bottom-left exit button and its cleanup, including `setColorsOff()` in `begin()` and `end()`. The starter sets the font and alignment; this fragment clears its text and draws your greeting:
+Add this fragment into its `.cpp` file. Keep the starter's bottom-left exit button and its cleanup, including `setColorsOff()` in `begin()` and `end()`. The starter sets the font and alignment; this fragment clears its text and draws your greeting:
 
 ```cpp
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 display.clear();
 display.drawString(64, 24, "Hello!");
 ```

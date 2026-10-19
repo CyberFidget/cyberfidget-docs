@@ -230,7 +230,7 @@ see = "../concepts/leds.md#setting-colors"
 # Sound
 [symbols."HAL::audioManager"]
 section = "Sound"
-use = "auto& audio = HAL::audioManager();"
+use = "AudioManager& audio = HAL::audioManager();"
 does = "Get the sound manager for tones, notes, and microphone readings."
 see = "../concepts/audio.md#playing-tones"
 
@@ -370,81 +370,81 @@ use = "tempC"
 does = "Temperature placeholder in degrees Celsius; both app targets leave it at 0."
 see = "../concepts/accelerometer.md#global-variables"
 
-# Time
+# Time and math
 [symbols."millis"]
-section = "Time"
-use = "auto now = millis();"
+section = "Time and math"
+use = "unsigned long now = millis();"
 does = "Read elapsed time in ms; use unsigned subtraction to time actions across clock wraparound."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 
 [symbols."micros"]
-section = "Time"
-use = "auto nowUs = micros();"
+section = "Time and math"
+use = "unsigned long nowUs = micros();"
 does = "Read elapsed microseconds; both targets have only 1000-microsecond resolution."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 
 [symbols."delay"]
-section = "Time"
+section = "Time and math"
 use = "delay(10);"
-does = "Does nothing in studio apps, on the device and in the browser emulator. Use millis() timing instead of pausing."
+does = "Does nothing on the device or in the app emulator - use millis() timing."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 
 [symbols."delayMicroseconds"]
-section = "Time"
+section = "Time and math"
 use = "delayMicroseconds(100);"
-does = "Does nothing on both targets; use the update loop for timing."
+does = "Does nothing on the device or in the app emulator - use millis() timing."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 
 [symbols."random"]
-section = "Time"
-use = "auto roll = random(1, 7);"
+section = "Time and math"
+use = "int roll = random(1, 7);"
 does = "Choose an integer from the first bound inclusive to the second exclusive; one argument starts at 0."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 
 [symbols."randomSeed"]
-section = "Time"
+section = "Time and math"
 use = "randomSeed(42);"
 does = "Does nothing in studio apps, on the device and in the browser emulator."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 
 [symbols."map"]
-section = "Time"
-use = "auto brightness = map(value, 0, 100, 0, 255);"
+section = "Time and math"
+use = "long brightness = map(value, 0, 100, 0, 255);"
 does = "Rescale an integer range; does not clamp values outside the range."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 
 [symbols."constrain"]
-section = "Time"
-use = "auto bounded = constrain(value, 0L, 100L);"
+section = "Time and math"
+use = "long bounded = constrain(value, 0L, 100L);"
 does = "Clamp a value between inclusive bounds; use long integers on both targets."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 
 [symbols."min"]
-section = "Time"
-use = "auto smaller = min(a, b);"
+section = "Time and math"
+use = "int smaller = min(a, b);"
 does = "Choose the smaller of two values of the same type."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 
 [symbols."max"]
-section = "Time"
-use = "auto larger = max(a, b);"
+section = "Time and math"
+use = "int larger = max(a, b);"
 does = "Choose the larger of two values of the same type."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 
 [symbols."radians"]
-section = "Time"
-use = "auto angle = radians(90.0f);"
+section = "Time and math"
+use = "float angle = radians(90.0f);"
 does = "Convert degrees to radians (one full turn is about 6.283 radians)."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 
 [symbols."degrees"]
-section = "Time"
-use = "auto angle = degrees(1.0f);"
+section = "Time and math"
+use = "float angle = degrees(1.0f);"
 does = "Convert radians to degrees (360 degrees is one full turn)."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
 
 [symbols."millis_NOW"]
-section = "Time"
+section = "Time and math"
 use = "millis_NOW"
 does = "The time in ms when this frame started; read it instead of calling millis() repeatedly."
 see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
@@ -933,7 +933,7 @@ see = "../studio/3d-models.md#using-a-model-in-an-app"
 # Leaving the app / app control
 [symbols."MenuManager::instance"]
 section = "Leaving the app / app control"
-use = "auto& menu = MenuManager::instance();"
+use = "MenuManager& menu = MenuManager::instance();"
 does = "Get the shared menu controller."
 see = "../concepts/app-lifecycle.md#the-lifecycle-in-practice"
 

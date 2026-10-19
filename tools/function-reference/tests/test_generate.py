@@ -127,6 +127,35 @@ public:
                 source_line = (self.firmware / row['header']).read_text(encoding='utf-8').splitlines()[row['line'] - 1]
                 self.assertTrue(source_line.strip())
 
+    def test_signatures_examples_defaults_overloads_and_types(self):
+        page, symbols, _, _, includes = gen.build(self.firmware, TOOL / 'reference.toml')
+        rows = {row['name']: row for row in json.loads(symbols)['symbols']}
+        self.assertIn('## Reading the signatures', page)
+        for term in ('uint8_t', 'int16_t', 'uint16_t', 'uint32_t', 'float', 'bool',
+                     'const char*', 'String', 'nullptr'):
+            self.assertIn('`' + term + '`', page)
+        for name, text in (
+                ('HAL::setRgbLed', 'void HAL::setRgbLed(int index, uint8_t r, uint8_t g, uint8_t b, uint8_t w)'),
+                ('DisplayProxy::drawString', 'uint16_t display.drawString(int16_t x, int16_t y, const String& text)'),
+                ('sliderPosition_8Bits_Filtered', 'int sliderPosition_8Bits_Filtered')):
+            self.assertIn(text, gen.readable_signatures(rows[name]))
+            self.assertIn('`' + text + '`<br><small>*Example:* `' + rows[name]['use'], page)
+        self.assertGreater(len(gen.readable_signatures(rows['random'])), 1)
+        self.assertTrue(any('= 0' in sig for sig in gen.readable_signatures(rows['AudioManager::playNote'])))
+        self.assertTrue(gen.readable_signatures(rows['WHITE'])[0].startswith('OLEDDISPLAY_COLOR WHITE'))
+        for row in rows.values():
+            self.assertTrue(row['signature'])
+            self.assertTrue(row['use'])
+            for signature in gen.readable_signatures(row):
+                self.assertIn('`' + signature.replace('|', '&#124;') + '`', page)
+        self.assertIn('## Time and math', page)
+        self.assertNotRegex('\n'.join(row['use'] for row in rows.values()), r'\bauto\b')
+        for name in ('delay', 'delayMicroseconds'):
+            self.assertIn('Does nothing on the device', rows[name]['does'])
+            self.assertIn('use millis() timing', rows[name]['does'])
+        self.assertIn('uint16_t display.drawString(', includes['includes/reference/display.md'])
+        self.assertIn('<small>*Example:*', includes['includes/reference/display.md'])
+
     def test_concept_tables_match_destinations_and_reference_anchors(self):
         page, symbols, _, _, includes = gen.build(self.firmware, TOOL / 'reference.toml')
         rows = json.loads(symbols)['symbols']

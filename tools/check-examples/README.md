@@ -23,30 +23,30 @@ python tools/check-examples/check_examples.py --firmware ../cyberfidget-firmware
 
 ## Authoring examples
 
-The checker considers fences tagged `cpp`, `c++`, `c`, `arduino` or `ino`, case-insensitively, including indented admonitions, lists and content tabs. Backtick and tilde fences are supported. Each example must state where to paste it, contain a complete app, or have an explicit skip reason.
+The checker considers fences tagged `cpp`, `c++`, `c`, `arduino` or `ino`, case-insensitively, including indented admonitions, lists and content tabs. Backtick and tilde fences are supported. Each example must state where to insert it, contain a complete app, or have an explicit skip reason.
 
 ### Fragments
 
 Temporary studio compatibility rule: a non-skipped example containing the text `cf::gfx::` fails as `studio-incompatible`, including occurrences in comments or strings. The studio refuses that text in projects without art. Add `using namespace cf::gfx;` at the top of the file, below the #include lines, and use short names such as `Actor` and `drawSprite`. Explicit skips are exempt. Remove this rule when the studio accepts hand-written sprite code without project art.
 
-Put the placement line on the **first line inside the fence**. It must be exactly one of these four lines (trailing spaces are allowed). Each one tells the reader where to paste, relative to a line that is already in the starter:
+Put the placement line on the **first line inside the fence**. It must be exactly one of these four lines (trailing spaces are allowed). Each one tells the reader where to insert, relative to a line that is already in the starter:
 
 | Slot | Placement line |
 |------|----------------|
-| Top of the file | `// Paste at the top of the file, below the #include lines` |
-| `begin()` | `// Paste inside begin(), below setColorsOff();` |
-| `update()` | `// Paste inside update(), just above display.display();` |
-| `end()` | `// Paste inside end(), above unregisterButtonCallbacks();` |
+| Top of the file | `// Insert at the top of the file, below the #include lines` |
+| `begin()` | `// Insert inside begin(), below setColorsOff();` |
+| `update()` | `// Insert inside update(), just above display.display();` |
+| `end()` | `// Insert inside end(), above unregisterButtonCallbacks();` |
 
 The exact text lives in `starter/slots.json` (each slot's `marker`). Put any extra explanation on its own comment line underneath:
 
 ```cpp
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 // Draw a greeting.
 display.drawString(0, 0, "Hello");
 ```
 
-Any other comment line that starts with `// Paste` where a placement line could go fails as `bad-marker`. The message quotes the exact text for the slot it seems to mean (or all four, when it cannot tell).
+Any other comment line that starts with `// Insert` where a placement line could go fails as `bad-marker`. The message quotes the exact text for the slot it seems to mean (or all four, when it cannot tell).
 
 Top-of-file code holds globals, constants, helpers or sprite data. Inside the starter, `display` and `buttonManager` are members of the app class, so fragments for `begin()`, `update()` and `end()` can use them directly. Code at the top of the file is outside the class: use `HAL::displayProxy()` and `HAL::buttonManager()` there.
 
@@ -55,17 +55,23 @@ Placement-looking lines inside block comments or C++ raw strings stay part of th
 One block can go to several places. Each later placement line outside a block comment or raw string starts a section, so a button example can define its callback at the top of the file and register it inside `begin()`:
 
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 static bool lit = false;
 static void onRightPressed(const ButtonEvent& e) {
-    if (e.eventType == ButtonEvent_Pressed) lit = !lit;
+    if (e.eventType == ButtonEvent_Pressed) {
+        lit = !lit;
+    }
 }
 
-// Paste inside begin(), below setColorsOff();
+// Insert inside begin(), below setColorsOff();
 buttonManager.registerCallback(button_RightIndex, onRightPressed);
 
-// Paste inside update(), just above display.display();
-HAL::setRgbLed(pixel_Front_Middle, 0, 0, lit ? 255 : 0, 0);
+// Insert inside update(), just above display.display();
+int blue = 0;
+if (lit) {
+    blue = 255;
+}
+HAL::setRgbLed(pixel_Front_Middle, 0, 0, blue, 0);
 ```
 
 On an ordinary page, every block must compile on its own in the starter template. Blocks do not share state, declarations or imports with other blocks on the page, because a reader may copy just one.
@@ -78,7 +84,7 @@ A step-by-step tutorial builds one app across many blocks. Put this comment anyw
 <!-- check-examples: cumulative -->
 ```
 
-On that page, every fragment block applies on top of all earlier fragment blocks, in page order, in the same starter. Each step is compiled with everything before it, and a failing step is reported at its own page and line (compiler messages point at whichever step holds the bad line). Within a slot, a later step's code goes below the code earlier steps put there, so tell readers to paste each new part below what they added before. Skipped blocks do not accumulate. A complete-app block on a cumulative page is compiled on its own, as usual.
+On that page, every fragment block applies on top of all earlier fragment blocks, in page order, in the same starter. Each step is compiled with everything before it, and a failing step is reported at its own page and line (compiler messages point at whichever step holds the bad line). Within a slot, a later step's code goes below the code earlier steps put there, so tell readers to insert each new part below what they added before. Skipped blocks do not accumulate. A complete-app block on a cumulative page is compiled on its own, as usual.
 
 A cumulative page can end with the whole program. Put this comment immediately before its fence:
 
@@ -127,7 +133,7 @@ perform the next action;
 
 Use skips for pseudocode, intentionally incorrect examples and firmware-source excerpts that are not standalone studio apps. Skipped blocks and their reasons appear in both output formats.
 
-An untagged fence that conservatively resembles C/C++ (for example `#include`, a `void` function, `HAL::`, or `display.clear();`) fails as `untagged`: tag it `cpp`, or `text` if it is not code. Explicit non-C/C++ language tags are ignored. A tagged example without a placement line or all three lifecycle methods fails as `no-placement`; the tool does not guess where to paste it.
+An untagged fence that conservatively resembles C/C++ (for example `#include`, a `void` function, `HAL::`, or `display.clear();`) fails as `untagged`: tag it `cpp`, or `text` if it is not code. Explicit non-C/C++ language tags are ignored. A tagged example without a placement line or all three lifecycle methods fails as `no-placement`; the tool does not guess where to insert it.
 
 ## Replacing the starter
 
@@ -173,3 +179,7 @@ python tools/check-examples/check_examples.py --keep --json tools/check-examples
 ```
 
 Create `.build/` first if it does not exist, because the shell opens the output file before Python starts. Existing documentation may fail the authoring convention; a baseline records those failures without changing pages.
+
+## Full-code solutions
+
+The [MkDocs hook](../full-code/) uses this checker's `extract_text()`, classification and `assemble()` functions to show full-code solutions after fragments. `plain=True` omits placement comments and diagnostic directives; compilation uses the same source insertion path. The hook needs only the repository and Python, without a firmware checkout or compiler.

@@ -496,7 +496,7 @@
     },
     {
       "name": "BLACK",
-      "signature": "BLACK = 0",
+      "signature": "OLEDDISPLAY_COLOR BLACK = 0",
       "kind": "enum",
       "section": "Colors",
       "use": "BLACK",
@@ -509,7 +509,7 @@
       "declarations": [
         {
           "name": "BLACK",
-          "signature": "BLACK = 0",
+          "signature": "OLEDDISPLAY_COLOR BLACK = 0",
           "kind": "enum",
           "header": "wasm/device_module/shims/DisplayProxy.h",
           "line": 54,
@@ -518,7 +518,7 @@
         },
         {
           "name": "BLACK",
-          "signature": "BLACK = 0",
+          "signature": "OLEDDISPLAY_COLOR BLACK = 0",
           "kind": "enum",
           "header": "wasm/shims/SSD1306Wire.h",
           "line": 46,
@@ -529,7 +529,7 @@
     },
     {
       "name": "ButtonEvent_Held",
-      "signature": "ButtonEvent_Held",
+      "signature": "ButtonEventType ButtonEvent_Held",
       "kind": "enum",
       "section": "Button event types",
       "use": "ButtonEvent_Held",
@@ -542,7 +542,7 @@
       "declarations": [
         {
           "name": "ButtonEvent_Held",
-          "signature": "ButtonEvent_Held",
+          "signature": "ButtonEventType ButtonEvent_Held",
           "kind": "enum",
           "header": "wasm/device_module/shims/ButtonManager.h",
           "line": 32,
@@ -551,7 +551,7 @@
         },
         {
           "name": "ButtonEvent_Held",
-          "signature": "ButtonEvent_Held",
+          "signature": "ButtonEventType ButtonEvent_Held",
           "kind": "enum",
           "header": "lib/ButtonManager/ButtonManager.h",
           "line": 17,
@@ -562,7 +562,7 @@
     },
     {
       "name": "ButtonEvent_None",
-      "signature": "ButtonEvent_None",
+      "signature": "ButtonEventType ButtonEvent_None",
       "kind": "enum",
       "section": "Button event types",
       "use": "ButtonEvent_None",
@@ -575,7 +575,7 @@
       "declarations": [
         {
           "name": "ButtonEvent_None",
-          "signature": "ButtonEvent_None",
+          "signature": "ButtonEventType ButtonEvent_None",
           "kind": "enum",
           "header": "wasm/device_module/shims/ButtonManager.h",
           "line": 29,
@@ -584,7 +584,7 @@
         },
         {
           "name": "ButtonEvent_None",
-          "signature": "ButtonEvent_None",
+          "signature": "ButtonEventType ButtonEvent_None",
           "kind": "enum",
           "header": "lib/ButtonManager/ButtonManager.h",
           "line": 14,
@@ -595,7 +595,7 @@
     },
     {
       "name": "ButtonEvent_Pressed",
-      "signature": "ButtonEvent_Pressed",
+      "signature": "ButtonEventType ButtonEvent_Pressed",
       "kind": "enum",
       "section": "Button event types",
       "use": "ButtonEvent_Pressed",
@@ -608,7 +608,7 @@
       "declarations": [
         {
           "name": "ButtonEvent_Pressed",
-          "signature": "ButtonEvent_Pressed",
+          "signature": "ButtonEventType ButtonEvent_Pressed",
           "kind": "enum",
           "header": "wasm/device_module/shims/ButtonManager.h",
           "line": 30,
@@ -617,7 +617,7 @@
         },
         {
           "name": "ButtonEvent_Pressed",
-          "signature": "ButtonEvent_Pressed",
+          "signature": "ButtonEventType ButtonEvent_Pressed",
           "kind": "enum",
           "header": "lib/ButtonManager/ButtonManager.h",
           "line": 15,
@@ -628,7 +628,7 @@
     },
     {
       "name": "ButtonEvent_Released",
-      "signature": "ButtonEvent_Released",
+      "signature": "ButtonEventType ButtonEvent_Released",
       "kind": "enum",
       "section": "Button event types",
       "use": "ButtonEvent_Released",
@@ -641,7 +641,7 @@
       "declarations": [
         {
           "name": "ButtonEvent_Released",
-          "signature": "ButtonEvent_Released",
+          "signature": "ButtonEventType ButtonEvent_Released",
           "kind": "enum",
           "header": "wasm/device_module/shims/ButtonManager.h",
           "line": 31,
@@ -650,7 +650,7 @@
         },
         {
           "name": "ButtonEvent_Released",
-          "signature": "ButtonEvent_Released",
+          "signature": "ButtonEventType ButtonEvent_Released",
           "kind": "enum",
           "header": "lib/ButtonManager/ButtonManager.h",
           "line": 16,
@@ -1455,7 +1455,7 @@
       "signature": "AudioManager& audioManager()",
       "kind": "function",
       "section": "Sound",
-      "use": "auto& audio = HAL::audioManager();",
+      "use": "AudioManager& audio = HAL::audioManager();",
       "does": "Get the sound manager for tones, notes, and microphone readings.",
       "see": "../concepts/audio.md#playing-tones",
       "targets": [
@@ -1700,7 +1700,7 @@
     },
     {
       "name": "INVERSE",
-      "signature": "INVERSE = 2",
+      "signature": "OLEDDISPLAY_COLOR INVERSE = 2",
       "kind": "enum",
       "section": "Colors",
       "use": "INVERSE",
@@ -1713,7 +1713,7 @@
       "declarations": [
         {
           "name": "INVERSE",
-          "signature": "INVERSE = 2",
+          "signature": "OLEDDISPLAY_COLOR INVERSE = 2",
           "kind": "enum",
           "header": "wasm/device_module/shims/DisplayProxy.h",
           "line": 56,
@@ -1722,7 +1722,7 @@
         },
         {
           "name": "INVERSE",
-          "signature": "INVERSE = 2",
+          "signature": "OLEDDISPLAY_COLOR INVERSE = 2",
           "kind": "enum",
           "header": "wasm/shims/SSD1306Wire.h",
           "line": 48,
@@ -1736,7 +1736,7 @@
       "signature": "static MenuManager& instance()",
       "kind": "method",
       "section": "Leaving the app / app control",
-      "use": "auto& menu = MenuManager::instance();",
+      "use": "MenuManager& menu = MenuManager::instance();",
       "does": "Get the shared menu controller.",
       "see": "../concepts/app-lifecycle.md#the-lifecycle-in-practice",
       "targets": [
@@ -1795,7 +1795,7 @@
     },
     {
       "name": "TEXT_ALIGN_CENTER",
-      "signature": "TEXT_ALIGN_CENTER = 2",
+      "signature": "OLEDDISPLAY_TEXT_ALIGNMENT TEXT_ALIGN_CENTER = 2",
       "kind": "enum",
       "section": "Text alignment",
       "use": "TEXT_ALIGN_CENTER",
@@ -1808,7 +1808,7 @@
       "declarations": [
         {
           "name": "TEXT_ALIGN_CENTER",
-          "signature": "TEXT_ALIGN_CENTER = 2",
+          "signature": "OLEDDISPLAY_TEXT_ALIGNMENT TEXT_ALIGN_CENTER = 2",
           "kind": "enum",
           "header": "wasm/device_module/shims/DisplayProxy.h",
           "line": 62,
@@ -1817,7 +1817,7 @@
         },
         {
           "name": "TEXT_ALIGN_CENTER",
-          "signature": "TEXT_ALIGN_CENTER = 2",
+          "signature": "OLEDDISPLAY_TEXT_ALIGNMENT TEXT_ALIGN_CENTER = 2",
           "kind": "enum",
           "header": "wasm/shims/SSD1306Wire.h",
           "line": 54,
@@ -1828,7 +1828,7 @@
     },
     {
       "name": "TEXT_ALIGN_CENTER_BOTH",
-      "signature": "TEXT_ALIGN_CENTER_BOTH = 3",
+      "signature": "OLEDDISPLAY_TEXT_ALIGNMENT TEXT_ALIGN_CENTER_BOTH = 3",
       "kind": "enum",
       "section": "Text alignment",
       "use": "TEXT_ALIGN_CENTER_BOTH",
@@ -1841,7 +1841,7 @@
       "declarations": [
         {
           "name": "TEXT_ALIGN_CENTER_BOTH",
-          "signature": "TEXT_ALIGN_CENTER_BOTH = 3",
+          "signature": "OLEDDISPLAY_TEXT_ALIGNMENT TEXT_ALIGN_CENTER_BOTH = 3",
           "kind": "enum",
           "header": "wasm/device_module/shims/DisplayProxy.h",
           "line": 63,
@@ -1850,7 +1850,7 @@
         },
         {
           "name": "TEXT_ALIGN_CENTER_BOTH",
-          "signature": "TEXT_ALIGN_CENTER_BOTH = 3",
+          "signature": "OLEDDISPLAY_TEXT_ALIGNMENT TEXT_ALIGN_CENTER_BOTH = 3",
           "kind": "enum",
           "header": "wasm/shims/SSD1306Wire.h",
           "line": 55,
@@ -1861,7 +1861,7 @@
     },
     {
       "name": "TEXT_ALIGN_LEFT",
-      "signature": "TEXT_ALIGN_LEFT = 0",
+      "signature": "OLEDDISPLAY_TEXT_ALIGNMENT TEXT_ALIGN_LEFT = 0",
       "kind": "enum",
       "section": "Text alignment",
       "use": "TEXT_ALIGN_LEFT",
@@ -1874,7 +1874,7 @@
       "declarations": [
         {
           "name": "TEXT_ALIGN_LEFT",
-          "signature": "TEXT_ALIGN_LEFT = 0",
+          "signature": "OLEDDISPLAY_TEXT_ALIGNMENT TEXT_ALIGN_LEFT = 0",
           "kind": "enum",
           "header": "wasm/device_module/shims/DisplayProxy.h",
           "line": 60,
@@ -1883,7 +1883,7 @@
         },
         {
           "name": "TEXT_ALIGN_LEFT",
-          "signature": "TEXT_ALIGN_LEFT = 0",
+          "signature": "OLEDDISPLAY_TEXT_ALIGNMENT TEXT_ALIGN_LEFT = 0",
           "kind": "enum",
           "header": "wasm/shims/SSD1306Wire.h",
           "line": 52,
@@ -1894,7 +1894,7 @@
     },
     {
       "name": "TEXT_ALIGN_RIGHT",
-      "signature": "TEXT_ALIGN_RIGHT = 1",
+      "signature": "OLEDDISPLAY_TEXT_ALIGNMENT TEXT_ALIGN_RIGHT = 1",
       "kind": "enum",
       "section": "Text alignment",
       "use": "TEXT_ALIGN_RIGHT",
@@ -1907,7 +1907,7 @@
       "declarations": [
         {
           "name": "TEXT_ALIGN_RIGHT",
-          "signature": "TEXT_ALIGN_RIGHT = 1",
+          "signature": "OLEDDISPLAY_TEXT_ALIGNMENT TEXT_ALIGN_RIGHT = 1",
           "kind": "enum",
           "header": "wasm/device_module/shims/DisplayProxy.h",
           "line": 61,
@@ -1916,7 +1916,7 @@
         },
         {
           "name": "TEXT_ALIGN_RIGHT",
-          "signature": "TEXT_ALIGN_RIGHT = 1",
+          "signature": "OLEDDISPLAY_TEXT_ALIGNMENT TEXT_ALIGN_RIGHT = 1",
           "kind": "enum",
           "header": "wasm/shims/SSD1306Wire.h",
           "line": 53,
@@ -1927,7 +1927,7 @@
     },
     {
       "name": "WHITE",
-      "signature": "WHITE = 1",
+      "signature": "OLEDDISPLAY_COLOR WHITE = 1",
       "kind": "enum",
       "section": "Colors",
       "use": "WHITE",
@@ -1940,7 +1940,7 @@
       "declarations": [
         {
           "name": "WHITE",
-          "signature": "WHITE = 1",
+          "signature": "OLEDDISPLAY_COLOR WHITE = 1",
           "kind": "enum",
           "header": "wasm/device_module/shims/DisplayProxy.h",
           "line": 55,
@@ -1949,7 +1949,7 @@
         },
         {
           "name": "WHITE",
-          "signature": "WHITE = 1",
+          "signature": "OLEDDISPLAY_COLOR WHITE = 1",
           "kind": "enum",
           "header": "wasm/shims/SSD1306Wire.h",
           "line": 47,
@@ -3209,7 +3209,7 @@
     },
     {
       "name": "cf::gfx::BO_LSB_FIRST",
-      "signature": "BO_LSB_FIRST = 0",
+      "signature": "BitOrder BO_LSB_FIRST = 0",
       "kind": "enum",
       "section": "Animation constants",
       "use": "BO_LSB_FIRST",
@@ -3222,7 +3222,7 @@
       "declarations": [
         {
           "name": "cf::gfx::BO_LSB_FIRST",
-          "signature": "BO_LSB_FIRST = 0",
+          "signature": "BitOrder BO_LSB_FIRST = 0",
           "kind": "enum",
           "header": "lib/CFGraphics/include/cf_gfx_sprite.h",
           "line": 169,
@@ -3231,7 +3231,7 @@
         },
         {
           "name": "cf::gfx::BO_LSB_FIRST",
-          "signature": "BO_LSB_FIRST = 0",
+          "signature": "BitOrder BO_LSB_FIRST = 0",
           "kind": "enum",
           "header": "lib/CFGraphics/include/cf_gfx_sprite.h",
           "line": 169,
@@ -3242,7 +3242,7 @@
     },
     {
       "name": "cf::gfx::BO_MSB_FIRST",
-      "signature": "BO_MSB_FIRST = 1",
+      "signature": "BitOrder BO_MSB_FIRST = 1",
       "kind": "enum",
       "section": "Animation constants",
       "use": "BO_MSB_FIRST",
@@ -3255,7 +3255,7 @@
       "declarations": [
         {
           "name": "cf::gfx::BO_MSB_FIRST",
-          "signature": "BO_MSB_FIRST = 1",
+          "signature": "BitOrder BO_MSB_FIRST = 1",
           "kind": "enum",
           "header": "lib/CFGraphics/include/cf_gfx_sprite.h",
           "line": 170,
@@ -3264,7 +3264,7 @@
         },
         {
           "name": "cf::gfx::BO_MSB_FIRST",
-          "signature": "BO_MSB_FIRST = 1",
+          "signature": "BitOrder BO_MSB_FIRST = 1",
           "kind": "enum",
           "header": "lib/CFGraphics/include/cf_gfx_sprite.h",
           "line": 170,
@@ -3275,7 +3275,7 @@
     },
     {
       "name": "cf::gfx::LOOP_LOOP",
-      "signature": "LOOP_LOOP = 2",
+      "signature": "LoopMode LOOP_LOOP = 2",
       "kind": "enum",
       "section": "Animation constants",
       "use": "LOOP_LOOP",
@@ -3288,7 +3288,7 @@
       "declarations": [
         {
           "name": "cf::gfx::LOOP_LOOP",
-          "signature": "LOOP_LOOP = 2",
+          "signature": "LoopMode LOOP_LOOP = 2",
           "kind": "enum",
           "header": "lib/CFGraphics/include/cf_gfx_sprite.h",
           "line": 164,
@@ -3297,7 +3297,7 @@
         },
         {
           "name": "cf::gfx::LOOP_LOOP",
-          "signature": "LOOP_LOOP = 2",
+          "signature": "LoopMode LOOP_LOOP = 2",
           "kind": "enum",
           "header": "lib/CFGraphics/include/cf_gfx_sprite.h",
           "line": 164,
@@ -3308,7 +3308,7 @@
     },
     {
       "name": "cf::gfx::LOOP_ONCE",
-      "signature": "LOOP_ONCE = 0",
+      "signature": "LoopMode LOOP_ONCE = 0",
       "kind": "enum",
       "section": "Animation constants",
       "use": "LOOP_ONCE",
@@ -3321,7 +3321,7 @@
       "declarations": [
         {
           "name": "cf::gfx::LOOP_ONCE",
-          "signature": "LOOP_ONCE = 0",
+          "signature": "LoopMode LOOP_ONCE = 0",
           "kind": "enum",
           "header": "lib/CFGraphics/include/cf_gfx_sprite.h",
           "line": 160,
@@ -3330,7 +3330,7 @@
         },
         {
           "name": "cf::gfx::LOOP_ONCE",
-          "signature": "LOOP_ONCE = 0",
+          "signature": "LoopMode LOOP_ONCE = 0",
           "kind": "enum",
           "header": "lib/CFGraphics/include/cf_gfx_sprite.h",
           "line": 160,
@@ -3341,7 +3341,7 @@
     },
     {
       "name": "cf::gfx::LOOP_ONCE_HOLD",
-      "signature": "LOOP_ONCE_HOLD = 1",
+      "signature": "LoopMode LOOP_ONCE_HOLD = 1",
       "kind": "enum",
       "section": "Animation constants",
       "use": "LOOP_ONCE_HOLD",
@@ -3354,7 +3354,7 @@
       "declarations": [
         {
           "name": "cf::gfx::LOOP_ONCE_HOLD",
-          "signature": "LOOP_ONCE_HOLD = 1",
+          "signature": "LoopMode LOOP_ONCE_HOLD = 1",
           "kind": "enum",
           "header": "lib/CFGraphics/include/cf_gfx_sprite.h",
           "line": 162,
@@ -3363,7 +3363,7 @@
         },
         {
           "name": "cf::gfx::LOOP_ONCE_HOLD",
-          "signature": "LOOP_ONCE_HOLD = 1",
+          "signature": "LoopMode LOOP_ONCE_HOLD = 1",
           "kind": "enum",
           "header": "lib/CFGraphics/include/cf_gfx_sprite.h",
           "line": 162,
@@ -3374,7 +3374,7 @@
     },
     {
       "name": "cf::gfx::LOOP_PINGPONG",
-      "signature": "LOOP_PINGPONG = 3",
+      "signature": "LoopMode LOOP_PINGPONG = 3",
       "kind": "enum",
       "section": "Animation constants",
       "use": "LOOP_PINGPONG",
@@ -3387,7 +3387,7 @@
       "declarations": [
         {
           "name": "cf::gfx::LOOP_PINGPONG",
-          "signature": "LOOP_PINGPONG = 3",
+          "signature": "LoopMode LOOP_PINGPONG = 3",
           "kind": "enum",
           "header": "lib/CFGraphics/include/cf_gfx_sprite.h",
           "line": 165,
@@ -3396,7 +3396,7 @@
         },
         {
           "name": "cf::gfx::LOOP_PINGPONG",
-          "signature": "LOOP_PINGPONG = 3",
+          "signature": "LoopMode LOOP_PINGPONG = 3",
           "kind": "enum",
           "header": "lib/CFGraphics/include/cf_gfx_sprite.h",
           "line": 165,
@@ -3934,7 +3934,7 @@
     },
     {
       "name": "cf::gfx::RIG_RENDER_BAKED16",
-      "signature": "RIG_RENDER_BAKED16 = 0",
+      "signature": "RigRenderMode RIG_RENDER_BAKED16 = 0",
       "kind": "enum",
       "section": "Animation constants",
       "use": "RIG_RENDER_BAKED16",
@@ -3947,7 +3947,7 @@
       "declarations": [
         {
           "name": "cf::gfx::RIG_RENDER_BAKED16",
-          "signature": "RIG_RENDER_BAKED16 = 0",
+          "signature": "RigRenderMode RIG_RENDER_BAKED16 = 0",
           "kind": "enum",
           "header": "lib/CFGraphics/include/cf_gfx_rig.h",
           "line": 79,
@@ -3956,7 +3956,7 @@
         },
         {
           "name": "cf::gfx::RIG_RENDER_BAKED16",
-          "signature": "RIG_RENDER_BAKED16 = 0",
+          "signature": "RigRenderMode RIG_RENDER_BAKED16 = 0",
           "kind": "enum",
           "header": "lib/CFGraphics/include/cf_gfx_rig.h",
           "line": 79,
@@ -3967,7 +3967,7 @@
     },
     {
       "name": "cf::gfx::RIG_RENDER_FLAT",
-      "signature": "RIG_RENDER_FLAT = 2",
+      "signature": "RigRenderMode RIG_RENDER_FLAT = 2",
       "kind": "enum",
       "section": "Animation constants",
       "use": "RIG_RENDER_FLAT",
@@ -3980,7 +3980,7 @@
       "declarations": [
         {
           "name": "cf::gfx::RIG_RENDER_FLAT",
-          "signature": "RIG_RENDER_FLAT = 2",
+          "signature": "RigRenderMode RIG_RENDER_FLAT = 2",
           "kind": "enum",
           "header": "lib/CFGraphics/include/cf_gfx_rig.h",
           "line": 81,
@@ -3989,7 +3989,7 @@
         },
         {
           "name": "cf::gfx::RIG_RENDER_FLAT",
-          "signature": "RIG_RENDER_FLAT = 2",
+          "signature": "RigRenderMode RIG_RENDER_FLAT = 2",
           "kind": "enum",
           "header": "lib/CFGraphics/include/cf_gfx_rig.h",
           "line": 81,
@@ -4000,7 +4000,7 @@
     },
     {
       "name": "cf::gfx::RIG_RENDER_LINE",
-      "signature": "RIG_RENDER_LINE = 1",
+      "signature": "RigRenderMode RIG_RENDER_LINE = 1",
       "kind": "enum",
       "section": "Animation constants",
       "use": "RIG_RENDER_LINE",
@@ -4013,7 +4013,7 @@
       "declarations": [
         {
           "name": "cf::gfx::RIG_RENDER_LINE",
-          "signature": "RIG_RENDER_LINE = 1",
+          "signature": "RigRenderMode RIG_RENDER_LINE = 1",
           "kind": "enum",
           "header": "lib/CFGraphics/include/cf_gfx_rig.h",
           "line": 80,
@@ -4022,7 +4022,7 @@
         },
         {
           "name": "cf::gfx::RIG_RENDER_LINE",
-          "signature": "RIG_RENDER_LINE = 1",
+          "signature": "RigRenderMode RIG_RENDER_LINE = 1",
           "kind": "enum",
           "header": "lib/CFGraphics/include/cf_gfx_rig.h",
           "line": 80,
@@ -4064,7 +4064,7 @@
     },
     {
       "name": "cf::gfx::RigActor::STATE_ANIMATION",
-      "signature": "STATE_ANIMATION",
+      "signature": "State STATE_ANIMATION",
       "kind": "enum",
       "section": "Animation constants",
       "use": "RigActor::STATE_ANIMATION",
@@ -4077,7 +4077,7 @@
       "declarations": [
         {
           "name": "cf::gfx::RigActor::STATE_ANIMATION",
-          "signature": "STATE_ANIMATION",
+          "signature": "State STATE_ANIMATION",
           "kind": "enum",
           "header": "lib/CFGraphics/include/cf_gfx_rig.h",
           "line": 299,
@@ -4086,7 +4086,7 @@
         },
         {
           "name": "cf::gfx::RigActor::STATE_ANIMATION",
-          "signature": "STATE_ANIMATION",
+          "signature": "State STATE_ANIMATION",
           "kind": "enum",
           "header": "lib/CFGraphics/include/cf_gfx_rig.h",
           "line": 299,
@@ -4097,7 +4097,7 @@
     },
     {
       "name": "cf::gfx::RigActor::STATE_POSE",
-      "signature": "STATE_POSE",
+      "signature": "State STATE_POSE",
       "kind": "enum",
       "section": "Animation constants",
       "use": "RigActor::STATE_POSE",
@@ -4110,7 +4110,7 @@
       "declarations": [
         {
           "name": "cf::gfx::RigActor::STATE_POSE",
-          "signature": "STATE_POSE",
+          "signature": "State STATE_POSE",
           "kind": "enum",
           "header": "lib/CFGraphics/include/cf_gfx_rig.h",
           "line": 298,
@@ -4119,7 +4119,7 @@
         },
         {
           "name": "cf::gfx::RigActor::STATE_POSE",
-          "signature": "STATE_POSE",
+          "signature": "State STATE_POSE",
           "kind": "enum",
           "header": "lib/CFGraphics/include/cf_gfx_rig.h",
           "line": 298,
@@ -4130,7 +4130,7 @@
     },
     {
       "name": "cf::gfx::RigActor::STATE_RAGDOLL",
-      "signature": "STATE_RAGDOLL",
+      "signature": "State STATE_RAGDOLL",
       "kind": "enum",
       "section": "Animation constants",
       "use": "RigActor::STATE_RAGDOLL",
@@ -4143,7 +4143,7 @@
       "declarations": [
         {
           "name": "cf::gfx::RigActor::STATE_RAGDOLL",
-          "signature": "STATE_RAGDOLL",
+          "signature": "State STATE_RAGDOLL",
           "kind": "enum",
           "header": "lib/CFGraphics/include/cf_gfx_rig.h",
           "line": 300,
@@ -4152,7 +4152,7 @@
         },
         {
           "name": "cf::gfx::RigActor::STATE_RAGDOLL",
-          "signature": "STATE_RAGDOLL",
+          "signature": "State STATE_RAGDOLL",
           "kind": "enum",
           "header": "lib/CFGraphics/include/cf_gfx_rig.h",
           "line": 300,
@@ -4163,7 +4163,7 @@
     },
     {
       "name": "cf::gfx::RigActor::STATE_STANDING",
-      "signature": "STATE_STANDING",
+      "signature": "State STATE_STANDING",
       "kind": "enum",
       "section": "Animation constants",
       "use": "RigActor::STATE_STANDING",
@@ -4176,7 +4176,7 @@
       "declarations": [
         {
           "name": "cf::gfx::RigActor::STATE_STANDING",
-          "signature": "STATE_STANDING",
+          "signature": "State STATE_STANDING",
           "kind": "enum",
           "header": "lib/CFGraphics/include/cf_gfx_rig.h",
           "line": 301,
@@ -4185,7 +4185,7 @@
         },
         {
           "name": "cf::gfx::RigActor::STATE_STANDING",
-          "signature": "STATE_STANDING",
+          "signature": "State STATE_STANDING",
           "kind": "enum",
           "header": "lib/CFGraphics/include/cf_gfx_rig.h",
           "line": 301,
@@ -5719,8 +5719,8 @@
       "name": "constrain",
       "signature": "template <typename T> inline T constrain(T x, T lo, T hi)",
       "kind": "function",
-      "section": "Time",
-      "use": "auto bounded = constrain(value, 0L, 100L);",
+      "section": "Time and math",
+      "use": "long bounded = constrain(value, 0L, 100L);",
       "does": "Clamp a value between inclusive bounds; use long integers on both targets.",
       "see": "../concepts/update-loop.md#millis-based-timing-vs-delay",
       "targets": [
@@ -5750,8 +5750,8 @@
       "name": "degrees",
       "signature": "inline float degrees(float rad)",
       "kind": "function",
-      "section": "Time",
-      "use": "auto angle = degrees(1.0f);",
+      "section": "Time and math",
+      "use": "float angle = degrees(1.0f);",
       "does": "Convert radians to degrees (360 degrees is one full turn).",
       "see": "../concepts/update-loop.md#millis-based-timing-vs-delay",
       "targets": [
@@ -5781,9 +5781,9 @@
       "name": "delay",
       "signature": "inline void delay(unsigned long)",
       "kind": "function",
-      "section": "Time",
+      "section": "Time and math",
       "use": "delay(10);",
-      "does": "Does nothing in studio apps, on the device and in the browser emulator. Use millis() timing instead of pausing.",
+      "does": "Does nothing on the device or in the app emulator - use millis() timing.",
       "see": "../concepts/update-loop.md#millis-based-timing-vs-delay",
       "targets": [
         "device",
@@ -5812,9 +5812,9 @@
       "name": "delayMicroseconds",
       "signature": "inline void delayMicroseconds(unsigned int)",
       "kind": "function",
-      "section": "Time",
+      "section": "Time and math",
       "use": "delayMicroseconds(100);",
-      "does": "Does nothing on both targets; use the update loop for timing.",
+      "does": "Does nothing on the device or in the app emulator - use millis() timing.",
       "see": "../concepts/update-loop.md#millis-based-timing-vs-delay",
       "targets": [
         "device",
@@ -5843,8 +5843,8 @@
       "name": "map",
       "signature": "inline long map(long x, long in_min, long in_max, long out_min, long out_max)",
       "kind": "function",
-      "section": "Time",
-      "use": "auto brightness = map(value, 0, 100, 0, 255);",
+      "section": "Time and math",
+      "use": "long brightness = map(value, 0, 100, 0, 255);",
       "does": "Rescale an integer range; does not clamp values outside the range.",
       "see": "../concepts/update-loop.md#millis-based-timing-vs-delay",
       "targets": [
@@ -5905,8 +5905,8 @@
       "name": "max",
       "signature": "template <typename T> inline T max(T a, T b)",
       "kind": "function",
-      "section": "Time",
-      "use": "auto larger = max(a, b);",
+      "section": "Time and math",
+      "use": "int larger = max(a, b);",
       "does": "Choose the larger of two values of the same type.",
       "see": "../concepts/update-loop.md#millis-based-timing-vs-delay",
       "targets": [
@@ -5936,8 +5936,8 @@
       "name": "micros",
       "signature": "inline unsigned long micros()",
       "kind": "function",
-      "section": "Time",
-      "use": "auto nowUs = micros();",
+      "section": "Time and math",
+      "use": "unsigned long nowUs = micros();",
       "does": "Read elapsed microseconds; both targets have only 1000-microsecond resolution.",
       "see": "../concepts/update-loop.md#millis-based-timing-vs-delay",
       "targets": [
@@ -5967,8 +5967,8 @@
       "name": "millis",
       "signature": "inline unsigned long millis()",
       "kind": "function",
-      "section": "Time",
-      "use": "auto now = millis();",
+      "section": "Time and math",
+      "use": "unsigned long now = millis();",
       "does": "Read elapsed time in ms; use unsigned subtraction to time actions across clock wraparound.",
       "see": "../concepts/update-loop.md#millis-based-timing-vs-delay",
       "targets": [
@@ -6029,7 +6029,7 @@
       "name": "millis_NOW",
       "signature": "extern unsigned long millis_NOW",
       "kind": "global",
-      "section": "Time",
+      "section": "Time and math",
       "use": "millis_NOW",
       "does": "The time in ms when this frame started; read it instead of calling millis() repeatedly.",
       "see": "../concepts/update-loop.md#millis-based-timing-vs-delay",
@@ -6060,8 +6060,8 @@
       "name": "min",
       "signature": "template <typename T> inline T min(T a, T b)",
       "kind": "function",
-      "section": "Time",
-      "use": "auto smaller = min(a, b);",
+      "section": "Time and math",
+      "use": "int smaller = min(a, b);",
       "does": "Choose the smaller of two values of the same type.",
       "see": "../concepts/update-loop.md#millis-based-timing-vs-delay",
       "targets": [
@@ -6223,8 +6223,8 @@
       "name": "radians",
       "signature": "inline float radians(float deg)",
       "kind": "function",
-      "section": "Time",
-      "use": "auto angle = radians(90.0f);",
+      "section": "Time and math",
+      "use": "float angle = radians(90.0f);",
       "does": "Convert degrees to radians (one full turn is about 6.283 radians).",
       "see": "../concepts/update-loop.md#millis-based-timing-vs-delay",
       "targets": [
@@ -6254,8 +6254,8 @@
       "name": "random",
       "signature": "inline long random(long maxExclusive); inline long random(long minInclusive, long maxExclusive)",
       "kind": "function",
-      "section": "Time",
-      "use": "auto roll = random(1, 7);",
+      "section": "Time and math",
+      "use": "int roll = random(1, 7);",
       "does": "Choose an integer from the first bound inclusive to the second exclusive; one argument starts at 0.",
       "see": "../concepts/update-loop.md#millis-based-timing-vs-delay",
       "targets": [
@@ -6301,7 +6301,7 @@
       "name": "randomSeed",
       "signature": "inline void randomSeed(unsigned long)",
       "kind": "function",
-      "section": "Time",
+      "section": "Time and math",
       "use": "randomSeed(42);",
       "does": "Does nothing in studio apps, on the device and in the browser emulator.",
       "see": "../concepts/update-loop.md#millis-based-timing-vs-delay",

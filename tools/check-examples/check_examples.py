@@ -33,6 +33,8 @@ class Block:
     cumulative: bool = False
     # Earlier fragment blocks on a cumulative page, in page order.
     prior: list = field(default_factory=list)
+    end_line: int = 0
+    indent: str = ""
 
 
 def load_config():
@@ -55,7 +57,11 @@ FINAL = re.compile(r"\s*<!--\s*check-examples:\s*final\s*-->\s*", re.I)
 
 
 def extract(path, root):
-    text = path.read_text(encoding="utf-8-sig")
+    return extract_text(path.read_text(encoding="utf-8-sig"), path.relative_to(root).as_posix())
+
+
+def extract_text(text, page):
+    """Parse source Markdown for both compilation and build-time solutions."""
     lines = text.splitlines()
     cumulative = bool(CUMULATIVE.search(text))
     blocks = []
@@ -79,8 +85,8 @@ def extract(path, root):
         reason = marker.group(1).strip() if marker else ""
         final = bool(start and FINAL.fullmatch(lines[start - 1]))
         if language.lower() in LANGUAGES or (not language and looks_cpp(code)):
-            blocks.append(Block(path.relative_to(root).as_posix(), start + 2,
-                                code, language.lower(), reason, final, cumulative))
+            blocks.append(Block(page, start + 2, code, language.lower(), reason, final, cumulative,
+                                end_line=i + 1, indent=re.match(r"[ \t]*", lines[start])[0]))
         i += 1
     if cumulative:
         # Each fragment step applies on top of every earlier fragment step;
@@ -96,7 +102,7 @@ def extract(path, root):
     return blocks
 
 
-PASTE_LIKE = re.compile(r"^\s*//\s*paste\b", re.I)
+PLACEMENT_LIKE = re.compile(r"^\s*//\s*(?:insert|paste)\b", re.I)
 SLOT_GUESS = re.compile(r"\b(?:inside\s+)?(begin|update|end)\s*\(|\btop\s+of\s+the\s+file\b", re.I)
 
 
@@ -116,17 +122,17 @@ def scan_fragment(code):
     one block can say "this goes at the top of the file, and this goes inside
     begin()". Placement-looking lines inside block comments or raw strings
     stay part of their section. Returns (sections, bad), where bad lists
-    (line offset, text, guessed slot) for "// Paste ..." lines that are not
+    (line offset, text, guessed slot) for "// Insert ..." lines that are not
     exactly a canonical marker."""
     lines = code.splitlines(keepends=True)
-    if not lines or not PASTE_LIKE.match(lines[0]):
+    if not lines or not PLACEMENT_LIKE.match(lines[0]):
         return [], []
     sections = []
     bad = []
     block_comment = False
     raw_end = None
     for index, line in enumerate(lines):
-        if not block_comment and raw_end is None and PASTE_LIKE.match(line):
+        if not block_comment and raw_end is None and PLACEMENT_LIKE.match(line):
             slot = MARKERS.get(line.rstrip())
             if slot is None:
                 guessed = guess_slot(line)
@@ -229,10 +235,10 @@ def renamed(text, app):
     return re.sub(pattern, lambda match: replacements[match[0]], text)
 
 
-def assemble(steps, app=None, plain=False):
+def assemble(steps, app=None, plain=False, highlights=None):
     """Apply fragment steps, in page order, to the starter.
 
-    Sections for the same slot are pasted one after another in step order,
+    Sections for the same slot are inserted one after another in step order,
     so a later step lands below the code earlier steps put there. With
     plain=True the result is what a reader's file looks like: no #line
     directives and no placement lines. Returns ({file name: text}, app,
@@ -251,10 +257,11 @@ def assemble(steps, app=None, plain=False):
                     offset + 1:offset + len(code.splitlines(keepends=True))])
             else:
                 code = source_line(step, offset) + code
-            pieces.setdefault(slot, []).append(code)
+            pieces.setdefault(slot, []).append((code, step is steps[-1]))
     # Locate every anchor in the untouched starter first, then insert from
     # the end of each file backwards so earlier positions stay valid.
     inserts = []
+    ranges = {name: [] for name in files}
     for slot_name, codes in pieces.items():
         slot = CONFIG["slots"][slot_name]
         name = renamed(slot["file"], app)
@@ -262,11 +269,27 @@ def assemble(steps, app=None, plain=False):
         if len(matches) != 1:
             raise ValueError("starter anchor must match exactly once: " + slot_name)
         pos = matches[0].end() if slot["position"] == "after" else matches[0].start()
-        inserts.append((name, pos, "".join(codes)))
-    for name, pos, code in sorted(inserts, key=lambda item: (item[0], -item[1])):
+        code = ""
+        current = []
+        for piece, latest in codes:
+            if latest:
+                current.append((len(code), len(code) + len(piece)))
+            code += piece
+        inserts.append((name, pos, code, current))
+    for name, pos, code, current in sorted(inserts, key=lambda item: (item[0], -item[1])):
         content = files[name]
         resume = "" if plain else '#line {} {}\n'.format(content[:pos].count("\n") + 1, json.dumps(name))
-        files[name] = content[:pos] + "\n" + code + resume + content[pos:]
+        added = "\n" + code + resume
+        ranges[name] = [(a + len(added), b + len(added)) if a >= pos else (a, b)
+                        for a, b in ranges[name]]
+        ranges[name].extend((pos + 1 + a, pos + 1 + b) for a, b in current)
+        files[name] = content[:pos] + added + content[pos:]
+    if highlights is not None:
+        highlights.update({name: sorted({line for a, b in spans
+            for line in range(files[name][:a].count("\n") + 1,
+                              files[name][:b].count("\n") + 1)
+            if files[name].splitlines()[line - 1].strip()})
+            for name, spans in ranges.items()})
     return files, app, app[0].lower() + app[1:]
 
 

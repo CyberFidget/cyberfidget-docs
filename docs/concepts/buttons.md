@@ -49,23 +49,27 @@ The device has 6 physical buttons. You refer to them by index or semantic name:
 
 ## Code example: callback registration
 
-Paste these sections into the starter's `.cpp` file. The bottom-right button adds one to the score. The bottom-left button keeps its exit action. A free `static` function at the top of the file needs no declaration in the app's `.h` file.
+Add these sections into the starter's `.cpp` file. The bottom-right button adds one to the score. The bottom-left button keeps its exit action. A free `static` function at the top of the file needs no declaration in the app's `.h` file.
 
 Inside app methods, use `buttonManager`. In helpers outside the class, use `HAL::buttonManager()`. For continuous input you can also read `buttonManager.isPressed(button_RightIndex)` in `update()`.
 
+In `const ButtonEvent& e`, `&` passes the existing event by reference rather than making a copy. `const` means this function cannot change it.
+
 ```cpp
-// Paste at the top of the file, below the #include lines
+// Insert at the top of the file, below the #include lines
 #include <stdio.h>
 static int score = 0;
 static void onActionPressed(const ButtonEvent& e) {
-    if (e.eventType == ButtonEvent_Pressed) ++score;
+    if (e.eventType == ButtonEvent_Pressed) {
+        ++score;
+    }
 }
 
-// Paste inside begin(), below setColorsOff();
+// Insert inside begin(), below setColorsOff();
 score = 0;
 buttonManager.registerCallback(button_BottomRightIndex, onActionPressed);
 
-// Paste inside update(), just above display.display();
+// Insert inside update(), just above display.display();
 display.clear();
 display.setFont(ArialMT_Plain_16);
 display.setTextAlignment(TEXT_ALIGN_CENTER);
@@ -73,7 +77,7 @@ char text[24];
 snprintf(text, sizeof(text), "Score: %d", score);
 display.drawString(64, 24, text);
 
-// Paste inside end(), above unregisterButtonCallbacks();
+// Insert inside end(), above unregisterButtonCallbacks();
 buttonManager.unregisterCallback(button_BottomRightIndex);
 ```
 
@@ -91,7 +95,7 @@ A `ButtonEvent` groups information about one button action:
 
 ## Framework detail: ButtonManager internals
 
-??? info "Advanced: how the firmware handles button events"
+!!! advanced "Advanced: how the firmware handles button events"
     You do not need these details to build apps in the studio. They describe the firmware internals for readers writing an app by hand and building it into the firmware.
 
     ### Ring buffer for events

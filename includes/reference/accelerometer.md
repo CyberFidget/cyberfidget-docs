@@ -7,9 +7,9 @@
 
 | Call | What it does |
 |---|---|
-| [`accelX`](../reference/functions.md#symbol-accelx) | X acceleration, roughly 1000 units per g (gravity); emulator uses supplied tilt. |
-| [`accelY`](../reference/functions.md#symbol-accely) | Y acceleration, roughly 1000 units per g (gravity); emulator uses supplied tilt. |
-| [`accelZ`](../reference/functions.md#symbol-accelz) | Z acceleration, roughly 1000 units per g (gravity); emulator uses supplied tilt. |
-| [`tempC`](../reference/functions.md#symbol-tempc) | Temperature placeholder in degrees Celsius; both app targets leave it at 0. |
+| [`float accelX`](../reference/functions.md#symbol-accelx)<br><small>*Example:* `accelX`</small> | X acceleration, roughly 1000 units per g (gravity); emulator uses supplied tilt. |
+| [`float accelY`](../reference/functions.md#symbol-accely)<br><small>*Example:* `accelY`</small> | Y acceleration, roughly 1000 units per g (gravity); emulator uses supplied tilt. |
+| [`float accelZ`](../reference/functions.md#symbol-accelz)<br><small>*Example:* `accelZ`</small> | Z acceleration, roughly 1000 units per g (gravity); emulator uses supplied tilt. |
+| [`float tempC`](../reference/functions.md#symbol-tempc)<br><small>*Example:* `tempC`</small> | Temperature placeholder in degrees Celsius; both app targets leave it at 0. |
 
 </div>

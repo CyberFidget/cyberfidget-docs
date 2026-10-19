@@ -7,40 +7,40 @@
 
 | Call | What it does |
 |---|---|
-| [`drawSprite(display, sprite, 0, 0);`](../reference/functions.md#symbol-cf--gfx--drawsprite) | Draw a sprite with its top-left at x, y; ignores its pivot. |
-| [`drawSpritePivoted(display, sprite, 64, 32);`](../reference/functions.md#symbol-cf--gfx--drawspritepivoted) | Draw a sprite with its pivot at x, y. |
-| [`findAnimation(sheet, "run");`](../reference/functions.md#symbol-cf--gfx--findanimation) | Find a named animation in a sheet; returns nullptr if missing. |
-| [`sampleSprite(sprite, 0, 0);`](../reference/functions.md#symbol-cf--gfx--samplesprite) | Read one on/off pixel in sprite-local coordinates; outside is false. |
-| [`pixelCollides(player, enemy);`](../reference/functions.md#symbol-cf--gfx--pixelcollides) | Check overlapping lit pixels; Actor form applies pivots, Sprite form takes top-left positions. |
-| [`Actor player;`](../reference/functions.md#symbol-cf--gfx--actor--actor) | Create an actor with a position and an animation player. |
-| [`player.setSheet(&sheet);`](../reference/functions.md#symbol-cf--gfx--actor--setsheet) | Bind a sprite sheet for looking up animations by name. |
-| [`player.sheet();`](../reference/functions.md#symbol-cf--gfx--actor--sheet) | Read the bound sheet pointer, or nullptr if none. |
-| [`player.play("run", millis());`](../reference/functions.md#symbol-cf--gfx--actor--play) | Play by name or animation pointer; same animation keeps running; false if missing. |
-| [`player.update(millis());`](../reference/functions.md#symbol-cf--gfx--actor--update) | Advance animation using time in ms; true if the visible sprite changed. |
-| [`player.draw(display);`](../reference/functions.md#symbol-cf--gfx--actor--draw) | Draw the current sprite with its pivot at the actor's position. |
-| [`player.setPos(64, 32);`](../reference/functions.md#symbol-cf--gfx--actor--setpos) | Place the actor's pivot at x, y in screen pixels. |
-| [`player.setPosQ8(64 * 256, 32 * 256);`](../reference/functions.md#symbol-cf--gfx--actor--setposq8) | Place the pivot in fractional pixels; 256 units equal one pixel. |
-| [`player.x();`](../reference/functions.md#symbol-cf--gfx--actor--x) | Read horizontal position in pixels, rounded down. |
-| [`player.y();`](../reference/functions.md#symbol-cf--gfx--actor--y) | Read vertical position in pixels, rounded down. |
-| [`player.xQ8();`](../reference/functions.md#symbol-cf--gfx--actor--xq8) | Read horizontal position in units of 1/256 pixel. |
-| [`player.yQ8();`](../reference/functions.md#symbol-cf--gfx--actor--yq8) | Read vertical position in units of 1/256 pixel. |
-| [`player.sprite();`](../reference/functions.md#symbol-cf--gfx--actor--sprite) | Read the current sprite pointer; nullptr means nothing to draw. |
-| [`player.animation();`](../reference/functions.md#symbol-cf--gfx--actor--animation) | Read the selected animation pointer, or nullptr if none. |
-| [`player.finished();`](../reference/functions.md#symbol-cf--gfx--actor--finished) | Check whether playback has finished or stopped. |
-| [`AnimationPlayer clock;`](../reference/functions.md#symbol-cf--gfx--animationplayer--animationplayer) | Create an animation clock without a screen position. |
-| [`clock.play(&animation, millis());`](../reference/functions.md#symbol-cf--gfx--animationplayer--play) | Start or restart at frame 0 using time in ms; nullptr stops. |
-| [`clock.setIfChanged(&animation, millis());`](../reference/functions.md#symbol-cf--gfx--animationplayer--setifchanged) | Start only if the animation pointer differs; safe every update. |
-| [`clock.update(millis());`](../reference/functions.md#symbol-cf--gfx--animationplayer--update) | Advance by elapsed ms; true if the sprite changed; 0 ms frames hold indefinitely. |
-| [`clock.stop();`](../reference/functions.md#symbol-cf--gfx--animationplayer--stop) | Clear playback; sprite and animation pointers become nullptr. |
-| [`clock.sprite();`](../reference/functions.md#symbol-cf--gfx--animationplayer--sprite) | Read the current sprite pointer; nullptr means nothing to draw. |
-| [`clock.animation();`](../reference/functions.md#symbol-cf--gfx--animationplayer--animation) | Read the selected animation pointer, including after it finishes. |
-| [`clock.frameIndex();`](../reference/functions.md#symbol-cf--gfx--animationplayer--frameindex) | Read the current frame number, starting at 0. |
-| [`clock.finished();`](../reference/functions.md#symbol-cf--gfx--animationplayer--finished) | Check whether playback has finished or stopped. |
-| [`LOOP_ONCE`](../reference/functions.md#symbol-cf--gfx--loop-once) | Play once then draw nothing. |
-| [`LOOP_ONCE_HOLD`](../reference/functions.md#symbol-cf--gfx--loop-once-hold) | Play once and keep the last frame. |
-| [`LOOP_LOOP`](../reference/functions.md#symbol-cf--gfx--loop-loop) | Repeat from the first frame. |
-| [`LOOP_PINGPONG`](../reference/functions.md#symbol-cf--gfx--loop-pingpong) | Play forward then backward, repeating. |
-| [`BO_LSB_FIRST`](../reference/functions.md#symbol-cf--gfx--bo-lsb-first) | Lowest bit first per byte; required for drawing sprites correctly. |
-| [`BO_MSB_FIRST`](../reference/functions.md#symbol-cf--gfx--bo-msb-first) | Highest bit first; collision can read it but drawing mirrors each byte. |
+| [`void drawSprite(DisplayProxy& d, const Sprite& s, int16_t x, int16_t y)`](../reference/functions.md#symbol-cf--gfx--drawsprite)<br><small>*Example:* `drawSprite(display, sprite, 0, 0);`</small> | Draw a sprite with its top-left at x, y; ignores its pivot. |
+| [`void drawSpritePivoted(DisplayProxy& d, const Sprite& s, int16_t x, int16_t y)`](../reference/functions.md#symbol-cf--gfx--drawspritepivoted)<br><small>*Example:* `drawSpritePivoted(display, sprite, 64, 32);`</small> | Draw a sprite with its pivot at x, y. |
+| [`const Animation* findAnimation(const SpriteSheet& sheet, const char* name)`](../reference/functions.md#symbol-cf--gfx--findanimation)<br><small>*Example:* `findAnimation(sheet, "run");`</small> | Find a named animation in a sheet; returns nullptr if missing. |
+| [`bool sampleSprite(const Sprite& s, int16_t x, int16_t y)`](../reference/functions.md#symbol-cf--gfx--samplesprite)<br><small>*Example:* `sampleSprite(sprite, 0, 0);`</small> | Read one on/off pixel in sprite-local coordinates; outside is false. |
+| [`bool pixelCollides(const Sprite& a, int16_t ax, int16_t ay, const Sprite& b, int16_t bx, int16_t by)`<br>`bool pixelCollides(const Actor& a, const Actor& b)`](../reference/functions.md#symbol-cf--gfx--pixelcollides)<br><small>*Example:* `pixelCollides(player, enemy);`</small> | Check overlapping lit pixels; Actor form applies pivots, Sprite form takes top-left positions. |
+| [`player.Actor()`](../reference/functions.md#symbol-cf--gfx--actor--actor)<br><small>*Example:* `Actor player;`</small> | Create an actor with a position and an animation player. |
+| [`void player.setSheet(const SpriteSheet* sheet)`](../reference/functions.md#symbol-cf--gfx--actor--setsheet)<br><small>*Example:* `player.setSheet(&sheet);`</small> | Bind a sprite sheet for looking up animations by name. |
+| [`const SpriteSheet* player.sheet() const`](../reference/functions.md#symbol-cf--gfx--actor--sheet)<br><small>*Example:* `player.sheet();`</small> | Read the bound sheet pointer, or nullptr if none. |
+| [`bool player.play(const char* animName, uint32_t nowMs)`<br>`bool player.play(const Animation* anim, uint32_t nowMs)`](../reference/functions.md#symbol-cf--gfx--actor--play)<br><small>*Example:* `player.play("run", millis());`</small> | Play by name or animation pointer; same animation keeps running; false if missing. |
+| [`bool player.update(uint32_t nowMs)`](../reference/functions.md#symbol-cf--gfx--actor--update)<br><small>*Example:* `player.update(millis());`</small> | Advance animation using time in ms; true if the visible sprite changed. |
+| [`void player.draw(DisplayProxy& d) const`](../reference/functions.md#symbol-cf--gfx--actor--draw)<br><small>*Example:* `player.draw(display);`</small> | Draw the current sprite with its pivot at the actor's position. |
+| [`void player.setPos(int16_t x, int16_t y)`](../reference/functions.md#symbol-cf--gfx--actor--setpos)<br><small>*Example:* `player.setPos(64, 32);`</small> | Place the actor's pivot at x, y in screen pixels. |
+| [`void player.setPosQ8(int32_t xQ8, int32_t yQ8)`](../reference/functions.md#symbol-cf--gfx--actor--setposq8)<br><small>*Example:* `player.setPosQ8(64 * 256, 32 * 256);`</small> | Place the pivot in fractional pixels; 256 units equal one pixel. |
+| [`int16_t player.x() const`](../reference/functions.md#symbol-cf--gfx--actor--x)<br><small>*Example:* `player.x();`</small> | Read horizontal position in pixels, rounded down. |
+| [`int16_t player.y() const`](../reference/functions.md#symbol-cf--gfx--actor--y)<br><small>*Example:* `player.y();`</small> | Read vertical position in pixels, rounded down. |
+| [`int32_t player.xQ8() const`](../reference/functions.md#symbol-cf--gfx--actor--xq8)<br><small>*Example:* `player.xQ8();`</small> | Read horizontal position in units of 1/256 pixel. |
+| [`int32_t player.yQ8() const`](../reference/functions.md#symbol-cf--gfx--actor--yq8)<br><small>*Example:* `player.yQ8();`</small> | Read vertical position in units of 1/256 pixel. |
+| [`const Sprite* player.sprite() const`](../reference/functions.md#symbol-cf--gfx--actor--sprite)<br><small>*Example:* `player.sprite();`</small> | Read the current sprite pointer; nullptr means nothing to draw. |
+| [`const Animation* player.animation() const`](../reference/functions.md#symbol-cf--gfx--actor--animation)<br><small>*Example:* `player.animation();`</small> | Read the selected animation pointer, or nullptr if none. |
+| [`bool player.finished() const`](../reference/functions.md#symbol-cf--gfx--actor--finished)<br><small>*Example:* `player.finished();`</small> | Check whether playback has finished or stopped. |
+| [`clock.AnimationPlayer()`](../reference/functions.md#symbol-cf--gfx--animationplayer--animationplayer)<br><small>*Example:* `AnimationPlayer clock;`</small> | Create an animation clock without a screen position. |
+| [`void clock.play(const Animation* anim, uint32_t nowMs)`](../reference/functions.md#symbol-cf--gfx--animationplayer--play)<br><small>*Example:* `clock.play(&animation, millis());`</small> | Start or restart at frame 0 using time in ms; nullptr stops. |
+| [`void clock.setIfChanged(const Animation* anim, uint32_t nowMs)`](../reference/functions.md#symbol-cf--gfx--animationplayer--setifchanged)<br><small>*Example:* `clock.setIfChanged(&animation, millis());`</small> | Start only if the animation pointer differs; safe every update. |
+| [`bool clock.update(uint32_t nowMs)`](../reference/functions.md#symbol-cf--gfx--animationplayer--update)<br><small>*Example:* `clock.update(millis());`</small> | Advance by elapsed ms; true if the sprite changed; 0 ms frames hold indefinitely. |
+| [`void clock.stop()`](../reference/functions.md#symbol-cf--gfx--animationplayer--stop)<br><small>*Example:* `clock.stop();`</small> | Clear playback; sprite and animation pointers become nullptr. |
+| [`const Sprite* clock.sprite() const`](../reference/functions.md#symbol-cf--gfx--animationplayer--sprite)<br><small>*Example:* `clock.sprite();`</small> | Read the current sprite pointer; nullptr means nothing to draw. |
+| [`const Animation* clock.animation() const`](../reference/functions.md#symbol-cf--gfx--animationplayer--animation)<br><small>*Example:* `clock.animation();`</small> | Read the selected animation pointer, including after it finishes. |
+| [`uint8_t clock.frameIndex() const`](../reference/functions.md#symbol-cf--gfx--animationplayer--frameindex)<br><small>*Example:* `clock.frameIndex();`</small> | Read the current frame number, starting at 0. |
+| [`bool clock.finished() const`](../reference/functions.md#symbol-cf--gfx--animationplayer--finished)<br><small>*Example:* `clock.finished();`</small> | Check whether playback has finished or stopped. |
+| [`LoopMode LOOP_ONCE = 0`](../reference/functions.md#symbol-cf--gfx--loop-once)<br><small>*Example:* `LOOP_ONCE`</small> | Play once then draw nothing. |
+| [`LoopMode LOOP_ONCE_HOLD = 1`](../reference/functions.md#symbol-cf--gfx--loop-once-hold)<br><small>*Example:* `LOOP_ONCE_HOLD`</small> | Play once and keep the last frame. |
+| [`LoopMode LOOP_LOOP = 2`](../reference/functions.md#symbol-cf--gfx--loop-loop)<br><small>*Example:* `LOOP_LOOP`</small> | Repeat from the first frame. |
+| [`LoopMode LOOP_PINGPONG = 3`](../reference/functions.md#symbol-cf--gfx--loop-pingpong)<br><small>*Example:* `LOOP_PINGPONG`</small> | Play forward then backward, repeating. |
+| [`BitOrder BO_LSB_FIRST = 0`](../reference/functions.md#symbol-cf--gfx--bo-lsb-first)<br><small>*Example:* `BO_LSB_FIRST`</small> | Lowest bit first per byte; required for drawing sprites correctly. |
+| [`BitOrder BO_MSB_FIRST = 1`](../reference/functions.md#symbol-cf--gfx--bo-msb-first)<br><small>*Example:* `BO_MSB_FIRST`</small> | Highest bit first; collision can read it but drawing mirrors each byte. |
 
 </div>

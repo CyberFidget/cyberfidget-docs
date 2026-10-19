@@ -18,6 +18,9 @@ extra_css:
   - assets/guide.css
   - assets/multi.css
 
+hooks:
+  - tools/full-code/full_code.py
+
 extra_javascript:
   - assets/guide.js
   - assets/multi.js
