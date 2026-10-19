@@ -1,0 +1,1413 @@
+# SPDX-License-Identifier: CC-BY-SA-4.0
+# Hand-maintained descriptions. Qualified names are checked against both targets.
+
+# Screen
+[symbols."HAL::displayProxy"]
+section = "Screen"
+use = "HAL::displayProxy()"
+does = "The 128 x 64 screen, for code outside your app's functions. Inside begin(), update() and end(), the starter already calls it `display`."
+see = "../concepts/display.md#display-basics"
+
+[symbols."DisplayProxy::clear"]
+section = "Screen"
+use = "display.clear();"
+does = "Erase the drawing buffer before drawing a frame."
+see = "../concepts/display.md#display-basics"
+
+[symbols."DisplayProxy::display"]
+section = "Screen"
+use = "display.display();"
+does = "Show the drawing buffer on screen."
+see = "../concepts/display.md#display-basics"
+
+[symbols."DisplayProxy::setColor"]
+section = "Screen"
+use = "display.setColor(WHITE);"
+does = "Choose white, black, or inverted pixels for drawing."
+see = "../concepts/display.md#display-basics"
+
+[symbols."DisplayProxy::setPixel"]
+section = "Screen"
+use = "display.setPixel(64, 32);"
+does = "Draw one pixel at x, y."
+see = "../concepts/display.md#display-basics"
+
+[symbols."DisplayProxy::drawLine"]
+section = "Screen"
+use = "display.drawLine(0, 0, 40, 20);"
+does = "Draw a line between two pixel positions."
+see = "../concepts/display.md#display-basics"
+
+[symbols."DisplayProxy::drawRect"]
+section = "Screen"
+use = "display.drawRect(0, 0, 30, 20);"
+does = "Draw a rectangle outline; width and height are pixels."
+see = "../concepts/display.md#display-basics"
+
+[symbols."DisplayProxy::fillRect"]
+section = "Screen"
+use = "display.fillRect(0, 0, 30, 20);"
+does = "Draw a solid rectangle; width and height are pixels."
+see = "../concepts/display.md#display-basics"
+
+[symbols."DisplayProxy::drawCircle"]
+section = "Screen"
+use = "display.drawCircle(64, 32, 10);"
+does = "Draw a circle outline; radius is pixels."
+see = "../concepts/display.md#display-basics"
+
+[symbols."DisplayProxy::fillCircle"]
+section = "Screen"
+use = "display.fillCircle(64, 32, 10);"
+does = "Draw a solid circle; radius is pixels."
+see = "../concepts/display.md#display-basics"
+
+[symbols."DisplayProxy::drawHorizontalLine"]
+section = "Screen"
+use = "display.drawHorizontalLine(0, 0, 20);"
+does = "Draw a horizontal line of the given pixel length."
+see = "../concepts/display.md#display-basics"
+
+[symbols."DisplayProxy::drawVerticalLine"]
+section = "Screen"
+use = "display.drawVerticalLine(0, 0, 20);"
+does = "Draw a vertical line of the given pixel length."
+see = "../concepts/display.md#display-basics"
+
+[symbols."DisplayProxy::drawTriangle"]
+section = "Screen"
+use = "display.drawTriangle(0, 0, 20, 0, 10, 20);"
+does = "Join three pixel positions with an outline."
+see = "../concepts/display.md#display-basics"
+
+[symbols."DisplayProxy::fillTriangle"]
+section = "Screen"
+use = "display.fillTriangle(0, 0, 20, 0, 10, 20);"
+does = "Fill the triangle between three pixel positions."
+see = "../concepts/display.md#display-basics"
+
+[symbols."DisplayProxy::drawXbm"]
+section = "Screen"
+use = "display.drawXbm(0, 0, 8, 8, bitmap);"
+does = "Draw a 1-bit bitmap: one on/off bit per pixel, lowest bit first in each byte."
+see = "../concepts/display.md#display-basics"
+
+[symbols."DisplayProxy::drawProgressBar"]
+section = "Screen"
+use = "display.drawProgressBar(0, 0, 60, 8, 50);"
+does = "Draw a progress bar; final argument is 0-100 %."
+see = "../concepts/display.md#display-basics"
+
+[symbols."HAL::clearDisplay"]
+section = "Screen"
+use = "HAL::clearDisplay();"
+does = "Erase the screen drawing buffer."
+see = "../concepts/display.md#display-basics"
+
+[symbols."HAL::updateDisplay"]
+section = "Screen"
+use = "HAL::updateDisplay();"
+does = "Show the drawing buffer on screen."
+see = "../concepts/display.md#display-basics"
+
+# Text
+[symbols."DisplayProxy::drawString"]
+section = "Text"
+use = "display.drawString(0, 0, \"Hi\");"
+does = "Draw text using the current font and alignment. Studio apps return 0 on the device and in the browser emulator."
+see = "../concepts/display.md#text"
+
+[symbols."DisplayProxy::drawStringMaxWidth"]
+section = "Text"
+use = "display.drawStringMaxWidth(0, 0, 80, \"Hi\");"
+does = "Draw one unwrapped line in studio apps, on the device and in the browser emulator; the width argument is ignored."
+see = "../concepts/display.md#text"
+
+[symbols."DisplayProxy::getStringWidth"]
+section = "Text"
+use = "display.getStringWidth(\"Hi\");"
+does = "Measure text width in pixels; also accepts text and length."
+see = "../concepts/display.md#text"
+
+[symbols."DisplayProxy::setFont"]
+section = "Text"
+use = "display.setFont(ArialMT_Plain_16);"
+does = "Select a 10, 16, or 24 pixel font handle."
+see = "../concepts/display.md#text"
+
+[symbols."DisplayProxy::setTextAlignment"]
+section = "Text"
+use = "display.setTextAlignment(TEXT_ALIGN_LEFT);"
+does = "Place text left, right, or centered on x; CENTER_BOTH also centers on y."
+see = "../concepts/display.md#text"
+
+[symbols."HAL::drawString"]
+section = "Text"
+use = "HAL::drawString(0, 0, \"Hi\");"
+does = "Draw text at x, y with the current font and alignment."
+see = "../concepts/display.md#text"
+
+# Buttons
+[symbols."HAL::buttonManager"]
+section = "Buttons"
+use = "HAL::buttonManager()"
+does = "The buttons, for code outside your app's functions. Inside begin(), update() and end(), the starter already calls it `buttonManager`."
+see = "../concepts/buttons.md#code-example-callback-registration"
+
+[symbols."ButtonManager::registerCallback"]
+section = "Buttons"
+use = "buttonManager.registerCallback(button_RightIndex, onRight);"
+does = "Call onRight for press, release, and hold events; replaces that button's callback."
+see = "../concepts/buttons.md#code-example-callback-registration"
+
+[symbols."ButtonManager::unregisterCallback"]
+section = "Buttons"
+use = "buttonManager.unregisterCallback(button_RightIndex);"
+does = "Remove the button callback when leaving the app."
+see = "../concepts/buttons.md#code-example-callback-registration"
+
+[symbols."ButtonManager::isPressed"]
+section = "Buttons"
+use = "buttonManager.isPressed(button_RightIndex);"
+does = "Read whether the button is down right now."
+see = "../concepts/buttons.md#code-example-callback-registration"
+
+[symbols."ButtonManager::hasCallback"]
+section = "Buttons"
+use = "buttonManager.hasCallback(button_RightIndex);"
+does = "Check whether a button has a registered callback."
+see = "../concepts/buttons.md#code-example-callback-registration"
+
+[symbols."ButtonManager::getCallback"]
+section = "Buttons"
+use = "buttonManager.getCallback(button_RightIndex);"
+does = "Read the registered callback, or nullptr if none."
+see = "../concepts/buttons.md#code-example-callback-registration"
+
+# LEDs
+[symbols."HAL::setRgbLed"]
+section = "LEDs"
+use = "HAL::setRgbLed(pixel_Front_Middle, 0, 0, 255, 0);"
+does = "Set one RGBW LED; red, green, blue, white channels each use 0-255."
+see = "../concepts/leds.md#setting-colors"
+
+[symbols."HAL::setRgbLedsOff"]
+section = "LEDs"
+use = "HAL::setRgbLedsOff();"
+does = "Turn all four RGBW LEDs off."
+see = "../concepts/leds.md#setting-colors"
+
+[symbols."setColorsOff"]
+section = "LEDs"
+use = "setColorsOff();"
+does = "Turn all four LEDs off; call in begin() and end()."
+see = "../concepts/leds.md#setting-colors"
+
+[symbols."setDeterminedColorsFront"]
+section = "LEDs"
+use = "setDeterminedColorsFront(0, 0, 255, 0);"
+does = "Set the three front LEDs; RGBW channels each use 0-255."
+see = "../concepts/leds.md#setting-colors"
+
+[symbols."setDeterminedColorsAll"]
+section = "LEDs"
+use = "setDeterminedColorsAll(0, 0, 255, 0);"
+does = "Set all four LEDs; RGBW channels each use 0-255."
+see = "../concepts/leds.md#setting-colors"
+
+[symbols."setRandomColors"]
+section = "LEDs"
+use = "setRandomColors();"
+does = "Give the three front LEDs random red/green/blue channels from 0-9, with white off; back LED is unchanged."
+see = "../concepts/leds.md#setting-colors"
+
+[symbols."mapToRainbow"]
+section = "LEDs"
+use = "mapToRainbow(1024, 64, r, g, b);"
+does = "Convert hue 0-4095 to red, green, blue output variables; dim scales brightness from 0-255."
+see = "../concepts/leds.md#setting-colors"
+
+# Sound
+[symbols."HAL::audioManager"]
+section = "Sound"
+use = "auto& audio = HAL::audioManager();"
+does = "Get the sound manager for tones, notes, and microphone readings."
+see = "../concepts/audio.md#playing-tones"
+
+[symbols."AudioManager::playTone"]
+section = "Sound"
+use = "HAL::audioManager().playTone(880, 100);"
+does = "Play a tone at 880 Hz for 100 ms; duration 0 plays until stopped."
+see = "../concepts/audio.md#playing-tones"
+
+[symbols."AudioManager::stopTone"]
+section = "Sound"
+use = "HAL::audioManager().stopTone();"
+does = "Stop the tone; call when leaving an app that uses tones."
+see = "../concepts/audio.md#playing-tones"
+
+[symbols."AudioManager::playNote"]
+section = "Sound"
+use = "HAL::audioManager().playNote(440, 100);"
+does = "Play a note alongside others (a chord); duration 0 holds it until stopNote(). Returns a handle, or -1 if the note could not start."
+see = "../concepts/audio.md#playing-tones"
+
+[symbols."AudioManager::stopNote"]
+section = "Sound"
+use = "HAL::audioManager().stopNote(handle);"
+does = "Stop the note identified by the handle returned from playNote()."
+see = "../concepts/audio.md#playing-tones"
+
+[symbols."AudioManager::stopNotes"]
+section = "Sound"
+use = "HAL::audioManager().stopNotes();"
+does = "Stop all additional notes."
+see = "../concepts/audio.md#playing-tones"
+
+[symbols."AudioManager::playSequence"]
+section = "Sound"
+use = "HAL::audioManager().playSequence(steps, count);"
+does = "Play up to 64 copied ToneStep entries in studio apps, on the device and in the browser emulator: freq in Hz (0 is rest), durationMs and gapAfterMs in ms."
+see = "../concepts/audio.md#playing-tones"
+
+[symbols."AudioManager::stopSequence"]
+section = "Sound"
+use = "HAL::audioManager().stopSequence();"
+does = "Stop the tone sequence."
+see = "../concepts/audio.md#playing-tones"
+
+[symbols."AudioManager::isSequencePlaying"]
+section = "Sound"
+use = "HAL::audioManager().isSequencePlaying();"
+does = "Always false in studio apps, on the device and in the browser emulator. Time your app logic with millis() instead."
+see = "../concepts/audio.md#playing-tones"
+
+[symbols."AudioManager::setVolume"]
+section = "Sound"
+use = "HAL::audioManager().setVolume(0.5f);"
+does = "Does nothing in studio apps, on the device and in the browser emulator. Use the emulator controls for browser volume."
+see = "../concepts/audio.md#playing-tones"
+
+[symbols."AudioManager::enableMic"]
+section = "Sound"
+use = "HAL::audioManager().enableMic(true);"
+does = "Enable device microphone readings; false disables them; emulator has no microphone."
+see = "../concepts/audio.md#playing-tones"
+
+[symbols."AudioManager::getMicVolumeLinear"]
+section = "Sound"
+use = "HAL::audioManager().getMicVolumeLinear();"
+does = "Read microphone level 0.0-1.0; emulator stays at 0.0 (silent)."
+see = "../concepts/audio.md#playing-tones"
+
+[symbols."AudioManager::getMicVolumeDb"]
+section = "Sound"
+use = "HAL::audioManager().getMicVolumeDb();"
+does = "Read microphone dBFS; 0 is full scale, quieter is negative; emulator returns -60."
+see = "../concepts/audio.md#playing-tones"
+
+# Motion
+
+# Slider
+[symbols."sliderPosition_12Bits_Filtered"]
+section = "Slider"
+use = "sliderPosition_12Bits_Filtered"
+does = "Slider 0-4095. Smoothed on device."
+see = "../concepts/slider.md#global-variables"
+
+[symbols."sliderPosition_12Bits_Inverted_Filtered"]
+section = "Slider"
+use = "sliderPosition_12Bits_Inverted_Filtered"
+does = "Slider 0-4095. Direction reversed. Emulator leaves this at 0."
+see = "../concepts/slider.md#global-variables"
+
+[symbols."sliderPosition_8Bits_Filtered"]
+section = "Slider"
+use = "sliderPosition_8Bits_Filtered"
+does = "Slider 0-255. Smoothed on device."
+see = "../concepts/slider.md#global-variables"
+
+[symbols."sliderPosition_8Bits_Inverted_Filtered"]
+section = "Slider"
+use = "sliderPosition_8Bits_Inverted_Filtered"
+does = "Slider 0-255. Direction reversed."
+see = "../concepts/slider.md#global-variables"
+
+[symbols."sliderPosition_Percentage_Filtered"]
+section = "Slider"
+use = "sliderPosition_Percentage_Filtered"
+does = "Slider 0-100 %. Smoothed on device."
+see = "../concepts/slider.md#global-variables"
+
+[symbols."sliderPosition_Percentage_Inverted_Filtered"]
+section = "Slider"
+use = "sliderPosition_Percentage_Inverted_Filtered"
+does = "Slider 0-100 %. Direction reversed."
+see = "../concepts/slider.md#global-variables"
+
+# Motion
+[symbols."accelX"]
+section = "Motion"
+use = "accelX"
+does = "X acceleration, roughly 1000 units per g (gravity); emulator uses supplied tilt."
+see = "../concepts/accelerometer.md#global-variables"
+
+[symbols."accelY"]
+section = "Motion"
+use = "accelY"
+does = "Y acceleration, roughly 1000 units per g (gravity); emulator uses supplied tilt."
+see = "../concepts/accelerometer.md#global-variables"
+
+[symbols."accelZ"]
+section = "Motion"
+use = "accelZ"
+does = "Z acceleration, roughly 1000 units per g (gravity); emulator uses supplied tilt."
+see = "../concepts/accelerometer.md#global-variables"
+
+[symbols."tempC"]
+section = "Motion"
+use = "tempC"
+does = "Temperature placeholder in degrees Celsius; both app targets leave it at 0."
+see = "../concepts/accelerometer.md#global-variables"
+
+# Time
+[symbols."millis"]
+section = "Time"
+use = "auto now = millis();"
+does = "Read elapsed time in ms; use unsigned subtraction to time actions across clock wraparound."
+see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
+
+[symbols."micros"]
+section = "Time"
+use = "auto nowUs = micros();"
+does = "Read elapsed microseconds; both targets have only 1000-microsecond resolution."
+see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
+
+[symbols."delay"]
+section = "Time"
+use = "delay(10);"
+does = "Does nothing in studio apps, on the device and in the browser emulator. Use millis() timing instead of pausing."
+see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
+
+[symbols."delayMicroseconds"]
+section = "Time"
+use = "delayMicroseconds(100);"
+does = "Does nothing on both targets; use the update loop for timing."
+see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
+
+[symbols."random"]
+section = "Time"
+use = "auto roll = random(1, 7);"
+does = "Choose an integer from the first bound inclusive to the second exclusive; one argument starts at 0."
+see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
+
+[symbols."randomSeed"]
+section = "Time"
+use = "randomSeed(42);"
+does = "Does nothing in studio apps, on the device and in the browser emulator."
+see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
+
+[symbols."map"]
+section = "Time"
+use = "auto brightness = map(value, 0, 100, 0, 255);"
+does = "Rescale an integer range; does not clamp values outside the range."
+see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
+
+[symbols."constrain"]
+section = "Time"
+use = "auto bounded = constrain(value, 0L, 100L);"
+does = "Clamp a value between inclusive bounds; use long integers on both targets."
+see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
+
+[symbols."min"]
+section = "Time"
+use = "auto smaller = min(a, b);"
+does = "Choose the smaller of two values of the same type."
+see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
+
+[symbols."max"]
+section = "Time"
+use = "auto larger = max(a, b);"
+does = "Choose the larger of two values of the same type."
+see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
+
+[symbols."radians"]
+section = "Time"
+use = "auto angle = radians(90.0f);"
+does = "Convert degrees to radians (one full turn is about 6.283 radians)."
+see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
+
+[symbols."degrees"]
+section = "Time"
+use = "auto angle = degrees(1.0f);"
+does = "Convert radians to degrees (360 degrees is one full turn)."
+see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
+
+[symbols."millis_NOW"]
+section = "Time"
+use = "millis_NOW"
+does = "The time in ms when this frame started; read it instead of calling millis() repeatedly."
+see = "../concepts/update-loop.md#millis-based-timing-vs-delay"
+
+# Sprites and animation
+[symbols."cf::gfx::drawSprite"]
+section = "Sprites and animation"
+use = "drawSprite(display, sprite, 0, 0);"
+does = "Draw a sprite with its top-left at x, y; ignores its pivot."
+see = "../concepts/sprites.md#drawing-a-sprite"
+
+[symbols."cf::gfx::drawSpritePivoted"]
+section = "Sprites and animation"
+use = "drawSpritePivoted(display, sprite, 64, 32);"
+does = "Draw a sprite with its pivot at x, y."
+see = "../concepts/sprites.md#pivots"
+
+[symbols."cf::gfx::findAnimation"]
+section = "Sprites and animation"
+use = "findAnimation(sheet, \"run\");"
+does = "Find a named animation in a sheet; returns nullptr if missing."
+see = "../concepts/sprites.md#animations-and-sprite-sheets"
+
+[symbols."cf::gfx::sampleSprite"]
+section = "Sprites and animation"
+use = "sampleSprite(sprite, 0, 0);"
+does = "Read one on/off pixel in sprite-local coordinates; outside is false."
+see = "../concepts/sprites.md#reading-single-pixels"
+
+[symbols."cf::gfx::pixelCollides"]
+section = "Sprites and animation"
+use = "pixelCollides(player, enemy);"
+does = "Check overlapping lit pixels; Actor form applies pivots, Sprite form takes top-left positions."
+see = "../concepts/sprites.md#collision"
+
+[symbols."cf::gfx::Actor::Actor"]
+section = "Sprites and animation"
+use = "Actor player;"
+does = "Create an actor with a position and an animation player."
+see = "../concepts/sprites.md#actors"
+
+[symbols."cf::gfx::Actor::setSheet"]
+section = "Sprites and animation"
+use = "player.setSheet(&sheet);"
+does = "Bind a sprite sheet for looking up animations by name."
+see = "../concepts/sprites.md#actors"
+
+[symbols."cf::gfx::Actor::sheet"]
+section = "Sprites and animation"
+use = "player.sheet();"
+does = "Read the bound sheet pointer, or nullptr if none."
+see = "../concepts/sprites.md#actors"
+
+[symbols."cf::gfx::Actor::play"]
+section = "Sprites and animation"
+use = "player.play(\"run\", millis());"
+does = "Play by name or animation pointer; same animation keeps running; false if missing."
+see = "../concepts/sprites.md#actors"
+
+[symbols."cf::gfx::Actor::update"]
+section = "Sprites and animation"
+use = "player.update(millis());"
+does = "Advance animation using time in ms; true if the visible sprite changed."
+see = "../concepts/sprites.md#actors"
+
+[symbols."cf::gfx::Actor::draw"]
+section = "Sprites and animation"
+use = "player.draw(display);"
+does = "Draw the current sprite with its pivot at the actor's position."
+see = "../concepts/sprites.md#actors"
+
+[symbols."cf::gfx::Actor::setPos"]
+section = "Sprites and animation"
+use = "player.setPos(64, 32);"
+does = "Place the actor's pivot at x, y in screen pixels."
+see = "../concepts/sprites.md#moving-an-actor"
+
+[symbols."cf::gfx::Actor::setPosQ8"]
+section = "Sprites and animation"
+use = "player.setPosQ8(64 * 256, 32 * 256);"
+does = "Place the pivot in fractional pixels; 256 units equal one pixel."
+see = "../concepts/sprites.md#moving-an-actor"
+
+[symbols."cf::gfx::Actor::x"]
+section = "Sprites and animation"
+use = "player.x();"
+does = "Read horizontal position in pixels, rounded down."
+see = "../concepts/sprites.md#moving-an-actor"
+
+[symbols."cf::gfx::Actor::y"]
+section = "Sprites and animation"
+use = "player.y();"
+does = "Read vertical position in pixels, rounded down."
+see = "../concepts/sprites.md#moving-an-actor"
+
+[symbols."cf::gfx::Actor::xQ8"]
+section = "Sprites and animation"
+use = "player.xQ8();"
+does = "Read horizontal position in units of 1/256 pixel."
+see = "../concepts/sprites.md#moving-an-actor"
+
+[symbols."cf::gfx::Actor::yQ8"]
+section = "Sprites and animation"
+use = "player.yQ8();"
+does = "Read vertical position in units of 1/256 pixel."
+see = "../concepts/sprites.md#moving-an-actor"
+
+[symbols."cf::gfx::Actor::sprite"]
+section = "Sprites and animation"
+use = "player.sprite();"
+does = "Read the current sprite pointer; nullptr means nothing to draw."
+see = "../concepts/sprites.md#actors"
+
+[symbols."cf::gfx::Actor::animation"]
+section = "Sprites and animation"
+use = "player.animation();"
+does = "Read the selected animation pointer, or nullptr if none."
+see = "../concepts/sprites.md#actors"
+
+[symbols."cf::gfx::Actor::finished"]
+section = "Sprites and animation"
+use = "player.finished();"
+does = "Check whether playback has finished or stopped."
+see = "../concepts/sprites.md#actors"
+
+[symbols."cf::gfx::AnimationPlayer::AnimationPlayer"]
+section = "Sprites and animation"
+use = "AnimationPlayer clock;"
+does = "Create an animation clock without a screen position."
+see = "../concepts/sprites.md#animations-and-sprite-sheets"
+
+[symbols."cf::gfx::AnimationPlayer::play"]
+section = "Sprites and animation"
+use = "clock.play(&animation, millis());"
+does = "Start or restart at frame 0 using time in ms; nullptr stops."
+see = "../concepts/sprites.md#animations-and-sprite-sheets"
+
+[symbols."cf::gfx::AnimationPlayer::setIfChanged"]
+section = "Sprites and animation"
+use = "clock.setIfChanged(&animation, millis());"
+does = "Start only if the animation pointer differs; safe every update."
+see = "../concepts/sprites.md#animations-and-sprite-sheets"
+
+[symbols."cf::gfx::AnimationPlayer::update"]
+section = "Sprites and animation"
+use = "clock.update(millis());"
+does = "Advance by elapsed ms; true if the sprite changed; 0 ms frames hold indefinitely."
+see = "../concepts/sprites.md#animations-and-sprite-sheets"
+
+[symbols."cf::gfx::AnimationPlayer::stop"]
+section = "Sprites and animation"
+use = "clock.stop();"
+does = "Clear playback; sprite and animation pointers become nullptr."
+see = "../concepts/sprites.md#animations-and-sprite-sheets"
+
+[symbols."cf::gfx::AnimationPlayer::sprite"]
+section = "Sprites and animation"
+use = "clock.sprite();"
+does = "Read the current sprite pointer; nullptr means nothing to draw."
+see = "../concepts/sprites.md#animations-and-sprite-sheets"
+
+[symbols."cf::gfx::AnimationPlayer::animation"]
+section = "Sprites and animation"
+use = "clock.animation();"
+does = "Read the selected animation pointer, including after it finishes."
+see = "../concepts/sprites.md#animations-and-sprite-sheets"
+
+[symbols."cf::gfx::AnimationPlayer::frameIndex"]
+section = "Sprites and animation"
+use = "clock.frameIndex();"
+does = "Read the current frame number, starting at 0."
+see = "../concepts/sprites.md#animations-and-sprite-sheets"
+
+[symbols."cf::gfx::AnimationPlayer::finished"]
+section = "Sprites and animation"
+use = "clock.finished();"
+does = "Check whether playback has finished or stopped."
+see = "../concepts/sprites.md#animations-and-sprite-sheets"
+
+[symbols."cf::gfx::MeshActor::MeshActor"]
+section = "Sprites and animation"
+use = "MeshActor model;"
+does = "Create a wireframe model actor with default depth 48 and scale 256."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::MeshActor::setMesh"]
+section = "Sprites and animation"
+use = "model.setMesh(&mesh);"
+does = "Bind the model's points and connecting lines."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::MeshActor::mesh"]
+section = "Sprites and animation"
+use = "model.mesh();"
+does = "Read the bound model pointer, or nullptr if none."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::MeshActor::setPos"]
+section = "Sprites and animation"
+use = "model.setPos(64, 32);"
+does = "Place the model's anchor in screen pixels."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::MeshActor::x"]
+section = "Sprites and animation"
+use = "model.x();"
+does = "Read the anchor's horizontal screen position in pixels."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::MeshActor::y"]
+section = "Sprites and animation"
+use = "model.y();"
+does = "Read the anchor's vertical screen position in pixels."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::MeshActor::setScaleQ8"]
+section = "Sprites and animation"
+use = "model.setScaleQ8(256);"
+does = "Set model size; 256 is normal size and 512 is double."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::MeshActor::scaleQ8"]
+section = "Sprites and animation"
+use = "model.scaleQ8();"
+does = "Read size in units where 256 is normal size."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::MeshActor::setRotation"]
+section = "Sprites and animation"
+use = "model.setRotation(0, 64, 0);"
+does = "Rotate about vertical, horizontal, and depth axes; 256 units equal one turn."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::MeshActor::spin"]
+section = "Sprites and animation"
+use = "model.spin(1, 0, 0);"
+does = "Add yaw, pitch, roll steps; 256 steps equal one turn."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::MeshActor::yaw"]
+section = "Sprites and animation"
+use = "model.yaw();"
+does = "Read rotation about the model's vertical axis; 0-255 is one turn."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::MeshActor::pitch"]
+section = "Sprites and animation"
+use = "model.pitch();"
+does = "Read rotation about the model's horizontal axis; 0-255 is one turn."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::MeshActor::roll"]
+section = "Sprites and animation"
+use = "model.roll();"
+does = "Read rotation about the model's depth axis; 0-255 is one turn."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::MeshActor::setPerspective"]
+section = "Sprites and animation"
+use = "model.setPerspective(48);"
+does = "Set viewing depth; 0 disables perspective size changes with distance."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::MeshActor::perspective"]
+section = "Sprites and animation"
+use = "model.perspective();"
+does = "Read the viewing depth; 0 means no perspective."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::MeshActor::draw"]
+section = "Sprites and animation"
+use = "model.draw(display);"
+does = "Draw model lines; skip lines with either end behind the near viewing plane."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::MeshActor::projectPoint"]
+section = "Sprites and animation"
+use = "model.projectPoint(0, 0, 0, x, y);"
+does = "Convert a model point to screen x/y; keep coordinates within about +/-8192; false if hidden."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RigActor::RigActor"]
+section = "Sprites and animation"
+use = "RigActor figure;"
+does = "Create an actor for connected bones, poses, and falling-body motion."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RigActor::setRig"]
+section = "Sprites and animation"
+use = "figure.setRig(&rig);"
+does = "Bind bones and poses, clearing playback and physics state."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RigActor::rig"]
+section = "Sprites and animation"
+use = "figure.rig();"
+does = "Read the bound rig pointer, or nullptr if none."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RigActor::setPos"]
+section = "Sprites and animation"
+use = "figure.setPos(64, 32);"
+does = "Place the rig's origin in screen pixels."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RigActor::x"]
+section = "Sprites and animation"
+use = "figure.x();"
+does = "Read the horizontal screen position in pixels."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RigActor::y"]
+section = "Sprites and animation"
+use = "figure.y();"
+does = "Read the vertical screen position in pixels."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RigActor::state"]
+section = "Sprites and animation"
+use = "figure.state();"
+does = "Read whether the figure is posing, animating, falling, or standing up."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RigActor::isRagdoll"]
+section = "Sprites and animation"
+use = "figure.isRagdoll();"
+does = "True during falling-body motion or standing up."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RigActor::play"]
+section = "Sprites and animation"
+use = "figure.play(\"walk\");"
+does = "Play a named animation or pose; also accepts an animation pointer or reference; false if missing."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RigActor::blend"]
+section = "Sprites and animation"
+use = "figure.blend(\"idle\", \"reach\", 128);"
+does = "Blend two poses; amount 0-255 moves smoothly from the first to the second."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RigActor::ragdoll"]
+section = "Sprites and animation"
+use = "figure.ragdoll(1.0f, -2.0f);"
+does = "Start falling-body physics with x/y impulse; false without a valid rig of at most 11 bones."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RigActor::pin"]
+section = "Sprites and animation"
+use = "figure.pin(\"head\", 64, 16);"
+does = "Hold one bone at screen x/y during falling-body motion; also accepts a bone index."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RigActor::unpin"]
+section = "Sprites and animation"
+use = "figure.unpin();"
+does = "Release the held bone."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RigActor::standUp"]
+section = "Sprites and animation"
+use = "figure.standUp();"
+does = "Start standing up from a falling-body pose."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RigActor::update"]
+section = "Sprites and animation"
+use = "figure.update(millis());"
+does = "Advance animation by ms or physics by one step; call each update."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RigActor::draw"]
+section = "Sprites and animation"
+use = "figure.draw(display);"
+does = "Draw the current connected-bone figure."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RigActor::boneCount"]
+section = "Sprites and animation"
+use = "figure.boneCount();"
+does = "Read the number of bones in the bound rig."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RigActor::boneTransform"]
+section = "Sprites and animation"
+use = "figure.boneTransform(0);"
+does = "Read a valid bone index's calculated start, end, and angle; no bounds check."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RigActor::particleCount"]
+section = "Sprites and animation"
+use = "figure.particleCount();"
+does = "Read the number of physics points used by falling-body motion."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RigActor::particle"]
+section = "Sprites and animation"
+use = "figure.particle(0);"
+does = "Read a physics point's x/y; invalid index returns (0, 0)."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RigActor::maxHardConstraintError"]
+section = "Sprites and animation"
+use = "figure.maxHardConstraintError();"
+does = "Read the largest length error in pixels for rigid physics connections."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::sinQ14"]
+section = "Sprites and animation"
+use = "sinQ14(64);"
+does = "Read sine scaled by 16384; 256 angle units equal one turn."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::cosQ14"]
+section = "Sprites and animation"
+use = "cosQ14(0);"
+does = "Read cosine scaled by 16384; 256 angle units equal one turn."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::degreesToBinaryAngle"]
+section = "Sprites and animation"
+use = "degreesToBinaryAngle(90);"
+does = "Convert degrees to a wrapped 0-255 angle; 256 units equal one turn."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::blendBinaryAngle"]
+section = "Sprites and animation"
+use = "blendBinaryAngle(0, 64, 128);"
+does = "Blend angles by the shorter turn; amount 0-255 selects first to second."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::interpolateRigInteger"]
+section = "Sprites and animation"
+use = "interpolateRigInteger(0, 100, 128);"
+does = "Blend integers; amount 0-255 selects first to second, rounding halfway away from zero."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::rotateRigOffset"]
+section = "Sprites and animation"
+use = "rotateRigOffset(10, 0, 64, x, y);"
+does = "Rotate a pixel offset into output x/y; 256 angle units equal one turn."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::rigPoseDegrees"]
+section = "Sprites and animation"
+use = "rigPoseDegrees(&pose, 0);"
+does = "Read a valid bone index's pose angle in degrees; null pose data returns 0."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::rigPoseRootDy"]
+section = "Sprites and animation"
+use = "rigPoseRootDy(&pose);"
+does = "Read a pose's vertical origin offset in pixels; null pose returns 0."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::rigRoundRatioHalfAwayFromZero"]
+section = "Sprites and animation"
+use = "rigRoundRatioHalfAwayFromZero(5, 2);"
+does = "Divide with halfway values rounded away from zero; denominator must be positive."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::solveRigPose"]
+section = "Sprites and animation"
+use = "solveRigPose(rig, &pose, transforms, 16);"
+does = "Calculate bone positions; also accepts two poses and a 0-255 blend; false for invalid capacity or bone order."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::findRigPose"]
+section = "Sprites and animation"
+use = "findRigPose(rig, \"idle\");"
+does = "Look up a pose by name; nullptr if missing."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::findRigAnimation"]
+section = "Sprites and animation"
+use = "findRigAnimation(rig, \"walk\");"
+does = "Look up a bone animation by name; nullptr if missing."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::smoothstepRigAmount"]
+section = "Sprites and animation"
+use = "smoothstepRigAmount(128);"
+does = "Ease a 0-255 blend amount so its start and finish are gradual."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+# Leaving the app / app control
+[symbols."MenuManager::instance"]
+section = "Leaving the app / app control"
+use = "auto& menu = MenuManager::instance();"
+does = "Get the shared menu controller."
+see = "../concepts/app-lifecycle.md#the-lifecycle-in-practice"
+
+[symbols."MenuManager::returnToMenu"]
+section = "Leaving the app / app control"
+use = "MenuManager::instance().returnToMenu();"
+does = "Go back to the menu. Your app closes once the function that called this (for example a button callback) finishes."
+see = "../concepts/app-lifecycle.md#the-lifecycle-in-practice"
+
+[symbols."millis_APP_LASTINTERACTION"]
+section = "Leaving the app / app control"
+use = "millis_APP_LASTINTERACTION = millis();"
+does = "Set this to millis() to count as activity, so the device does not go to sleep while your app runs."
+see = "../concepts/app-lifecycle.md#the-lifecycle-in-practice"
+
+# Button names
+[symbols."button_BottomLeftIndex"]
+section = "Button names"
+use = "button_BottomLeftIndex"
+does = "BottomLeft button; aliases refer to the same physical button."
+see = "../concepts/buttons.md#the-6-buttons-positions-and-names"
+
+[symbols."button_BottomRightIndex"]
+section = "Button names"
+use = "button_BottomRightIndex"
+does = "BottomRight button; aliases refer to the same physical button."
+see = "../concepts/buttons.md#the-6-buttons-positions-and-names"
+
+[symbols."button_DownIndex"]
+section = "Button names"
+use = "button_DownIndex"
+does = "Down button; aliases refer to the same physical button."
+see = "../concepts/buttons.md#the-6-buttons-positions-and-names"
+
+[symbols."button_EnterIndex"]
+section = "Button names"
+use = "button_EnterIndex"
+does = "Enter button; aliases refer to the same physical button."
+see = "../concepts/buttons.md#the-6-buttons-positions-and-names"
+
+[symbols."button_LeftIndex"]
+section = "Button names"
+use = "button_LeftIndex"
+does = "Left button; aliases refer to the same physical button."
+see = "../concepts/buttons.md#the-6-buttons-positions-and-names"
+
+[symbols."button_MiddleLeftIndex"]
+section = "Button names"
+use = "button_MiddleLeftIndex"
+does = "MiddleLeft button; aliases refer to the same physical button."
+see = "../concepts/buttons.md#the-6-buttons-positions-and-names"
+
+[symbols."button_MiddleRightIndex"]
+section = "Button names"
+use = "button_MiddleRightIndex"
+does = "MiddleRight button; aliases refer to the same physical button."
+see = "../concepts/buttons.md#the-6-buttons-positions-and-names"
+
+[symbols."button_RightIndex"]
+section = "Button names"
+use = "button_RightIndex"
+does = "Right button; aliases refer to the same physical button."
+see = "../concepts/buttons.md#the-6-buttons-positions-and-names"
+
+[symbols."button_SelectIndex"]
+section = "Button names"
+use = "button_SelectIndex"
+does = "Select button; aliases refer to the same physical button."
+see = "../concepts/buttons.md#the-6-buttons-positions-and-names"
+
+[symbols."button_TopLeftIndex"]
+section = "Button names"
+use = "button_TopLeftIndex"
+does = "TopLeft button; aliases refer to the same physical button."
+see = "../concepts/buttons.md#the-6-buttons-positions-and-names"
+
+[symbols."button_TopRightIndex"]
+section = "Button names"
+use = "button_TopRightIndex"
+does = "TopRight button; aliases refer to the same physical button."
+see = "../concepts/buttons.md#the-6-buttons-positions-and-names"
+
+[symbols."button_UpIndex"]
+section = "Button names"
+use = "button_UpIndex"
+does = "Up button; aliases refer to the same physical button."
+see = "../concepts/buttons.md#the-6-buttons-positions-and-names"
+
+# LED names
+[symbols."pixel_Back"]
+section = "LED names"
+use = "pixel_Back"
+does = "Back RGBW LED."
+see = "../concepts/leds.md#the-4-led-positions"
+
+[symbols."pixel_Front_Bottom"]
+section = "LED names"
+use = "pixel_Front_Bottom"
+does = "Front Bottom RGBW LED."
+see = "../concepts/leds.md#the-4-led-positions"
+
+[symbols."pixel_Front_Middle"]
+section = "LED names"
+use = "pixel_Front_Middle"
+does = "Front Middle RGBW LED."
+see = "../concepts/leds.md#the-4-led-positions"
+
+[symbols."pixel_Front_Top"]
+section = "LED names"
+use = "pixel_Front_Top"
+does = "Front Top RGBW LED."
+see = "../concepts/leds.md#the-4-led-positions"
+
+# Colors
+[symbols."BLACK"]
+section = "Colors"
+use = "BLACK"
+does = "Draw pixels off."
+see = "../concepts/display.md#display-basics"
+
+[symbols."WHITE"]
+section = "Colors"
+use = "WHITE"
+does = "Draw pixels on."
+see = "../concepts/display.md#display-basics"
+
+[symbols."INVERSE"]
+section = "Colors"
+use = "INVERSE"
+does = "Toggle drawn pixels on/off."
+see = "../concepts/display.md#display-basics"
+
+# Fonts
+[symbols."ArialMT_Plain_10"]
+section = "Fonts"
+use = "ArialMT_Plain_10"
+does = "10 pixel font; pass to setFont()."
+see = "../concepts/display.md#text"
+
+[symbols."ArialMT_Plain_16"]
+section = "Fonts"
+use = "ArialMT_Plain_16"
+does = "16 pixel font; pass to setFont()."
+see = "../concepts/display.md#text"
+
+[symbols."ArialMT_Plain_24"]
+section = "Fonts"
+use = "ArialMT_Plain_24"
+does = "24 pixel font; pass to setFont()."
+see = "../concepts/display.md#text"
+
+# Text alignment
+[symbols."TEXT_ALIGN_LEFT"]
+section = "Text alignment"
+use = "TEXT_ALIGN_LEFT"
+does = "Text starts at x."
+see = "../concepts/display.md#text"
+
+[symbols."TEXT_ALIGN_RIGHT"]
+section = "Text alignment"
+use = "TEXT_ALIGN_RIGHT"
+does = "Text ends at x."
+see = "../concepts/display.md#text"
+
+[symbols."TEXT_ALIGN_CENTER"]
+section = "Text alignment"
+use = "TEXT_ALIGN_CENTER"
+does = "Text is centered on x."
+see = "../concepts/display.md#text"
+
+[symbols."TEXT_ALIGN_CENTER_BOTH"]
+section = "Text alignment"
+use = "TEXT_ALIGN_CENTER_BOTH"
+does = "Text is centered on x and y."
+see = "../concepts/display.md#text"
+
+# Button event types
+[symbols."ButtonEvent_None"]
+section = "Button event types"
+use = "ButtonEvent_None"
+does = "No button event."
+see = "../concepts/buttons.md#event-types"
+
+[symbols."ButtonEvent_Pressed"]
+section = "Button event types"
+use = "ButtonEvent_Pressed"
+does = "Button went down."
+see = "../concepts/buttons.md#event-types"
+
+[symbols."ButtonEvent_Released"]
+section = "Button event types"
+use = "ButtonEvent_Released"
+does = "Button went up; duration is time held in ms."
+see = "../concepts/buttons.md#event-types"
+
+[symbols."ButtonEvent_Held"]
+section = "Button event types"
+use = "ButtonEvent_Held"
+does = "Button passed the 1500 ms hold threshold; duration is time held in ms."
+see = "../concepts/buttons.md#event-types"
+
+# Animation constants
+[symbols."cf::gfx::LOOP_ONCE"]
+section = "Animation constants"
+use = "LOOP_ONCE"
+does = "Play once then draw nothing."
+see = "../concepts/sprites.md#loop-modes"
+
+[symbols."cf::gfx::LOOP_ONCE_HOLD"]
+section = "Animation constants"
+use = "LOOP_ONCE_HOLD"
+does = "Play once and keep the last frame."
+see = "../concepts/sprites.md#loop-modes"
+
+[symbols."cf::gfx::LOOP_LOOP"]
+section = "Animation constants"
+use = "LOOP_LOOP"
+does = "Repeat from the first frame."
+see = "../concepts/sprites.md#loop-modes"
+
+[symbols."cf::gfx::LOOP_PINGPONG"]
+section = "Animation constants"
+use = "LOOP_PINGPONG"
+does = "Play forward then backward, repeating."
+see = "../concepts/sprites.md#loop-modes"
+
+[symbols."cf::gfx::BO_LSB_FIRST"]
+section = "Animation constants"
+use = "BO_LSB_FIRST"
+does = "Lowest bit first per byte; required for drawing sprites correctly."
+see = "../concepts/sprites.md#drawing-a-sprite"
+
+[symbols."cf::gfx::BO_MSB_FIRST"]
+section = "Animation constants"
+use = "BO_MSB_FIRST"
+does = "Highest bit first; collision can read it but drawing mirrors each byte."
+see = "../concepts/sprites.md#drawing-a-sprite"
+
+[symbols."cf::gfx::RIG_RENDER_BAKED16"]
+section = "Animation constants"
+use = "RIG_RENDER_BAKED16"
+does = "Use one of 16 image angles; fall back to lines when images are absent."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RIG_RENDER_LINE"]
+section = "Animation constants"
+use = "RIG_RENDER_LINE"
+does = "Draw bones as lines."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RIG_RENDER_FLAT"]
+section = "Animation constants"
+use = "RIG_RENDER_FLAT"
+does = "Draw bones as lines, matching LINE mode."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RigActor::STATE_POSE"]
+section = "Animation constants"
+use = "RigActor::STATE_POSE"
+does = "Holding a pose."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RigActor::STATE_ANIMATION"]
+section = "Animation constants"
+use = "RigActor::STATE_ANIMATION"
+does = "Playing bone animation."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RigActor::STATE_RAGDOLL"]
+section = "Animation constants"
+use = "RigActor::STATE_RAGDOLL"
+does = "Falling-body physics is active."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::RigActor::STATE_STANDING"]
+section = "Animation constants"
+use = "RigActor::STATE_STANDING"
+does = "Returning from physics to standing."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::kFocal"]
+section = "Animation constants"
+use = "kFocal"
+does = "Perspective projection focal length in pixels."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::kNearZ"]
+section = "Animation constants"
+use = "kNearZ"
+does = "Minimum visible model depth."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::kDefaultDepth"]
+section = "Animation constants"
+use = "kDefaultDepth"
+does = "Initial model viewing depth."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::kScaleBaseQ8"]
+section = "Animation constants"
+use = "kScaleBaseQ8"
+does = "Normal model size; 256 means 1x."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::kMaxRigBones"]
+section = "Animation constants"
+use = "kMaxRigBones"
+does = "Maximum bones for pose calculation."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::kMaxRigParticles"]
+section = "Animation constants"
+use = "kMaxRigParticles"
+does = "Maximum physics points for falling-body motion."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[symbols."cf::gfx::kMaxRigConstraints"]
+section = "Animation constants"
+use = "kMaxRigConstraints"
+does = "Maximum physics connections."
+see = "../studio/3d-models.md#using-a-model-in-an-app"
+
+[ignore]
+"AudioManager::AudioManager" = "Exposed only in emulator headers; outside the portable app intersection."
+"AudioManager::init" = "Exposed only in emulator headers; outside the portable app intersection."
+"AudioManager::isAudioActive" = "Exposed only in emulator headers; outside the portable app intersection."
+"AudioManager::isMicEnabled" = "Exposed only in emulator headers; outside the portable app intersection."
+"AudioManager::loop" = "Exposed only in emulator headers; outside the portable app intersection."
+"AudioManager::reclaimI2S" = "Exposed only in emulator headers; outside the portable app intersection."
+"AudioManager::releaseI2S" = "Exposed only in emulator headers; outside the portable app intersection."
+"AudioManager::setSpeakerEqPreset" = "Exposed only in emulator headers; outside the portable app intersection."
+"AudioManager::speakerEqPreset" = "Exposed only in emulator headers; outside the portable app intersection."
+"AudioManager::stopForSleep" = "Exposed only in emulator headers; outside the portable app intersection."
+"ButtonManager::ButtonManager" = "Exposed only in emulator headers; outside the portable app intersection."
+"ButtonManager::dispatch" = "Host event-delivery plumbing; apps register callbacks instead."
+"ButtonManager::flushCallbacks" = "Guest entry-point plumbing; apps must not drain callbacks themselves."
+"ButtonManager::getNextEvent" = "Exposed only in emulator headers; outside the portable app intersection."
+"ButtonManager::getNumButtons" = "Exposed only in emulator headers; outside the portable app intersection."
+"ButtonManager::init" = "Exposed only in emulator headers; outside the portable app intersection."
+"ButtonManager::kHoldThresholdMs" = "Exposed only in device headers; outside the portable app intersection."
+"ButtonManager::kMaxButtons" = "Exposed only in device headers; outside the portable app intersection."
+"ButtonManager::loadButtonCounters" = "Exposed only in emulator headers; outside the portable app intersection."
+"ButtonManager::reset" = "Guest lifecycle plumbing; host resets event state."
+"ButtonManager::saveButtonCounters" = "Exposed only in emulator headers; outside the portable app intersection."
+"ButtonManager::update" = "Exposed only in emulator headers; outside the portable app intersection."
+"DisplayProxy::DisplayProxy" = "Exposed only in emulator headers; outside the portable app intersection."
+"DisplayProxy::cls" = "Exposed only in emulator headers; outside the portable app intersection."
+"DisplayProxy::displayOff" = "Exposed only in emulator headers; outside the portable app intersection."
+"DisplayProxy::displayOn" = "Exposed only in emulator headers; outside the portable app intersection."
+"DisplayProxy::drawFastImage" = "Exposed only in emulator headers; outside the portable app intersection."
+"DisplayProxy::end" = "Exposed only in emulator headers; outside the portable app intersection."
+"DisplayProxy::flipScreenVertically" = "Exposed only in emulator headers; outside the portable app intersection."
+"DisplayProxy::frameBuffer" = "Exposed only in emulator headers; outside the portable app intersection."
+"DisplayProxy::getOverlayMode" = "Host owns the overlay; device guest always reports off."
+"DisplayProxy::init" = "Exposed only in emulator headers; outside the portable app intersection."
+"DisplayProxy::invertDisplay" = "Exposed only in emulator headers; outside the portable app intersection."
+"DisplayProxy::kFrameBufferBytes" = "Exposed only in emulator headers; outside the portable app intersection."
+"DisplayProxy::mirrorScreen" = "Exposed only in emulator headers; outside the portable app intersection."
+"DisplayProxy::normalDisplay" = "Exposed only in emulator headers; outside the portable app intersection."
+"DisplayProxy::resetDisplay" = "Exposed only in emulator headers; outside the portable app intersection."
+"DisplayProxy::setBrightness" = "Exposed only in emulator headers; outside the portable app intersection."
+"DisplayProxy::setContrast" = "Exposed only in emulator headers; outside the portable app intersection."
+"DisplayProxy::setOverlayMode" = "Host owns the overlay; device guest setter does nothing."
+"DisplayProxy::setPixelStatusBars" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::accelerometer" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::boardInfo" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::bootWakeupCauseName" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::chargingDisable" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::chargingEnable" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::configureWakeupPins" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::consumeRuntimeBatteryShutdownRequest" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::enterDeepSleep" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::gaugeGetAlertMin" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::gaugeHibernateAuto" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::gaugeHibernateForce" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::gaugeIsHibernating" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::gaugeSetAlertMin" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::initEasyEverything" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::initHardware" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::loopHardware" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::oledRailOffForBench" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::oledRailOnForBench" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::printFirmwareBanner" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::printWakeupReason" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::realDisplay" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::resleepAfterTimerCheckin" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::setAuxPower" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::setBeforeSleep" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::setOledPower" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::setTimerCheckinDue" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::showRgbLeds" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::sleepPending" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::stopAudio" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::strip" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::timerCheckinWake" = "Exposed only in emulator headers; outside the portable app intersection."
+"HAL::updateAccelerometer" = "Exposed only in emulator headers; outside the portable app intersection."
+"MenuManager::begin" = "Exposed only in emulator headers; outside the portable app intersection."
+"MenuManager::end" = "Exposed only in emulator headers; outside the portable app intersection."
+"MenuManager::isMenuActive" = "Exposed only in emulator headers; outside the portable app intersection."
+"MenuManager::registerApp" = "Exposed only in emulator headers; outside the portable app intersection."
+"MenuManager::update" = "Exposed only in emulator headers; outside the portable app intersection."
+"OverlayMode::OVERLAY_OFF" = "Host-only overlay mode, not app drawing state."
+"OverlayMode::OVERLAY_ON" = "Host-only overlay mode, not app drawing state."
+"Serial" = "Exposed only in emulator headers; outside the portable app intersection."
+"TAG_MAIN" = "Host logging tag; not an app sensor or control."
+"TASK_200MS" = "Exposed only in emulator headers; outside the portable app intersection."
+"TASK_20MS" = "Exposed only in emulator headers; outside the portable app intersection."
+"TASK_50MS" = "Exposed only in emulator headers; outside the portable app intersection."
+"TASK_LASTINTERACT" = "Exposed only in emulator headers; outside the portable app intersection."
+"analogRead" = "Exposed only in emulator headers; outside the portable app intersection."
+"analogReadMilliVolts" = "Exposed only in emulator headers; outside the portable app intersection."
+"appActive" = "Exposed only in emulator headers; outside the portable app intersection."
+"appActiveSaved" = "Exposed only in emulator headers; outside the portable app intersection."
+"appPreviously" = "Exposed only in emulator headers; outside the portable app intersection."
+"batteryChangeRate" = "Exposed only in emulator headers; outside the portable app intersection."
+"batterySOCCutoff" = "Exposed only in emulator headers; outside the portable app intersection."
+"batteryVoltage" = "Exposed only in emulator headers; outside the portable app intersection."
+"batteryVoltageHighCutoff" = "Exposed only in emulator headers; outside the portable app intersection."
+"batteryVoltageLowCutoff" = "Exposed only in emulator headers; outside the portable app intersection."
+"batteryVoltagePercentage" = "Exposed only in emulator headers; outside the portable app intersection."
+"beepActive" = "Exposed only in emulator headers; outside the portable app intersection."
+"beepFrequency" = "Exposed only in emulator headers; outside the portable app intersection."
+"blue" = "Exposed only in emulator headers; outside the portable app intersection."
+"buttonCounter" = "Exposed only in emulator headers; outside the portable app intersection."
+"buttonCounterSaved" = "Exposed only in emulator headers; outside the portable app intersection."
+"buttonPressed" = "Exposed only in emulator headers; outside the portable app intersection."
+"button_BottomLeft" = "Exposed only in emulator headers; outside the portable app intersection."
+"button_BottomRight" = "Exposed only in emulator headers; outside the portable app intersection."
+"button_MiddleLeft" = "Exposed only in emulator headers; outside the portable app intersection."
+"button_MiddleRight" = "Exposed only in emulator headers; outside the portable app intersection."
+"button_TopLeft" = "Exposed only in emulator headers; outside the portable app intersection."
+"button_TopRight" = "Exposed only in emulator headers; outside the portable app intersection."
+"cf::gfx::kSinQ14" = "Internal lookup array used by sinQ14/cosQ14; call those helpers instead."
+"clockScreenEnabled" = "Exposed only in emulator headers; outside the portable app intersection."
+"currentTime" = "Exposed only in emulator headers; outside the portable app intersection."
+"digitalRead" = "Exposed only in emulator headers; outside the portable app intersection."
+"digitalWrite" = "Exposed only in emulator headers; outside the portable app intersection."
+"enableBatterySOCCutoff" = "Exposed only in emulator headers; outside the portable app intersection."
+"g_exitRequested" = "Exposed only in device headers; outside the portable app intersection."
+"getFirmwareBuildTimestamp" = "Exposed only in emulator headers; outside the portable app intersection."
+"getFirmwareBuildType" = "Exposed only in emulator headers; outside the portable app intersection."
+"getFirmwareGitHash" = "Exposed only in emulator headers; outside the portable app intersection."
+"getFirmwareVersion" = "Exposed only in emulator headers; outside the portable app intersection."
+"getFirmwareVersionString" = "Exposed only in emulator headers; outside the portable app intersection."
+"green" = "Exposed only in emulator headers; outside the portable app intersection."
+"halfWHITE" = "Exposed only in emulator headers; outside the portable app intersection."
+"initRGB" = "Exposed only in emulator headers; outside the portable app intersection."
+"invalidateColorCache" = "Exposed only in emulator headers; outside the portable app intersection."
+"isTryingToConnect" = "Exposed only in emulator headers; outside the portable app intersection."
+"js_push_framebuffer" = "Exposed only in emulator headers; outside the portable app intersection."
+"js_serial_write" = "Exposed only in emulator headers; outside the portable app intersection."
+"markDirty" = "Host owns the LED dirty flag; device guest call does nothing."
+"menuBegin" = "Exposed only in emulator headers; outside the portable app intersection."
+"menuEnd" = "Exposed only in emulator headers; outside the portable app intersection."
+"menuRun" = "Exposed only in emulator headers; outside the portable app intersection."
+"millisOldHeartbeat" = "Exposed only in emulator headers; outside the portable app intersection."
+"millis_APP_TASK_200MS" = "Exposed only in emulator headers; outside the portable app intersection."
+"millis_APP_TASK_20MS" = "Exposed only in emulator headers; outside the portable app intersection."
+"millis_HAL_TASK_200MS" = "Exposed only in emulator headers; outside the portable app intersection."
+"millis_HAL_TASK_20MS" = "Exposed only in emulator headers; outside the portable app intersection."
+"millis_HAL_TASK_50MS" = "Exposed only in emulator headers; outside the portable app intersection."
+"numButtons" = "Exposed only in emulator headers; outside the portable app intersection."
+"pinMode" = "Exposed only in emulator headers; outside the portable app intersection."
+"preventSleepWhileCharging" = "Exposed only in emulator headers; outside the portable app intersection."
+"rainbow" = "Exposed only in emulator headers; outside the portable app intersection."
+"reactionGameEnabled" = "Exposed only in emulator headers; outside the portable app intersection."
+"red" = "Exposed only in emulator headers; outside the portable app intersection."
+"sleepChargingChangeThreshold" = "Exposed only in emulator headers; outside the portable app intersection."
+"sliderPosition_12Bits" = "Exposed only in emulator headers; outside the portable app intersection."
+"sliderPosition_Millivolts" = "Exposed only in emulator headers; outside the portable app intersection."
+"sliderPosition_Percentage_Filtered_Old" = "Exposed only in emulator headers; outside the portable app intersection."
+"updateStrip" = "Host sends LED changes automatically; device guest call does nothing."
+"wasm_analog_values" = "Exposed only in emulator headers; outside the portable app intersection."
+"wasm_button_states" = "Exposed only in emulator headers; outside the portable app intersection."
+"white" = "Exposed only in emulator headers; outside the portable app intersection."
+"wifiAP_SSID" = "Exposed only in emulator headers; outside the portable app intersection."
+"operator+" = "String concatenation operators; use string expressions rather than calling these as reference functions."

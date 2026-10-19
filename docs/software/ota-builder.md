@@ -1,25 +1,29 @@
 # App Builder
 
-The [App Builder](https://cyberfidget.com/build) is a browser-based tool for writing, generating, and testing Cyber Fidget apps — no local setup required.
+After this page you can start a project, build it and try it in the emulator.
+
+The App Builder is the [studio](https://cyberfidget.com/create/), a browser-based tool for writing, generating and testing Cyber Fidget apps. There is nothing for you to install.
 
 ---
 
 ## What it does
 
-1. **Write or generate** a C++ app using the code editor or build assistant
-2. **Compile to WASM** — builds your app to WebAssembly via GitHub Actions to support emulator
-3. **Run in the emulator** — test with on-screen buttons, slider, OLED, and LEDs
-4. **Flash to hardware** — compile for the ESP32 and flash OTA or via USB
+1. **Write or generate** a C++ app using the code editor or code generator.
+2. **REBUILD & RUN** in the welcome panel, or **REBUILD** in the emulator panel, compiles your code and starts the app emulator, a copy of the device in your browser.
+3. **Try the controls** with on-screen buttons, the slider, tilt, lights and sound.
+4. **SEND TO MY FIDGET** stages the app. Open **MY FIDGET** to install your changes on a connected device. A [linked Fidget](link-your-fidget.md) can also collect changes over WiFi.
 
 ---
 
 ## Getting started
 
-1. Go to [cyberfidget.com/build](https://cyberfidget.com/build)
-2. Sign in with your GitHub account (required for compilation)
-3. Write or generate your app code in the editor
-4. Click **Compile Emulator** to build for the browser, then **Emulator** to run it
-5. When ready, compile for hardware and flash to your device
+1. Go to [cyberfidget.com/create/](https://cyberfidget.com/create/) and press **+ Create an app**.
+2. Choose **Code from Blank Template**, enter an App Name, and press **Create**.
+3. Edit the `.cpp` file on the **CODE** tab.
+4. Press **REBUILD & RUN** in the welcome panel, or **REBUILD** in the emulator panel. On a phone, use the **TEST** tab.
+5. Try your app in the emulator. To install it, use **SEND TO MY FIDGET**, then **MY FIDGET**.
+
+The [first-app guide](../getting-started/first-app.md) walks through each step. Its browser build does not require GitHub sign-in. The separate **Compile** action in the status bar is not needed for these examples.
 
 ---
 
@@ -28,22 +32,21 @@ The [App Builder](https://cyberfidget.com/build) is a browser-based tool for wri
 Your app has a name you choose and a name your code uses, and they are
 allowed to be different.
 
-**Studio asks what you want to call it before it writes any code.** The
-question is the first thing on the start panel of a new app, and generating
+**The studio asks what you want to call it before it writes any code.** The
+question is part of starting an app, and generating
 code waits until you have answered it. That is on purpose: the name you
 choose is what your code gets called, so choosing it first saves you
 hunting down a placeholder name afterwards.
 
 Use at least one letter or number. Anything else is fair game -- spaces,
-capitals, whatever reads best -- and Studio works out a sensible name for
-the code from it. "Lunar Lander" becomes `LunarLander`.
+capitals, whatever reads best -- and the studio works out a sensible name for
+the code from it. The dialog shows the Code Name that the studio derives from your chosen name.
 
-**The name you choose** is the one shown at the top of Studio, on your
+**The name you choose** is the one shown at the top of the studio, on your
 project card, and in the NAME box in Settings. It is also the label that
 appears in the menu on your Cyber Fidget.
 
-**To rename it, double-click the name at the top of Studio.** Type the new
-one and press Enter. Press Escape, or click away, to leave it as it was.
+**To rename it, double-click the name at the top of the studio.** Type the name you want and press Enter. Press Escape, or click away, to cancel.
 Renaming from the NAME box in Settings does the same thing -- the two stay
 in step, and so does everywhere else the name appears.
 
@@ -64,11 +67,11 @@ it would be editing your work without asking.
 
 **Drafts are kept in this browser** until a generate succeeds, so closing the tab or reloading does not lose a request you were still writing.
 
-**An empty reply is explained.** If the model sends back no code, the App Builder says why when it can -- for example, the model used its whole budget thinking before it wrote anything. Try again, or pick a different model.
+**An empty reply is explained.** If the model sends back no code, the studio says why when it can -- for example, the model used its whole budget thinking before it wrote anything. Try again, or pick a different model.
 
 ### Choosing a model
 
-The App Builder recommends these models (a model is the code generator a provider runs; bigger ones are slower and more capable):
+The studio recommends these models (a model is the code generator a provider runs; bigger ones are slower and more capable):
 
 | Provider | Recommended models |
 | --- | --- |
@@ -80,61 +83,68 @@ If you use your own provider key (an API key from Anthropic, OpenAI, or Google),
 
 ---
 
-## Compile vs Emulator
+## Build, restart and send
 
-| Action | What it does | Speed |
-|--------|-------------|-------|
-| **Compile Emulator** | Builds C++ to WASM via GitHub Actions | ~1–2 min (first time, cached after) |
-| **Emulator** | Loads the compiled WASM and runs it in the browser | Instant |
+| Action | What it does |
+|--------|-------------|
+| **REBUILD & RUN** / **REBUILD** | Welcome action / panel button: compiles your code, then runs it in the emulator |
+| **<< RESTART** | Starts the built app again without compiling |
+| **SEND TO MY FIDGET** | Adds your app to the changes waiting for your device |
 
-These are intentionally separate steps. Compilation is slow (cloud build), but the emulator loads instantly from the cached WASM in IndexedDB.
+Compilation turns code into a runnable app. The studio can build on your computer or use the build server, depending on its build settings and availability. When building on your computer is available, the first build downloads about 23 MB of build tools. It takes longer while the studio fetches what it needs; later builds on the computer can take a few seconds. If the computer cannot build, the studio uses its build server; allow more time. The emulator runs the result. Editing code does not change the running copy until you rebuild.
+
+!!! warning "Keep private information out of code"
+    Builds on your computer keep your code on your computer. If the studio uses the build server instead, that build is public. Keep personal information and secrets out of your code either way.
+
+Builds sent to the build server have a daily limit. Builds done on your own computer do not count toward it.
 
 ---
 
 ## Emulator features
 
-The browser emulator maps all hardware to browser APIs:
+The browser emulator gives your app:
 
-- **Display** — 128x64 canvas matching the OLED
-- **Buttons** — Keyboard shortcuts (Q/E/A/D/Z/C) or click on-screen
-- **Slider** — Draggable slider control
-- **LEDs** — Rendered as colored circles
-- **Audio** — Web Audio API for tones
-- **Serial Monitor** — Shows `Serial.println()` output
+- **Display** - A 128 x 64 screen with the case covering about 8 pixels at each corner.
+- **Buttons** - Six on-screen buttons, or keyboard shortcuts `Q/E/A/D/Z/C`.
+- **Slider** - A draggable control with the same position ranges as the device.
+- **LEDs** - Four lights with red, green, blue and white channels.
+- **Audio** - Tones, notes and sequences; browser playback has volume and mute controls.
+- **Tilt** - Mouse input on desktop, or device orientation where the browser supports it.
 
-For full details, see the [Browser Emulator](emulator.md) page.
+The emulator has no microphone input. Test microphone apps on a Cyber Fidget. The **Console** panel shows build and run messages. Studio apps cannot use `Serial.println()`; show your own diagnostic values on the app's screen. For details, see [Browser Emulator](emulator.md).
 
 ---
 
 ## App lifecycle
 
-Every app follows the same pattern:
+To light the LEDs blue while the app runs, paste this fragment into the **Code from Blank Template** starter. The four arguments are red, green, blue and white brightness, from 0 to 255. Keep its button setup and cleanup, including `setColorsOff()` in `begin()` and `end()`.
 
 ```cpp
-void begin();   // Runs once when app starts
-void update();  // Runs 50 times per second
-void end();     // Runs once when app exits
+// Paste inside update(), just above display.display();
+setDeterminedColorsAll(0, 0, 64, 0);
 ```
 
-See [How an App Works](../concepts/app-lifecycle.md) for the full lifecycle and [Concepts](../concepts/index.md) for how to use buttons, display, audio, LEDs, slider, and accelerometer.
+`begin()` runs once on opening, `update()` runs about 50 times per second, and `end()` runs on leaving. The starter already shows the screen at the end of `update()` and uses the bottom-left button to return to the menu.
+
+See [How an App Works](../concepts/app-lifecycle.md) for the lifecycle and [Concepts](../concepts/index.md) for buttons, the screen, audio, lights, the slider and motion sensing.
 
 ---
 
 ## Generating apps with 3D models
 
-Besides flat pixel art, the App Builder can generate wireframe models -- 3D shapes made of nodes and straight-line struts that spin on the display, drawn like a classic vector arcade game. See [3D Models](../studio/3d-models.md) for what a wireframe model is and how to build one by hand in Studio's 3D tab.
+Besides flat pixel art, the studio can generate wireframe models -- 3D shapes made of nodes and straight-line struts that spin on the display, drawn like a classic vector arcade game. See [3D Models](../studio/3d-models.md) for what a wireframe model is and how to build one by hand in the studio's 3D tab.
 
-**What to ask for:** describe the shape as three-dimensional, rotating, or a wireframe, and the App Builder generates a model instead of flat art -- for example, "a spinning wireframe crystal" or "a 3D ship that flies across the screen." Ask for flat art (a character, an icon, a background) and you'll get a sprite instead.
+**What to ask for:** describe the shape as three-dimensional, rotating, or a wireframe, and the studio generates a model instead of flat art -- for example, "a spinning wireframe crystal" or "a 3D ship that flies across the screen." Ask for flat art (a character, an icon, a background) and you'll get a sprite instead.
 
 **Spinning or facing a direction:** a generated model can turn in two ways. It can spin continuously in place, like a rotating trophy. Or its facing can follow your app's own logic -- for example, a ship that banks and turns to face the direction it's moving, the way a paper airplane leans into a turn, driven by whatever your app already tracks (steering input, velocity, and so on).
 
-**Using a model you already built in Studio:** open the model in the [3D tab](../studio/3d-models.md#using-a-model-in-an-app) and choose **Try it in an app** -- it either starts you off with a small example app showing the model spinning, or, if your project already has app code, switches to Generate with a request already filled in to add that model to your app.
+**Using a model you already built in the studio:** open the model in the [3D tab](../studio/3d-models.md#using-a-model-in-an-app) and choose **Try it in an app** -- it either starts you off with a small example app showing the model spinning, or, if your project already has app code, switches to Generate with a request already filled in to add that model to your app.
 
 ---
 
 ## See also
 
-- [3D Models](../studio/3d-models.md) -- Build wireframe models in Studio's 3D tab
-- [Browser Emulator](emulator.md) — Detailed emulator guide, controls, and troubleshooting
-- [Apps](apps.md) — Built-in app catalog and how to add your own
-- [Concepts](../concepts/index.md) — Framework reference for all hardware features
+- [3D Models](../studio/3d-models.md) -- Build wireframe models in the studio's 3D tab
+- [Browser Emulator](emulator.md) -- Detailed emulator guide, controls, and troubleshooting
+- [Apps](apps.md) -- Built-in app catalog and how to add your own
+- [Concepts](../concepts/index.md) -- Framework reference for all hardware features

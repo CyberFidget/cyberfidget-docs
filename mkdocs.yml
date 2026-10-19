@@ -22,6 +22,13 @@ extra_javascript:
   - assets/guide.js
   - assets/multi.js
 
+# Pages built but not listed in the navigation: assembly steps are
+# embedded in the assembly guide; the emulator README describes the
+# screenshot assets.
+not_in_nav: |
+  /getting-started/assembly/*/step.md
+  /assets/emulator/README.md
+
 nav:
   - Home: index.md
   - Product:
@@ -32,34 +39,47 @@ nav:
   - Getting started:
     - Overview: getting-started/overview.md
     - Assembly: getting-started/assembly/guide.md
-    - First flash (Arduino): getting-started/first-flash-arduino.md
-  - Concepts:
+    - Build your first app: getting-started/first-app.md
+    - Make a game, step by step: getting-started/make-a-game.md
+    - "Advanced: firmware with Arduino": getting-started/first-flash-arduino.md
+  - Make apps:
     - Overview: concepts/index.md
+    - Function reference: reference/functions.md
     - How an App Works: concepts/app-lifecycle.md
     - The Update Loop: concepts/update-loop.md
     - Buttons & Events: concepts/buttons.md
     - Drawing to the Screen: concepts/display.md
+    - Sprites & Animation: concepts/sprites.md
     - Sound & Music: concepts/audio.md
     - LEDs & Color: concepts/leds.md
     - The Slider: concepts/slider.md
     - Motion Sensing: concepts/accelerometer.md
+    - Tools:
+      - App Builder: software/ota-builder.md
+      - Browser Emulator: software/emulator.md
+  - Your Fidget:
+    - Built-in apps and features:
+      - Built-in apps: software/apps.md
+      - Voice Notes: firmware/voice-recorder.md
+      - Phone Companion: firmware/companion.md
+      - Web Portal: firmware/web-portal.md
+      - Awake & dev mode: software/awake-and-dev-mode.md
+      - Storage & SD: software/storage.md
+    - Keep and share your work:
+      - Keeping and sharing your work: software/import-export.md
+      - Sharing from The Archives: software/sharing-apps.md
+    - Update your Fidget:
+      - Updates: software/updates.md
+      - Update or reset your Fidget: software/updating.md
+    - Account and access:
+      - Link your Fidget: software/link-your-fidget.md
+      - Your Fidgets: software/your-fidgets.md
+      - Battery data: software/battery-data.md
+      - Beta Access: software/beta-access.md
   - Hardware:
     - Specs: hardware/specs.md
     - Pinout: hardware/pinout.md
-  - Software:
-    - Apps: software/apps.md
-    - Sharing from The Archives: software/sharing-apps.md
-    - Browser Emulator: software/emulator.md
-    - Storage & SD: software/storage.md
-    - Keeping and sharing your work: software/import-export.md
-    - App Builder: software/ota-builder.md
-    - Link your Fidget: software/link-your-fidget.md
-    - Your Fidgets: software/your-fidgets.md
-    - Updates: software/updates.md
-    - Update or reset your Fidget: software/updating.md
-    - Battery data: software/battery-data.md
-    - Awake & dev mode: software/awake-and-dev-mode.md
-    - Beta Access: software/beta-access.md
+    - Hardware specifications: reference/hardware-specs.md
   - Studio:
     - Overview: studio/overview.md
     - Drawing and Version History: studio/drawing-and-versions.md
@@ -75,28 +95,26 @@ nav:
     - Files and Versions: studio/files-and-versions.md
     - Sharing: studio/sharing.md
     - 3D Models: studio/3d-models.md
-  - Firmware:
-    - Overview: firmware/index.md
-    - Music Player: firmware/music-player.md
-    - Voice Notes: firmware/voice-recorder.md
-    - Phone Companion: firmware/companion.md
-    - LED Effects: firmware/led-effects.md
-    - Web Portal: firmware/web-portal.md
-    - BT A2DP Guide: firmware/bt-a2dp-guide.md
-    - IRAM Optimization: firmware/IRAM-overflow-solution.md
-    - Deep-sleep current investigation: firmware/deep-sleep-current-investigation.md
   - Reference:
     - Glossary: reference/glossary.md
-    - Hardware specifications: reference/hardware-specs.md
-    - Firmware version: reference/firmware-version.md
     - Serial commands: reference/serial-commands.md
-    - Firmware update manifest: reference/firmware-update-manifest.md
-    - Release process: reference/release-process.md
-  - Contribute:
+  - Contributors:
     - Contribute: contribute/contribute.md
+    - Firmware internals:
+      - Firmware development: firmware/index.md
+      - Music Player architecture: firmware/music-player.md
+      - LED Effects & Visualizer: firmware/led-effects.md
+      - BT A2DP Guide: firmware/bt-a2dp-guide.md
+      - IRAM Optimization: firmware/IRAM-overflow-solution.md
+      - Deep-sleep current investigation: firmware/deep-sleep-current-investigation.md
+    - Releases and updates:
+      - Release process: reference/release-process.md
+      - Firmware update manifest: reference/firmware-update-manifest.md
+      - Firmware version: reference/firmware-version.md
     - Emulator Dev Guide: contribute/emulator-dev.md
-    - Guide Studio: studio/index.html
-    - How to Make Guides: contribute/Cyber-Fidget-Guide-Studio.md
+    - Guides:
+      - Guide Studio: studio/index.html
+      - How to Make Guides: contribute/Cyber-Fidget-Guide-Studio.md
 markdown_extensions:
   - admonition
   - attr_list
@@ -112,6 +130,8 @@ markdown_extensions:
           format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.highlight
   - pymdownx.snippets:
+      base_path: [!relative $config_dir]
+      check_paths: true
       auto_append:
         - includes/abbreviations.md
   - toc:

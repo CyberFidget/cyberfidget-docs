@@ -1,6 +1,8 @@
 # Apps
 
-Cyber Fidget ships with 29+ built-in apps spanning games, screensavers, tools, and code examples. All apps follow the same [begin/update/end lifecycle](../concepts/app-lifecycle.md) and are registered via `APP_ENTRY` macros in `AppManifest.h`.
+After this page you can choose a built-in app and add your own app from the studio.
+
+Cyber Fidget ships with 29+ built-in apps spanning games, screensavers, tools, and code examples. All apps follow the same [begin/update/end lifecycle](../concepts/app-lifecycle.md). Built-in apps are registered in the firmware; the studio adds your own apps to the menu for you.
 
 ---
 
@@ -15,7 +17,7 @@ Cyber Fidget ships with 29+ built-in apps spanning games, screensavers, tools, a
 | **Stratagem** | Pattern match sequence input game | D-pad buttons (U/D/L/R), timed scoring |
 | **Particle Sim** | SPH fluid physics simulation with gravity control | Accelerometer for gravity, slider: particle count |
 | **Booper** | Musical tone generator / synth toy | All 6 buttons for notes, slider: volume |
-| **Ragdoll Fidgie** | Physics puppet that idles and breathes until you knock it over — it tumbles with realistic physics, then picks itself back up | Slider: blend pose from crouch to stretch, any face button or a shake: go ragdoll |
+| **Ragdoll Fidgie** | Physics puppet that idles and breathes until you knock it over -- it tumbles with realistic physics, then picks itself back up | Slider: blend pose from crouch to stretch, any face button or a shake: go ragdoll |
 
 ---
 
@@ -58,7 +60,7 @@ These apps demonstrate individual framework features and are useful as starting 
 | **Text Alignment Demo** | Text alignment modes |
 | **Rect Demo** | Rectangle drawing primitives |
 | **Circle Demo** | Circle drawing primitives |
-| **Image Demo 1–4** | Image loading and display techniques (4 variants) |
+| **Image Demo 1-4** | Image loading and display techniques (4 variants) |
 | **Button Counters** | Button press counting and event handling |
 | **Time On Counter** | Elapsed time tracking |
 | **Progress Bar** | Progress bar rendering |
@@ -67,17 +69,19 @@ These apps demonstrate individual framework features and are useful as starting 
 
 ## Adding your own app
 
-Every app is a class with three methods:
+Open **Code from Blank Template** in the [studio](../getting-started/first-app.md). It creates an app class with three methods: `begin()` sets up, `update()` draws about 50 times per second, and `end()` cleans up. A method is a function that belongs to a class.
+
+Paste this fragment into its `.cpp` file. Keep the starter's bottom-left exit button and its cleanup, including `setColorsOff()` in `begin()` and `end()`. The starter sets the font and alignment; this fragment clears its text and draws your greeting:
 
 ```cpp
-void begin();   // Setup — runs once when app starts
-void update();  // Main loop — runs 50 times per second
-void end();     // Cleanup — runs once when app exits
+// Paste inside update(), just above display.display();
+display.clear();
+display.drawString(64, 24, "Hello!");
 ```
 
-Register your app with `APP_ENTRY` in `AppManifest.h` and it appears in the device menu automatically.
+Choose the Menu Category in the studio. You do not add an `APP_ENTRY` or edit `AppManifest.h` for a studio app. Built-in firmware registration is explained in [How an App Works](../concepts/app-lifecycle.md#the-app_entry-macro).
 
 See [How an App Works](../concepts/app-lifecycle.md) for the full lifecycle pattern, and the [Concepts](../concepts/index.md) section for how to use buttons, display, audio, LEDs, slider, and accelerometer in your app.
 
 !!! tip "Try it in the browser first"
-    Use the [App Builder](https://cyberfidget.com/build) to write and test apps in the browser emulator before flashing to hardware.
+    Use the [studio](https://cyberfidget.com/create/) to write and test apps in the browser emulator before installing them on your Cyber Fidget.

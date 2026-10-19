@@ -193,6 +193,11 @@ markdown_extensions:
 
 ---
 
+## Developer tools
+
+- [Example compile checker](tools/check-examples/): validate documentation C/C++ examples against the firmware app headers.
+- [App function reference](tools/function-reference/): generate the portable app cheat sheet and editor symbol list from firmware headers.
+
 ## Contributing
 
 - Keep PRs small and focused.
@@ -203,5 +208,6 @@ markdown_extensions:
 ---
 
 ## License
-Docs content: © Cyber Fidget.  
-(If you prefer a specific open license for docs, add it here—e.g., CC BY-SA.)
+- Documentation content (`docs/`, `includes/`, and the descriptions in `tools/function-reference/reference.toml`): Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA 4.0), see [LICENSE](LICENSE).
+- Code under `tools/`: GNU General Public License v3.0 or later (GPL-3.0-or-later), see [tools/LICENSE](tools/LICENSE).
+- `tools/check-examples/starter/` is a copy of the starter app the Cyber Fidget studio generates, kept unchanged so examples are checked against the same code readers start from.

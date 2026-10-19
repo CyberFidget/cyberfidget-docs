@@ -32,3 +32,10 @@
   height: auto;
   display: block;
 }
+
+/* Material's diagram styles inherit these colors through their shadow roots. */
+[data-md-color-scheme="slate"] {
+  --md-mermaid-edge-color: #cbd5e1;
+  --md-mermaid-sequence-message-line-color: #cbd5e1;
+  --md-mermaid-sequence-actor-line-color: #cbd5e1;
+}

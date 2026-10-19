@@ -1,6 +1,8 @@
 # LEDs & Color
 
-The Cyber Fidget has 4 SK6812 RGBW LEDs (NeoPixel-compatible). Each can display millions of colors plus a dedicated white channel for brighter, more natural whites. There is a single red programmable LED under the front grill and also a single red indicator LED used for charge status on the back.
+After this page you can set each light and change its color with the slider.
+
+Your app controls 4 SK6812 RGBW LEDs (NeoPixel-compatible), each with red, green, blue and white channels. The device also has a separate red-only LED under the front grill and a red charge indicator on the back. Studio apps cannot control the separate red LED, and the studio emulator does not show it. The emulator's colored glow under the grill shows the front-bottom RGBW LED (`pixel_Front_Bottom`).
 
 ---
 
@@ -8,15 +10,15 @@ The Cyber Fidget has 4 SK6812 RGBW LEDs (NeoPixel-compatible). Each can display 
 
 **RGBW** means each LED has four channels:
 
-- **R** — Red (0–255)
-- **G** — Green (0–255)
-- **B** — Blue (0–255)
-- **W** — White (0–255)
+- **R** -- Red (0-255)
+- **G** -- Green (0-255)
+- **B** -- Blue (0-255)
+- **W** -- White (0-255)
 
-The white channel is separate from RGB. Mixing R+G+B gives a tinted white; the W channel gives pure white and is more efficient for brightness.
+The white channel is separate from red, green and blue. You can combine those three channels to make colors, or use the dedicated W channel for white light.
 
 !!! tip "Why RGBW?"
-    For "warm white" or "cool white" lighting, the W channel is brighter and uses less power than maxing R, G, and B.
+    The W channel gives brighter white light and uses less power than maxing R, G and B. Mix it with red, green or blue to tint the result.
 
 ---
 
@@ -29,85 +31,80 @@ The white channel is separate from RGB. Mixing R+G+B gives a tinted white; the W
 | 2 | `pixel_Front_Middle` | Front, middle |
 | 3 | `pixel_Front_Bottom` | Front, bottom |
 
-Use these constants when setting individual LEDs. The strip order is GRBW (see framework details).
+Use these constants when setting individual LEDs. The strip order is GRBW (see [firmware details](#framework-details)).
 
 ---
 
 ## Setting colors
 
-You can use helper functions or set pixels directly:
+Paste each example into `update()` of the [studio starter](../getting-started/first-app.md), where its comment says. The starter calls `setColorsOff()` in `begin()` and `end()`, so every app starts and finishes with its lights off.
+
+You can set all lights, the front three, or one pixel:
 
 ```cpp
-#include "HAL.h"
-#include "RGBController.h"
-
-// Set all LEDs to one color
-setDeterminedColorsAll(255, 0, 0, 0);   // Red
-setDeterminedColorsFront(0, 255, 0, 0);  // Green (front 3 only)
-setColorsOff();                          // All off
-
-// Set a single LED via HAL
-HAL::setRgbLed(pixel_Front_Top, 255, 128, 0, 0);  // Orange
-
-// Or use the strip directly (include HAL.h for strip())
-Adafruit_NeoPixel& strip = HAL::strip();
-strip.setPixelColor(pixel_Front_Middle, strip.Color(0, 0, 255, 50));
+// Paste inside update(), just above display.display();
+// Arguments after the pixel index are red, green, blue, white (0-255).
+setDeterminedColorsAll(255, 0, 0, 0);          // All four red.
+setDeterminedColorsFront(0, 255, 0, 0);        // Front three green.
+HAL::setRgbLed(pixel_Front_Top, 255, 128, 0, 0); // Top orange.
+HAL::setRgbLed(pixel_Front_Middle, 0, 0, 255, 50); // Middle blue + white.
+// Use setColorsOff() to turn all four off.
 ```
 
-After changing colors, call `updateStrip()` so changes appear on the hardware.
+LED changes appear automatically. Studio apps do not need `updateStrip()`; that call does nothing in app code.
 
 ---
 
 ## Code example: color cycling and reactive LEDs
 
 ```cpp
-#include "HAL.h"
-#include "RGBController.h"
+// Paste inside update(), just above display.display();
+// mapToRainbow takes a hue from 0 to 4095 and a brightness from 0 to 255.
+int input = (millis() / 20) % 4096;
+uint8_t r, g, b;
+mapToRainbow(input, 128, r, g, b);
+setDeterminedColorsAll(r, g, b, 0);
 
-void update() {
-    // Rainbow cycle based on time (mapToRainbow expects 0–4095)
-    int input = (millis() / 20) % 4096;
-    uint8_t r, g, b;
-    mapToRainbow(input, 128, r, g, b);
-    setDeterminedColorsAll(r, g, b, 0);
-
-    // Make front-top LED react to slider
-    int brightness = map(sliderPosition_Percentage_Inverted_Filtered, 0, 100, 0, 255);
-    HAL::setRgbLed(pixel_Front_Top, brightness, 0, brightness, 0);
-
-    updateStrip();  // Push changes to hardware
-}
+int brightness = sliderPosition_8Bits_Inverted_Filtered;
+HAL::setRgbLed(pixel_Front_Top, brightness, 0, brightness, 0);
 ```
 
-!!! note "Call updateStrip()"
-    The framework throttles LED updates (~60 fps). Call `updateStrip()` after changing colors; it only sends data when dirty and the throttle interval has passed.
+The inverted slider value is low at the bottom and high at the top of the device. Moving it up makes the top light brighter. See [The Slider](slider.md#global-variables) for both directions.
+
+!!! note "Automatic light updates"
+    Set the colors in `update()`. The firmware handles sending them to the LEDs. No extra call is needed.
 
 ---
 
+## Functions on this page
+
+--8<-- "includes/reference/leds.md"
+
 ## Framework details
 
-### RGBController and SK6812
+??? info "Advanced: how the firmware drives the LEDs"
+    You do not need these details to build apps in the studio. They describe the firmware internals for readers writing an app by hand and building it into the firmware.
 
-The LEDs are SK6812-compatible (often called "NeoPixel"). The strip uses **GRBW** color order: the library sends Green, Red, Blue, White in that order. `strip.Color(r, g, b, w)` and `HAL::setRgbLed(index, r, g, b, w)` handle this internally.
+    ### RGBController and SK6812
 
-### updateStrip throttling
+    The LEDs are SK6812-compatible (often called "NeoPixel"). The strip uses **GRBW** color order: the library sends Green, Red, Blue, White in that order. `HAL::setRgbLed(index, r, g, b, w)` and the color helpers accept red, green, blue, white in that order. They handle the wiring order for you. Studio apps do not have access to `HAL::strip()` or `Adafruit_NeoPixel`.
 
-`updateStrip()` does not call `strip.show()` every time. It:
+    ### updateStrip throttling
 
-1. Marks the strip as dirty when you change pixels
-2. Only calls `strip.show()` when dirty **and** at least ~17 ms have passed since the last show
-3. Clears the dirty flag after showing
+    Inside the firmware, `updateStrip()` sends buffered colors to the lights. Color changes mark the buffer as dirty, meaning it needs sending. The firmware:
 
-This reduces blocking and avoids flicker while keeping updates smooth.
+    1. Checks whether any color has changed
+    2. Only calls `strip.show()` when dirty **and** at least 33 ms have passed since the last show (about 30 updates per second)
+    3. Clears the dirty flag after showing
 
-### Helper functions
+    This reduces blocking and avoids flicker while keeping updates smooth.
 
-| Function | Description |
-|----------|-------------|
-| `initRGB()` | Initialize strip (called at boot) |
-| `updateStrip()` | Push buffered colors to LEDs (throttled) |
-| `setDeterminedColorsAll(r,g,b,w)` | Set all 4 LEDs |
-| `setDeterminedColorsFront(r,g,b,w)` | Set front 3 LEDs |
-| `setColorsOff()` | Turn all off |
-| `rainbow(int wait)` | Animated rainbow |
-| `mapToRainbow(input, dim, &r, &g, &b)` | Map 0–4095 to HSV rainbow |
+    ### Firmware-only helpers
+
+    The LED functions your app can call are listed under [Functions on this page](#functions-on-this-page). These are used inside the firmware:
+
+    | Function | Description |
+    |----------|-------------|
+    | `initRGB()` | Firmware only: initialize strip at boot |
+    | `updateStrip()` | Does nothing in studio apps; firmware sends colors automatically |
+    | `rainbow(int wait)` | Firmware only; studio apps can time colors with `millis()` |

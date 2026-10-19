@@ -227,6 +227,7 @@ The *firmware* answer that works on existing hardware is: **keep the OLED rail p
 
 The implementation in `HAL::enterDeepSleep()`:
 
+<!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```cpp
 void enterDeepSleep()
 {
@@ -259,6 +260,7 @@ Two ESP-IDF functions worth highlighting here:
 
 There's a subtle gotcha with these calls that bit us briefly: the hold persists *across the wake boundary*. After the device wakes, any later `digitalWrite()` to a held pin **silently fails** until you call `gpio_hold_dis()` to release it. We added a release at the top of `initHardware()` to make sure the next boot's GPIO setup actually takes effect:
 
+<!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```cpp
 void initHardware()
 {
@@ -294,6 +296,7 @@ With the main leak closed, the remaining 292 µA is dominated by smaller contrib
 
 Both calls go right next to the `displayOff()` call, before the I2C teardown:
 
+<!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```cpp
 s_batteryManager.prepareForDeepSleep();      // MAX17048 → hibernate
 s_accel.setDataRate(LIS2DH12_POWER_DOWN);    // LIS2DH12 → power-down

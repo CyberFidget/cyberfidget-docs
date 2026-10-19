@@ -3,7 +3,7 @@
 *[API]: Application Programming Interface
 *[BLE]: Bluetooth Low Energy
 *[CC0]: Creative Commons Zero; a public-domain dedication that allows reuse without the usual copyright restrictions
-*[CI]: Continuous Integration
+*[CI]: Continuous Integration; automated checks and builds triggered by code changes
 *[CMake]: Cross-platform Make; build system used for the WASM build
 *[CORS]: Cross-Origin Resource Sharing
 *[CP2102N]: Silicon Labs USB-to-UART bridge chip
@@ -38,7 +38,7 @@
 *[I2C]: Inter-Integrated Circuit; serial bus used for OLED and some sensors
 *[I2S]: Inter-IC Sound; digital audio interface
 *[IDE]: Integrated Development Environment
-*[IndexedDB]: Browser key-value database used to cache compiled WASM and the companion's transcription pack
+*[IndexedDB]: A database built into the browser; used for studio built apps and the companion's transcription download
 *[JS]: JavaScript
 *[JSON]: JavaScript Object Notation; a structured text format for storing data
 *[LED]: Light-Emitting Diode
@@ -100,3 +100,31 @@
 
 *[CC BY-SA]: Creative Commons Attribution-ShareAlike; reuse requires attribution and sharing adaptations under the same license
 *[MIT License]: Permissive code license requiring the license notice to stay with copies
+*[emulator]: A copy of the device that runs in your browser, so you can try an app without a Cyber Fidget
+*[compile]: Turn the code you wrote into a program the device (or the emulator) can run
+*[callback]: A function you give the device to call for you when something happens, such as a button press
+*[pivot]: The point on a sprite placed at its screen position
+*[bitmap]: A picture stored as a grid of on/off pixels
+*[sprite sheet]: A named group of animations for one character or object
+*[actor]: A thing on the screen in an app: a position plus an animation that is playing
+*[collision]: Two sprites touching, where a lit pixel of one sits on a lit pixel of the other
+*[rig]: Connected bones and poses used to animate a figure
+*[pose]: A set of bone angles describing how a figure is positioned
+*[EMA]: Exponential Moving Average; smoothing that blends each reading with previous readings
+*[Kalman filter]: A calculation that estimates a stable value from noisy sensor readings
+*[XBM]: X BitMap; a one-bit image format with on/off pixels stored in bytes
+*[milli-g]: One thousandth of the acceleration due to gravity; 1000 milli-g is one g
+*[SPH]: Smoothed Particle Hydrodynamics; a way to simulate fluids with interacting particles
+*[NTP]: Network Time Protocol; a way to set a clock from a network time server
+*[buffer]: An area of memory holding data while code works on it; the drawing buffer holds the next screen image
+*[framebuffer]: A buffer that stores the pixel values for a screen image
+*[float]: A C++ number type that can hold a fractional part
+*[singleton]: An object shared through one instance
+*[macro]: Named code expanded by the C++ preprocessor before compilation
+*[lambda]: A short unnamed C++ function
+*[ring buffer]: A queue that reuses a fixed amount of memory
+*[potentiometer]: A variable resistor; moving the slider changes the voltage read by the device
+*[GRBW]: Green, Red, Blue, White; the order used to send channels to the LED hardware
+*[mg]: Milli-g in motion readings; one thousandth of the acceleration due to gravity
+*[loadout]: The collection of apps and menu choices for your Fidget
+*[PROGMEM]: Program memory; marks constant data for storage with the program on embedded boards
