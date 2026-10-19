@@ -56,7 +56,7 @@ out of your app's code: whatever your code calls itself is what appears
 there. To change it, change the name in your code and this follows.
 
 Renaming your app does not rewrite your code. That is deliberate -- if you
-added or hand-wrote your app, a rename that quietly renamed things inside
+wrote your app by hand, a rename that quietly renamed things inside
 it would be editing your work without asking.
 
 ---
