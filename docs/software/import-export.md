@@ -1,6 +1,6 @@
 # Keeping and sharing your work
 
-When you choose **Add from file** for a sprite or model, Studio adds the file to the project you already have open and selects it. It never replaces or overwrites the asset you were working on.
+When you bring a sprite or model in from a file, Studio adds it to the project you already have open and selects it. It never replaces or overwrites the asset you were working on.
 
 Studio can save either one asset or a whole project to a file on your computer. Use these files to keep a backup, move work to another computer, send work to someone else, or bring someone else's work into Studio.
 
@@ -12,11 +12,13 @@ The files use JavaScript Object Notation (JSON), a structured text format for st
 
 Save one asset when you want to keep or share that sprite or model without the rest of the project.
 
-In the 2D workspace, **Save to file** and **Add from file** sit together in the **Sprite file** menu. There is a second **Add from file** button in the project file list, next to **New sprite**, so you can bring a sprite in from wherever you are working. Saving names the file after the sprite and gives it the `.cfsprite.json` ending.
+In the 2D workspace, **Save to file** and **Add from file** sit together in the **Sprite file** menu (with **Load demo**) when a sprite is open. On a desktop that menu is at the bottom of the right panel. On a phone, tap the **Files** chip at the top of the 2D tab and use the buttons in the **Files** sheet. The other route is **Add art > Import from a file** in the file strip above the workspace. The **All files** window has the same **Import from a file** link at its bottom, and you can drop files anywhere in Studio on a desktop. Saving names the file after the sprite and gives it the `.cfsprite.json` ending.
 
-In the 3D workspace, **Save to file** and **Add from file** are next to the **New model** control. Saving names the file after the model and gives it the `.cfmesh.json` ending.
+![The Sprite file menu open, listing Save to file, Add from file and Load demo](../assets/media/add-art-sprite-file-menu.png)
 
-Either **Add from file** button does the same thing: Studio adds the sprite or model to the open project and selects it, and the asset you were working on stays in the project unchanged.
+In the 3D workspace, bring a model in with **Add art > Import from a file**; it accepts `.cfmesh.json`, `.obj` and `.stl` files. **Save to file** is in the **All files** window, on the **In this project** tab. Saving names the file after the model and gives it the `.cfmesh.json` ending.
+
+Every one of these routes does the same thing: Studio adds the sprite or model to the open project and selects it, and the asset you were working on stays in the project unchanged.
 
 Author and licence information in the file stays exactly as it was. If the file does not contain that information, Studio leaves the fields blank for you to fill in instead of guessing.
 
@@ -27,7 +29,7 @@ Author and licence information in the file stays exactly as it was. If the file 
 If you draw in [Aseprite](https://www.aseprite.org/), you can bring a finished animation into the 2D workspace. Aseprite saves it as a *sprite sheet*: one image that holds every frame of the animation side by side, plus a *frame list* file that says where each frame sits in that image. *Tags* are Aseprite's named ranges of frames, such as "walk" or "jump".
 
 1. In Aseprite, choose **File > Export Sprite Sheet**. On the **Output** tab, set **Output File** to save a PNG image, turn on **JSON Data** (either layout, **Array** or **Hash**, works - they are two ways of writing the same frame list), and under **Meta** turn on **Tags** so your named animations come along. Export. You get two files: the sprite sheet image and its frame list.
-2. In Studio, choose **Add from file** and select **both files together** (hold Ctrl, or Cmd on a Mac, while you click the second one).
+2. In Studio, choose **Add art > Import from a file** (or **Sprite file > Add from file**) and select **both files together** (hold Ctrl, or Cmd on a Mac, while you click the second one).
 
 Studio adds one sprite to the open project, with every frame from the sheet and one looping animation for each tag in the frame list (or a single animation called "all" that plays every frame, if there are no tags), then selects it. If you pick only one of the two files, Studio names the file that is missing and adds nothing. Studio finds the image by the name the frame list gives it, so keep the image's exported name.
 
@@ -51,7 +53,7 @@ Studio refuses to save a very large project into a file that the browser would s
 
 ## Open a whole project
 
-Go to the **Create** launcher and choose **Open a project file** beside the list of projects. Opening a project file is how you start from that file, so this control is on the launcher rather than inside the editor.
+Go to the **Create** launcher and choose **Open a project file** beside the list of projects. Opening a project file is how you start from that file. On a desktop you can also choose **Add art > Import from a file** inside the editor, or drop the file anywhere in Studio, and it opens as a new project.
 
 Studio always creates a new project alongside the projects you already have. It never replaces an existing project.
 
@@ -69,8 +71,8 @@ Sharing a link is different from submitting to [the Archives](sharing-apps.md). 
 |---|---|
 | The whole project | **Share** in the Studio project bar, next to **Send to my Fidget**. On a phone, the share icon at the top of Studio, between **Save** and **Settings**. |
 | The app you just built | **Share this app** on the Test tab, after a successful build. |
-| One sprite or model | **Share this sprite** in the 2D right-panel footer, above version controls; on a phone, below Layers. For a model, use **Share this model** in its editor. |
-| Something in your library | **Share** on its row in **My Assets**. |
+| One sprite or model | **Share this sprite** at the top of the 2D right-panel footer; on a phone, at the top of the **Files** sheet. For a model, use **Share this model** in its editor. |
+| Something in your library | **Share** on its card in **All files > My library**. |
 
 A project with art but no code can still be shared: the page shows the art and models instead of an app.
 
