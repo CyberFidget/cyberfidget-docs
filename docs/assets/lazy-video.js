@@ -46,7 +46,11 @@
         video.preload = 'none';
         if (!video.dataset.src) video.load();
       }
-      if (video.dataset.src) {
+      if (!video.dataset.src && observer) {
+        // Opening clips autoplay natively. Watch them too, so a blocked
+        // autoplay (e.g. a phone in low-power mode) falls back to controls.
+        observer.observe(video);
+      } else if (video.dataset.src) {
         if (observer) {
           video.controls = motion.matches;
           observer.observe(video);
