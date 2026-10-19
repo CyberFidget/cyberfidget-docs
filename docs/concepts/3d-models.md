@@ -344,14 +344,16 @@ Every line is drawn every frame, so a model with many lines takes longer to draw
 
 ---
 
+## Functions on this page
+
+--8<-- "includes/reference/3d-models.md"
+
 !!! info "Advanced: the drawing math"
     You don't need this to make apps. It is here for readers who want to know exactly where each point lands, for example to match the Fidget's drawing in another program.
 
     For each point, the Fidget turns it by the yaw, then the pitch, then the roll, multiplies by the size and divides by 256. The turning uses a table of sine values stored as whole numbers, where 16384 means 1.0 (a **Q14** number); `sinQ14(angle)` and `cosQ14(angle)` read that table, taking a binary angle.
 
     With perspective off, a point at x, y lands at (position x + x, position y - y): screen y goes down while model y goes up. With perspective on, the Fidget adds the depth to the point's z, and divides x and y by that sum, after multiplying them by 110. A point whose sum is less than 8 is too close to draw. All the math uses whole numbers, so the browser emulator and the Fidget draw exactly the same pixels.
-
-<!-- functions-on-this-page: 3d-models -->
 
 ## Where to go next
 

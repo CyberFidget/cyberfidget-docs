@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: GPL-3.0-or-later -->
 # App function reference generator
 
-Generates `docs/reference/functions.md`, a one-page app cheat sheet, `docs/assets/reference/app-functions.json`, a symbol list intended for editor autocomplete, and nine concept-page tables under `includes/reference/`. Requires Python 3.11+ and Git; uses only Python's standard library.
+Generates `docs/reference/functions.md`, a one-page app cheat sheet, `docs/assets/reference/app-functions.json`, a symbol list intended for editor autocomplete, and ten concept-page tables under `includes/reference/`. Requires Python 3.11+ and Git; uses only Python's standard library.
 
 ## Run
 
@@ -44,6 +44,8 @@ see = "../concepts/leds.md#setting-colors"
 ```
 
 Use one short call with the HAL accessors for display, buttons and audio. Explain units and target limits. Overloads share a description; their declarations are generated. Use an existing guide heading: every `see` page and heading anchor is checked, including during normal generation. The introductory first-app link is intentionally independent of sidecar validation because that guide can be authored separately.
+
+When no guide explains a symbol, set `see = "none"` explicitly. The reference renders a dash instead of a guide link (including for constants), retains the marker in JSON, and omits that symbol from concept tables. Missing, blank or non-string `see` values still fail validation; every other value must resolve to an existing page and anchor.
 
 For plumbing, add an explicit reason under `[ignore]`, for example `"ButtonManager::dispatch" = "Host event delivery; apps register callbacks instead."`. Each ignored name must exist in at least one input set, and reasons cannot be blank. Target-only declarations must also have explicit ignore entries. Do not silently hide a callable name in parser code. Described and ignored names cannot overlap. If a target-only name becomes shared, review its ignore reason and add a portable description when appropriate.
 

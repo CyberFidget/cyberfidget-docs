@@ -73,6 +73,35 @@ class ReferenceTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'has no page'):
             gen.validate_link('../concepts/imaginary-page.md')
 
+    def test_explicit_no_guide_renders_dash_and_stays_out_of_concept_tables(self):
+        page, symbols, _, _, includes = gen.build(self.firmware, TOOL / 'reference.toml')
+        rows = json.loads(symbols)['symbols']
+        without_guides = [row for row in rows if row['see'] == 'none']
+        self.assertTrue(without_guides)
+        self.assertTrue(any(row['kind'] == 'method' for row in without_guides))
+        self.assertTrue(any(row['section'] in gen.TABLES for row in without_guides))
+        for row in without_guides:
+            anchor = 'symbol-' + re.sub(r'[^a-z0-9-]', '-', row['name'].lower())
+            line = next(line for line in page.splitlines() if f'id="{anchor}"' in line)
+            self.assertTrue(line.endswith(' - |'), line)
+            self.assertNotIn('[Guide]', line)
+            self.assertNotIn('[More]', line)
+            for table in includes.values():
+                self.assertNotIn(f'functions.md#{anchor})', table)
+        self.assertNotIn('](none)', page)
+
+    def test_missing_blank_or_invalid_guide_is_rejected(self):
+        for replacement in ('', 'see = ""', 'see = "   "', 'see = false'):
+            with self.subTest(replacement=replacement):
+                content = self.sidecar.replace('see = "none"', replacement, 1)
+                error = self.check_sidecar(content)
+                self.assertIn('cf::gfx::RigActor::RigActor: add nonempty see', error)
+
+    def test_no_guide_marker_does_not_allow_broken_links(self):
+        content = self.sidecar.replace('see = "none"',
+            'see = "../concepts/3d-models.md#imaginary-heading"', 1)
+        self.assertIn('has no heading anchor', self.check_sidecar(content))
+
     def test_parser_preserves_overloads_visibility_and_lines(self):
         header = '''// hidden() is not a declaration.
 #ifdef HOST_TEST
