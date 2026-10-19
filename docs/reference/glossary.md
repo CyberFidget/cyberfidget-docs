@@ -117,8 +117,10 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Collision** | Two sprites touching, where a lit pixel of one sits on a lit pixel of the other. See [Sprites & Animation](../concepts/sprites.md#collision). |
 | **Companion page** | The phone companion's web page, built into firmware and optionally overridden from the memory card. |
 | **Compile** | Turn the code you wrote into a program the device (or the emulator) can run. |
+| **Computational thinking** | Ways of solving problems that suit computers: breaking them into pieces (decomposition), spotting patterns, leaving out detail you don't need, and writing step-by-step instructions. See [Make a game, step by step](../getting-started/make-a-game.md#step-0-plan-the-game). |
 | **const** | Marks a value that cannot be changed through this declaration; after a method signature, the method does not change its object. |
 | **const char*** | A pointer to text ending with a zero character; the characters cannot be changed through this pointer. |
+| **Decomposition** | Breaking a big problem or idea into small pieces you can solve one at a time. See [Make a game, step by step](../getting-started/make-a-game.md#step-0-plan-the-game). |
 | **Emulator** | A copy of the device that runs in your browser, so you can try an app without a Cyber Fidget. |
 | **Firmware** | The built-in software that runs on the device. |
 | **Fixed-point** | Counting in fractions with whole numbers, for example 256 units per pixel, so movement can be smoother than one pixel at a time. |
@@ -149,6 +151,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **potentiometer** | A variable resistor; moving the slider changes the voltage read by the device. |
 | **Project** | A person's Studio work, including its code, art, captures, and settings. |
 | **Project file** | A `.cfapp.json` file containing a whole Studio project. |
+| **Pseudo-code** | The steps of a program written in plain words, laid out like code but not in any programming language. |
 | **rig** | Connected bones and poses used to animate a figure. |
 | **ring buffer** | A queue that reuses a fixed amount of memory. |
 | **singleton** | An object shared through one instance. |
