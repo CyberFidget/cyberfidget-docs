@@ -9,6 +9,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | Term | Definition |
 |------|------------|
 | **A2DP** | Advanced Audio Distribution Profile -- Bluetooth stereo audio streaming protocol. |
+| **Accelerometer** | A motion sensor that measures acceleration, including gravity, so the device can tell which way it is tilted or when it is shaken. See [Motion Sensing](../concepts/accelerometer.md). |
 | **ADC** | Analog-to-Digital Converter -- converts the slider's voltage to a number (e.g. 0-4095). |
 | **API** | Application Programming Interface -- how code talks to a library or service. |
 | **Binary angle** | An angle stored as a whole number from 0 to 255, where 256 steps make one full turn (64 is a quarter turn). The 3D model functions use binary angles. |

@@ -138,3 +138,4 @@
 *[decomposition]: Breaking a big problem or idea into small pieces you can solve one at a time
 *[computational thinking]: Ways of solving problems that suit computers: breaking them into pieces, spotting patterns, leaving out detail you don't need, and writing step-by-step instructions
 *[pseudo-code]: The steps of a program written in plain words, laid out like code but not in any programming language
+*[accelerometer]: A motion sensor that measures acceleration, including gravity, so the device can tell tilt and shakes
