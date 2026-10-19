@@ -57,6 +57,8 @@
 *[PCM]: Pulse-Code Modulation; uncompressed digital audio samples
 *[PNG]: Portable Network Graphics; a common lossless image file format
 *[PSRAM]: Pseudo-Static RAM; extra memory used to buffer audio while recording and to run apps sent to the Fidget
+*[Q8]: A whole number that stands for a fraction: divide it by 256 to get the real value, so 256 means 1.0
+*[Q14]: A whole number that stands for a fraction: divide it by 16384 to get the real value, so 16384 means 1.0
 *[QIO]: Quad input/output flash mode
 *[RC]: Release Candidate; a test version of the firmware, tagged like v1.4.0-rc1
 *[RGBW]: Red, Green, Blue, White (four-channel LED)
