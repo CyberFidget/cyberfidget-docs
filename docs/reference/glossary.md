@@ -102,7 +102,9 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **&** | In a parameter type, a reference to an existing object rather than a copy; before a value, its address. |
 | **Actor** | A thing on the screen in an app: a position plus an animation that is playing. See [Sprites & Animation](../concepts/sprites.md#actors). |
 | **Animation** | Named sequence of sprite frames for one action; the editor's name for an animation state. |
+| **Animation player** | Code that keeps track of time and says which frame of an animation to show; `AnimationPlayer` in the sprite functions. See [Sprites & Animation](../concepts/sprites.md#animations-and-sprite-sheets). |
 | **Animation state** | A named sequence of sprite frames for one action, such as running or jumping. |
+| **Array** | A numbered list of values of one type, such as the bytes of a picture. |
 | **Asset** | A sprite or model that can be used in a Studio project. |
 | **Bitmap** | A picture stored as a grid of on/off pixels. |
 | **bool** | A C++ type holding either true or false. |
@@ -111,6 +113,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Built app** | The runnable copy produced when Studio builds an app. |
 | **Callback** | A function you give the device to call for you when something happens, such as a button press. |
 | **Capture** | An item stored in a Studio project's captures. |
+| **Cel** | An animator's word for one picture of an animation; the studio names a sprite's frames `cel_0`, `cel_1` and so on in code. |
 | **Collision** | Two sprites touching, where a lit pixel of one sits on a lit pixel of the other. See [Sprites & Animation](../concepts/sprites.md#collision). |
 | **Companion page** | The phone companion's web page, built into firmware and optionally overridden from the memory card. |
 | **Compile** | Turn the code you wrote into a program the device (or the emulator) can run. |
@@ -118,6 +121,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **const char*** | A pointer to text ending with a zero character; the characters cannot be changed through this pointer. |
 | **Emulator** | A copy of the device that runs in your browser, so you can try an app without a Cyber Fidget. |
 | **Firmware** | The built-in software that runs on the device. |
+| **Fixed-point** | Counting in fractions with whole numbers, for example 256 units per pixel, so movement can be smoother than one pixel at a time. |
 | **float** | A C++ number type that can hold a fractional part. |
 | **Flow** | How densely the Brush paints or the Erase tool removes pixels, from 0 to 100%. |
 | **Frame** | One picture in an animation sequence. |
@@ -132,12 +136,15 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **lambda** | A short unnamed C++ function. |
 | **Layer** | Separate set of pixels in a frame, with its own drawing order and visibility. |
 | **long** | A signed whole number; on the device, -2,147,483,648 to 2,147,483,647. |
+| **Loop mode** | What an animation does after its last frame: start again, play backward, stop, or hold the last frame. See [Loop modes](../concepts/sprites.md#loop-modes). |
 | **macro** | Named code expanded by the C++ preprocessor before compilation. |
 | **MB** | Megabyte; a unit of file size, about one million bytes. |
 | **mg** | Milli-g in motion readings; one thousandth of the acceleration due to gravity. |
+| **Namespace** | A family name for a group of C++ names, such as `cf::gfx`, that keeps them apart from other code using the same names. |
 | **Node** | A point in a wireframe model's shape, positioned in 3D space. |
 | **nullptr** | A C++ value meaning a pointer does not point to an object. |
 | **pivot** | The point on a sprite placed at its screen position. |
+| **Pointer** | A value that holds the address of something else in memory, written with `*` in its type, such as `const Sprite*`. |
 | **pose** | A set of bone angles describing how a figure is positioned. |
 | **potentiometer** | A variable resistor; moving the slider changes the voltage read by the device. |
 | **Project** | A person's Studio work, including its code, art, captures, and settings. |
@@ -147,6 +154,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **singleton** | An object shared through one instance. |
 | **Sprite** | An image or animation used by an app for a character, object, or effect. |
 | **Sprite sheet** | A named group of animations for one character or object. See [Sprites & Animation](../concepts/sprites.md#animations-and-sprite-sheets). |
+| **static** | In front of a variable or function at the top of a file: keeps it to that file, and a variable keeps its value for as long as the app runs. |
 | **String** | A C++ object holding text. |
 | **Strut** | A straight line connecting two nodes in a wireframe model. |
 | **uint16_t** | A whole number from 0 to 65,535. |

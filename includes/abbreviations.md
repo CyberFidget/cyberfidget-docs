@@ -114,6 +114,12 @@
 *[pose]: A set of bone angles describing how a figure is positioned
 *[EMA]: Exponential Moving Average; smoothing that blends each reading with previous readings
 *[Kalman filter]: A calculation that estimates a stable value from noisy sensor readings
+*[array]: A numbered list of values of one type, such as the bytes of a picture
+*[namespace]: A family name for a group of C++ names that keeps them apart from other code
+*[pointer]: A value that holds the address of something else in memory
+*[fixed-point]: Counting in fractions with whole numbers, for example 256 units per pixel
+*[animation player]: Code that keeps track of time and says which frame of an animation to show
+*[loop mode]: What an animation does after its last frame
 *[XBM]: X BitMap; a one-bit image format with on/off pixels stored in bytes
 *[milli-g]: One thousandth of the acceleration due to gravity; 1000 milli-g is one g
 *[SPH]: Smoothed Particle Hydrodynamics; a way to simulate fluids with interacting particles
