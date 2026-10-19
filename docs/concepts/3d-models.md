@@ -32,9 +32,9 @@ Every example on this page goes into a fresh [blank template](../getting-started
 
 There are two ways.
 
-**1. Make it in the Studio's 3D tab.** The 3D tab lets you place points, join them with lines, and watch the result spin in a preview that uses the same drawing as the Fidget. See [3D Models in the Studio](../studio/3d-models.md). The 3D tab is not open to everyone yet: if you don't see a **3D** button next to **Code** and **2D**, use the second way.
+**1. Make it in the Studio's 3D tab.** The 3D tab lets you place points, join them with lines, and watch the result spin in a preview that uses the same drawing as the Fidget. The next section, [Draw a wireframe model in the Studio](#draw-a-wireframe-model-in-the-studio), walks through it step by step; [3D Models in the Studio](../studio/3d-models.md) lists every control. The 3D tab is available to selected accounts: if you don't see a **3D** button next to **Code** and **2D**, use the second way.
 
-When you build the app, the Studio turns every model in the project into code and adds it to your app for you. After you save a model, the 3D tab shows a **Use in code** line with a **Copy** button. It looks like this, for a model called `ship`:
+When you build the app, the Studio turns every model in the project into code and adds it to your app for you. While a model is open, the 3D tab shows a **Use in code** line with a **Copy** button. It looks like this, for a model called `ship`:
 
 <!-- check-examples: skip - needs a model named ship in the project -->
 ```cpp
@@ -43,9 +43,9 @@ model.setMesh(&cf::gfx::ship::ship);
 
 The model's name appears twice: once as the name of its group and once as the mesh itself. Copy the line rather than typing the name, so it matches exactly. The examples below show where it goes: use your model's name in place of `&boxMesh`. With the line `using namespace cf::gfx;` at the top of your file, you can leave out `cf::gfx::` and write `&ship::ship`.
 
-**Try it in an app** in the 3D tab starts a small app that shows your model spinning, if the project has no code yet.
+**Try it in an app** in the 3D tab starts a small app that shows your model spinning, if the project has no code (see step 6 below).
 
-**2. Write the points and lines yourself.** For a simple shape this is quick, and it is what the examples on this page do. The next section shows how.
+**2. Write the points and lines yourself.** For a simple shape this is quick, and it is what the examples on this page do. [Drawing a model](#drawing-a-model) shows how.
 
 !!! note "Short names for the 3D functions"
     The 3D functions live in `cf_gfx.h`, and their full names start with `cf::gfx::`, as in `cf::gfx::MeshActor`. That is how the [function reference](../reference/functions.md) lists them.
@@ -53,6 +53,76 @@ The model's name appears twice: once as the name of its group and once as the me
     Studio apps already have `cf_gfx.h` available, so you do not need its #include line. The examples include it anyway, so they also suit apps built into the firmware by hand.
 
     The examples write `using namespace cf::gfx;` once at the top of the file, which lets them use the short names (`Mesh`, `MeshActor`). Do the same when your project has no art of its own listed under **All files** > **In this project** at the top of the workspace. In that case the Studio stops any build whose code writes out a `cf::gfx::` name, with the message "The generated art couldn't be used, and the app's code depends on it - so this app won't build. Try generating again."
+
+---
+
+## Draw a wireframe model in the Studio
+
+By the end of this section you will have drawn a model with the mouse in the Studio's 3D tab and watched it spin on the emulator's screen, without writing any code. It takes about five minutes.
+
+<video src="../../assets/media/3d-try-in-app-emulator.webm" poster="../../assets/media/3d-try-in-app-emulator.png" autoplay loop muted playsinline width="300"></video>
+
+*The result: a model spinning on the emulator. Moving the slider makes it bigger or smaller.*
+
+!!! note "3D tab access"
+    The **3D** button in the Studio's tab rail only appears for accounts it has been turned on for. If you don't see it, you can still make models in code: skip to [Drawing a model](#drawing-a-model).
+
+**1. Start a project without code.** Open the [Studio](https://cyberfidget.com/create/) and choose **Create an app**. Leave the starter unselected, so step 6 can write a small app for you.
+
+**2. Make a new model.** Click **3D** in the tab rail. Choose **Add art > Build a 3D model**. A **New model** dialog asks for a **Model name**; it suggests one such as `Model 1`. Type a one-word name, such as `Arrow`, and choose **Create**.
+
+<video preload="none" data-src="../../assets/media/3d-new-model.webm" poster="../../assets/media/3d-new-model.png" loop muted playsinline width="560"></video>
+
+What you'll see: the model opens in its own tab above the workspace. A new model is a short line: two points joined by one line. The stage in the middle shows it over a floor grid, and **Preview · live** on the right shows it the way the Fidget will draw it.
+
+!!! tip "Rather start from a shape?"
+    **All files > Free starters** has a **Starter Models** section with **SHIP**, **CUBE** and **PYRAMID**. Click one to add it to the project, then reshape it.
+
+**3. Add points.** Choose **Add point** in the tool column, then click empty space on the stage. With **Mirror: on** (the switch under the tools), every point you add off the middle line gets a twin on the other side, so the model stays the same on the left and the right. Clicking on a line instead splits it, putting a new point in its middle.
+
+A new point lands on the flat slice through the middle of the model that faces you. To place a point nearer or farther, turn the view first (step 5).
+
+**4. Join points with lines.** Choose **Connect**, click one point, then another: a line joins them. With Mirror on, the twin points get a twin line. Clicking two points that are already joined removes their line. Press Esc to cancel after the first click.
+
+<video preload="none" data-src="../../assets/media/3d-add-points-lines.webm" poster="../../assets/media/3d-add-points-lines.png" loop muted playsinline width="560"></video>
+
+What you'll see: the bar above the stage counts your points and lines (for example `7 points - 8 lines`), and the preview shows the new shape.
+
+**5. Turn the view and reshape.** Choose **Move**. Then:
+
+| To | Do this |
+|----|---------|
+| Turn the view | Drag empty space on the stage. This only changes how you look at the model, not the model. |
+| Zoom the view | Scroll over the stage. |
+| Move a point | Drag it. With Mirror on, its twin moves the same way. |
+| Select a line | Click it. The **Selection** panel names it and its two end points. |
+| Change one side only | Turn the **Mirror** switch off, so edits no longer copy to the twin. |
+| Take an edit back | **Undo** and **Redo** at the bottom of the tool column, or Ctrl+Z and Ctrl+Y. |
+| Remove a point or line | Select it, then **Delete selection** (or press Delete). |
+
+<video preload="none" data-src="../../assets/media/3d-move-rotate-view.webm" poster="../../assets/media/3d-move-rotate-view.png" loop muted playsinline width="560"></video>
+
+A point moves across the view, so to push a point toward you or away, turn the view sideways first and then drag it.
+
+**6. Try it in an app.** Choose **Try it in an app**, in the column on the right under **Save to My Assets**. In a project with no app code, the Studio writes a small viewer app named after your model (for a model called `Arrow`, the app is `Arrow Viewer`), switches to the **Code** tab and builds it.
+
+<video preload="none" data-src="../../assets/media/3d-try-in-app.webm" poster="../../assets/media/3d-try-in-app.png" loop muted playsinline width="560"></video>
+
+What you'll see: after the build (a few seconds to about a minute), the emulator shows your model spinning. Drag the emulator's slider up to make it bigger, down to make it smaller. The bottom-left button returns to the menu. The clip at the top of this section shows it.
+
+If the project already has app code, **Try it in an app** opens the **Generate** tab instead, with a request to add the model to your app already typed in.
+
+### How the model becomes code
+
+When the app is built, the Studio turns each model in the project into code: a list of points and a list of lines, the same `Mesh` you would write by hand in [Drawing a model](#drawing-a-model). The mesh is named after the model in lower case (spaces and other symbols become `_`), inside a group with the same name: a model called `Arrow` becomes `cf::gfx::arrow::arrow`.
+
+Open the viewer app's code in the **Code** tab to see it used. Its `begin()` gives the mesh to a `MeshActor` called `model`, with `model.setMesh(&cf::gfx::arrow::arrow);`, and places and turns it with `setPos()`, `setPerspective()` and `setRotation()`. Its `update()` turns the slider into a size with `setScaleQ8()`, adds a little turn with `spin()`, and draws the model. Every one of those calls is explained further down this page.
+
+To use the model in an app of your own, open the model in the 3D tab and copy its **Use in code** line. It sits under **Try it in an app** (scroll the right-hand column down if you don't see it).
+
+![The Use in code line under the 3D tab's buttons, reading model.setMesh(&cf::gfx::ship::ship); with a Copy button](../assets/media/3d-use-in-code.png)
+
+Put that line in `begin()` where the examples below have `boxModel.setMesh(&boxMesh);`, and change `model` in the copied line to `boxModel` (or your actor's name).
 
 ---
 

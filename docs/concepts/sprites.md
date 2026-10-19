@@ -62,7 +62,7 @@ The studio turns every sprite you draw into code and adds it to your app when yo
 
 3. The **2D** tab opens a tab called `Ball.sprite` with a blank canvas the size of the screen (128 x 64 pixels). Draw your ball. The clip below draws a circle and fills it with **FILL**.
 
-    <video src="../../assets/media/new-sprite.webm" poster="../../assets/media/new-sprite.png" autoplay loop muted playsinline width="480"></video>
+    <video preload="none" data-src="../../assets/media/new-sprite.webm" poster="../../assets/media/new-sprite.png" loop muted playsinline width="480"></video>
 
     *Add art, Draw a new sprite, name it Ball, Create, then draw a circle and fill it.*
 
@@ -215,7 +215,7 @@ The studio has a library of free starter sprites that anyone may reuse. **Copy a
 
 4. Close the panel. In your `.cpp` file, click at the start of the line just below the four `#include` lines and paste (Ctrl+V, or Cmd+V on a Mac).
 
-    <video src="../../assets/media/free-starters-copy.webm" poster="../../assets/media/free-starters-copy.png" autoplay loop muted playsinline width="480"></video>
+    <video preload="none" data-src="../../assets/media/free-starters-copy.webm" poster="../../assets/media/free-starters-copy.png" loop muted playsinline width="480"></video>
 
     *All files, Free starters, search for heart, Preview, scroll down, Copy as C++, then paste below the #include lines.*
 
@@ -813,7 +813,7 @@ for (int y = 0; y < 8; y++) {
 
 ## What you can make now
 
-<video src="../../assets/media/emulator-sprites.webm" poster="../../assets/media/emulator-sprites.png" autoplay loop muted playsinline width="300"></video>
+<video preload="none" data-src="../../assets/media/emulator-sprites.webm" poster="../../assets/media/emulator-sprites.png" loop muted playsinline width="300"></video>
 
 *The [Moving an actor](#moving-an-actor) example running in the emulator.*
 

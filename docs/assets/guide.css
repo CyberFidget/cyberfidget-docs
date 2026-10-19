@@ -1,4 +1,4 @@
-/* guide.css — minimal styles for annotated images and print-friendly steps */
+/* guide.css -- minimal styles for annotated images and print-friendly steps */
 .cf-annot-wrap { position: relative; display: inline-block; }
 .cf-annot-overlay { pointer-events: none; }
 
@@ -10,3 +10,6 @@
 @media print {
   .step { break-inside: avoid; page-break-inside: avoid; }
 }
+
+/* Home page journey cards: keep each link label on one line when the links wrap. */
+.md-typeset .cf-doors a { white-space: nowrap; }

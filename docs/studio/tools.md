@@ -25,4 +25,8 @@ Right-click on the canvas to erase pixels. On touch screens, select **Erase** an
 
 Read [Tool options](tool-options.md) for settings, [Edit commands](edit-commands.md) for clipboard operations, and [View](view.md) for gestures and guides.
 
-![The 2D tool bar on a desktop, with the twelve tools in groups and Undo and Redo at the bottom](../assets/media/new-sprite-drawn.png)
+![The 2D tool bar on a desktop: Draw, Brush, Erase and Fill; Line, Rectangle and Oval; Select, Select oval, Move and Transform; Zoom; Undo and Redo at the bottom](../assets/media/2d-tool-bar.png)
+
+<video src="../../assets/media/2d-drawing-tools.webm" poster="../../assets/media/2d-drawing-tools.png" autoplay loop muted playsinline width="560"></video>
+
+*Draw makes a freehand hill, Line a straight ground line, Rectangle a house and Oval a sun; Fill fills the house and the sun, and Erase cuts out a door. The options bar above the canvas changes with each tool.*

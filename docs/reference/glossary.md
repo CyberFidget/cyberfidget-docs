@@ -9,6 +9,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | Term | Definition |
 |------|------------|
 | **A2DP** | Advanced Audio Distribution Profile -- Bluetooth stereo audio streaming protocol. |
+| **Accelerometer** | A motion sensor that measures acceleration, including gravity, so the device can tell which way it is tilted or when it is shaken. See [Motion Sensing](../concepts/accelerometer.md). |
 | **ADC** | Analog-to-Digital Converter -- converts the slider's voltage to a number (e.g. 0-4095). |
 | **API** | Application Programming Interface -- how code talks to a library or service. |
 | **Binary angle** | An angle stored as a whole number from 0 to 255, where 256 steps make one full turn (64 is a quarter turn). The 3D model functions use binary angles. |
@@ -117,8 +118,10 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Collision** | Two sprites touching, where a lit pixel of one sits on a lit pixel of the other. See [Sprites & Animation](../concepts/sprites.md#collision). |
 | **Companion page** | The phone companion's web page, built into firmware and optionally overridden from the memory card. |
 | **Compile** | Turn the code you wrote into a program the device (or the emulator) can run. |
+| **Computational thinking** | Ways of solving problems that suit computers: breaking them into pieces (decomposition), spotting patterns, leaving out detail you don't need, and writing step-by-step instructions. See [Make a game, step by step](../getting-started/make-a-game.md#step-0-plan-the-game). |
 | **const** | Marks a value that cannot be changed through this declaration; after a method signature, the method does not change its object. |
 | **const char*** | A pointer to text ending with a zero character; the characters cannot be changed through this pointer. |
+| **Decomposition** | Breaking a big problem or idea into small pieces you can solve one at a time. See [Make a game, step by step](../getting-started/make-a-game.md#step-0-plan-the-game). |
 | **Emulator** | A copy of the device that runs in your browser, so you can try an app without a Cyber Fidget. |
 | **Firmware** | The built-in software that runs on the device. |
 | **Fixed-point** | Counting in fractions with whole numbers, for example 256 units per pixel, so movement can be smoother than one pixel at a time. |
@@ -139,7 +142,9 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Loop mode** | What an animation does after its last frame: start again, play backward, stop, or hold the last frame. See [Loop modes](../concepts/sprites.md#loop-modes). |
 | **macro** | Named code expanded by the C++ preprocessor before compilation. |
 | **MB** | Megabyte; a unit of file size, about one million bytes. |
+| **Mesh** | A 3D model's data: its list of points and its list of lines. `Mesh` in the 3D functions. See [3D Models](../concepts/3d-models.md). |
 | **mg** | Milli-g in motion readings; one thousandth of the acceleration due to gravity. |
+| **Mirror twin** | In the 3D tab with Mirror on, the matching point or line on the other side of a model's middle; editing one changes the other the same way. See [3D Models in the Studio](../studio/3d-models.md#editing-a-model). |
 | **Namespace** | A family name for a group of C++ names, such as `cf::gfx`, that keeps them apart from other code using the same names. |
 | **Node** | A point in a wireframe model's shape, positioned in 3D space. |
 | **nullptr** | A C++ value meaning a pointer does not point to an object. |
@@ -149,6 +154,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **potentiometer** | A variable resistor; moving the slider changes the voltage read by the device. |
 | **Project** | A person's Studio work, including its code, art, captures, and settings. |
 | **Project file** | A `.cfapp.json` file containing a whole Studio project. |
+| **Pseudo-code** | The steps of a program written in plain words, laid out like code but not in any programming language. |
 | **rig** | Connected bones and poses used to animate a figure. |
 | **ring buffer** | A queue that reuses a fixed amount of memory. |
 | **singleton** | An object shared through one instance. |

@@ -15,7 +15,8 @@
 //          --out <dir>    output folder (default ../../docs/assets/media)
 //          --headed       show the browser
 //
-// See README.md for prerequisites.
+// See README.md for prerequisites and "Driving the emulator" for how scenes
+// are put together.
 
 import { createRequire } from 'node:module';
 import { spawnSync } from 'node:child_process';
@@ -88,14 +89,19 @@ function findFfmpeg() {
 }
 
 // ---------------------------------------------------------------------------
-// Helpers shared by the scenes
+// Recording: pages, clips, stills
 // ---------------------------------------------------------------------------
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const VIEW = { width: 1280, height: 800 };
 
+// Ready-made crop regions, in page pixels (the page is 1280 x 800).
 // Whole-column region on the left: tabs, workspace and code area.
 const WORKSPACE = { x: 0, y: 112, width: 940, height: 668 };
+// The tab rail, file strip and 2D or 3D workspace, without the emulator.
+const STUDIO_PANEL = { x: 0, y: 112, width: 862, height: 640 };
+// Everything below the site header: workspace and emulator side by side.
+const WHOLE_STUDIO = { x: 0, y: 112, width: 1280, height: 668 };
 // The emulator device only.
 const DEVICE = { x: 920, y: 200, width: 300, height: 400 };
 // The whole emulator column: device, status line and REBUILD box.
@@ -121,21 +127,40 @@ const CURSOR_SCRIPT = `
 
 function even(n) { return Math.round(n / 2) * 2; }
 
+// Browser-context options shared by recorded and plain pages. `models: true`
+// turns the studio's 3D tab on for this browser only (see enableModels).
+async function newContext(browser, { video = null, cursor = false, models = false } = {}) {
+  const context = await browser.newContext({
+    viewport: VIEW,
+    deviceScaleFactor: 1,
+    permissions: ['clipboard-read', 'clipboard-write'],
+    ...(video ? { recordVideo: { dir: video, size: VIEW } } : {}),
+  });
+  if (cursor) await context.addInitScript(CURSOR_SCRIPT);
+  if (models) await enableModels(context);
+  return context;
+}
+
+// The 3D tab only appears for visitors whose feature lookup says so. For a
+// capture, answer that lookup inside this browser (signed out, 3D on), the
+// same way the website's own browser tests do. Nothing on the server changes.
+async function enableModels(context) {
+  await context.route('**/api/user-features.php', (route) => route.fulfill({
+    status: 200,
+    contentType: 'application/json',
+    body: JSON.stringify({ user_id: null, features: { wireframe_studio: true } }),
+  }));
+}
+
 class Recorder {
   constructor(runner, name) {
     this.runner = runner;
     this.name = name;
   }
 
-  async open({ cursor = true } = {}) {
+  async open({ cursor = true, models = false } = {}) {
     this.dir = fs.mkdtempSync(path.join(os.tmpdir(), 'cf-capture-'));
-    this.context = await this.runner.browser.newContext({
-      viewport: VIEW,
-      deviceScaleFactor: 1,
-      permissions: ['clipboard-read', 'clipboard-write'],
-      recordVideo: { dir: this.dir, size: VIEW },
-    });
-    if (cursor) await this.context.addInitScript(CURSOR_SCRIPT);
+    this.context = await newContext(this.runner.browser, { video: this.dir, cursor, models });
     this.t0 = Date.now();
     this.page = await this.context.newPage();
     this.page.on('pageerror', (e) => console.log('  page error: ' + e.message));
@@ -145,13 +170,26 @@ class Recorder {
   // Seconds since the page was created (the video's clock).
   now() { return (Date.now() - this.t0) / 1000; }
 
-  // Close the recording and write <name>.webm (cropped to region, trimmed to
-  // [from, to]) plus <name>.png, the poster frame at posterAt seconds in.
-  async finish({ from, to, region, posterAt = 0.3, fps = 20, bitrate = '900k' }) {
+  // Close the recording and write <name>.webm plus <name>.png. Pass one set
+  // of options, or an array of them to cut several clips out of the same
+  // recording (each extra one needs its own `name`):
+  //   name       output base name (default: the recorder's name)
+  //   from, to   the part of the recording to keep, in seconds (rec.now())
+  //   region     crop rectangle in page pixels
+  //   width      scale the cropped clip down to this width (keeps it small)
+  //   posterAt   seconds into the finished clip for the poster frame
+  // Playwright's small ffmpeg has no filter for joining pieces, so a long
+  // wait (a build) is left out by cutting two clips around it.
+  async finish(clips) {
     await this.context.close();
     const raw = await this.page.video().path();
-    const outWebm = path.join(this.runner.out, this.name + '.webm');
-    const outPng = path.join(this.runner.out, this.name + '.png');
+    for (const clip of Array.isArray(clips) ? clips : [clips]) this.cut(raw, clip);
+    fs.rmSync(this.dir, { recursive: true, force: true });
+  }
+
+  cut(raw, { name = this.name, from, to, region, width, posterAt = 0.3, fps = 20, bitrate = '900k' }) {
+    const outWebm = path.join(this.runner.out, name + '.webm');
+    const outPng = path.join(this.runner.out, name + '.png');
     const FFMPEG = findFfmpeg();
     if (!FFMPEG) {
       fs.copyFileSync(raw, outWebm);
@@ -159,17 +197,17 @@ class Recorder {
     } else {
       const vf = [];
       if (region) vf.push(`crop=${even(region.width)}:${even(region.height)}:${even(region.x)}:${even(region.y)}`);
+      if (width) vf.push(`scale=${even(width)}:-2`);
       const run = (args) => {
         const r = spawnSync(FFMPEG, ['-hide_banner', '-loglevel', 'error', '-y', ...args], { encoding: 'utf8' });
         if (r.status !== 0) throw new Error('ffmpeg failed: ' + r.stderr);
       };
-      run(['-ss', String(Math.max(0, from)), '-t', String(to - from), '-i', raw, '-vf', vf.join(','), '-r', String(fps),
+      run(['-ss', String(Math.max(0, from)), '-t', String(to - from), '-i', raw, ...(vf.length ? ['-vf', vf.join(',')] : []), '-r', String(fps),
         '-c:v', 'libvpx', '-b:v', bitrate, '-crf', '10', '-an', '-auto-alt-ref', '0', outWebm]);
       run(['-ss', String(posterAt), '-i', outWebm, '-frames:v', '1', outPng]);
     }
-    fs.rmSync(this.dir, { recursive: true, force: true });
     const kb = Math.round(fs.statSync(outWebm).size / 1024);
-    console.log(`  wrote ${this.name}.webm (${kb} KB, ${(to - from).toFixed(1)} s) and ${this.name}.png`);
+    console.log(`  wrote ${name}.webm (${kb} KB, ${(to - from).toFixed(1)} s) and ${name}.png`);
   }
 }
 
@@ -183,8 +221,8 @@ class Runner {
   recorder(name) { return new Recorder(this, name); }
 
   // A plain (not recorded) page, for screenshot-only scenes.
-  async plainPage() {
-    const context = await this.browser.newContext({ viewport: VIEW, deviceScaleFactor: 1, permissions: ['clipboard-read', 'clipboard-write'] });
+  async plainPage({ models = false } = {}) {
+    const context = await newContext(this.browser, { models });
     const page = await context.newPage();
     page.on('pageerror', (e) => console.log('  page error: ' + e.message));
     page.__context = context;
@@ -202,13 +240,76 @@ class Runner {
   }
 }
 
+// ---------------------------------------------------------------------------
+// Moving the mouse so a viewer can follow
+// ---------------------------------------------------------------------------
+
+// Move the cursor smoothly (so the clip shows a path, not a jump).
+async function glide(page, x, y, steps = 12) {
+  await page.mouse.move(x, y, { steps });
+}
+
+async function clickAt(page, x, y, steps = 14) {
+  await glide(page, x, y, steps);
+  await sleep(150);
+  await page.mouse.down();
+  await sleep(70);
+  await page.mouse.up();
+}
+
+async function clickCentre(page, locator, steps = 14) {
+  const b = await locator.boundingBox();
+  await clickAt(page, b.x + b.width / 2, b.y + b.height / 2, steps);
+}
+
+// Click a control: with `show` (the default) the cursor glides to it so the
+// clip shows where it is; without, it is a plain click (setup steps).
+async function tap(page, locator, show = true) {
+  if (show) await clickCentre(page, locator);
+  else await locator.click();
+}
+
+// Type into a field: letter by letter when shown, instantly otherwise.
+async function typeInto(page, locator, text, show = true) {
+  if (!show) return locator.fill(text);
+  await locator.press('Control+A');
+  await locator.pressSequentially(text, { delay: 140 });
+}
+
+// Press, move along the points, release: a drag the viewer can follow.
+async function drag(page, points, { steps = 10, pause = 120 } = {}) {
+  await glide(page, points[0].x, points[0].y, 10);
+  await sleep(pause);
+  await page.mouse.down();
+  for (const p of points.slice(1)) await page.mouse.move(p.x, p.y, { steps });
+  await sleep(pause);
+  await page.mouse.up();
+}
+
+// ---------------------------------------------------------------------------
+// Studio: projects, tabs, sprites and models
+// ---------------------------------------------------------------------------
+
+// Open the studio's landing page and let it settle.
+async function openStudio(page, base) {
+  await page.goto(base + '/create/');
+  await page.getByText('Create an app').first().waitFor();
+  await sleep(1200);
+}
+
+// A new project with no app code: the landing page's "Create an app" card.
+async function newEmptyProject(page, base) {
+  await openStudio(page, base);
+  await page.getByText('Create an app').first().click();
+  await page.locator('#builder-project-name').waitFor();
+  await sleep(1200);
+}
+
 // Open the studio and make a blank-template app with the given App Name.
 // Exact labels (verified in the studio source): "Create an app",
 // "Code from Blank Template", App Name field, "Create".
 async function newBlankApp(page, base, appName) {
-  await page.goto(base + '/create/');
-  await page.getByText('Create an app').first().waitFor();
-  await sleep(1200);
+  await openStudio(page, base);
   await page.getByText('Create an app').first().click();
   await page.getByRole('button', { name: /Code from Blank Template/ }).click();
   await page.locator('#builder-project-name').fill(appName);
@@ -217,6 +318,223 @@ async function newBlankApp(page, base, appName) {
   await sleep(1500);
 }
 
+// The tab rail: 'builder' (Generate), 'ide' (Code), 'pixel' (2D),
+// 'model' (3D), 'settings'.
+function railButton(page, panel) {
+  return page.locator(`.activity-button[data-panel="${panel}"]`);
+}
+
+async function openTab(page, panel, show = true) {
+  await tap(page, railButton(page, panel), show);
+  await sleep(show ? 900 : 600);
+}
+
+// "Added <name>" appears under the file strip after a file is added; any
+// click elsewhere closes it. Close it during setup so it is not in the clip.
+async function dismissToast(page) {
+  if (await page.locator('.cf-file-toast').isVisible()) {
+    await page.mouse.click(640, 88);
+    await sleep(300);
+  }
+}
+
+// Add art > Draw a new sprite > Sprite name > Create.
+async function newSprite(page, name, show = true) {
+  await tap(page, page.getByRole('button', { name: 'Add art' }), show);
+  await sleep(show ? 700 : 300);
+  await tap(page, page.getByText('Draw a new sprite'), show);
+  await sleep(show ? 600 : 300);
+  await typeInto(page, page.locator('#art-new-sprite-name'), name, show);
+  await sleep(show ? 500 : 100);
+  await tap(page, page.getByRole('button', { name: 'Create', exact: true }), show);
+  await page.locator('#pixel-grid').waitFor();
+  await sleep(1000);
+}
+
+// Add art > Build a 3D model > Model name > Create (needs models: true).
+async function newModel(page, name, show = true) {
+  await tap(page, page.getByRole('button', { name: 'Add art' }), show);
+  await sleep(show ? 700 : 300);
+  await tap(page, page.getByText('Build a 3D model'), show);
+  await sleep(show ? 600 : 300);
+  await typeInto(page, page.locator('#model-new-model-name'), name, show);
+  await sleep(show ? 500 : 100);
+  await tap(page, page.locator('[data-new-model-create]'), show);
+  await page.waitForFunction((n) => window.__cfModelEditor?.debugState?.().model?.meta?.name === n, name);
+  await sleep(1000);
+}
+
+// All files > Free starters > a starter model ('ship', 'cube', 'pyramid').
+async function addStarterModel(page, starter, show = true) {
+  await tap(page, page.getByRole('button', { name: /^All files/ }), show);
+  await sleep(show ? 700 : 300);
+  await tap(page, page.getByRole('button', { name: 'Free starters', exact: true }), show);
+  await sleep(show ? 900 : 500);
+  const button = page.locator(`.cf-all-files [data-model-starter="${starter}"]`);
+  await button.scrollIntoViewIfNeeded();
+  await sleep(show ? 600 : 200);
+  await tap(page, button, show);
+  await page.waitForFunction((n) => window.__cfModelEditor?.debugState?.().model?.meta?.name === n, starter);
+  await sleep(1000);
+}
+
+// ---------------------------------------------------------------------------
+// The 2D canvas
+// ---------------------------------------------------------------------------
+
+// A 2D tool button, by the start of its label ("Draw", "Line", "Oval"...).
+function tool2d(page, name) {
+  return page.locator(`#art-tool-buttons button[aria-label^="${name}"]`);
+}
+
+// Page position of the centre of sprite pixel (px, py) on the 128 x 64 canvas.
+async function pixelAt(page, px, py) {
+  const g = await page.locator('#pixel-grid').boundingBox();
+  return { x: g.x + ((px + 0.5) * g.width) / 128, y: g.y + ((py + 0.5) * g.height) / 64 };
+}
+
+// Drag along sprite-pixel coordinates [[x, y], ...] on the canvas.
+async function drawPixels(page, pixels, opts) {
+  const points = [];
+  for (const [x, y] of pixels) points.push(await pixelAt(page, x, y));
+  await drag(page, points, opts);
+}
+
+// ---------------------------------------------------------------------------
+// The 3D model stage
+// ---------------------------------------------------------------------------
+
+// The model editor's state (points, lines, view, selection, and where each
+// point is on the stage). The studio exposes it for its own tests.
+function modelState(page) {
+  return page.evaluate(() => window.__cfModelEditor.debugState());
+}
+
+async function stageBox(page) {
+  return page.locator('#model-editor-canvas').boundingBox();
+}
+
+// Page position of point `index` on the stage.
+async function modelPoint(page, index) {
+  const [s, b] = [await modelState(page), await stageBox(page)];
+  return { x: b.x + s.projected[index].x, y: b.y + s.projected[index].y };
+}
+
+// Page position of the middle of line `index`.
+async function modelLineMiddle(page, index) {
+  const [s, b] = [await modelState(page), await stageBox(page)];
+  const [i, j] = s.model.edges[index];
+  return { x: b.x + (s.projected[i].x + s.projected[j].x) / 2, y: b.y + (s.projected[i].y + s.projected[j].y) / 2 };
+}
+
+// Index of the point whose model position is [x, y, z] (nearest one).
+async function modelPointIndex(page, target) {
+  const s = await modelState(page);
+  let best = 0;
+  let bestD = Infinity;
+  s.model.vertices.forEach((v, i) => {
+    const d = Math.hypot(v[0] - target[0], v[1] - target[1], v[2] - target[2]);
+    if (d < bestD) { bestD = d; best = i; }
+  });
+  return best;
+}
+
+// Where to click so Add point places a point at model x, y. The editor puts
+// a new point on the flat slice through the model's middle that faces you.
+// With the view turned to face the front (yaw 0), x is across and y is up.
+async function stageSpotFor(page, x, y) {
+  const [s, b] = [await modelState(page), await stageBox(page)];
+  return { x: b.x + b.width / 2 + x * s.view.zoom, y: b.y + b.height / 2 - (y * s.view.zoom) / Math.cos(s.view.pitch) };
+}
+
+// Turn the view by dragging empty space (top-left corner of the stage).
+// The editor turns 0.008 radians per pixel dragged.
+async function orbitTo(page, yaw, pitch, { steps = 24 } = {}) {
+  const [s, b] = [await modelState(page), await stageBox(page)];
+  const start = { x: b.x + 24, y: b.y + 24 };
+  const end = { x: start.x + (yaw - s.view.yaw) / 0.008, y: start.y + (pitch - s.view.pitch) / 0.008 };
+  await drag(page, [start, end], { steps });
+}
+
+// Zoom the stage view to `zoom` (pixels per model unit) with the scroll
+// wheel; the editor zooms by e^(-deltaY / 1000).
+async function zoomTo(page, zoom) {
+  const [s, b] = [await modelState(page), await stageBox(page)];
+  await page.mouse.move(b.x + b.width / 2, b.y + b.height - 30);
+  await page.mouse.wheel(0, 1000 * Math.log(s.view.zoom / zoom));
+  await sleep(200);
+}
+
+// ---------------------------------------------------------------------------
+// The emulator
+// ---------------------------------------------------------------------------
+
+// Wait until the emulator says the app is running.
+async function waitForApp(page) {
+  await page.waitForFunction(() => /running your app/i.test(document.getElementById('builder-emulator-status')?.innerText || ''), null, { timeout: 120000 });
+}
+
+// Click REBUILD & RUN for the first build, or REBUILD for later builds; wait for
+// the emulator to say it is running.
+async function rebuildAndRun(page, show = false) {
+  const welcome = page.getByRole('button', { name: 'REBUILD & RUN', exact: true });
+  const button = await welcome.isVisible()
+    ? welcome
+    : page.locator('#builder-compile-wasm');
+  await tap(page, button, show);
+  await waitForApp(page);
+}
+
+// Read the emulator's screen: returns lit(x, y) for the 128 x 64 pixels.
+// The screen canvas is a scaled copy of the device screen; this samples the
+// middle of each device pixel.
+async function readScreen(page) {
+  const rows = await page.evaluate(() => {
+    const c = document.querySelector('.cf-device-screen');
+    const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
+    const sx = c.width / 128;
+    const sy = c.height / 64;
+    const out = [];
+    for (let y = 0; y < 64; y++) {
+      let row = '';
+      for (let x = 0; x < 128; x++) {
+        const k = (Math.floor((y + 0.5) * sy) * c.width + Math.floor((x + 0.5) * sx)) * 4;
+        row += d[k] + d[k + 1] + d[k + 2] > 380 ? '1' : '0';
+      }
+      out.push(row);
+    }
+    return out;
+  });
+  return (x, y) => rows[y][x] === '1';
+}
+
+// Drive the emulator's slider with the mouse: press on the slider, then move
+// the pointer up (value 100) or down (value 0) while the button is held.
+async function sliderGrab(page, value, steps = 1) {
+  const b = await page.locator('.cf-device-sliderzone').boundingBox();
+  await page.mouse.move(b.x + b.width / 2, b.y + (1 - value / 100) * b.height, { steps });
+  await page.mouse.down();
+}
+
+async function sliderTo(page, value, steps = 6) {
+  const b = await page.locator('.cf-device-sliderzone').boundingBox();
+  await page.mouse.move(b.x + b.width / 2, b.y + (1 - value / 100) * b.height, { steps });
+}
+
+// Press an emulator button with the mouse and hold it for `ms`.
+// Names: TopLeft, TopRight, MiddleLeft, MiddleRight, BottomLeft, BottomRight.
+async function pressButton(page, name, ms = 150) {
+  const b = await page.locator(`.cf-device-btn[data-button="${name}"]`).boundingBox();
+  await glide(page, b.x + b.width / 2, b.y + b.height / 2, 8);
+  await page.mouse.down();
+  await sleep(ms);
+  await page.mouse.up();
+}
+
+// ---------------------------------------------------------------------------
+// Code from the docs
+// ---------------------------------------------------------------------------
+
 // Replace the contents of the visible code editor (the .cpp file).
 async function setCode(page, code) {
   await page.evaluate((c) => {
@@ -224,6 +542,13 @@ async function setCode(page, code) {
     window.ace.edit(el).setValue(c, -1);
   }, code);
   await sleep(300);
+}
+
+async function readEditorCode(page) {
+  return page.evaluate(() => {
+    const el = [...document.querySelectorAll('.ace_editor')].find((e) => e.offsetParent);
+    return window.ace.edit(el).getValue();
+  });
 }
 
 // The final full listing of a docs page: the first cpp block after the
@@ -237,9 +562,8 @@ function finalListing(docsRelPath) {
   return m[1];
 }
 
-// A fenced cpp block of a docs page, by index among all cpp blocks that
-// contain `needle`. Blocks written as insert-fragments are joined by
-// assembleFragments().
+// The first fenced cpp block of a docs page that contains `needle`. Blocks
+// written as insert-fragments are joined by assembleFragments().
 function docsBlock(docsRelPath, needle) {
   const md = fs.readFileSync(path.join(DOCS_ROOT, docsRelPath), 'utf8').replace(/\r\n/g, '\n');
   for (const m of md.matchAll(/```cpp\n([\s\S]*?)\n```/g)) {
@@ -248,9 +572,9 @@ function docsBlock(docsRelPath, needle) {
   throw new Error('No cpp block containing ' + JSON.stringify(needle) + ' in ' + docsRelPath);
 }
 
-// Put a docs fragment (placement comments "Paste/Insert at the top of the
+// Put a docs fragment (placement comments "Insert at the top of the
 // file ...", "inside begin() ...", "inside update() ...") into the blank
-// template for an app whose code name is `name`. Mirrors how a reader does it.
+// template. Mirrors how a reader does it.
 function assembleFragments(template, fragment) {
   const sections = { top: '', begin: '', update: '', end: '' };
   let cur = null;
@@ -275,47 +599,6 @@ function indent(text) {
   return text.split('\n').map((l) => (l ? '    ' + l : l)).join('\n');
 }
 
-async function readEditorCode(page) {
-  return page.evaluate(() => {
-    const el = [...document.querySelectorAll('.ace_editor')].find((e) => e.offsetParent);
-    return window.ace.edit(el).getValue();
-  });
-}
-
-// Click REBUILD & RUN (the welcome button of the first build) and wait for
-// the emulator to say it is running.
-async function rebuildAndRun(page) {
-  await page.getByRole('button', { name: 'REBUILD & RUN' }).click();
-  await page.waitForFunction(() => /running your app/i.test(document.getElementById('builder-emulator-status')?.innerText || ''), null, { timeout: 120000 });
-}
-
-// Move the cursor smoothly (so the clip shows a path, not a jump).
-async function glide(page, x, y, steps = 12) {
-  await page.mouse.move(x, y, { steps });
-}
-
-async function clickCentre(page, locator, steps = 14) {
-  const b = await locator.boundingBox();
-  await glide(page, b.x + b.width / 2, b.y + b.height / 2, steps);
-  await sleep(150);
-  await page.mouse.down();
-  await sleep(70);
-  await page.mouse.up();
-}
-
-// Drive the emulator's slider with the mouse: press on the slider, then move
-// the pointer up (value 100) or down (value 0) while the button is held.
-async function sliderGrab(page, value) {
-  const b = await page.locator('.cf-device-sliderzone').boundingBox();
-  await page.mouse.move(b.x + b.width / 2, b.y + (1 - value / 100) * b.height);
-  await page.mouse.down();
-}
-
-async function sliderTo(page, value, steps = 6) {
-  const b = await page.locator('.cf-device-sliderzone').boundingBox();
-  await page.mouse.move(b.x + b.width / 2, b.y + (1 - value / 100) * b.height, { steps });
-}
-
 // ---------------------------------------------------------------------------
 // Scenes
 // ---------------------------------------------------------------------------
@@ -335,9 +618,7 @@ scenes['new-sprite'] = async (r) => {
   await r.shot(page, 'new-sprite-add-art-menu', { x: 190, y: 112, width: 310, height: 290 });
   await clickCentre(page, page.getByText('Draw a new sprite'));
   await sleep(700);
-  const name = page.locator('#art-new-sprite-name');
-  await name.press('Control+A');
-  await name.pressSequentially('Ball', { delay: 140 });
+  await typeInto(page, page.locator('#art-new-sprite-name'), 'Ball');
   await sleep(500);
   await r.shot(page, 'new-sprite-dialog', { x: 370, y: 250, width: 540, height: 300 });
   await clickCentre(page, page.getByRole('button', { name: 'Create', exact: true }));
@@ -364,8 +645,8 @@ scenes['new-sprite'] = async (r) => {
   await r.shot(page, 'new-sprite-drawn', WORKSPACE);
 
   // Back to the code.
-  await clickCentre(page, page.locator('.activity-button[data-panel="ide"]'));
-  await sleep(1200);
+  await openTab(page, 'ide');
+  await sleep(300);
   const end = rec.now();
   await rec.finish({ from: start, to: end, region: WORKSPACE, posterAt: 0.2 });
 };
@@ -456,20 +737,16 @@ scenes['add-art-from-file'] = async (r) => {
   // The 2D tab of a project with no art: IMPORT A FILE sits beside DRAW A SPRITE.
   const page3 = await r.plainPage();
   await newBlankApp(page3, r.base, 'Hello');
-  await page3.locator('.activity-button[data-panel="pixel"]').click();
-  await sleep(1200);
+  await openTab(page3, 'pixel', false);
+  await sleep(600);
   await r.shot(page3, 'add-art-2d-no-art', WORKSPACE);
   await page3.__context.close();
 
   // With a sprite open: the Sprite file menu has Add from file.
   const page2 = await r.plainPage();
   await newBlankApp(page2, r.base, 'Hello');
-  await page2.getByRole('button', { name: 'Add art' }).click();
-  await page2.getByText('Draw a new sprite').click();
-  await page2.locator('#art-new-sprite-name').fill('Ball');
-  await page2.getByRole('button', { name: 'Create', exact: true }).click();
-  await page2.locator('#pixel-grid').waitFor();
-  await sleep(1200);
+  await newSprite(page2, 'Ball', false);
+  await sleep(200);
   await page2.locator('#art-sprite-file-button').click();
   await sleep(700);
   await r.shot(page2, 'add-art-sprite-file-menu', { x: 620, y: 500, width: 260, height: 300 });
@@ -491,32 +768,20 @@ scenes['emulator-catcher'] = async (r) => {
   await sleep(250);
   const start = rec.now();
 
-  // Read the OLED canvas: where is the dot, where is the paddle? The canvas
-  // is a scaled copy of the 128 x 64 screen.
-  const probe = () => page.evaluate(() => {
-    const c = document.querySelector('.cf-device-screen');
-    const ctx = c.getContext('2d');
-    const w = c.width;
-    const h = c.height;
-    const sx = w / 128;
-    const sy = h / 64;
-    const d = ctx.getImageData(0, 0, w, h).data;
-    const lit = (x, y) => {
-      const k = (y * w + x) * 4;
-      return d[k] + d[k + 1] + d[k + 2] > 380;
-    };
+  // Where is the falling dot, and where is the paddle (the lit column at the
+  // right edge)? Positions are in device pixels.
+  const probe = async () => {
+    const lit = await readScreen(page);
     let dotSum = 0;
     let dotN = 0;
     let dotX = 0;
     let padTop = -1;
-    let padBottom = -1;
-    for (let y = 0; y < h; y++) {
-      for (let x = 0; x < w; x++) {
+    for (let y = 0; y < 64; y++) {
+      for (let x = 0; x < 128; x++) {
         if (!lit(x, y)) continue;
-        if (x >= 114 * sx) {
+        if (x >= 114) {
           if (padTop < 0) padTop = y;
-          padBottom = y;
-        } else if (y > 14 * sy && x > 4 * sx) {
+        } else if (y > 14 && x > 4) {
           dotSum += y;
           dotX += x;
           dotN++;
@@ -524,25 +789,21 @@ scenes['emulator-catcher'] = async (r) => {
       }
     }
     return {
-      dotY: dotN ? dotSum / dotN / sy : null,
-      dotX: dotN ? dotX / dotN / sx : null,
-      padTop: padTop >= 0 ? padTop / sy : null,
+      dotY: dotN ? dotSum / dotN : null,
+      dotX: dotN ? dotX / dotN : null,
+      padTop: padTop >= 0 ? padTop : null,
     };
-  });
+  };
 
   let value = 50;
   await sliderGrab(page, value);
   let dotsSeen = 0;
   let lastX = 0;
   const deadline = Date.now() + 11000;
-  let finishedDots = 0;
-  while (Date.now() < deadline && finishedDots < 4) {
+  while (Date.now() < deadline && dotsSeen < 4) {
     const s = await probe();
     if (s.dotX !== null) {
-      if (s.dotX < lastX - 20) {
-        dotsSeen++;
-        finishedDots++;
-      }
+      if (s.dotX < lastX - 20) dotsSeen++;
       lastX = s.dotX;
     }
     if (s.dotY !== null && s.padTop !== null) {
@@ -570,8 +831,7 @@ scenes['emulator-sprites'] = async (r) => {
   await newBlankApp(page, r.base, 'Hello');
   const template = await readEditorCode(page);
   const block = docsBlock('concepts/sprites.md', 'heroActor.setPosQ8(x, y * 256);');
-  const code = assembleFragments(template, block);
-  await setCode(page, code);
+  await setCode(page, assembleFragments(template, block));
   await rebuildAndRun(page);
   await sleep(800);
   await page.evaluate(() => document.activeElement && document.activeElement.blur());
@@ -602,12 +862,383 @@ scenes['rebuild-and-run'] = async (r) => {
   await newBlankApp(page, r.base, 'Hello');
   await sleep(700);
   const start = rec.now();
-  await clickCentre(page, page.getByRole('button', { name: 'REBUILD & RUN' }));
-  await page.waitForFunction(() => /running your app/i.test(document.getElementById('builder-emulator-status')?.innerText || ''), null, { timeout: 120000 });
+  await rebuildAndRun(page, true);
   await sleep(2500);
   const end = Math.min(rec.now(), start + 12);
   await r.shot(page, 'rebuild-and-run-done', EMU_COLUMN);
   await rec.finish({ from: start, to: end, region: EMU_COLUMN, posterAt: 0.1 });
+};
+
+// 7. 3D: open the 3D tab, Add art > Build a 3D model, name it, Create.
+// Stills: the Add art menu with Build a 3D model, the New model dialog,
+// the empty model, and Free starters with the Starter Models.
+scenes['3d-new-model'] = async (r) => {
+  const rec = r.recorder('3d-new-model');
+  const page = await rec.open({ models: true });
+  await newEmptyProject(page, r.base);
+  await railButton(page, 'model').waitFor();
+  await sleep(600);
+  const start = rec.now();
+
+  await openTab(page, 'model');
+  await tap(page, page.getByRole('button', { name: 'Add art' }));
+  await sleep(900);
+  await r.shot(page, '3d-add-art-menu', { x: 190, y: 112, width: 310, height: 320 });
+  await tap(page, page.getByText('Build a 3D model'));
+  await sleep(700);
+  await typeInto(page, page.locator('#model-new-model-name'), 'Arrow');
+  await sleep(500);
+  await r.shot(page, '3d-new-model-dialog', { x: 370, y: 250, width: 540, height: 300 });
+  await tap(page, page.locator('[data-new-model-create]'));
+  await page.waitForFunction(() => window.__cfModelEditor?.debugState?.().model?.meta?.name === 'Arrow');
+  await sleep(1200);
+  await dismissToast(page);
+  await glide(page, 400, 450, 14);
+  await sleep(1200);
+  await r.shot(page, '3d-new-model-blank', STUDIO_PANEL);
+  const end = rec.now();
+
+  // Not in the clip: the starter models in Free starters.
+  await page.getByRole('button', { name: /^All files/ }).click();
+  await sleep(500);
+  await page.getByRole('button', { name: 'Free starters', exact: true }).click();
+  await sleep(800);
+  await page.locator('.cf-all-files [data-model-starter="ship"]').scrollIntoViewIfNeeded();
+  await sleep(500);
+  await r.shot(page, '3d-starter-models', STUDIO_PANEL);
+  await rec.finish({ from: start, to: end, region: WHOLE_STUDIO, posterAt: end - start - 0.3, width: 900 });
+};
+
+// 8. 3D: Add point (Mirror on adds the twin), then Connect points into an
+// arrow shape, then turn the view to see it.
+scenes['3d-add-points-lines'] = async (r) => {
+  const rec = r.recorder('3d-add-points-lines');
+  const page = await rec.open({ models: true });
+  await newEmptyProject(page, r.base);
+  await openTab(page, 'model', false);
+  await newModel(page, 'Arrow', false);
+  await dismissToast(page);
+  // Face the front, tipped slightly, so the mirror twins look mirrored.
+  await orbitTo(page, 0, 0.25, { steps: 4 });
+  await glide(page, 400, 600, 4);
+  await sleep(600);
+  const start = rec.now();
+
+  // The new model has two points (x = -4 and 4) joined by a line.
+  await tap(page, page.locator('[data-model-tool="add"]'));
+  await sleep(500);
+  for (const [x, y] of [[0, 9], [9, -6], [3, -4]]) {
+    const spot = await stageSpotFor(page, x, y);
+    await clickAt(page, spot.x, spot.y);
+    await sleep(600);
+  }
+
+  // Connect: click one point, then another.
+  await tap(page, page.locator('[data-model-tool="connect"]'));
+  await sleep(500);
+  const pairs = [[[0, 9, 0], [4, 0, 0]], [[4, 0, 0], [9, -6, 0]], [[9, -6, 0], [3, -4, 0]], [[3, -4, 0], [-3, -4, 0]]];
+  for (const [a, b] of pairs) {
+    const ia = await modelPointIndex(page, a);
+    const ib = await modelPointIndex(page, b);
+    const pa = await modelPoint(page, ia);
+    await clickAt(page, pa.x, pa.y);
+    await sleep(350);
+    const pb = await modelPoint(page, ib);
+    await clickAt(page, pb.x, pb.y);
+    await sleep(600);
+  }
+  await sleep(400);
+  await r.shot(page, '3d-add-points-lines-done', STUDIO_PANEL);
+
+  // Move, then turn the view a little to show it is a model in space.
+  await tap(page, page.locator('[data-model-tool="move"]'));
+  await sleep(400);
+  const s = await modelState(page);
+  await orbitTo(page, s.view.yaw + 0.6, s.view.pitch + 0.2);
+  await sleep(500);
+  await orbitTo(page, 0, 0.25);
+  await sleep(1000);
+  const end = rec.now();
+  await rec.finish({ from: start, to: end, region: STUDIO_PANEL, posterAt: end - start - 0.3, width: 700 });
+};
+
+// 9. 3D: Move tool on the SHIP starter: turn the view, zoom, drag a point
+// (its mirror twin follows), select a line, Mirror off, drag again, Undo.
+scenes['3d-move-rotate-view'] = async (r) => {
+  const rec = r.recorder('3d-move-rotate-view');
+  const page = await rec.open({ models: true });
+  await newEmptyProject(page, r.base);
+  await openTab(page, 'model', false);
+  await addStarterModel(page, 'ship', false);
+  await dismissToast(page);
+  // Seen from above and a little to one side, small enough to fit.
+  await orbitTo(page, 0.5, 0.7, { steps: 4 });
+  await zoomTo(page, 8);
+  await glide(page, 400, 600, 4);
+  await sleep(600);
+  const start = rec.now();
+
+  // Turn the view: drag empty space.
+  const s0 = await modelState(page);
+  await orbitTo(page, s0.view.yaw + 1.0, s0.view.pitch - 0.3);
+  await sleep(400);
+  await orbitTo(page, s0.view.yaw, s0.view.pitch);
+  await sleep(400);
+
+  // Zoom: scroll over the stage.
+  const b = await stageBox(page);
+  await glide(page, b.x + b.width / 2, b.y + b.height / 2 + 120, 10);
+  for (let i = 0; i < 4; i++) { await page.mouse.wheel(0, -120); await sleep(150); }
+  await sleep(300);
+  for (let i = 0; i < 4; i++) { await page.mouse.wheel(0, 120); await sleep(150); }
+  await sleep(400);
+
+  // Drag a point that has a mirror twin: of the points well inside the
+  // stage, the one farthest right of the middle.
+  const s1 = await modelState(page);
+  let pick = -1;
+  s1.projected.forEach((q, i) => {
+    const inside = q.x > 60 && q.x < s1.canvas.width - 60 && q.y > 60 && q.y < s1.canvas.height - 60;
+    if (inside && s1.model.vertices[i][0] !== 0 && (pick < 0 || q.x > s1.projected[pick].x)) pick = i;
+  });
+  if (pick < 0) throw new Error('No point to drag inside the stage');
+  let p = await modelPoint(page, pick);
+  await drag(page, [p, { x: p.x + 20, y: p.y - 30 }], { steps: 14 });
+  await sleep(700);
+
+  // Select a line: the Selection panel describes it.
+  const line = await modelLineMiddle(page, 0);
+  await clickAt(page, line.x, line.y);
+  await sleep(1000);
+
+  // With mirror off, only the dragged point moves.
+  await tap(page, page.locator('.model-mirror-tool'));
+  await sleep(600);
+  p = await modelPoint(page, pick);
+  await drag(page, [p, { x: p.x + 20, y: p.y + 30 }], { steps: 14 });
+  await sleep(700);
+  await r.shot(page, '3d-move-rotate-view-mirror-off', STUDIO_PANEL);
+
+  // Undo both drags, and put Mirror back on.
+  await tap(page, page.locator('.model-undo'));
+  await sleep(500);
+  await tap(page, page.locator('.model-undo'));
+  await sleep(500);
+  await tap(page, page.locator('.model-mirror-tool'));
+  await sleep(800);
+  const end = rec.now();
+  await rec.finish({ from: start, to: end, region: STUDIO_PANEL, posterAt: end - start - 0.3, width: 700 });
+};
+
+// 10. 3D: Try it in an app. In a project with no app code, the studio writes
+// a small viewer app, opens Code and builds it; the emulator spins the model
+// and the slider zooms. Two clips, so the build wait is left out:
+// 3d-try-in-app (the click) and 3d-try-in-app-emulator (the running app).
+// Stills: the Use in code line under the model's buttons; the running app.
+scenes['3d-try-in-app'] = async (r) => {
+  const rec = r.recorder('3d-try-in-app');
+  const page = await rec.open({ models: true });
+  await newEmptyProject(page, r.base);
+  await openTab(page, 'model', false);
+  await addStarterModel(page, 'ship', false);
+  await dismissToast(page);
+  await orbitTo(page, 0.5, 0.7, { steps: 4 });
+  await zoomTo(page, 8);
+  const ref = page.locator('#model-code-reference-line');
+  await ref.waitFor();
+  await ref.scrollIntoViewIfNeeded();
+  await sleep(400);
+  const rb = await page.locator('.model-right').boundingBox();
+  await r.shot(page, '3d-use-in-code', { x: rb.x, y: 560, width: rb.width, height: 190 });
+  await glide(page, 400, 600, 4);
+  await sleep(600);
+  const start = rec.now();
+
+  await tap(page, page.locator('#model-try-app'));
+  await sleep(3000);
+  const clickEnd = rec.now();
+  await waitForApp(page);
+  await sleep(500);
+  await page.evaluate(() => document.activeElement && document.activeElement.blur());
+  const emuStart = rec.now();
+  await sleep(1500);
+
+  // The viewer app zooms with the slider.
+  await sliderGrab(page, 50, 12);
+  for (let v = 50; v <= 100; v += 3) { await sliderTo(page, v, 1); await sleep(40); }
+  await sleep(600);
+  for (let v = 100; v >= 0; v -= 3) { await sliderTo(page, v, 1); await sleep(40); }
+  await sleep(600);
+  for (let v = 0; v <= 50; v += 3) { await sliderTo(page, v, 1); await sleep(40); }
+  await page.mouse.up();
+  await sleep(800);
+  await r.shot(page, '3d-try-in-app-running', WHOLE_STUDIO);
+  const end = rec.now();
+  // Two clips around the build: the click path, then the running app.
+  await rec.finish([
+    { from: start, to: clickEnd, region: WHOLE_STUDIO, posterAt: 0.2, width: 900 },
+    { name: '3d-try-in-app-emulator', from: emuStart, to: end, region: DEVICE, posterAt: 1.0 },
+  ]);
+};
+
+// 11. 2D drawing tools on a new sprite: Draw, Line, Rectangle, Oval, Fill,
+// Erase. Still: the tool bar.
+scenes['2d-drawing-tools'] = async (r) => {
+  const rec = r.recorder('2d-drawing-tools');
+  const page = await rec.open();
+  await newEmptyProject(page, r.base);
+  await openTab(page, 'pixel', false);
+  await newSprite(page, 'Scene', false);
+  await dismissToast(page);
+  await r.shot(page, '2d-tool-bar', { x: 56, y: 160, width: 136, height: 590 });
+  await glide(page, 400, 600, 4);
+  await sleep(500);
+  const start = rec.now();
+
+  // Draw: a freehand hill.
+  await tap(page, tool2d(page, 'Draw'));
+  await sleep(300);
+  const hill = [];
+  for (let x = 4; x <= 60; x += 2) hill.push([x, Math.round(52 - 10 * Math.sin(((x - 4) / 56) * Math.PI))]);
+  await drawPixels(page, hill, { steps: 2 });
+  await sleep(400);
+
+  // Line: a straight line (the options bar shows Width).
+  await tap(page, tool2d(page, 'Line'));
+  await sleep(500);
+  await drawPixels(page, [[4, 58], [124, 58]], { steps: 20 });
+  await sleep(400);
+
+  // Rectangle: a house.
+  await tap(page, tool2d(page, 'Rectangle'));
+  await sleep(500);
+  await drawPixels(page, [[76, 34], [104, 56]], { steps: 18 });
+  await sleep(400);
+
+  // Oval: a sun.
+  await tap(page, tool2d(page, 'Oval'));
+  await sleep(500);
+  await drawPixels(page, [[100, 4], [118, 20]], { steps: 14 });
+  await sleep(400);
+
+  // Fill: the house and the sun.
+  await tap(page, tool2d(page, 'Fill'));
+  await sleep(400);
+  for (const [x, y] of [[90, 45], [109, 12]]) {
+    const at = await pixelAt(page, x, y);
+    await clickAt(page, at.x, at.y);
+    await sleep(500);
+  }
+
+  // Erase: a door.
+  await tap(page, tool2d(page, 'Erase'));
+  await sleep(400);
+  await drawPixels(page, [[88, 56], [88, 46], [92, 46], [92, 56]], { steps: 8 });
+  await sleep(900);
+  await r.shot(page, '2d-drawing-tools-done', STUDIO_PANEL);
+  const end = rec.now();
+  await rec.finish({ from: start, to: end, region: STUDIO_PANEL, posterAt: end - start - 0.3, width: 700 });
+};
+
+// 12. 2D layers: New layer, draw on it, hide and show a layer, pick a layer,
+// the layer's ... menu. Still: the menu.
+scenes['2d-layers'] = async (r) => {
+  const rec = r.recorder('2d-layers');
+  const page = await rec.open();
+  await newEmptyProject(page, r.base);
+  await openTab(page, 'pixel', false);
+  await newSprite(page, 'Scene', false);
+  await dismissToast(page);
+  // Layer 1: a filled box.
+  await tool2d(page, 'Rectangle').click();
+  await page.locator('#shape-mode').selectOption('filled');
+  await drawPixels(page, [[30, 16], [70, 48]], { steps: 4, pause: 30 });
+  await page.locator('#shape-mode').selectOption('outline');
+  await tool2d(page, 'Draw').click();
+  await glide(page, 400, 600, 4);
+  await sleep(500);
+  const start = rec.now();
+
+  // New layer, then draw a line across the box on it.
+  await tap(page, page.locator('#art-layer-add button'));
+  await sleep(800);
+  await tap(page, tool2d(page, 'Line'));
+  await sleep(400);
+  await drawPixels(page, [[10, 10], [110, 54]], { steps: 20 });
+  await sleep(600);
+
+  // Hide Layer 1, then show it again.
+  const eye1 = page.locator('#art-layer-list button[aria-label$="Layer 1"].layer-visibility');
+  await tap(page, eye1);
+  await sleep(1000);
+  await tap(page, eye1);
+  await sleep(800);
+
+  // Pick Layer 1 to draw on it.
+  // (Layer names are editable fields; click the row's status line.)
+  await tap(page, page.locator('#layer-list li[data-index="0"] small'));
+  await sleep(800);
+
+  // The ... menu of Layer 2.
+  await tap(page, page.locator('#art-layer-list button[aria-label="Actions for Layer 2"]'));
+  await sleep(900);
+  // Crop to the open menu and the layer list together.
+  const menu = await page.locator('[role="menu"]:visible').first().boundingBox();
+  const list = await page.locator('#art-layer-list').boundingBox();
+  const top = Math.min(menu.y, list.y) - 12;
+  const bottom = Math.max(menu.y + menu.height, list.y + list.height) + 12;
+  await r.shot(page, '2d-layers-menu', { x: 622, y: top, width: 240, height: bottom - top });
+  await page.keyboard.press('Escape');
+  await sleep(600);
+  const end = rec.now();
+  await rec.finish({ from: start, to: end, region: STUDIO_PANEL, posterAt: 0.2, width: 700 });
+};
+
+// 13. 2D frames: + Frame copies the frame, Move shifts the copy, the
+// preview plays the frames and Speed changes how fast. Still: the preview.
+scenes['2d-animation-frames'] = async (r) => {
+  const rec = r.recorder('2d-animation-frames');
+  const page = await rec.open();
+  await newEmptyProject(page, r.base);
+  await openTab(page, 'pixel', false);
+  await newSprite(page, 'Ball', false);
+  await dismissToast(page);
+  await tool2d(page, 'Oval').click();
+  await page.locator('#shape-mode').selectOption('filled');
+  await drawPixels(page, [[8, 24], [24, 40]], { steps: 4, pause: 30 });
+  await page.locator('#shape-mode').selectOption('outline');
+  await tool2d(page, 'Draw').click();
+  await glide(page, 400, 600, 4);
+  await sleep(500);
+  const start = rec.now();
+
+  // + Frame copies the current frame; Move shifts the whole layer.
+  const addFrame = page.getByRole('button', { name: 'Add a frame (copies the current one)' });
+  for (let i = 0; i < 3; i++) {
+    await tap(page, addFrame);
+    await sleep(600);
+    await tap(page, tool2d(page, 'Move'));
+    await sleep(300);
+    const from = await pixelAt(page, 16 + i * 26, 32);
+    const to = await pixelAt(page, 16 + (i + 1) * 26, 32);
+    await drag(page, [from, to], { steps: 12 });
+    await sleep(500);
+  }
+
+  // The preview plays on its own. Drag Speed slower, then faster, then back.
+  // The slider runs from -1000 to -16 (milliseconds per frame, negated).
+  await sleep(1500);
+  const speed = await page.locator('#preview-speed').boundingBox();
+  const along = (ms) => ({ x: speed.x + 8 + ((1000 - ms) / 984) * (speed.width - 16), y: speed.y + speed.height / 2 });
+  await drag(page, [along(100), along(260)], { steps: 14 });
+  await sleep(2200);
+  await drag(page, [along(260), along(60)], { steps: 14 });
+  await sleep(1800);
+  await drag(page, [along(60), along(100)], { steps: 8 });
+  await sleep(1200);
+  await r.shot(page, '2d-animation-frames-preview', { x: 622, y: 160, width: 240, height: 186 });
+  const end = rec.now();
+  await rec.finish({ from: start, to: end, region: STUDIO_PANEL, posterAt: 0.2, width: 700 });
 };
 
 // ---------------------------------------------------------------------------
@@ -635,6 +1266,9 @@ async function main() {
     } catch (e) {
       failed++;
       console.log('  FAILED: ' + e.message.split('\n')[0]);
+      // The scene line that failed, so the step is easy to find.
+      const at = (e.stack || '').split('\n').find((l) => l.includes('capture.mjs'));
+      if (at) console.log('  at ' + at.trim());
     }
   }
   await browser.close();

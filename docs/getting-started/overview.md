@@ -20,15 +20,28 @@ Cyber Fidget ships as a high-quality kit -- no soldering required, just screws. 
 
 Follow the [Assembly Guide](assembly/guide.md) to put your Cyber Fidget together. Every screw and part is accessible -- the enclosure is designed to be opened, explored, and modified.
 
-### 2. Build your first app in the browser
+### 2. Turn it on and find your way around
 
-Write a small app, watch it run in the on-screen emulator, and send it to your device. Nothing to install. Follow [Build your first app in the browser](first-app.md). You can do most of it before your kit even arrives.
+Near the end of assembly you flip the battery switch on the board to **On** ([Assembly step 9](assembly/guide.md#step-9-install-battery)), and the screen lights up: a short start-up animation, then the menu. The menu is grouped into categories such as Games and Tools.
+
+| Button | In the menu |
+|--------|-------------|
+| Top left | Move up |
+| Top right | Move down |
+| Bottom right (Enter) | Open the highlighted item |
+| Bottom left (Back) | Go back; inside most apps, return to the menu |
+
+After about a minute without interaction (pressing a button or moving the slider), when running on battery, it goes to sleep to save power. Press the bottom-right button to wake it. Charge it with a USB-C cable. More in [Battery and Power](../product/battery-and-power.md).
 
 ### 3. Explore built-in apps
 
-The firmware ships with 28+ built-in apps: games, screensavers, tools, and code examples. Use the buttons to navigate the on-device menu. See the [Apps](../software/apps.md) page for the full catalog.
+The firmware ships with 29+ built-in apps: games, screensavers, tools, and code examples. See the [Apps](../software/apps.md) page for the full catalog and each app's controls.
 
-### 4. Go further
+### 4. Build your first app in the browser
+
+Write a small app, watch it run in the on-screen emulator, and send it to your device. Nothing to install. Follow [Build your first app in the browser](first-app.md). You can do most of it before your kit even arrives. To see what each part of the device can do first, with a few lines of code for each, read [Explore what it can do](explore.md).
+
+### 5. Go further
 
 Build bigger apps with the [App Builder](https://cyberfidget.com/create/), or work on the firmware itself (see the advanced route below).
 
@@ -54,6 +67,7 @@ Most people never need this. If you want to change the firmware itself, or build
 
 ## Where to go next
 
+- **[Explore what it can do](explore.md)** -- Each part of the device, with a few lines of code to try
 - **[Build your first app](first-app.md)** -- Write and run an app in your browser
 - **[Assembly Guide](assembly/guide.md)** -- Build your device step by step
 - **[Advanced: firmware with Arduino](first-flash-arduino.md)** -- Flash firmware for the first time
