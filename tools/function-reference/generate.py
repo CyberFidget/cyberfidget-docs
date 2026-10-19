@@ -22,7 +22,7 @@ TABLES = ['Button names', 'LED names', 'Colors', 'Fonts', 'Text alignment',
           'Button event types', 'Animation constants', 'Readable globals']
 CONCEPT_PAGES = ('app-lifecycle', 'update-loop', 'buttons', 'display', 'audio',
                  'leds', 'slider', 'accelerometer', 'sprites', '3d-models')
-TABLE_STYLE = '<style>.function-reference table { table-layout: fixed; width: 100%; } .function-reference th, .function-reference td { min-width: 0 !important; padding: .6em .5em !important; overflow-wrap: anywhere; } .function-reference th:first-child { width: 44%; } .reference-calls th:nth-child(2), .reference-constants th:last-child { width: 42%; } .reference-calls th:last-child, .reference-constants th:nth-child(2) { width: 14%; } .function-reference code { white-space: normal; overflow-wrap: anywhere; }</style>'
+TABLE_STYLE = '<style>.function-reference table { table-layout: fixed; width: 100%; } .function-reference th, .function-reference td { min-width: 0 !important; padding: .6em .5em !important; overflow-wrap: anywhere; } .function-reference th:first-child { width: 44%; } .reference-calls th:nth-child(2) { width: 42%; } .reference-calls th:last-child, .reference-constants th:nth-child(2), .reference-constants th:last-child { width: 14%; } .reference-constants th:first-child { width: 36%; } .reference-constants th:nth-child(3) { width: 36%; } .function-reference code { white-space: normal; overflow-wrap: anywhere; }</style>'
 
 
 def find_firmware():
@@ -222,7 +222,10 @@ def readable_signatures(row):
     short = name.rsplit('::', 1)[-1]
     scope = name.rsplit('::', 1)[0] if '::' in name else ''
     cls = scope.rsplit('::', 1)[-1]
-    if row['kind'] == 'method':
+    constructor = row['kind'] == 'method' and short == cls
+    if constructor:
+        shown = short
+    elif row['kind'] == 'method':
         shown = receivers.get(cls, cls) + '.' + short
     elif row['kind'] == 'function':
         shown = name.removeprefix('cf::gfx::')
@@ -233,6 +236,17 @@ def readable_signatures(row):
         if declaration['target'] != 'device':
             continue
         signature = re.sub(r'\b(?:inline|extern|static)\s+', '', declaration['signature'])
+        if constructor:
+            # The first parameter list can contain nested calls or function types.
+            depth = 0
+            for index in range(signature.index('('), len(signature)):
+                if signature[index] == '(':
+                    depth += 1
+                elif signature[index] == ')':
+                    depth -= 1
+                    if depth == 0:
+                        signature = signature[:index + 1]
+                        break
         signature = re.sub(r'\b' + re.escape(short) + r'(?=\s*\()',
                            lambda match: shown, signature, count=1)
         if signature not in result:
@@ -259,6 +273,10 @@ def build(firmware, sidecar):
         for key in ('section', 'use', 'does', 'see'):
             if not isinstance(entry.get(key), str) or not entry[key].strip(): errors.append(f'{name}: add nonempty {key} in {sidecar}.')
         if entry.get('section') not in SECTIONS + TABLES: errors.append(f'{name}: choose a documented section in {sidecar}.')
+        if entry.get('see') == 'none' and name in common:
+            declarations = targets['device'][name] + targets['emulator'][name]
+            if not all(Path(row['header']).name == 'cf_gfx_rig.h' for row in declarations):
+                errors.append(f'{name}: see = "none" is only allowed for cf_gfx_rig.h symbols; add a guide.')
         if isinstance(entry.get('see'), str) and entry['see'].strip() and entry['see'] != 'none':
             try: validate_link(entry['see'])
             except ValueError as exc: errors.append(str(exc))
@@ -322,8 +340,8 @@ def build(firmware, sidecar):
             continue
         constant = section in TABLES and section != 'Readable globals'
         lines += [f'<div class="reference-{"constants" if constant else "calls"}" markdown="1">', '']
-        lines += ['| Name | Value | What it does |' if constant else '| Call | What it does | Learn more |',
-                  '|---|---|---|']
+        lines += ['| Name | Value | What it does | Learn more |' if constant else '| Call | What it does | Learn more |',
+                  '|---|---|---|---|' if constant else '|---|---|---|']
         for row in rows:
             suffix = '-summary' if section == 'Readable globals' else ''
             ident = f'<span id="{anchor(row["name"])}{suffix}"></span>'
@@ -334,8 +352,7 @@ def build(firmware, sidecar):
                 while value in targets['device'] and value not in seen:
                     seen.add(value)
                     value = targets['device'][value][0].get('value') or value
-                more = '-' if row['see'] == 'none' else f'[More]({row["see"]})'
-                lines.append(f'| {ident}{entry(row)} | `{cell(value)}` | {cell(row["does"])} {more} |')
+                lines.append(f'| {ident}{entry(row)} | `{cell(value)}` | {cell(row["does"])} | {guide} |')
             else:
                 lines.append(f'| {ident}{entry(row)} | {cell(row["does"])} | {guide} |')
         lines += ['', '</div>', '']

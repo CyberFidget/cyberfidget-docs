@@ -12,12 +12,13 @@ sys.modules[SPEC.name] = checker
 SPEC.loader.exec_module(checker)
 
 
-def solution(block, explain=False):
+def solution(block, explain=False, app=None):
     highlights = {}
-    files, _, _ = checker.assemble(block.prior + [block], plain=True, highlights=highlights)
+    files, app, instance = checker.assemble(block.prior + [block], app=app, plain=True, highlights=highlights)
+    app_name = 'My App' if app == 'MyApp' else app
     lines = ['', '??? example "Full code for this step"', '',
-             '    This full code is for code name `MyApp` (create it with App Name "My App"); '
-             'if your app has another code name, change `MyApp` and `myApp` to yours.', '']
+             f'    This full code is for code name `{app}` (create it with App Name "{app_name}"); '
+             f'if your app has another code name, change `{app}` and `{instance}` to yours.', '']
     if explain:
         lines += ['    In the starter, `nullptr` means a pointer has no object. '
                   '`*` in a declaration marks a pointer (an address), and before a pointer reads its object. '
@@ -39,12 +40,19 @@ def solution(block, explain=False):
 
 def transform(markdown, page):
     lines = markdown.splitlines(keepends=True)
-    blocks = [block for block in checker.extract_text(markdown, page)
+    extracted = checker.extract_text(markdown, page)
+    app = None
+    for block in extracted:
+        if block.final:
+            match = re.search(r'\b([A-Za-z_]\w*)::begin\s*\(\s*\)', block.code)
+            if match:
+                app = match[1]
+    blocks = [block for block in extracted
               if checker.classify(block)[0].startswith('fragment:')]
     for block in reversed(blocks):
         if not lines[block.end_line - 1].endswith('\n'):
             lines[block.end_line - 1] += '\n'
-        lines.insert(block.end_line, solution(block, explain=block is blocks[0]))
+        lines.insert(block.end_line, solution(block, explain=block is blocks[0], app=app))
     return ''.join(lines)
 
 

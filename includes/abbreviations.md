@@ -126,7 +126,6 @@
 *[NTP]: Network Time Protocol; a way to set a clock from a network time server
 *[buffer]: An area of memory holding data while code works on it; the drawing buffer holds the next screen image
 *[framebuffer]: A buffer that stores the pixel values for a screen image
-*[float]: A C++ number type that can hold a fractional part
 *[singleton]: An object shared through one instance
 *[macro]: Named code expanded by the C++ preprocessor before compilation
 *[lambda]: A short unnamed C++ function
@@ -136,19 +135,3 @@
 *[mg]: Milli-g in motion readings; one thousandth of the acceleration due to gravity
 *[loadout]: The collection of apps and menu choices for your Fidget
 *[PROGMEM]: Program memory; marks constant data for storage with the program on embedded boards
-
-*[&]: In a parameter type, a reference to an existing object rather than a copy; before a value, its address.
-*[*]: In a declaration, marks a pointer that holds an address; before a pointer, reads the object at that address.
-*[bool]: A C++ type holding either true or false.
-*[const]: Marks a value that cannot be changed through this declaration; after a method signature, the method does not change its object.
-*[const char*]: A pointer to text ending with a zero character; the characters cannot be changed through this pointer.
-*[int]: A signed whole number; on the device, -2,147,483,648 to 2,147,483,647.
-*[int16_t]: A signed whole number from -32,768 to 32,767.
-*[int32_t]: A signed whole number from -2,147,483,648 to 2,147,483,647.
-*[nullptr]: A C++ value meaning a pointer does not point to an object.
-*[String]: A C++ object holding text.
-*[uint8_t]: A whole number from 0 to 255.
-*[uint16_t]: A whole number from 0 to 65,535.
-*[uint32_t]: A whole number from 0 to 4,294,967,295.
-*[unsigned long]: A non-negative whole number; on the device, 0 to 4,294,967,295, used for elapsed time.
-*[void]: A return type meaning that a function returns no value.

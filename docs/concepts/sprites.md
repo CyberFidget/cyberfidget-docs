@@ -91,6 +91,78 @@ ballActor.update(millis());
 ballActor.draw(display);
 ```
 
+??? example "Full code for Option A"
+
+    This is the complete `MyApp.cpp` for code name `MyApp` (App Name "My App") with a sprite named `Ball` in the project. Keep the starter's `MyApp.h`. If your app has another code name, change `MyApp` and `myApp` to yours. The studio supplies the `ball::sheet` art when it builds.
+
+    <!-- check-examples: skip - needs a sprite named Ball in the project's art -->
+    ```cpp title="MyApp.cpp"
+    #include "MyApp.h"
+    #include "globals.h"
+    #include "HAL.h"
+    #include "MenuManager.h"
+
+    #include "cf_gfx.h"
+    using namespace cf::gfx;
+    // The thing on the screen that shows your Ball sprite.
+    static Actor ballActor;
+    MyApp myApp(HAL::buttonManager());
+    MyApp* MyApp::instance = nullptr;
+
+    MyApp::MyApp(ButtonManager& btnMgr) :
+        buttonManager(btnMgr), display(HAL::displayProxy()) { instance = this; }
+
+    // begin() runs once when your app opens from the menu.
+    // Set things up here: hook up the buttons and start with the lights off.
+    void MyApp::begin() {
+        registerButtonCallbacks();
+        setColorsOff();
+        // Use the sprite sheet the studio made from your Ball drawing.
+        ballActor.setSheet(&ball::sheet);
+        // (64, 64) is the middle of the bottom edge of the screen.
+        ballActor.setPos(64, 64);
+        ballActor.play("idle", millis());
+    }
+
+    // update() runs about 50 times a second while your app is open.
+    // Clear the screen, draw what you want, then show it.
+    // The case hides about 8 pixels at each screen corner, so keep text and
+    // important pixels out of those corners.
+    void MyApp::update() {
+        display.clear();
+        display.setTextAlignment(TEXT_ALIGN_CENTER);
+        display.setFont(ArialMT_Plain_16);
+        display.drawString(64, 24, "MyApp");
+        display.clear();
+        ballActor.update(millis());
+        ballActor.draw(display);
+        display.display();
+    }
+
+    // end() runs when your app closes. Let go of the buttons and turn the
+    // lights off (if your app plays sounds, call stopTone() here too).
+    void MyApp::end() {
+        unregisterButtonCallbacks();
+        setColorsOff();
+    }
+
+    // The bottom-left button closes your app and goes back to the menu.
+    void MyApp::onButtonBackPressed(const ButtonEvent& event) {
+        if (event.eventType == ButtonEvent_Released) {
+            instance->end();
+            MenuManager::instance().returnToMenu();
+        }
+    }
+
+    void MyApp::registerButtonCallbacks() {
+        buttonManager.registerCallback(button_BottomLeftIndex, onButtonBackPressed);
+    }
+
+    void MyApp::unregisterButtonCallbacks() {
+        buttonManager.unregisterCallback(button_BottomLeftIndex);
+    }
+    ```
+
 **Press REBUILD.** You see your ball exactly where you drew it on the canvas. [Actors](#actors) explains each line.
 
 !!! warning "Give your actor its own name"
@@ -149,7 +221,9 @@ The studio has a library of free starter sprites that anyone may reuse. **Copy a
 
     ![The code editor with the copied heart pasted on lines 5 to 11: a credit line, the heart_bmp bytes, heart_w, heart_h and a usage comment](../assets/media/free-starters-pasted.png){ width="480" }
 
-The copied code has four parts: a credit line, the picture as a list of bytes (`heart_bmp`), its width (`heart_w`) and height (`heart_h`), and a comment showing one way to draw it. To use it with the sprite functions on this page, wrap it in a `Sprite` and draw that. Your file should end up like this (the copied lines are the first seven; your copy has all the bytes on one line, which is the same thing):
+The copied code has four parts: a credit line, the picture as a list of bytes (`heart_bmp`), its width (`heart_w`) and height (`heart_h`), and a comment showing one way to draw it. Those declarations are already at the top of your file. To use the sprite functions, wrap the picture in a `Sprite` and draw it.
+
+**Replace the copied lines with the top-of-file section below, rather than adding a second copy.** It includes the same picture declarations followed by the wrapper. Keep each of `heart_bmp`, `heart_w` and `heart_h` exactly once. Then insert the `update()` section just above `display.display();`.
 
 ![The heart sprite enlarged: a 16 x 16 grid with a white heart shape](../assets/sprites/heart.png){ width="97" }
 
@@ -488,7 +562,7 @@ A `SpriteSheet` holds four values: its name, its array of animations, how many t
 
     **Change:** the pictures, the frame times, the names, and the loop mode.
 
-    **What a change affects:** a frame you add to the frame list only shows if you also add a time for it and raise the frame count to match. Frames that no animation lists never show.
+    **What a change affects:** a frame you add to the frame list only shows if you raise the frame count to match. With a list of individual frame times, also add a time for it. With `nullptr` frame times, every frame uses `uniformMs`, so no extra time entry is needed. Frames that no animation lists never show.
 
 ---
 

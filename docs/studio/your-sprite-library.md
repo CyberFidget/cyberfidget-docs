@@ -30,7 +30,7 @@ Choose **Add art > Draw a new sprite**, or **DRAW A SPRITE** on the empty 2D tab
 
 ![The New sprite dialog with the name Ball typed in the Sprite name field](../assets/media/new-sprite-dialog.png)
 
-<video src="../assets/media/new-sprite.webm" poster="../assets/media/new-sprite.png" autoplay loop muted playsinline width="560"></video>
+<video src="../../assets/media/new-sprite.webm" poster="../../assets/media/new-sprite.png" autoplay loop muted playsinline width="560"></video>
 
 ---
 
@@ -91,7 +91,7 @@ The three buttons sit below the scrolling grid, so scroll down inside the window
 
 ![A starter heart sprite selected, with Add to open sprite, Copy to Project and Copy as C++ buttons visible below the preview](../assets/media/free-starters-copy-as-cpp.png)
 
-<video src="../assets/media/free-starters-copy.webm" poster="../assets/media/free-starters-copy.png" autoplay loop muted playsinline width="560"></video>
+<video src="../../assets/media/free-starters-copy.webm" poster="../../assets/media/free-starters-copy.png" autoplay loop muted playsinline width="560"></video>
 
 ### Upload your own
 

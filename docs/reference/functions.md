@@ -25,7 +25,7 @@ A signature gives the return type, function name, and each parameter type and na
 | `*`, `nullptr` | A pointer holds an address; `*` in a declaration marks a pointer, and before a pointer reads the object it points to. `nullptr` means no object. |
 | `T` | A type chosen from your arguments; use matching types, such as three `long` values for `constrain()`. |
 
-<style>.function-reference table { table-layout: fixed; width: 100%; } .function-reference th, .function-reference td { min-width: 0 !important; padding: .6em .5em !important; overflow-wrap: anywhere; } .function-reference th:first-child { width: 44%; } .reference-calls th:nth-child(2), .reference-constants th:last-child { width: 42%; } .reference-calls th:last-child, .reference-constants th:nth-child(2) { width: 14%; } .function-reference code { white-space: normal; overflow-wrap: anywhere; }</style>
+<style>.function-reference table { table-layout: fixed; width: 100%; } .function-reference th, .function-reference td { min-width: 0 !important; padding: .6em .5em !important; overflow-wrap: anywhere; } .function-reference th:first-child { width: 44%; } .reference-calls th:nth-child(2) { width: 42%; } .reference-calls th:last-child, .reference-constants th:nth-child(2), .reference-constants th:last-child { width: 14%; } .reference-constants th:first-child { width: 36%; } .reference-constants th:nth-child(3) { width: 36%; } .function-reference code { white-space: normal; overflow-wrap: anywhere; }</style>
 
 <div class="function-reference" markdown="1">
 
@@ -207,7 +207,7 @@ Examples use `Actor player`, `AnimationPlayer clock`, `MeshActor model`, and `Ri
 | <span id="symbol-cf--gfx--findanimation"></span>`const Animation* findAnimation(const SpriteSheet& sheet, const char* name)`<br><small>*Example:* `findAnimation(sheet, "run");`</small> | Find a named animation in a sheet; returns nullptr if missing. | [Guide](../concepts/sprites.md#animations-and-sprite-sheets) |
 | <span id="symbol-cf--gfx--samplesprite"></span>`bool sampleSprite(const Sprite& s, int16_t x, int16_t y)`<br><small>*Example:* `sampleSprite(sprite, 0, 0);`</small> | Read one on/off pixel in sprite-local coordinates; outside is false. | [Guide](../concepts/sprites.md#reading-single-pixels) |
 | <span id="symbol-cf--gfx--pixelcollides"></span>`bool pixelCollides(const Sprite& a, int16_t ax, int16_t ay, const Sprite& b, int16_t bx, int16_t by)`<br>`bool pixelCollides(const Actor& a, const Actor& b)`<br><small>*Example:* `pixelCollides(player, enemy);`</small> | Check overlapping lit pixels; Actor form applies pivots, Sprite form takes top-left positions. | [Guide](../concepts/sprites.md#collision) |
-| <span id="symbol-cf--gfx--actor--actor"></span>`player.Actor()`<br><small>*Example:* `Actor player;`</small> | Create an actor with a position and an animation player. | [Guide](../concepts/sprites.md#actors) |
+| <span id="symbol-cf--gfx--actor--actor"></span>`Actor()`<br><small>*Example:* `Actor player;`</small> | Create an actor with a position and an animation player. | [Guide](../concepts/sprites.md#actors) |
 | <span id="symbol-cf--gfx--actor--setsheet"></span>`void player.setSheet(const SpriteSheet* sheet)`<br><small>*Example:* `player.setSheet(&sheet);`</small> | Bind a sprite sheet for looking up animations by name. | [Guide](../concepts/sprites.md#actors) |
 | <span id="symbol-cf--gfx--actor--sheet"></span>`const SpriteSheet* player.sheet() const`<br><small>*Example:* `player.sheet();`</small> | Read the bound sheet pointer, or nullptr if none. | [Guide](../concepts/sprites.md#actors) |
 | <span id="symbol-cf--gfx--actor--play"></span>`bool player.play(const char* animName, uint32_t nowMs)`<br>`bool player.play(const Animation* anim, uint32_t nowMs)`<br><small>*Example:* `player.play("run", millis());`</small> | Play by name or animation pointer; same animation keeps running; false if missing. | [Guide](../concepts/sprites.md#actors) |
@@ -222,7 +222,7 @@ Examples use `Actor player`, `AnimationPlayer clock`, `MeshActor model`, and `Ri
 | <span id="symbol-cf--gfx--actor--sprite"></span>`const Sprite* player.sprite() const`<br><small>*Example:* `player.sprite();`</small> | Read the current sprite pointer; nullptr means nothing to draw. | [Guide](../concepts/sprites.md#actors) |
 | <span id="symbol-cf--gfx--actor--animation"></span>`const Animation* player.animation() const`<br><small>*Example:* `player.animation();`</small> | Read the selected animation pointer, or nullptr if none. | [Guide](../concepts/sprites.md#actors) |
 | <span id="symbol-cf--gfx--actor--finished"></span>`bool player.finished() const`<br><small>*Example:* `player.finished();`</small> | Check whether playback has finished or stopped. | [Guide](../concepts/sprites.md#actors) |
-| <span id="symbol-cf--gfx--animationplayer--animationplayer"></span>`clock.AnimationPlayer()`<br><small>*Example:* `AnimationPlayer clock;`</small> | Create an animation clock without a screen position. | [Guide](../concepts/sprites.md#animations-and-sprite-sheets) |
+| <span id="symbol-cf--gfx--animationplayer--animationplayer"></span>`AnimationPlayer()`<br><small>*Example:* `AnimationPlayer clock;`</small> | Create an animation clock without a screen position. | [Guide](../concepts/sprites.md#animations-and-sprite-sheets) |
 | <span id="symbol-cf--gfx--animationplayer--play"></span>`void clock.play(const Animation* anim, uint32_t nowMs)`<br><small>*Example:* `clock.play(&animation, millis());`</small> | Start or restart at frame 0 using time in ms; nullptr stops. | [Guide](../concepts/sprites.md#animations-and-sprite-sheets) |
 | <span id="symbol-cf--gfx--animationplayer--setifchanged"></span>`void clock.setIfChanged(const Animation* anim, uint32_t nowMs)`<br><small>*Example:* `clock.setIfChanged(&animation, millis());`</small> | Start only if the animation pointer differs; safe every update. | [Guide](../concepts/sprites.md#animations-and-sprite-sheets) |
 | <span id="symbol-cf--gfx--animationplayer--update"></span>`bool clock.update(uint32_t nowMs)`<br><small>*Example:* `clock.update(millis());`</small> | Advance by elapsed ms; true if the sprite changed; 0 ms frames hold indefinitely. | [Guide](../concepts/sprites.md#animations-and-sprite-sheets) |
@@ -231,7 +231,7 @@ Examples use `Actor player`, `AnimationPlayer clock`, `MeshActor model`, and `Ri
 | <span id="symbol-cf--gfx--animationplayer--animation"></span>`const Animation* clock.animation() const`<br><small>*Example:* `clock.animation();`</small> | Read the selected animation pointer, including after it finishes. | [Guide](../concepts/sprites.md#animations-and-sprite-sheets) |
 | <span id="symbol-cf--gfx--animationplayer--frameindex"></span>`uint8_t clock.frameIndex() const`<br><small>*Example:* `clock.frameIndex();`</small> | Read the current frame number, starting at 0. | [Guide](../concepts/sprites.md#animations-and-sprite-sheets) |
 | <span id="symbol-cf--gfx--animationplayer--finished"></span>`bool clock.finished() const`<br><small>*Example:* `clock.finished();`</small> | Check whether playback has finished or stopped. | [Guide](../concepts/sprites.md#animations-and-sprite-sheets) |
-| <span id="symbol-cf--gfx--meshactor--meshactor"></span>`model.MeshActor() : mesh_(nullptr), x_(0), y_(0), scaleQ8_(kScaleBaseQ8), yaw_(0), pitch_(0), roll_(0), depth_(kDefaultDepth)`<br><small>*Example:* `MeshActor model;`</small> | Create a wireframe model actor with default depth 48 and scale 256. | [Guide](../concepts/3d-models.md#drawing-a-model) |
+| <span id="symbol-cf--gfx--meshactor--meshactor"></span>`MeshActor()`<br><small>*Example:* `MeshActor model;`</small> | Create a wireframe model actor with default depth 48 and scale 256. | [Guide](../concepts/3d-models.md#drawing-a-model) |
 | <span id="symbol-cf--gfx--meshactor--setmesh"></span>`void model.setMesh(const Mesh* m)`<br><small>*Example:* `model.setMesh(&mesh);`</small> | Bind the model's points and connecting lines. | [Guide](../concepts/3d-models.md#drawing-a-model) |
 | <span id="symbol-cf--gfx--meshactor--mesh"></span>`const Mesh* model.mesh() const`<br><small>*Example:* `model.mesh();`</small> | Read the bound model pointer, or nullptr if none. | [Guide](../concepts/3d-models.md#drawing-a-model) |
 | <span id="symbol-cf--gfx--meshactor--setpos"></span>`void model.setPos(int16_t sx, int16_t sy)`<br><small>*Example:* `model.setPos(64, 32);`</small> | Place the model's anchor in screen pixels. | [Guide](../concepts/3d-models.md#drawing-a-model) |
@@ -248,7 +248,7 @@ Examples use `Actor player`, `AnimationPlayer clock`, `MeshActor model`, and `Ri
 | <span id="symbol-cf--gfx--meshactor--perspective"></span>`uint8_t model.perspective() const`<br><small>*Example:* `model.perspective();`</small> | Read the viewing depth; 0 means no perspective. | [Guide](../concepts/3d-models.md#size-and-perspective) |
 | <span id="symbol-cf--gfx--meshactor--draw"></span>`void model.draw(DisplayProxy& d) const`<br><small>*Example:* `model.draw(display);`</small> | Draw model lines; skip lines with either end behind the near viewing plane. | [Guide](../concepts/3d-models.md#drawing-a-model) |
 | <span id="symbol-cf--gfx--meshactor--projectpoint"></span>`bool model.projectPoint(int32_t mx, int32_t my, int32_t mz, int16_t& outX, int16_t& outY) const`<br><small>*Example:* `model.projectPoint(0, 0, 0, x, y);`</small> | Convert a model point to screen x/y; keep coordinates within about +/-8192; false if hidden. | [Guide](../concepts/3d-models.md#pinning-something-to-a-point-on-the-model) |
-| <span id="symbol-cf--gfx--rigactor--rigactor"></span>`figure.RigActor() : rig_(nullptr), x_(0), y_(0), state_(STATE_POSE), pose_(nullptr), animation_(nullptr), animationStartMs_(0), lastNowMs_(0), transformsValid_(false), historyValid_(false), particleCount_(0), constraintCount_(0), settledTicks_(0), pinIndex_(-1), standStartMs_(0)`<br><small>*Example:* `RigActor figure;`</small> | Create an actor for connected bones, poses, and falling-body motion. | - |
+| <span id="symbol-cf--gfx--rigactor--rigactor"></span>`RigActor()`<br><small>*Example:* `RigActor figure;`</small> | Create an actor for connected bones, poses, and falling-body motion. | - |
 | <span id="symbol-cf--gfx--rigactor--setrig"></span>`void figure.setRig(const Rig* rig)`<br><small>*Example:* `figure.setRig(&rig);`</small> | Bind bones and poses, clearing playback and physics state. | - |
 | <span id="symbol-cf--gfx--rigactor--rig"></span>`const Rig* figure.rig() const`<br><small>*Example:* `figure.rig();`</small> | Read the bound rig pointer, or nullptr if none. | - |
 | <span id="symbol-cf--gfx--rigactor--setpos"></span>`void figure.setPos(int16_t x, int16_t y)`<br><small>*Example:* `figure.setPos(64, 32);`</small> | Place the rig's origin in screen pixels. | - |
@@ -269,8 +269,8 @@ Examples use `Actor player`, `AnimationPlayer clock`, `MeshActor model`, and `Ri
 | <span id="symbol-cf--gfx--rigactor--particlecount"></span>`uint8_t figure.particleCount() const`<br><small>*Example:* `figure.particleCount();`</small> | Read the number of physics points used by falling-body motion. | - |
 | <span id="symbol-cf--gfx--rigactor--particle"></span>`RigParticle figure.particle(uint8_t index) const`<br><small>*Example:* `figure.particle(0);`</small> | Read a physics point's x/y; invalid index returns (0, 0). | - |
 | <span id="symbol-cf--gfx--rigactor--maxhardconstrainterror"></span>`float figure.maxHardConstraintError() const`<br><small>*Example:* `figure.maxHardConstraintError();`</small> | Read the largest length error in pixels for rigid physics connections. | - |
-| <span id="symbol-cf--gfx--sinq14"></span>`int16_t sinQ14(uint8_t a)`<br><small>*Example:* `sinQ14(64);`</small> | Read sine scaled by 16384; 256 angle units equal one turn. | [Guide](../concepts/3d-models.md#functions-on-this-page) |
-| <span id="symbol-cf--gfx--cosq14"></span>`int16_t cosQ14(uint8_t a)`<br><small>*Example:* `cosQ14(0);`</small> | Read cosine scaled by 16384; 256 angle units equal one turn. | [Guide](../concepts/3d-models.md#functions-on-this-page) |
+| <span id="symbol-cf--gfx--sinq14"></span>`int16_t sinQ14(uint8_t a)`<br><small>*Example:* `sinQ14(64);`</small> | Read sine scaled by 16384; 256 angle units equal one turn. | [Guide](../concepts/3d-models.md#the-drawing-math) |
+| <span id="symbol-cf--gfx--cosq14"></span>`int16_t cosQ14(uint8_t a)`<br><small>*Example:* `cosQ14(0);`</small> | Read cosine scaled by 16384; 256 angle units equal one turn. | [Guide](../concepts/3d-models.md#the-drawing-math) |
 | <span id="symbol-cf--gfx--degreestobinaryangle"></span>`uint8_t degreesToBinaryAngle(int32_t degrees)`<br><small>*Example:* `degreesToBinaryAngle(90);`</small> | Convert degrees to a wrapped 0-255 angle; 256 units equal one turn. | - |
 | <span id="symbol-cf--gfx--blendbinaryangle"></span>`uint8_t blendBinaryAngle(uint8_t from, uint8_t to, uint8_t amount)`<br><small>*Example:* `blendBinaryAngle(0, 64, 128);`</small> | Blend angles by the shorter turn; amount 0-255 selects first to second. | - |
 | <span id="symbol-cf--gfx--interpolateriginteger"></span>`int32_t interpolateRigInteger(int32_t from, int32_t to, uint8_t amount)`<br><small>*Example:* `interpolateRigInteger(0, 100, 128);`</small> | Blend integers; amount 0-255 selects first to second, rounding halfway away from zero. | - |
@@ -301,20 +301,20 @@ Examples use `Actor player`, `AnimationPlayer clock`, `MeshActor model`, and `Ri
 
 <div class="reference-constants" markdown="1">
 
-| Name | Value | What it does |
-|---|---|---|
-| <span id="symbol-button-bottomleftindex"></span>`const int button_BottomLeftIndex = 4`<br><small>*Example:* `button_BottomLeftIndex`</small> | `4` | BottomLeft button; aliases refer to the same physical button. [More](../concepts/buttons.md#the-6-buttons-positions-and-names) |
-| <span id="symbol-button-bottomrightindex"></span>`const int button_BottomRightIndex = 5`<br><small>*Example:* `button_BottomRightIndex`</small> | `5` | BottomRight button; aliases refer to the same physical button. [More](../concepts/buttons.md#the-6-buttons-positions-and-names) |
-| <span id="symbol-button-downindex"></span>`const int button_DownIndex = button_TopRightIndex`<br><small>*Example:* `button_DownIndex`</small> | `1` | Down button; aliases refer to the same physical button. [More](../concepts/buttons.md#the-6-buttons-positions-and-names) |
-| <span id="symbol-button-enterindex"></span>`const int button_EnterIndex = button_BottomRightIndex`<br><small>*Example:* `button_EnterIndex`</small> | `5` | Enter button; aliases refer to the same physical button. [More](../concepts/buttons.md#the-6-buttons-positions-and-names) |
-| <span id="symbol-button-leftindex"></span>`const int button_LeftIndex = button_MiddleLeftIndex`<br><small>*Example:* `button_LeftIndex`</small> | `2` | Left button; aliases refer to the same physical button. [More](../concepts/buttons.md#the-6-buttons-positions-and-names) |
-| <span id="symbol-button-middleleftindex"></span>`const int button_MiddleLeftIndex = 2`<br><small>*Example:* `button_MiddleLeftIndex`</small> | `2` | MiddleLeft button; aliases refer to the same physical button. [More](../concepts/buttons.md#the-6-buttons-positions-and-names) |
-| <span id="symbol-button-middlerightindex"></span>`const int button_MiddleRightIndex = 3`<br><small>*Example:* `button_MiddleRightIndex`</small> | `3` | MiddleRight button; aliases refer to the same physical button. [More](../concepts/buttons.md#the-6-buttons-positions-and-names) |
-| <span id="symbol-button-rightindex"></span>`const int button_RightIndex = button_MiddleRightIndex`<br><small>*Example:* `button_RightIndex`</small> | `3` | Right button; aliases refer to the same physical button. [More](../concepts/buttons.md#the-6-buttons-positions-and-names) |
-| <span id="symbol-button-selectindex"></span>`const int button_SelectIndex = button_BottomLeftIndex`<br><small>*Example:* `button_SelectIndex`</small> | `4` | Select button; aliases refer to the same physical button. [More](../concepts/buttons.md#the-6-buttons-positions-and-names) |
-| <span id="symbol-button-topleftindex"></span>`const int button_TopLeftIndex = 0`<br><small>*Example:* `button_TopLeftIndex`</small> | `0` | TopLeft button; aliases refer to the same physical button. [More](../concepts/buttons.md#the-6-buttons-positions-and-names) |
-| <span id="symbol-button-toprightindex"></span>`const int button_TopRightIndex = 1`<br><small>*Example:* `button_TopRightIndex`</small> | `1` | TopRight button; aliases refer to the same physical button. [More](../concepts/buttons.md#the-6-buttons-positions-and-names) |
-| <span id="symbol-button-upindex"></span>`const int button_UpIndex = button_TopLeftIndex`<br><small>*Example:* `button_UpIndex`</small> | `0` | Up button; aliases refer to the same physical button. [More](../concepts/buttons.md#the-6-buttons-positions-and-names) |
+| Name | Value | What it does | Learn more |
+|---|---|---|---|
+| <span id="symbol-button-bottomleftindex"></span>`const int button_BottomLeftIndex = 4`<br><small>*Example:* `button_BottomLeftIndex`</small> | `4` | BottomLeft button; aliases refer to the same physical button. | [Guide](../concepts/buttons.md#the-6-buttons-positions-and-names) |
+| <span id="symbol-button-bottomrightindex"></span>`const int button_BottomRightIndex = 5`<br><small>*Example:* `button_BottomRightIndex`</small> | `5` | BottomRight button; aliases refer to the same physical button. | [Guide](../concepts/buttons.md#the-6-buttons-positions-and-names) |
+| <span id="symbol-button-downindex"></span>`const int button_DownIndex = button_TopRightIndex`<br><small>*Example:* `button_DownIndex`</small> | `1` | Down button; aliases refer to the same physical button. | [Guide](../concepts/buttons.md#the-6-buttons-positions-and-names) |
+| <span id="symbol-button-enterindex"></span>`const int button_EnterIndex = button_BottomRightIndex`<br><small>*Example:* `button_EnterIndex`</small> | `5` | Enter button; aliases refer to the same physical button. | [Guide](../concepts/buttons.md#the-6-buttons-positions-and-names) |
+| <span id="symbol-button-leftindex"></span>`const int button_LeftIndex = button_MiddleLeftIndex`<br><small>*Example:* `button_LeftIndex`</small> | `2` | Left button; aliases refer to the same physical button. | [Guide](../concepts/buttons.md#the-6-buttons-positions-and-names) |
+| <span id="symbol-button-middleleftindex"></span>`const int button_MiddleLeftIndex = 2`<br><small>*Example:* `button_MiddleLeftIndex`</small> | `2` | MiddleLeft button; aliases refer to the same physical button. | [Guide](../concepts/buttons.md#the-6-buttons-positions-and-names) |
+| <span id="symbol-button-middlerightindex"></span>`const int button_MiddleRightIndex = 3`<br><small>*Example:* `button_MiddleRightIndex`</small> | `3` | MiddleRight button; aliases refer to the same physical button. | [Guide](../concepts/buttons.md#the-6-buttons-positions-and-names) |
+| <span id="symbol-button-rightindex"></span>`const int button_RightIndex = button_MiddleRightIndex`<br><small>*Example:* `button_RightIndex`</small> | `3` | Right button; aliases refer to the same physical button. | [Guide](../concepts/buttons.md#the-6-buttons-positions-and-names) |
+| <span id="symbol-button-selectindex"></span>`const int button_SelectIndex = button_BottomLeftIndex`<br><small>*Example:* `button_SelectIndex`</small> | `4` | Select button; aliases refer to the same physical button. | [Guide](../concepts/buttons.md#the-6-buttons-positions-and-names) |
+| <span id="symbol-button-topleftindex"></span>`const int button_TopLeftIndex = 0`<br><small>*Example:* `button_TopLeftIndex`</small> | `0` | TopLeft button; aliases refer to the same physical button. | [Guide](../concepts/buttons.md#the-6-buttons-positions-and-names) |
+| <span id="symbol-button-toprightindex"></span>`const int button_TopRightIndex = 1`<br><small>*Example:* `button_TopRightIndex`</small> | `1` | TopRight button; aliases refer to the same physical button. | [Guide](../concepts/buttons.md#the-6-buttons-positions-and-names) |
+| <span id="symbol-button-upindex"></span>`const int button_UpIndex = button_TopLeftIndex`<br><small>*Example:* `button_UpIndex`</small> | `0` | Up button; aliases refer to the same physical button. | [Guide](../concepts/buttons.md#the-6-buttons-positions-and-names) |
 
 </div>
 
@@ -322,12 +322,12 @@ Examples use `Actor player`, `AnimationPlayer clock`, `MeshActor model`, and `Ri
 
 <div class="reference-constants" markdown="1">
 
-| Name | Value | What it does |
-|---|---|---|
-| <span id="symbol-pixel-back"></span>`const uint16_t pixel_Back = 0`<br><small>*Example:* `pixel_Back`</small> | `0` | Back RGBW LED. [More](../concepts/leds.md#the-4-led-positions) |
-| <span id="symbol-pixel-front-bottom"></span>`const uint16_t pixel_Front_Bottom = 3`<br><small>*Example:* `pixel_Front_Bottom`</small> | `3` | Front Bottom RGBW LED. [More](../concepts/leds.md#the-4-led-positions) |
-| <span id="symbol-pixel-front-middle"></span>`const uint16_t pixel_Front_Middle = 2`<br><small>*Example:* `pixel_Front_Middle`</small> | `2` | Front Middle RGBW LED. [More](../concepts/leds.md#the-4-led-positions) |
-| <span id="symbol-pixel-front-top"></span>`const uint16_t pixel_Front_Top = 1`<br><small>*Example:* `pixel_Front_Top`</small> | `1` | Front Top RGBW LED. [More](../concepts/leds.md#the-4-led-positions) |
+| Name | Value | What it does | Learn more |
+|---|---|---|---|
+| <span id="symbol-pixel-back"></span>`const uint16_t pixel_Back = 0`<br><small>*Example:* `pixel_Back`</small> | `0` | Back RGBW LED. | [Guide](../concepts/leds.md#the-4-led-positions) |
+| <span id="symbol-pixel-front-bottom"></span>`const uint16_t pixel_Front_Bottom = 3`<br><small>*Example:* `pixel_Front_Bottom`</small> | `3` | Front Bottom RGBW LED. | [Guide](../concepts/leds.md#the-4-led-positions) |
+| <span id="symbol-pixel-front-middle"></span>`const uint16_t pixel_Front_Middle = 2`<br><small>*Example:* `pixel_Front_Middle`</small> | `2` | Front Middle RGBW LED. | [Guide](../concepts/leds.md#the-4-led-positions) |
+| <span id="symbol-pixel-front-top"></span>`const uint16_t pixel_Front_Top = 1`<br><small>*Example:* `pixel_Front_Top`</small> | `1` | Front Top RGBW LED. | [Guide](../concepts/leds.md#the-4-led-positions) |
 
 </div>
 
@@ -335,11 +335,11 @@ Examples use `Actor player`, `AnimationPlayer clock`, `MeshActor model`, and `Ri
 
 <div class="reference-constants" markdown="1">
 
-| Name | Value | What it does |
-|---|---|---|
-| <span id="symbol-black"></span>`OLEDDISPLAY_COLOR BLACK = 0`<br><small>*Example:* `BLACK`</small> | `0` | Draw pixels off. [More](../concepts/display.md#display-basics) |
-| <span id="symbol-white"></span>`OLEDDISPLAY_COLOR WHITE = 1`<br><small>*Example:* `WHITE`</small> | `1` | Draw pixels on. [More](../concepts/display.md#display-basics) |
-| <span id="symbol-inverse"></span>`OLEDDISPLAY_COLOR INVERSE = 2`<br><small>*Example:* `INVERSE`</small> | `2` | Toggle drawn pixels on/off. [More](../concepts/display.md#display-basics) |
+| Name | Value | What it does | Learn more |
+|---|---|---|---|
+| <span id="symbol-black"></span>`OLEDDISPLAY_COLOR BLACK = 0`<br><small>*Example:* `BLACK`</small> | `0` | Draw pixels off. | [Guide](../concepts/display.md#display-basics) |
+| <span id="symbol-white"></span>`OLEDDISPLAY_COLOR WHITE = 1`<br><small>*Example:* `WHITE`</small> | `1` | Draw pixels on. | [Guide](../concepts/display.md#display-basics) |
+| <span id="symbol-inverse"></span>`OLEDDISPLAY_COLOR INVERSE = 2`<br><small>*Example:* `INVERSE`</small> | `2` | Toggle drawn pixels on/off. | [Guide](../concepts/display.md#display-basics) |
 
 </div>
 
@@ -347,11 +347,11 @@ Examples use `Actor player`, `AnimationPlayer clock`, `MeshActor model`, and `Ri
 
 <div class="reference-constants" markdown="1">
 
-| Name | Value | What it does |
-|---|---|---|
-| <span id="symbol-arialmt-plain-10"></span>`const uint8_t ArialMT_Plain_10[]`<br><small>*Example:* `ArialMT_Plain_10`</small> | `font handle` | 10 pixel font; pass to setFont(). [More](../concepts/display.md#text) |
-| <span id="symbol-arialmt-plain-16"></span>`const uint8_t ArialMT_Plain_16[]`<br><small>*Example:* `ArialMT_Plain_16`</small> | `font handle` | 16 pixel font; pass to setFont(). [More](../concepts/display.md#text) |
-| <span id="symbol-arialmt-plain-24"></span>`const uint8_t ArialMT_Plain_24[]`<br><small>*Example:* `ArialMT_Plain_24`</small> | `font handle` | 24 pixel font; pass to setFont(). [More](../concepts/display.md#text) |
+| Name | Value | What it does | Learn more |
+|---|---|---|---|
+| <span id="symbol-arialmt-plain-10"></span>`const uint8_t ArialMT_Plain_10[]`<br><small>*Example:* `ArialMT_Plain_10`</small> | `font handle` | 10 pixel font; pass to setFont(). | [Guide](../concepts/display.md#text) |
+| <span id="symbol-arialmt-plain-16"></span>`const uint8_t ArialMT_Plain_16[]`<br><small>*Example:* `ArialMT_Plain_16`</small> | `font handle` | 16 pixel font; pass to setFont(). | [Guide](../concepts/display.md#text) |
+| <span id="symbol-arialmt-plain-24"></span>`const uint8_t ArialMT_Plain_24[]`<br><small>*Example:* `ArialMT_Plain_24`</small> | `font handle` | 24 pixel font; pass to setFont(). | [Guide](../concepts/display.md#text) |
 
 </div>
 
@@ -359,12 +359,12 @@ Examples use `Actor player`, `AnimationPlayer clock`, `MeshActor model`, and `Ri
 
 <div class="reference-constants" markdown="1">
 
-| Name | Value | What it does |
-|---|---|---|
-| <span id="symbol-text-align-left"></span>`OLEDDISPLAY_TEXT_ALIGNMENT TEXT_ALIGN_LEFT = 0`<br><small>*Example:* `TEXT_ALIGN_LEFT`</small> | `0` | Text starts at x. [More](../concepts/display.md#text) |
-| <span id="symbol-text-align-right"></span>`OLEDDISPLAY_TEXT_ALIGNMENT TEXT_ALIGN_RIGHT = 1`<br><small>*Example:* `TEXT_ALIGN_RIGHT`</small> | `1` | Text ends at x. [More](../concepts/display.md#text) |
-| <span id="symbol-text-align-center"></span>`OLEDDISPLAY_TEXT_ALIGNMENT TEXT_ALIGN_CENTER = 2`<br><small>*Example:* `TEXT_ALIGN_CENTER`</small> | `2` | Text is centered on x. [More](../concepts/display.md#text) |
-| <span id="symbol-text-align-center-both"></span>`OLEDDISPLAY_TEXT_ALIGNMENT TEXT_ALIGN_CENTER_BOTH = 3`<br><small>*Example:* `TEXT_ALIGN_CENTER_BOTH`</small> | `3` | Text is centered on x and y. [More](../concepts/display.md#text) |
+| Name | Value | What it does | Learn more |
+|---|---|---|---|
+| <span id="symbol-text-align-left"></span>`OLEDDISPLAY_TEXT_ALIGNMENT TEXT_ALIGN_LEFT = 0`<br><small>*Example:* `TEXT_ALIGN_LEFT`</small> | `0` | Text starts at x. | [Guide](../concepts/display.md#text) |
+| <span id="symbol-text-align-right"></span>`OLEDDISPLAY_TEXT_ALIGNMENT TEXT_ALIGN_RIGHT = 1`<br><small>*Example:* `TEXT_ALIGN_RIGHT`</small> | `1` | Text ends at x. | [Guide](../concepts/display.md#text) |
+| <span id="symbol-text-align-center"></span>`OLEDDISPLAY_TEXT_ALIGNMENT TEXT_ALIGN_CENTER = 2`<br><small>*Example:* `TEXT_ALIGN_CENTER`</small> | `2` | Text is centered on x. | [Guide](../concepts/display.md#text) |
+| <span id="symbol-text-align-center-both"></span>`OLEDDISPLAY_TEXT_ALIGNMENT TEXT_ALIGN_CENTER_BOTH = 3`<br><small>*Example:* `TEXT_ALIGN_CENTER_BOTH`</small> | `3` | Text is centered on x and y. | [Guide](../concepts/display.md#text) |
 
 </div>
 
@@ -372,12 +372,12 @@ Examples use `Actor player`, `AnimationPlayer clock`, `MeshActor model`, and `Ri
 
 <div class="reference-constants" markdown="1">
 
-| Name | Value | What it does |
-|---|---|---|
-| <span id="symbol-buttonevent-none"></span>`ButtonEventType ButtonEvent_None`<br><small>*Example:* `ButtonEvent_None`</small> | `0` | No button event. [More](../concepts/buttons.md#event-types) |
-| <span id="symbol-buttonevent-pressed"></span>`ButtonEventType ButtonEvent_Pressed`<br><small>*Example:* `ButtonEvent_Pressed`</small> | `1` | Button went down. [More](../concepts/buttons.md#event-types) |
-| <span id="symbol-buttonevent-released"></span>`ButtonEventType ButtonEvent_Released`<br><small>*Example:* `ButtonEvent_Released`</small> | `2` | Button went up; duration is time held in ms. [More](../concepts/buttons.md#event-types) |
-| <span id="symbol-buttonevent-held"></span>`ButtonEventType ButtonEvent_Held`<br><small>*Example:* `ButtonEvent_Held`</small> | `3` | Button passed the 1500 ms hold threshold; duration is time held in ms. [More](../concepts/buttons.md#event-types) |
+| Name | Value | What it does | Learn more |
+|---|---|---|---|
+| <span id="symbol-buttonevent-none"></span>`ButtonEventType ButtonEvent_None`<br><small>*Example:* `ButtonEvent_None`</small> | `0` | No button event. | [Guide](../concepts/buttons.md#event-types) |
+| <span id="symbol-buttonevent-pressed"></span>`ButtonEventType ButtonEvent_Pressed`<br><small>*Example:* `ButtonEvent_Pressed`</small> | `1` | Button went down. | [Guide](../concepts/buttons.md#event-types) |
+| <span id="symbol-buttonevent-released"></span>`ButtonEventType ButtonEvent_Released`<br><small>*Example:* `ButtonEvent_Released`</small> | `2` | Button went up; duration is time held in ms. | [Guide](../concepts/buttons.md#event-types) |
+| <span id="symbol-buttonevent-held"></span>`ButtonEventType ButtonEvent_Held`<br><small>*Example:* `ButtonEvent_Held`</small> | `3` | Button passed the 1500 ms hold threshold; duration is time held in ms. | [Guide](../concepts/buttons.md#event-types) |
 
 </div>
 
@@ -385,28 +385,28 @@ Examples use `Actor player`, `AnimationPlayer clock`, `MeshActor model`, and `Ri
 
 <div class="reference-constants" markdown="1">
 
-| Name | Value | What it does |
-|---|---|---|
-| <span id="symbol-cf--gfx--loop-once"></span>`LoopMode LOOP_ONCE = 0`<br><small>*Example:* `LOOP_ONCE`</small> | `0` | Play once then draw nothing. [More](../concepts/sprites.md#loop-modes) |
-| <span id="symbol-cf--gfx--loop-once-hold"></span>`LoopMode LOOP_ONCE_HOLD = 1`<br><small>*Example:* `LOOP_ONCE_HOLD`</small> | `1` | Play once and keep the last frame. [More](../concepts/sprites.md#loop-modes) |
-| <span id="symbol-cf--gfx--loop-loop"></span>`LoopMode LOOP_LOOP = 2`<br><small>*Example:* `LOOP_LOOP`</small> | `2` | Repeat from the first frame. [More](../concepts/sprites.md#loop-modes) |
-| <span id="symbol-cf--gfx--loop-pingpong"></span>`LoopMode LOOP_PINGPONG = 3`<br><small>*Example:* `LOOP_PINGPONG`</small> | `3` | Play forward then backward, repeating. [More](../concepts/sprites.md#loop-modes) |
-| <span id="symbol-cf--gfx--bo-lsb-first"></span>`BitOrder BO_LSB_FIRST = 0`<br><small>*Example:* `BO_LSB_FIRST`</small> | `0` | Lowest bit first per byte; required for drawing sprites correctly. [More](../concepts/sprites.md#drawing-a-sprite) |
-| <span id="symbol-cf--gfx--bo-msb-first"></span>`BitOrder BO_MSB_FIRST = 1`<br><small>*Example:* `BO_MSB_FIRST`</small> | `1` | Highest bit first; collision can read it but drawing mirrors each byte. [More](../concepts/sprites.md#drawing-a-sprite) |
-| <span id="symbol-cf--gfx--rig-render-baked16"></span>`RigRenderMode RIG_RENDER_BAKED16 = 0`<br><small>*Example:* `RIG_RENDER_BAKED16`</small> | `0` | Use one of 16 image angles; fall back to lines when images are absent. - |
-| <span id="symbol-cf--gfx--rig-render-line"></span>`RigRenderMode RIG_RENDER_LINE = 1`<br><small>*Example:* `RIG_RENDER_LINE`</small> | `1` | Draw bones as lines. - |
-| <span id="symbol-cf--gfx--rig-render-flat"></span>`RigRenderMode RIG_RENDER_FLAT = 2`<br><small>*Example:* `RIG_RENDER_FLAT`</small> | `2` | Draw bones as lines, matching LINE mode. - |
-| <span id="symbol-cf--gfx--rigactor--state-pose"></span>`State STATE_POSE`<br><small>*Example:* `RigActor::STATE_POSE`</small> | `0` | Holding a pose. - |
-| <span id="symbol-cf--gfx--rigactor--state-animation"></span>`State STATE_ANIMATION`<br><small>*Example:* `RigActor::STATE_ANIMATION`</small> | `1` | Playing bone animation. - |
-| <span id="symbol-cf--gfx--rigactor--state-ragdoll"></span>`State STATE_RAGDOLL`<br><small>*Example:* `RigActor::STATE_RAGDOLL`</small> | `2` | Falling-body physics is active. - |
-| <span id="symbol-cf--gfx--rigactor--state-standing"></span>`State STATE_STANDING`<br><small>*Example:* `RigActor::STATE_STANDING`</small> | `3` | Returning from physics to standing. - |
-| <span id="symbol-cf--gfx--kfocal"></span>`constexpr int32_t kFocal = 110`<br><small>*Example:* `kFocal`</small> | `110` | Perspective projection focal length in pixels. [More](../concepts/3d-models.md#functions-on-this-page) |
-| <span id="symbol-cf--gfx--knearz"></span>`constexpr int32_t kNearZ = 8`<br><small>*Example:* `kNearZ`</small> | `8` | Minimum visible model depth. [More](../concepts/3d-models.md#functions-on-this-page) |
-| <span id="symbol-cf--gfx--kdefaultdepth"></span>`constexpr uint8_t kDefaultDepth = 48`<br><small>*Example:* `kDefaultDepth`</small> | `48` | Initial model viewing depth. [More](../concepts/3d-models.md#size-and-perspective) |
-| <span id="symbol-cf--gfx--kscalebaseq8"></span>`constexpr uint16_t kScaleBaseQ8 = 256`<br><small>*Example:* `kScaleBaseQ8`</small> | `256` | Normal model size; 256 means 1x. [More](../concepts/3d-models.md#size-and-perspective) |
-| <span id="symbol-cf--gfx--kmaxrigbones"></span>`constexpr uint8_t kMaxRigBones = 16`<br><small>*Example:* `kMaxRigBones`</small> | `16` | Maximum bones for pose calculation. - |
-| <span id="symbol-cf--gfx--kmaxrigparticles"></span>`constexpr uint8_t kMaxRigParticles = 11`<br><small>*Example:* `kMaxRigParticles`</small> | `11` | Maximum physics points for falling-body motion. - |
-| <span id="symbol-cf--gfx--kmaxrigconstraints"></span>`constexpr uint8_t kMaxRigConstraints = 11`<br><small>*Example:* `kMaxRigConstraints`</small> | `11` | Maximum physics connections. - |
+| Name | Value | What it does | Learn more |
+|---|---|---|---|
+| <span id="symbol-cf--gfx--loop-once"></span>`LoopMode LOOP_ONCE = 0`<br><small>*Example:* `LOOP_ONCE`</small> | `0` | Play once then draw nothing. | [Guide](../concepts/sprites.md#loop-modes) |
+| <span id="symbol-cf--gfx--loop-once-hold"></span>`LoopMode LOOP_ONCE_HOLD = 1`<br><small>*Example:* `LOOP_ONCE_HOLD`</small> | `1` | Play once and keep the last frame. | [Guide](../concepts/sprites.md#loop-modes) |
+| <span id="symbol-cf--gfx--loop-loop"></span>`LoopMode LOOP_LOOP = 2`<br><small>*Example:* `LOOP_LOOP`</small> | `2` | Repeat from the first frame. | [Guide](../concepts/sprites.md#loop-modes) |
+| <span id="symbol-cf--gfx--loop-pingpong"></span>`LoopMode LOOP_PINGPONG = 3`<br><small>*Example:* `LOOP_PINGPONG`</small> | `3` | Play forward then backward, repeating. | [Guide](../concepts/sprites.md#loop-modes) |
+| <span id="symbol-cf--gfx--bo-lsb-first"></span>`BitOrder BO_LSB_FIRST = 0`<br><small>*Example:* `BO_LSB_FIRST`</small> | `0` | Lowest bit first per byte; required for drawing sprites correctly. | [Guide](../concepts/sprites.md#drawing-a-sprite) |
+| <span id="symbol-cf--gfx--bo-msb-first"></span>`BitOrder BO_MSB_FIRST = 1`<br><small>*Example:* `BO_MSB_FIRST`</small> | `1` | Highest bit first; collision can read it but drawing mirrors each byte. | [Guide](../concepts/sprites.md#drawing-a-sprite) |
+| <span id="symbol-cf--gfx--rig-render-baked16"></span>`RigRenderMode RIG_RENDER_BAKED16 = 0`<br><small>*Example:* `RIG_RENDER_BAKED16`</small> | `0` | Use one of 16 image angles; fall back to lines when images are absent. | - |
+| <span id="symbol-cf--gfx--rig-render-line"></span>`RigRenderMode RIG_RENDER_LINE = 1`<br><small>*Example:* `RIG_RENDER_LINE`</small> | `1` | Draw bones as lines. | - |
+| <span id="symbol-cf--gfx--rig-render-flat"></span>`RigRenderMode RIG_RENDER_FLAT = 2`<br><small>*Example:* `RIG_RENDER_FLAT`</small> | `2` | Draw bones as lines, matching LINE mode. | - |
+| <span id="symbol-cf--gfx--rigactor--state-pose"></span>`State STATE_POSE`<br><small>*Example:* `RigActor::STATE_POSE`</small> | `0` | Holding a pose. | - |
+| <span id="symbol-cf--gfx--rigactor--state-animation"></span>`State STATE_ANIMATION`<br><small>*Example:* `RigActor::STATE_ANIMATION`</small> | `1` | Playing bone animation. | - |
+| <span id="symbol-cf--gfx--rigactor--state-ragdoll"></span>`State STATE_RAGDOLL`<br><small>*Example:* `RigActor::STATE_RAGDOLL`</small> | `2` | Falling-body physics is active. | - |
+| <span id="symbol-cf--gfx--rigactor--state-standing"></span>`State STATE_STANDING`<br><small>*Example:* `RigActor::STATE_STANDING`</small> | `3` | Returning from physics to standing. | - |
+| <span id="symbol-cf--gfx--kfocal"></span>`constexpr int32_t kFocal = 110`<br><small>*Example:* `kFocal`</small> | `110` | Perspective projection focal length in pixels. | [Guide](../concepts/3d-models.md#the-drawing-math) |
+| <span id="symbol-cf--gfx--knearz"></span>`constexpr int32_t kNearZ = 8`<br><small>*Example:* `kNearZ`</small> | `8` | Minimum visible model depth. | [Guide](../concepts/3d-models.md#the-drawing-math) |
+| <span id="symbol-cf--gfx--kdefaultdepth"></span>`constexpr uint8_t kDefaultDepth = 48`<br><small>*Example:* `kDefaultDepth`</small> | `48` | Initial model viewing depth. | [Guide](../concepts/3d-models.md#size-and-perspective) |
+| <span id="symbol-cf--gfx--kscalebaseq8"></span>`constexpr uint16_t kScaleBaseQ8 = 256`<br><small>*Example:* `kScaleBaseQ8`</small> | `256` | Normal model size; 256 means 1x. | [Guide](../concepts/3d-models.md#size-and-perspective) |
+| <span id="symbol-cf--gfx--kmaxrigbones"></span>`constexpr uint8_t kMaxRigBones = 16`<br><small>*Example:* `kMaxRigBones`</small> | `16` | Maximum bones for pose calculation. | - |
+| <span id="symbol-cf--gfx--kmaxrigparticles"></span>`constexpr uint8_t kMaxRigParticles = 11`<br><small>*Example:* `kMaxRigParticles`</small> | `11` | Maximum physics points for falling-body motion. | - |
+| <span id="symbol-cf--gfx--kmaxrigconstraints"></span>`constexpr uint8_t kMaxRigConstraints = 11`<br><small>*Example:* `kMaxRigConstraints`</small> | `11` | Maximum physics connections. | - |
 
 </div>
 

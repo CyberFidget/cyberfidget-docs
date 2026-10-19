@@ -11,7 +11,7 @@ Each concept page is written in layers:
 1. **What is this?** -- A brief intro for beginners
 2. **Concepts** -- Deeper explanation with analogies for curious users
 3. **Code examples** -- Annotated snippets for tinkerers
-4. **Framework details** -- Collapsed advanced notes for readers building apps into the firmware by hand
+4. **Framework details** -- Visible Advanced notes for readers building apps into the firmware by hand
 
 ---
 
@@ -35,4 +35,4 @@ Each concept page is written in layers:
 - **New to the device?** Start with [How an App Works](app-lifecycle.md) to understand the app structure.
 - **Want to understand the loop?** Read [The Update Loop](update-loop.md) next.
 - **Building something?** Pick the concepts you need -- buttons, display, audio, LEDs, slider, or accelerometer.
-- **Digging into the firmware?** Open the collapsed advanced notes under "Framework details" at the bottom of each concept page. Studio apps do not need these internals; the studio and firmware handle app registration and the update loop for you.
+- **Digging into the firmware?** Read the visible Advanced notes under "Framework details" at the bottom of each concept page. Studio apps do not need these internals; the studio and firmware handle app registration and the update loop for you.

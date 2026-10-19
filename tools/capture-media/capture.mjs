@@ -62,24 +62,30 @@ async function loadPlaywright() {
 // next to its browsers. FFMPEG can point at any other ffmpeg that has the
 // libvpx encoder. Without ffmpeg, clips are kept as recorded (not cropped).
 function findFfmpeg() {
-  if (process.env.FFMPEG) return process.env.FFMPEG;
+  const usable = (candidate) => {
+    const probe = spawnSync(candidate, ['-version'], { encoding: 'utf8', timeout: 5000 });
+    return !probe.error && probe.status === 0;
+  };
+  if (process.env.FFMPEG && usable(process.env.FFMPEG)) return process.env.FFMPEG;
   const roots = [];
   if (process.env.PLAYWRIGHT_BROWSERS_PATH && process.env.PLAYWRIGHT_BROWSERS_PATH !== '0') roots.push(process.env.PLAYWRIGHT_BROWSERS_PATH);
   if (process.env.LOCALAPPDATA) roots.push(path.join(process.env.LOCALAPPDATA, 'ms-playwright'));
   roots.push(path.join(os.homedir(), '.cache', 'ms-playwright'));
   roots.push(path.join(os.homedir(), 'Library', 'Caches', 'ms-playwright'));
   for (const root of roots) {
-    if (!fs.existsSync(root)) continue;
-    for (const dir of fs.readdirSync(root).filter((d) => d.startsWith('ffmpeg-')).sort().reverse()) {
-      for (const f of fs.readdirSync(path.join(root, dir))) {
-        if (/^ffmpeg(-[a-z0-9]+)?(\.exe)?$/.test(f)) return path.join(root, dir, f);
+    let dirs;
+    try { dirs = fs.readdirSync(root); } catch { continue; }
+    for (const dir of dirs.filter((d) => d.startsWith('ffmpeg-')).sort().reverse()) {
+      let files;
+      try { files = fs.readdirSync(path.join(root, dir)); } catch { continue; }
+      for (const f of files) {
+        const candidate = path.join(root, dir, f);
+        if (/^ffmpeg(-[a-z0-9]+)?(\.exe)?$/.test(f) && usable(candidate)) return candidate;
       }
     }
   }
   return null;
 }
-
-const FFMPEG = findFfmpeg();
 
 // ---------------------------------------------------------------------------
 // Helpers shared by the scenes
@@ -146,6 +152,7 @@ class Recorder {
     const raw = await this.page.video().path();
     const outWebm = path.join(this.runner.out, this.name + '.webm');
     const outPng = path.join(this.runner.out, this.name + '.png');
+    const FFMPEG = findFfmpeg();
     if (!FFMPEG) {
       fs.copyFileSync(raw, outWebm);
       console.log('  no ffmpeg found: kept the raw recording, not cropped or trimmed; no poster written');

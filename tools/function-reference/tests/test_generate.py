@@ -102,6 +102,29 @@ class ReferenceTests(unittest.TestCase):
             'see = "../concepts/3d-models.md#imaginary-heading"', 1)
         self.assertIn('has no heading anchor', self.check_sidecar(content))
 
+    def test_no_guide_marker_is_restricted_to_rig_header(self):
+        # Select a known non-rig symbol independently of its current guide anchor.
+        content = re.sub(r'(\[symbols\."HAL::setRgbLed"\][\s\S]*?see = )"[^"]+"',
+                         r'\1"none"', self.sidecar, count=1)
+        self.assertIn('HAL::setRgbLed: see = "none" is only allowed for cf_gfx_rig.h',
+                      self.check_sidecar(content))
+
+    def test_constructor_declarations_and_constant_guide_column(self):
+        page, symbols, _, _, _ = gen.build(self.firmware, TOOL / 'reference.toml')
+        rows = {row['name']: row for row in json.loads(symbols)['symbols']}
+        for cls in ('Actor', 'AnimationPlayer', 'MeshActor', 'RigActor'):
+            signatures = gen.readable_signatures(rows[f'cf::gfx::{cls}::{cls}'])
+            for signature in signatures:
+                self.assertTrue(signature.startswith(cls + '('), signature)
+                self.assertNotRegex(signature, r'\)\s*:')
+        self.assertIn('| Name | Value | What it does | Learn more |', page)
+        for row in rows.values():
+            if row['section'] in gen.TABLES and row['see'] == 'none':
+                anchor = 'symbol-' + re.sub(r'[^a-z0-9-]', '-', row['name'].lower())
+                line = next(line for line in page.splitlines() if f'id="{anchor}"' in line)
+                self.assertEqual(line.split('|')[-2].strip(), '-')
+                self.assertEqual(line.split('|')[-3].strip(), row['does'])
+
     def test_parser_preserves_overloads_visibility_and_lines(self):
         header = '''// hidden() is not a declaration.
 #ifdef HOST_TEST

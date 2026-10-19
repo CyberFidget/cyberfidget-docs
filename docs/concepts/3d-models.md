@@ -52,7 +52,7 @@ The model's name appears twice: once as the name of its group and once as the me
 
     Studio apps already have `cf_gfx.h` available, so you do not need its #include line. The examples include it anyway, so they also suit apps built into the firmware by hand.
 
-    The examples write `using namespace cf::gfx;` once at the top of the file, which lets them use the short names (`Mesh`, `MeshActor`). Do the same when your project has no art of its own in **Project Files**. In that case the Studio stops any build whose code writes out a `cf::gfx::` name, with the message "The generated art couldn't be used, and the app's code depends on it - so this app won't build. Try generating again."
+    The examples write `using namespace cf::gfx;` once at the top of the file, which lets them use the short names (`Mesh`, `MeshActor`). Do the same when your project has no art of its own listed under **All files** > **In this project** at the top of the workspace (use **Add art** > **Build a 3D model** to create one). In that case the Studio stops any build whose code writes out a `cf::gfx::` name, with the message "The generated art couldn't be used, and the app's code depends on it - so this app won't build. Try generating again."
 
 ---
 
@@ -348,12 +348,14 @@ Every line is drawn every frame, so a model with many lines takes longer to draw
 
 --8<-- "includes/reference/3d-models.md"
 
-!!! info "Advanced: the drawing math"
+## The drawing math
+
+!!! advanced "Advanced: the drawing math"
     You don't need this to make apps. It is here for readers who want to know exactly where each point lands, for example to match the Fidget's drawing in another program.
 
     For each point, the Fidget turns it by the yaw, then the pitch, then the roll, multiplies by the size and divides by 256. The turning uses a table of sine values stored as whole numbers, where 16384 means 1.0 (a **Q14** number); `sinQ14(angle)` and `cosQ14(angle)` read that table, taking a binary angle.
 
-    With perspective off, a point at x, y lands at (position x + x, position y - y): screen y goes down while model y goes up. With perspective on, the Fidget adds the depth to the point's z, and divides x and y by that sum, after multiplying them by 110. A point whose sum is less than 8 is too close to draw. All the math uses whole numbers, so the browser emulator and the Fidget draw exactly the same pixels.
+    With perspective off, a point at x, y lands at (position x + x, position y - y): screen y goes down while model y goes up. With perspective on, the Fidget adds the depth to the point's z, and divides x and y by that sum, after multiplying them by `kFocal` (110 pixels). A point whose sum is less than `kNearZ` (8) is too close to draw. All the math uses whole numbers, so the browser emulator and the Fidget draw exactly the same pixels.
 
 ## Where to go next
 

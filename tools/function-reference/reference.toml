@@ -856,13 +856,13 @@ see = "none"
 section = "Sprites and animation"
 use = "sinQ14(64);"
 does = "Read sine scaled by 16384; 256 angle units equal one turn."
-see = "../concepts/3d-models.md#functions-on-this-page"
+see = "../concepts/3d-models.md#the-drawing-math"
 
 [symbols."cf::gfx::cosQ14"]
 section = "Sprites and animation"
 use = "cosQ14(0);"
 does = "Read cosine scaled by 16384; 256 angle units equal one turn."
-see = "../concepts/3d-models.md#functions-on-this-page"
+see = "../concepts/3d-models.md#the-drawing-math"
 
 [symbols."cf::gfx::degreesToBinaryAngle"]
 section = "Sprites and animation"
@@ -1218,13 +1218,13 @@ see = "none"
 section = "Animation constants"
 use = "kFocal"
 does = "Perspective projection focal length in pixels."
-see = "../concepts/3d-models.md#functions-on-this-page"
+see = "../concepts/3d-models.md#the-drawing-math"
 
 [symbols."cf::gfx::kNearZ"]
 section = "Animation constants"
 use = "kNearZ"
 does = "Minimum visible model depth."
-see = "../concepts/3d-models.md#functions-on-this-page"
+see = "../concepts/3d-models.md#the-drawing-math"
 
 [symbols."cf::gfx::kDefaultDepth"]
 section = "Animation constants"

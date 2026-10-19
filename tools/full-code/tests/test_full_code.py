@@ -46,7 +46,7 @@ class FullCodeTests(unittest.TestCase):
             marks = list(map(int, re.search(r'hl_lines="([\d ]+)"', box)[1].split()))
             highlighted = [source.splitlines()[n - 1] for n in marks]
             self.assertTrue(highlighted)
-            self.assertTrue(all(line in block.code for line in highlighted))
+            self.assertTrue(all(line.strip() in block.code for line in highlighted))
         self.assertIn('App Name "My App"', output)
         self.assertIn('change `MyApp` and `myApp`', output)
 
@@ -60,7 +60,41 @@ class FullCodeTests(unittest.TestCase):
         block = checker.extract_text(markdown, 'tutorial.md')[1]
         marks = {}
         files, _, _ = checker.assemble(block.prior + [block], plain=True, highlights=marks)
-        self.assertEqual([files['MyApp.cpp'].splitlines()[n-1] for n in marks['MyApp.cpp']], ['score += 1;'])
+        self.assertEqual([files['MyApp.cpp'].splitlines()[n-1] for n in marks['MyApp.cpp']], ['    score += 1;'])
+
+    def test_final_listing_names_every_step_for_the_same_app(self):
+        markdown = '<!-- check-examples: cumulative -->\n'
+        markdown += fragment(UPDATE + '\ndisplay.clear();')
+        markdown += '<!-- check-examples: final -->\n' + fragment('void Catcher::begin() {}')
+        box = self.solutions(hook.transform(markdown, 'tutorial.md'))[0]
+        self.assertIn('title="Catcher.cpp"', box)
+        self.assertIn('Catcher catcher(HAL::buttonManager());', box)
+        self.assertIn('code name `Catcher` (create it with App Name "Catcher")', box)
+        self.assertIn('change `Catcher` and `catcher`', box)
+        self.assertNotIn('MyApp', box)
+
+    def test_slot_indentation_and_raw_string_contents(self):
+        begin = checker.CONFIG['slots']['begin']['marker']
+        end = checker.CONFIG['slots']['end']['marker']
+        code = TOP + '\nstatic int score = 0;\n'
+        code += begin + '\nscore = 1;\n'
+        code += UPDATE + '\nif (score) {\n    score++;\n}\n'
+        code += 'const char* text = R"tag(\n  exact spaces\n\n)tag";\n'
+        code += end + '\nscore = 0;'
+        block = checker.extract_text(fragment(code), 'test.md')[0]
+        files, _, _ = checker.assemble([block], plain=True)
+        source = files['MyApp.cpp']
+        self.assertIn('\nstatic int score = 0;\n', source)
+        self.assertIn('    setColorsOff();\n    score = 1;\n}', source)
+        self.assertIn('    if (score) {\n        score++;\n    }', source)
+        self.assertIn('    score = 0;\n    unregisterButtonCallbacks();', source)
+        self.assertIn('R"tag(\n  exact spaces\n\n)tag"', source)
+        self.assertNotIn('\n\n}', source)
+        with tempfile.TemporaryDirectory() as directory:
+            checker.materialize(block, checker.classify(block)[0], Path(directory))
+            compiled = (Path(directory) / 'MyApp.cpp').read_text(encoding='utf-8')
+        compiled = re.sub(r'^#line[^\n]*\n', '', compiled, flags=re.M)
+        self.assertEqual(checker.cpp_tokens(source), checker.cpp_tokens(compiled))
 
     def test_skip_complete_invalid_and_final_are_unchanged(self):
         complete = (checker.TOOL / 'tests/fixtures/complete.md').read_text(encoding='utf-8')

@@ -269,20 +269,36 @@ def assemble(steps, app=None, plain=False, highlights=None):
         if len(matches) != 1:
             raise ValueError("starter anchor must match exactly once: " + slot_name)
         pos = matches[0].end() if slot["position"] == "after" else matches[0].start()
+        if plain and slot['position'] == 'after' and files[name][pos:pos + 1] == '\n':
+            pos += 1
         code = ""
         current = []
         for piece, latest in codes:
+            if plain:
+                anchor_line = matches[0][0].splitlines()[-1 if slot['position'] == 'after' else 0]
+                indent = re.match(r'[ \t]*', anchor_line)[0]
+                # Keep literal contents byte-for-byte, including raw-string lines.
+                literals = [(m.start(), m.end()) for m in CPP_TOKEN.finditer(piece)
+                            if m.lastgroup not in ('space', 'comment') and '\n' in m[0]]
+                formatted = []
+                offset = 0
+                for line in piece.splitlines(keepends=True):
+                    inside_literal = any(a < offset < b for a, b in literals)
+                    formatted.append(line if inside_literal or not line.strip() else indent + line)
+                    offset += len(line)
+                piece = ''.join(formatted).rstrip() + '\n'
             if latest:
                 current.append((len(code), len(code) + len(piece)))
             code += piece
-        inserts.append((name, pos, code, current))
-    for name, pos, code, current in sorted(inserts, key=lambda item: (item[0], -item[1])):
+        prefix = '' if plain else '\n'
+        inserts.append((name, pos, code, current, prefix))
+    for name, pos, code, current, prefix in sorted(inserts, key=lambda item: (item[0], -item[1])):
         content = files[name]
         resume = "" if plain else '#line {} {}\n'.format(content[:pos].count("\n") + 1, json.dumps(name))
-        added = "\n" + code + resume
+        added = prefix + code + resume
         ranges[name] = [(a + len(added), b + len(added)) if a >= pos else (a, b)
                         for a, b in ranges[name]]
-        ranges[name].extend((pos + 1 + a, pos + 1 + b) for a, b in current)
+        ranges[name].extend((pos + len(prefix) + a, pos + len(prefix) + b) for a, b in current)
         files[name] = content[:pos] + added + content[pos:]
     if highlights is not None:
         highlights.update({name: sorted({line for a, b in spans
