@@ -42,6 +42,7 @@ nav:
   - Getting started:
     - Overview: getting-started/overview.md
     - Assembly: getting-started/assembly/guide.md
+    - Explore what it can do: getting-started/explore.md
     - Build your first app: getting-started/first-app.md
     - Make a game, step by step: getting-started/make-a-game.md
     - "Advanced: firmware with Arduino": getting-started/first-flash-arduino.md
