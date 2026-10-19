@@ -64,7 +64,7 @@
     }
     motion.addEventListener('change', () => {
       for (const video of videos) {
-        if (!video.dataset.src && !motion.matches) visible.add(video);
+        if (!observer && !video.dataset.src && !motion.matches) visible.add(video);
         update(video);
       }
     });
