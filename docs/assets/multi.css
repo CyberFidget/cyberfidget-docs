@@ -83,21 +83,48 @@
   --md-mermaid-sequence-actor-line-color: #cbd5e1;
 }
 
-/* Planning a game: a one-sentence idea with each feature boxed and numbered. */
-.md-typeset .cf-vision {
-  font-size: 1.05em;
-  line-height: 2.3;
-  padding: .6em .9em;
+/* Planning a game: a loose brainstorm, then the same notes sorted into colored groups. */
+.md-typeset .cf-brainstorm,
+.md-typeset .cf-groups {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5em;
+  padding: .7em .9em;
   border-left: 3px solid var(--md-default-fg-color--lighter);
   background: var(--md-code-bg-color);
+}
+.md-typeset .cf-note {
+  padding: .15em .5em;
+  border: 1px dashed var(--md-default-fg-color--light);
+  border-radius: .3em;
+  font-family: var(--md-code-font-family);
+  font-size: .85em;
+}
+.md-typeset .cf-note:nth-child(3n+1) { transform: rotate(-1.5deg); }
+.md-typeset .cf-note:nth-child(3n+2) { transform: rotate(1deg); }
+.md-typeset .cf-groups { flex-direction: column; }
+.md-typeset .cf-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4em;
+  padding: .5em .6em;
+  border: 2px solid var(--cf-c);
+  border-radius: .4em;
+}
+.md-typeset .cf-group .cf-group-name {
+  flex-basis: 100%;
+  margin: 0;
+  font-weight: 700;
+}
+.md-typeset .cf-group-name small {
+  font-weight: 400;
+  color: var(--md-default-fg-color--light);
 }
 .md-typeset .cf-piece {
   padding: .1em .35em;
   border: 2px solid var(--cf-c);
   border-radius: .3em;
   background: color-mix(in srgb, var(--cf-c) 14%, transparent);
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
 }
 .md-typeset .cf-badge {
   display: inline-block;
@@ -112,17 +139,9 @@
   text-align: center;
   vertical-align: .1em;
 }
-.md-typeset .cf-p0, .md-typeset .cf-b0 { --cf-c: #94a3b8; }
-.md-typeset .cf-p1, .md-typeset .cf-b1 { --cf-c: #22d3ee; }
-.md-typeset .cf-p2, .md-typeset .cf-b2 { --cf-c: #fbbf24; }
-.md-typeset .cf-p3, .md-typeset .cf-b3 { --cf-c: #a3e635; }
-.md-typeset .cf-p5, .md-typeset .cf-b5 { --cf-c: #f472b6; }
-.md-typeset .cf-p6, .md-typeset .cf-b6 { --cf-c: #a78bfa; }
-.md-typeset .cf-p7, .md-typeset .cf-b7 { --cf-c: #fb923c; }
-/* A feature added while planning: outlined, not in the first sentence. */
-.md-typeset .cf-b8 {
-  background: transparent;
-  color: var(--md-default-fg-color);
-  border: 2px dashed #e2e8f0;
-}
+.md-typeset .cf-g-loop { --cf-c: #22d3ee; }
+.md-typeset .cf-g-rules { --cf-c: #a3e635; }
+.md-typeset .cf-g-feedback { --cf-c: #f472b6; }
+.md-typeset .cf-g-ends { --cf-c: #fb923c; }
+.md-typeset .cf-g-challenge { --cf-c: #a78bfa; }
 .md-typeset table .cf-badge { font-size: 1em; }
