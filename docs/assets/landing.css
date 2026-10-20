@@ -1,0 +1,127 @@
+/* landing.css -- opening blocks and picture cards for the landing page of each tab.
+   Licensed CC BY-SA 4.0 with the rest of the documentation. */
+
+/* Hero: picture (or looping clip) beside a short promise and the main links.
+   Stacks into one column on phones. */
+.md-typeset .cf-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  gap: 1.2rem 2rem;
+  align-items: center;
+  margin: 0.6rem 0 1.6rem;
+  padding: 1.2rem;
+  border-radius: 0.4rem;
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgba(0, 188, 212, 0.16), transparent 60%),
+    radial-gradient(90% 80% at 100% 100%, rgba(233, 30, 99, 0.10), transparent 60%),
+    var(--md-code-bg-color);
+}
+.md-typeset .cf-hero__media { text-align: center; }
+.md-typeset .cf-hero__media p { margin: 0; }
+.md-typeset .cf-hero__media img,
+.md-typeset .cf-hero__media video {
+  display: inline-block;
+  max-width: 100%;
+  height: auto;
+  max-height: 22rem;
+  border-radius: 0.3rem;
+}
+.md-typeset .cf-hero__text > :first-child { margin-top: 0; }
+.md-typeset .cf-hero__text > :last-child { margin-bottom: 0; }
+.md-typeset .cf-hero__lead {
+  font-size: 1.15em;
+  line-height: 1.45;
+  color: var(--md-default-fg-color);
+}
+.md-typeset .cf-hero .md-button { margin: 0.3rem 0.4rem 0.3rem 0; }
+
+@media screen and (max-width: 44.9375em) {
+  .md-typeset .cf-hero {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 1rem 0.8rem;
+  }
+  .md-typeset .cf-hero__media img,
+  .md-typeset .cf-hero__media video { max-height: 16rem; }
+}
+
+/* Picture cards: Material grid cards with a picture at the top of each card. */
+.md-typeset .cf-photo-cards > ul > li > p:first-child,
+.md-typeset .cf-photo-cards > ol > li > p:first-child {
+  margin: -0.8rem -0.8rem 0.6rem;
+}
+.md-typeset .cf-photo-cards img,
+.md-typeset .cf-photo-cards video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: 0.1rem 0.1rem 0 0;
+  background: #0b0f14;
+}
+/* Pictures of the whole device or the emulator keep their shape instead of being cropped. */
+.md-typeset .cf-photo-cards img.cf-contain,
+.md-typeset .cf-photo-cards video.cf-contain { object-fit: contain; }
+
+/* Photo with text beside it, alternating sides; stacks on phones. */
+.md-typeset .cf-row {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  gap: 1rem 1.6rem;
+  align-items: center;
+  margin: 1rem 0 1.4rem;
+}
+.md-typeset .cf-row--flip { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+.md-typeset .cf-row--flip > .cf-row__media { order: 2; }
+.md-typeset .cf-row__media p { margin: 0; }
+.md-typeset .cf-row__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 20rem;
+  object-fit: cover;
+  border-radius: 0.3rem;
+}
+.md-typeset .cf-row__text > :first-child { margin-top: 0; }
+.md-typeset .cf-row__text > :last-child { margin-bottom: 0; }
+
+@media screen and (max-width: 44.9375em) {
+  .md-typeset .cf-row,
+  .md-typeset .cf-row--flip { grid-template-columns: minmax(0, 1fr); }
+  .md-typeset .cf-row--flip > .cf-row__media { order: 0; }
+}
+
+/* "What's inside": the face of the device beside its parts table. */
+.md-typeset .cf-inside {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  gap: 1rem 1.6rem;
+  align-items: center;
+}
+.md-typeset .cf-inside__media { text-align: center; }
+.md-typeset .cf-inside__media p { margin: 0; }
+.md-typeset .cf-inside__media img { max-width: 100%; height: auto; max-height: 26rem; }
+.md-typeset .cf-inside table:not([class]) { font-size: 0.75rem; }
+
+@media screen and (max-width: 44.9375em) {
+  .md-typeset .cf-inside { grid-template-columns: minmax(0, 1fr); }
+  .md-typeset .cf-inside__media img { max-height: 18rem; }
+}
+
+/* Short feature list shown as small tiles. */
+.md-typeset .cf-chips ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0;
+  margin: 0.8rem 0 1.2rem;
+  list-style: none;
+}
+.md-typeset .cf-chips ul li {
+  margin: 0;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 1rem;
+  font-size: 0.72rem;
+  line-height: 1.4;
+}

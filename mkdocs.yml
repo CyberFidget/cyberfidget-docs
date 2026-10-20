@@ -17,6 +17,7 @@ theme:
 extra_css:
   - assets/guide.css
   - assets/multi.css
+  - assets/landing.css
 
 plugins:
   - search

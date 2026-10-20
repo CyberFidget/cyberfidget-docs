@@ -1,8 +1,61 @@
 # Studio Overview
 
+<div class="cf-hero" markdown>
+<div class="cf-hero__media" markdown>
+
+<video src="../../assets/media/2d-animation-frames.webm" poster="../../assets/media/2d-animation-frames.png" autoplay loop muted playsinline width="420" height="312"></video>
+
+</div>
+<div class="cf-hero__text" markdown>
+
+<p class="cf-hero__lead"><strong>Make apps, pixel art, animations and 3D models for your Cyber Fidget, in your browser.</strong></p>
+
 Studio is where you make things for your Cyber Fidget -- apps, artwork, and 3D models. It opens at [cyberfidget.com/create/](https://cyberfidget.com/create/).
 
 This page is a map of the surface. Each tool has its own page, linked at the bottom.
+
+*In the clip: adding frames to a ball sprite in the 2D editor, moving the ball in each frame, and changing the preview speed.*
+
+[Open the studio](https://cyberfidget.com/create/){ .md-button .md-button--primary }
+
+</div>
+</div>
+
+<div class="grid cards" markdown>
+
+-   **Draw**
+
+    ---
+
+    Draw, brush, line and shape tools, fill and selection, for pixel art made for the 128 x 64 screen.
+
+    [Tools](tools.md) | [Layers](layers.md)
+
+-   **Animate**
+
+    ---
+
+    Add frames, name animations, and preview them at the speed they will play.
+
+    [Animations and frames](animations-and-frames.md) | [Preview and Speed](preview.md)
+
+-   **Reuse and share**
+
+    ---
+
+    Keep art in your library, start from free starters, and share links to your work.
+
+    [Your Sprite Library](your-sprite-library.md) | [Sharing](sharing.md)
+
+-   **Build in 3D**
+
+    ---
+
+    Make wireframe models from points and lines and try them in an app.
+
+    [3D Models](3d-models.md)
+
+</div>
 
 ---
 

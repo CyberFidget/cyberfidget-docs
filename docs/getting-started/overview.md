@@ -1,6 +1,66 @@
 # Overview
 
+<div class="cf-hero" markdown>
+<div class="cf-hero__media" markdown>
+
+![The Cyber Fidget kit laid out on a white table: the aluminum case front and two backplates, six buttons and the slider, screws, a red color filter, the screen retainer, the mainboard with its screen, and the battery](../assets/product/kit-parts.webp){ width="320" height="320" }
+
+</div>
+<div class="cf-hero__text" markdown>
+
+<p class="cf-hero__lead"><strong>From a box of parts to your own app running on the device.</strong></p>
+
 Cyber Fidget ships as a high-quality kit -- no soldering required, just screws. By the end of this section you will have built your device and run your own app on it. The quickest route needs nothing installed: you write and test apps in your browser.
+
+[Assembly guide](assembly/guide.md){ .md-button .md-button--primary }
+[Build your first app](first-app.md){ .md-button }
+
+</div>
+</div>
+
+<div class="grid cards cf-photo-cards" markdown>
+
+-   ![Hands using tweezers to press a clear lens into the aluminum case front during assembly](../assets/product/assembly-lens.webp){ loading=lazy width="800" height="600" }
+
+    **1. Put it together**
+
+    ---
+
+    About 15 minutes with a small screwdriver, with a photo for every step.
+
+    [Assembly guide](assembly/guide.md)
+
+-   ![The emulator running an app with a small face on the screen that the slider and buttons move](../assets/media/emulator-sprites.png){ .cf-contain loading=lazy width="300" height="400" }
+
+    **2. Explore what it can do**
+
+    ---
+
+    Each part of the device -- screen, buttons, lights, sound, slider, motion -- with a few lines of code to try.
+
+    [Explore what it can do](explore.md)
+
+-   ![The emulator panel in the studio running a first app that shows Hello on the screen, with the REBUILD button below it](../assets/media/rebuild-and-run-done.png){ .cf-contain loading=lazy width="418" height="620" }
+
+    **3. Build your first app**
+
+    ---
+
+    Write a small app in your browser, watch it run in the emulator, and send it to your device.
+
+    [Build your first app](first-app.md)
+
+-   ![The emulator playing a catch game: a paddle at the bottom of the screen catches falling dots](../assets/media/emulator-catcher.png){ .cf-contain loading=lazy width="300" height="400" }
+
+    **4. Make a game, step by step**
+
+    ---
+
+    A paddle game with lights, sound and a score, built one step at a time.
+
+    [Make a game](make-a-game.md)
+
+</div>
 
 ---
 
