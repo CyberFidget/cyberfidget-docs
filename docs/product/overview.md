@@ -127,7 +127,7 @@ The MCU (microcontroller) is the small computer that runs your apps. For the ful
 
     ---
 
-    Build wireframe models from points and lines in the studio, then show them in your apps. The 3D tab appears when it is enabled for your account.
+    Build wireframe models from points and lines in the studio, then show them in your apps.
 
     [3D models](../studio/3d-models.md)
 

@@ -78,7 +78,7 @@ Once a project is open, a strip of tabs switches between the tools. On a desktop
 | **Generate** | Describe a change in plain language and have it written for you. |
 | **Code** | The full editor, with the screen, buttons, lights, and sound available. |
 | **2D** | Draw and animate sprites. |
-| **3D** | Build wireframe models. Appears only if it is enabled for your account. |
+| **3D** | Build wireframe models. |
 | **Settings** | Project settings, including what others may copy when you share, and saving the whole project to a file. |
 | **Test** | Run the app in the emulator, a copy of the device that runs in your browser. |
 

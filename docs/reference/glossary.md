@@ -50,7 +50,6 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Li-ion** | Lithium-ion -- a family of rechargeable battery chemistries. |
 | **LiPo** | Lithium Polymer -- rechargeable battery type used in Cyber Fidget (400 mAh). |
 | **MCU** | Microcontroller Unit -- the processor that controls an embedded device. |
-| **MDA** | Mechanics, Dynamics, Aesthetics -- a game-design framework: the rules you write, what happens when people play by them, and how playing feels. See [Make a game, step by step](../getting-started/make-a-game.md#2-group-the-ideas-by-what-they-do). |
 | **mDNS** | Multicast DNS -- the local-network name service that makes `cyberfidget.local` resolve without any router configuration. |
 | **MEMS** | Micro-Electro-Mechanical Systems -- miniaturized sensor technology used in the ICS-43434 microphone. |
 | **microSD** | Compact removable Secure Digital memory-card format. |

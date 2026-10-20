@@ -18,7 +18,7 @@ On a desktop or laptop, all of this lives behind two buttons at the left end of 
 | **Import from a file** | Brings in a sprite file, a picture, or an Aseprite export. See [Keeping and sharing your work](../software/import-export.md). You can also drop files anywhere in Studio. |
 | **From my library** | Opens the **My library** tab. |
 | **Pick a free starter** | Opens the **Free starters** tab. |
-| **Build a 3D model** | Appears only when the 3D tab is enabled for your account. |
+| **Build a 3D model** | Opens the 3D tab with a new model. |
 
 If the project has no art yet, the 2D tab shows **This project has no art yet** with three buttons: **DRAW A SPRITE**, **IMPORT A FILE** and **PICK A STARTER**.
 

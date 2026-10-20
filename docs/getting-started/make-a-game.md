@@ -86,9 +86,9 @@ Now sort the notes into groups of ideas that do the same kind of job. These five
 
 The number on each note is the step on this page that builds it.
 
-These groups are how game designers often think about a game. The **core loop** is the action the player repeats all game long; here, moving the paddle to meet a dot. Game designers call the extra feedback that makes an action feel good, like a flash and a beep on every catch, **juice**. (Some designers go further with a framework called MDA: the rules you write, what happens when someone plays by them, and how playing feels. You don't need it for this page.)
+We call the action the player repeats all game long the **core loop**; here, moving the paddle to meet a dot. The extra feedback that makes an action feel good, like a flash and a beep on every catch, we call **juice**.
 
-Breaking a big idea into small pieces like this is called decomposition. It is one of the parts of computational thinking that school computing classes teach.
+Breaking a big idea into small pieces like this is called decomposition.
 
 ### 3. Put the groups in build order, and sharpen each idea
 
