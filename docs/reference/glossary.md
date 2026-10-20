@@ -172,6 +172,11 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Viewport** | Visible area of the canvas. |
 | **void** | A return type meaning that a function returns no value. |
 | **Wireframe model** | A 3D shape built from points (nodes) connected by straight lines (struts), with no solid surfaces -- drawn as spinning line art on the device. |
+| **OBJ** | Wavefront OBJ, a plain-text 3D model file listing vertices and the faces or lines that join them. Studio can import it. |
+| **STL** | Stereolithography file, a 3D model file made of triangles, common in 3D printing. Studio can import it. |
+| **Vertex** | A corner point of a 3D model; becomes a node in Studio. |
+| **Triangle** | A flat three-cornered patch; most 3D programs build every face from triangles. |
+| **Decimate** | Reduce a 3D model to fewer triangles while keeping its overall shape. |
 
 ---
 
