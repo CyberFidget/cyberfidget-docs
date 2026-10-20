@@ -2,8 +2,10 @@
 *[ADC]: Analog-to-Digital Converter
 *[API]: Application Programming Interface
 *[BLE]: Bluetooth Low Energy
+*[CC BY-SA]: Creative Commons Attribution-ShareAlike; others may reuse and change the work if they credit the maker and share their version under the same license
 *[CC0]: Creative Commons Zero; a public-domain dedication that allows reuse without the usual copyright restrictions
 *[CI]: Continuous Integration; automated checks and builds triggered by code changes
+*[closed beta]: Open only to accounts that have been given access, while the feature is being tried out
 *[CMake]: Cross-platform Make; build system used for the WASM build
 *[CORS]: Cross-Origin Resource Sharing
 *[CP2102N]: Silicon Labs USB-to-UART bridge chip
@@ -44,6 +46,7 @@
 *[LED]: Light-Emitting Diode
 *[LiPo]: Lithium Polymer battery
 *[Li-ion]: Lithium-ion rechargeable battery
+*[MIT License]: A short permissive license: anyone may use, change and share the code as long as the license notice stays with it
 *[MCU]: Microcontroller Unit; the main processor in an embedded device
 *[MEMS]: Micro-Electro-Mechanical Systems
 *[ms]: Millisecond; one thousandth of a second

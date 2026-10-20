@@ -63,7 +63,9 @@ Studio always creates a new project alongside the projects you already have. It 
 
 A share link lets someone open what you made in their browser, with no download and no account. An app plays in the emulator on the page (a copy of the device that runs in your browser); a sprite plays as an animation and a model turns so it can be seen from every side. A link isn't listed anywhere: only people you give it to can open it.
 
-Sharing a link is different from submitting to [the Archives](sharing-apps.md). The Archives is the shared collection that everyone can browse, and submissions are reviewed first. A link is just "here's a thing I made".
+Making a link needs you to sign in with GitHub. If you are signed out, the Share box says **Sign in with GitHub to share a link** and offers the sign-in button. Opening a link never needs an account.
+
+Sharing a link is different from [submitting to The Archives](submit-to-archives.md). The Archives is the shared collection that everyone can browse, and submissions are reviewed first. A link is just "here's a thing I made".
 
 ### Where to find Share
 
@@ -79,7 +81,7 @@ A project with art but no code can still be shared: the page shows the art and m
 ### What the Share box asks
 
 - **Title.** Starts as the project or asset name.
-- **Maker name** (optional). The name shown on the page. Use a nickname: no real names, schools or addresses.
+- **Maker name** (optional). The name shown on the page. It starts as your account name; a nickname is fine. No real names, schools or addresses.
 - **Others may copy: code, art.** Both are ticked to start with. These are the same switches as **SHARING** on the **APP** tab of **Settings** and the Archives submission form, so changing them in one place changes them everywhere for that project. A sprite or model share shows only the art switch. If the art switch is off for an art-only share, there is nothing left to share, so Studio explains why and won't make the link.
 
 When others may copy, the code is offered under the MIT License and the art under the Creative Commons Attribution-ShareAlike 4.0 license (CC BY-SA 4.0). Sharing confirms that you made the work or have the right to share it.
@@ -88,13 +90,29 @@ A link shows your work **as it was when you shared it**. Changes made after shar
 
 ### Sending the link
 
-On a phone, choose **Send the link** to open your phone's share sheet and pick Messages, email, or another app. On a computer, Studio copies the link for you and says **Link copied.** If the browser won't allow the copy, Studio selects the link so you can copy it yourself. **Open the page** shows you what others will see.
+On a phone, choose **Send the link** to open your phone's share sheet and pick Messages, email, or another app. On a computer, Studio copies the link for you and says **Link copied.** If the browser won't allow the copy, Studio selects the link so you can copy it yourself. **Copy link** copies it again, and **Open the page** shows you what others will see.
+
+### What someone who opens the link can do
+
+The page shows the title, your maker name, and the label **Shared by its maker - not reviewed by Cyber Fidget**. Below the player:
+
+| Button | What it does |
+|---|---|
+| **Send to my Fidget** | Apps only. Sends the app to the visitor's own Cyber Fidget. It needs them to sign in and to have a [linked Fidget](link-your-fidget.md), and asks them to confirm once, because the app hasn't been reviewed. The Fidget gets it at its next check-in. |
+| **Open a copy in the Studio** | Shown only when you let others copy the code or the art. Makes a new project in their Studio from what you allowed. |
+| **Make your own** / **Get a Cyber Fidget** | Links to the Studio and the shop. |
+| **Report this** | Tells Cyber Fidget something is wrong with the page. |
+
 
 ### Stop sharing
 
-The Share box lists **Links you've shared** from this browser (and, when you are signed in, from your account). Choose **Stop sharing** on a link, then confirm. The link stops working for everyone straight away. A page someone already has open stops playing within about a minute. This can't be undone: share again to make a new link.
+The Share box lists **Links you've shared**. Choose **Stop sharing** on a link, then **Stop for good?** to confirm. The link stops working for everyone straight away. A page someone already has open stops playing within about a minute. This can't be undone: share again to make a new link.
 
-Each browser remembers the links it made. If you share while signed out and then clear your browser's data, that browser cannot stop those links. Sign in before sharing if you may want to stop a link from another computer.
+Your links belong to your account, so you can see and stop them from any computer where you are signed in. The list also shows links this browser made.
+
+You can also stop a link from its own page. When you open a link you made, a **Your link** panel shows **Stop sharing** (and, for a whole project, **Submit to the Archives**). People you send the link to don't see that panel.
+
+Stopping a link can't take back copies other people already made under the licenses above.
 
 ---
 

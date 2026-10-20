@@ -14,7 +14,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **API** | Application Programming Interface -- how code talks to a library or service. |
 | **Binary angle** | An angle stored as a whole number from 0 to 255, where 256 steps make one full turn (64 is a quarter turn). The 3D model functions use binary angles. |
 | **BLE** | Bluetooth Low Energy -- used for wireless features on the device. |
-| **CC BY-SA** | Creative Commons Attribution-ShareAlike; reuse requires attribution and sharing adaptations under the same license. |
+| **CC BY-SA** | Creative Commons Attribution-ShareAlike - others may reuse and change the work if they credit the maker and share their version under the same license. Shared art uses version 4.0. |
 | **CC0** | Creative Commons Zero - a public-domain dedication that allows reuse without the usual copyright restrictions. |
 | **CI** | Continuous Integration -- automatic checks and builds triggered by code changes. A studio app can build on your computer or the build server. |
 | **CMake** | Cross-platform build system used to configure the WASM/Emscripten build. |
@@ -55,7 +55,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **MEMS** | Micro-Electro-Mechanical Systems -- miniaturized sensor technology used in the ICS-43434 microphone. |
 | **microSD** | Compact removable Secure Digital memory-card format. |
 | **milli-g** | One thousandth of the acceleration due to gravity; 1000 milli-g is one g. |
-| **MIT License** | Permissive code license requiring the license notice to stay with copies. |
+| **MIT License** | A short permissive license: anyone may use, change and share the code as long as the license notice stays with it. Shared app code uses it. |
 | **ms** | Millisecond - one thousandth of a second. |
 | **NeoPixel** | Adafruit's addressable RGB(W) LED product line; firmware uses a shim that matches its API. |
 | **NTP** | Network Time Protocol; a way to set a clock from a network time server. |
@@ -189,6 +189,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 |------|---------|
 | **Base64** | A way of writing binary data as plain text using letters, digits, `+` and `/`; update signatures are sent this way. |
 | **Check-in** | A linked Fidget contacting the website over its own WiFi to collect waiting app changes and look for firmware updates. See [Updates](../software/updates.md#when-it-checks). |
+| **Closed beta** | A feature open only to accounts that have been given access, while it is being tried out. See [Beta Access](../software/beta-access.md). |
 | **Digital signature** | A short code that only the holder of a private key can make for one exact file. Anyone with the matching public key can check it, and changing even one byte of the file makes the check fail. Cyber Fidget uses signatures to confirm that an update is official. |
 | **Erase everything and reinstall** | The website's clean-start install over USB: it erases the whole Fidget and installs a fresh copy of the chosen firmware version. See [Update or reset your Fidget](../software/updating.md#erase-everything-and-reinstall-on-the-website). |
 | **Host** | Firmware code that runs a studio app, on the device or in the browser emulator. |
@@ -197,11 +198,13 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Model (code generator)** | The service a provider (Anthropic, OpenAI, or Google) runs to write app code from your description in the App Builder. See [Choosing a model](../software/ota-builder.md#choosing-a-model). |
 | **Pairing / linking** | Establishing an association between a Cyber Fidget and an account. On the device and website, the action is called "link your Fidget." |
 | **Polyphony** | Playing several notes at the same time, such as a chord. In an app, use `playNote()`; see [Notes](../concepts/audio.md#notes-several-sounds-at-once). |
+| **Remix** | Make your own copy of something another person shared, such as an app or art from The Archives, and change it. |
 | **Reset to factory** | The **Settings > Reset to factory** item on the Fidget. It erases sent apps, saved WiFi, settings, the account link and the battery record, and keeps the firmware and the memory card. See [Update or reset your Fidget](../software/updating.md). |
+| **Share link** | A private link to a copy of something you made in Studio, as it was when you shared it. Only people you give it to can open it. See [Share a link](../software/import-export.md#share-a-link). |
 | **Share sheet** | The list of apps your phone offers when you send something on to someone else. |
 | **Sync session** | A run of USB serial commands from the website (or your own program) that copies apps and the menu to the Fidget. While one is active, the Fidget holds off its WiFi check-ins. See [Serial commands](serial-commands.md#sync-sessions-and-a-busy-fidget). |
 | **Test version** | An early firmware build for trying features before general release (a release candidate). Chosen with **Settings > Updates > Versions: Test** or from the **Test versions** group on the website update page. |
-| **The Archives** | The shared collection of apps, screensavers, and sprite packs at cyberfidget.com/explore. |
+| **The Archives** | The shared collection of apps, screensavers, sprite packs and models at cyberfidget.com/explore. Makers submit their apps for review before they are listed. See [Get apps from The Archives](../software/sharing-apps.md). |
 
 ---
 

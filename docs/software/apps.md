@@ -4,6 +4,9 @@ After this page you can choose a built-in app and add your own app from the stud
 
 Cyber Fidget ships with 29+ built-in apps spanning games, screensavers, tools, and code examples. All apps follow the same [begin/update/end lifecycle](../concepts/app-lifecycle.md). Built-in apps are registered in the firmware; the studio adds your own apps to the menu for you.
 
+!!! tip "More apps in The Archives"
+    Beyond the built-in apps, [The Archives](sharing-apps.md) has apps, screensavers and art made by other people. Try them in your browser and send the ones you like to your Fidget. Made something yourself? [Submit it to The Archives](submit-to-archives.md).
+
 ---
 
 ## Games
