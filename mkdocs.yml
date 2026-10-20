@@ -104,6 +104,7 @@ nav:
   - Reference:
     - Glossary: reference/glossary.md
     - Serial commands: reference/serial-commands.md
+    - Set up WiFi over USB: reference/usb-wifi-setup.md
   - Contributors:
     - Contribute: contribute/contribute.md
     - Firmware internals:

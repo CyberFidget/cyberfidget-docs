@@ -79,9 +79,11 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **SPI** | Serial Peripheral Interface -- serial bus used for the SD card. |
 | **SPP** | Serial Port Profile -- Bluetooth serial data streaming protocol. |
 | **SSD1306** | The display controller chip used in the Cyber Fidget OLED. |
+| **SSID** | Service Set Identifier - the name of a WiFi network. Over USB the Fidget sends it as hex; see [Set up WiFi over USB](usb-wifi-setup.md). |
 | **URL** | Uniform Resource Locator - an address for a web resource. |
 | **USB** | Universal Serial Bus -- used for charging and serial communication via USB-C. |
 | **USB-C** | USB Type-C -- the reversible connector used for charging and serial communication. |
+| **UTF-8** | The standard way of storing text of any language as bytes. |
 | **UVLO** | Under-voltage lockout - a protective shutdown that stops the device from draining its battery below a safe level. |
 | **VU** | Volume Unit -- a level meter showing how loud the microphone is hearing you (used by the Voice Notes recorder). |
 | **WASM** | WebAssembly -- binary format that runs in the browser; the emulator runs C++ apps as WASM. |
