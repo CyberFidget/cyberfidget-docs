@@ -71,9 +71,11 @@ nav:
       - Web Portal: firmware/web-portal.md
       - Awake & dev mode: software/awake-and-dev-mode.md
       - Storage & SD: software/storage.md
+    - The Archives:
+      - Get apps from The Archives: software/sharing-apps.md
+      - Submit your app to The Archives: software/submit-to-archives.md
     - Keep and share your work:
       - Keeping and sharing your work: software/import-export.md
-      - Sharing from The Archives: software/sharing-apps.md
     - Update your Fidget:
       - Updates: software/updates.md
       - Update or reset your Fidget: software/updating.md

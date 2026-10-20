@@ -5,6 +5,7 @@
 *[CC BY-SA]: Creative Commons Attribution-ShareAlike; others may reuse and change the work if they credit the maker and share their version under the same license
 *[CC0]: Creative Commons Zero; a public-domain dedication that allows reuse without the usual copyright restrictions
 *[CI]: Continuous Integration; automated checks and builds triggered by code changes
+*[closed beta]: Open only to accounts that have been given access, while the feature is being tried out
 *[CMake]: Cross-platform Make; build system used for the WASM build
 *[CORS]: Cross-Origin Resource Sharing
 *[CP2102N]: Silicon Labs USB-to-UART bridge chip
