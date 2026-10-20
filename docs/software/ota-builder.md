@@ -144,6 +144,8 @@ Besides flat pixel art, the studio can generate wireframe models -- 3D shapes ma
 
 ## See also
 
+- [Code generator](code-generator.md) -- The optional Generate tab: make, change or explain an app from a description
+- [Free use, credits and privacy](credits.md) -- What the code generator costs and what is sent where
 - [3D Models](../studio/3d-models.md) -- Build wireframe models in the studio's 3D tab
 - [Browser Emulator](emulator.md) -- Detailed emulator guide, controls, and troubleshooting
 - [Apps](apps.md) -- Built-in app catalog and how to add your own
