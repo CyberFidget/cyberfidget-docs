@@ -22,10 +22,10 @@ The Fidget sends its record only when all of these are true:
 
 - **Share battery data** is on.
 - The Fidget is [linked](link-your-fidget.md) to an account.
-- It has just finished a successful **automatic** check-in: the daily check-in while asleep, or the check-in at start-up (see [Updates](updates.md#when-it-checks)). Manual checks, Stay awake and Dev mode never send it.
+- It has just finished a successful **automatic** check-in: the daily check-in while asleep, or the check-in at start-up (see [Updates](updates.md#when-it-checks)). Manual checks, Stay awake and Dev mode don't send it.
 - The battery is at least 3.6 volts and 20 percent, the same limit automatic check-ins use.
 - Its last accepted report was at least 21 hours ago.
-- That check-in still has enough time left. The Fidget never keeps WiFi on longer just to send this.
+- That check-in still has enough time left. The Fidget doesn't keep WiFi on longer just to send this.
 
 So it sends at most about once a day. If a send fails, nothing is lost: the Fidget tries again at a later automatic check-in and sends everything the site has not yet accepted. The website accepts at most one new report from the same Fidget every 20 hours.
 

@@ -35,7 +35,7 @@ If a new version misbehaves, you can go back to an earlier one from the [website
 2. In the **Version** list, pick the earlier version you want.
 3. Choose **Install update**.
 
-Like any normal update, this keeps your saved WiFi, settings and apps. Updates over WiFi never go back to an earlier version, so use the website for this. Later, the Fidget may offer the newer version again; choose **Skip this version** if you want it to stop asking (see [Updates](updates.md#choose-what-to-do)).
+Like any normal update, this keeps your saved WiFi, settings and apps. Updates over WiFi don't go back to an earlier version, so use the website for this. Later, the Fidget may offer the newer version again; choose **Skip this version** if you want it to stop asking (see [Updates](updates.md#choose-what-to-do)).
 
 ## Reset to factory (on the Fidget)
 

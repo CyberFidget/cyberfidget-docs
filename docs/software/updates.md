@@ -11,7 +11,7 @@ Open **Settings > Updates** to change **Auto-check: On/Off** or **Check at start
 
 To check yourself, choose **Check for updates** on the main menu, or **Settings > Updates > Check now**. A manual check still works with **Auto-check: Off**. If the Fidget used Bluetooth in this power cycle, it says **Restarting to check...** and resumes the check after restarting.
 
-A check you start yourself always looks for new firmware. An automatic check-in looks for it when the website mentions an update, and otherwise whenever the Fidget last looked about 20 hours ago or more. So even a Fidget with nothing else waiting hears about a new release within about a day. In Dev mode, the Fidget looks for firmware only when the website mentions an update, at most once an hour, and not while an app is waiting to be delivered; choosing **Check for updates** yourself always looks.
+A check you start yourself looks for new firmware. An automatic check-in looks for it when the website mentions an update, and otherwise whenever the Fidget last looked about 20 hours ago or more. So even a Fidget with nothing else waiting hears about a new release within about a day. In Dev mode, the Fidget looks for firmware only when the website mentions an update, at most once an hour, and not while an app is waiting to be delivered; choosing **Check for updates** yourself checks for new firmware even in Dev mode.
 
 ### Stable or test versions
 
@@ -31,13 +31,17 @@ Official releases are signed (see [Signed updates](#signed-updates)), and a Fidg
 
 ### Signed updates
 
+**Why updates are signed:** a Fidget can download and install firmware over WiFi, with no cable to your computer. Signing makes sure the firmware it installs that way really comes from Cyber Fidget, so nobody can pass off their own firmware as an official update and slip it onto your Fidget over the air.
+
+**Your Fidget is not locked down.** Signatures are checked only for updates over WiFi. Installing over USB needs no Cyber Fidget signature: you can install firmware you build or change yourself from your computer (see [Firmware development](../firmware/index.md)). The device's startup code doesn't check signatures, so you stay free to put your own software on it. The website update page installs the official releases over USB.
+
 A **digital signature** is a short code that only the holder of Cyber Fidget's private signing key can produce for one exact firmware file. Your Fidget carries the matching public keys, which can check a signature but cannot make one. If even one byte of the file changes, the signature no longer matches.
 
 When an update carries a signature, the Fidget downloads the whole file, checks that it matches the size and checksum it was promised, and then checks the signature, all **before** it switches to the new version. If the signature is wrong, it refuses the update and shows **This update could not be verified. Nothing changed.** Your Fidget keeps running the version it had, and that version is not offered automatically again. The USB opt-in does not override this: a signed update that fails its check is always refused. If an update was signed with a key this Fidget does not know yet (for example, a Fidget on older firmware when a new key starts being used), it keeps offering the update but asks you to install it from the website instead of over WiFi.
 
 Official releases **are signed**, and the firmware has the official public keys built in. A correctly signed official update installs over WiFi without the USB opt-in. A Fidget running firmware from before the official keys were built in does not know the key: it keeps the update on offer and asks you to install it from the website. One update from the website over USB gives it the keys, and later official updates can then install over WiFi.
 
-Firmware you build yourself is never signed with Cyber Fidget's key. It still installs over USB from your computer or the website, as before. Over WiFi, an unsigned update installs only on a Fidget with the USB opt-in.
+Firmware you build yourself isn't signed with Cyber Fidget's key. It installs over USB from your computer. Over WiFi, an unsigned update installs only on a Fidget with the USB opt-in.
 
 ### A Fidget that needs one website update first
 

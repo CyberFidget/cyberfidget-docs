@@ -63,7 +63,7 @@ it would be editing your work without asking.
 
 ## When generating does not work
 
-**A failed generate keeps your prompt.** The message offers **Retry** to send the same request again and **Copy prompt** to take the text elsewhere, so you never have to retype it.
+**A failed generate keeps your prompt.** The message offers **Retry** to send the same request again and **Copy prompt** to take the text elsewhere, so you don't have to retype it.
 
 **Drafts are kept in this browser** until a generate succeeds, so closing the tab or reloading does not lose a request you were still writing.
 

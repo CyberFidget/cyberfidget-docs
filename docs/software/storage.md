@@ -2,9 +2,6 @@
 
 Apps live in the Cyber Fidget's internal storage, the companion page is built into its firmware, and app art is compiled into each app when it is built. The microSD card holds music, voice recordings, the companion's speech-recognition payload, and any optional companion page override; it does not hold apps or supply their art.
 
-!!! tip "Draft section"
-   THIS SECTION IS STILL IN DRAFT
-
 ---
 
 ## Inserting and removing cards safely
@@ -35,7 +32,7 @@ A firmware update that removes this hazard is in development; the
 battery-switch habit remains good practice even after it ships.
 
 Resetting the Fidget to factory, or erasing and reinstalling it from the
-website, erases the apps and settings in internal storage but never touches
+website, erases the apps and settings in internal storage but doesn't touch
 the memory card. See [Update or reset your Fidget](updating.md).
 
 ---

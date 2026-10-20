@@ -66,9 +66,9 @@ For long-term storage, follow the battery manufacturer's guidance:
 - Store it with a decent charge - around half to three-quarters full is
   ideal. Never store it empty, and there is no need to store it at 100%.
 - Switch the device off. The power switch fully disconnects the battery.
-- Top up the charge roughly every 6 months.
+- Switched off, top up the charge roughly every 6 months.
+
+Left switched on, Cyber Fidget still uses a little power while it sleeps: a full battery lasts about one to two months asleep (see the table above). If you keep it switched on but don't use it, charge it about once a month.
 
 !!! note "How it works"
     This protection is called under-voltage lockout (UVLO). The device reads the cell voltage from the onboard fuel gauge. The thresholds are about 3.5 V for the asleep check and about 3.3 V while running.
-
-    The brief battery check during sleep uses a negligible amount of energy, well under the battery's own self-discharge.

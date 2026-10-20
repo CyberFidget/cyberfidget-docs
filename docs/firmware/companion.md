@@ -103,7 +103,7 @@ companion works fully offline -- the usual flow is to download them once at home
 then caption live sessions and transcribe recordings anywhere, including on the
 device's own WiFi with no internet in sight.
 
-- A download never starts on its own: you get the size of every needed pack and
+- A download doesn't start on its own: you get the size of every needed pack and
   a "best on WiFi" prompt first.
 - The packs are kept by your browser. If the phone ever clears them (some phones
   tidy up storage that hasn't been used in a while), the companion simply offers

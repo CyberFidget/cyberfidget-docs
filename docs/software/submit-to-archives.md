@@ -25,7 +25,6 @@ You can do both. A share link is a good way to get feedback before you submit.
 ### Who can submit
 
 - You need to sign in with GitHub. See the [Terms of Use](https://cyberfidget.com/terms/) for the rules for publishing.
-- Publishing to The Archives is rolling out. If your account doesn't have access, **PUBLISH TO EXPLORE** says so when you press it, and offers a way to ask for access. See [Beta Access](beta-access.md).
 - You can submit up to 3 times a day.
 
 ### What makes a good entry
@@ -34,7 +33,7 @@ You can do both. A share link is a good way to get feedback before you submit.
 - **It is yours to share.** Share only what you made, or what you have permission to share. Keep other people's credits and license notices in your code and art. Don't use other people's games, characters, music or art unless their license or permission allows it.
 - **It holds no personal information or secrets.** Check the code, comments, screens, art and title for real names, addresses, school names, phone numbers, email addresses, passwords and access keys.
 - **It follows the [Community Guidelines](https://cyberfidget.com/community-guidelines/).** They also list what is never allowed, and the rules for security demonstrations.
-- **Its name and description tell a stranger what it is.** Say what it does and why it is fun. A screenshot as the card picture helps people notice it.
+- **Its name and description tell a stranger what it is.** Say what it does and why it is fun. A screenshot as the thumbnail helps people notice it.
 
 ---
 
@@ -48,7 +47,7 @@ Everything for a submission lives in the Studio. Open your project, open **Setti
 | **CATEGORY** | **GAMES**, **TOOLS** or **SCREENSAVERS**. The same category places the app in the Fidget's menu. | Yes |
 | **DESCRIPTION** | What your app does, in up to 500 characters. | Yes |
 | **Tags** | Filled in for you from your code (for example buttons, sound, lights, slider, tilt), not hand-picked. | - |
-| **CAPTURES** | Pictures taken from the emulator: **CAPTURE SCREENSHOT** or **RECORD A 5S LOOP**. The capture in first position is your card's picture. Keep it under 1 MB. | No, but recommended |
+| **CAPTURES** | Pictures taken from the emulator: **CAPTURE SCREENSHOT** or **RECORD A 5S LOOP**. The capture in first position is your app's thumbnail. Keep it under 1 MB. | No, but recommended |
 | **SHARING** | Whether others may copy your art and your code. See [Licenses and credit](#licenses-and-credit). | - |
 | **PUBLISH > Contact email** | Where we email you about your submission. It isn't shown on your listing. | Yes |
 
@@ -132,7 +131,7 @@ Open your project's **Settings** and choose **IMPROVE YOUR LISTING** (it appears
 | **Description** | Up to 2,000 characters. The page shows the start and folds the rest behind **Show more**. Aim for at least 120. |
 | **Tags** | Up to 12, used by search. |
 | **Screenshots** | Up to 8. Choose **Run it here to take screenshots** and take them from the emulator, or **Add an image** (PNG or GIF). |
-| **Card face** | The picture on your card. Any screenshot can be the card face. |
+| **Card face** | Your app's thumbnail: the picture on its card. Any screenshot can be the thumbnail. |
 | **Preview animation** | A 5-second loop recorded from the emulator. It plays on your card. |
 | **How to play** | One control per line, up to 600 characters. |
 | **Name**, **Category** | You can ask for a change; it shows once an admin approves it. |

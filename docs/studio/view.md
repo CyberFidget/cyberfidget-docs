@@ -18,6 +18,6 @@ On desktop and laptop, view controls sit in the canvas footer, below the canvas.
 
 In **Guide box**, enter **Width** (1 to 128) and **Height** (1 to 64), then choose **Show guide**. **Remove guide** removes it; **Cancel** closes without applying the dialog changes. Tap these same fields and buttons on a phone; they have no dedicated keyboard shortcuts.
 
-The guide is never included in output. Select **Move**, then drag the guide to reposition it. When the guide is selected, arrow keys move it instead of nudging artwork; dragging it with Move is the touch equivalent.
+The guide isn't included in output. Select **Move**, then drag the guide to reposition it. When the guide is selected, arrow keys move it instead of nudging artwork; dragging it with Move is the touch equivalent.
 
 <!-- Screenshot: canvas footer, grid and Guide box dialog. -->
