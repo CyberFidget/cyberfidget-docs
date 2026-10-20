@@ -77,6 +77,7 @@ nav:
       - "Generator: free use, credits and privacy": software/credits.md
       - Browser Emulator: software/emulator.md
   - Your Fidget:
+    - Overview: your-fidget/index.md
     - Built-in apps and features:
       - Built-in apps: software/apps.md
       - Voice Notes: firmware/voice-recorder.md

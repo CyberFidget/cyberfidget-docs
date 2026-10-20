@@ -125,3 +125,6 @@
   font-size: 0.72rem;
   line-height: 1.4;
 }
+
+/* A cropped card picture that keeps its bottom-right corner in view. */
+.md-typeset .cf-photo-cards img.cf-focus-end { object-position: 100% 100%; }
