@@ -18,6 +18,16 @@ extra_css:
   - assets/guide.css
   - assets/multi.css
 
+plugins:
+  - search
+  - glightbox:
+      skip_classes:
+        - inline
+        - icon
+        - badge
+        - cf-badge
+        - no-lightbox
+
 hooks:
   - tools/full-code/full_code.py
 

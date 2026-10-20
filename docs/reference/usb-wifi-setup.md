@@ -13,7 +13,7 @@ Firmware that has these commands says so in its `syncinfo` reply with an extra l
 [cmd] syncinfo.setup=1
 ```
 
-Older firmware has no `syncinfo.setup` line and answers `[err] unknown command: <command>` to the commands below. The website then shows the older steps (the Fidget's own **Setup WiFi**), with no error.
+Firmware without these commands has no `syncinfo.setup` line and answers `[err] unknown command: <command>` to the commands below. The website then shows the Fidget's own **Setup WiFi** steps, with no error.
 
 ## Network names travel as hex
 
@@ -82,7 +82,7 @@ The website tries up to five times, then asks you to unplug the Fidget and plug 
 > syncinfo
 [cmd] syncinfo.fs_total=... (more lines)
 [cmd] syncinfo.setup=1
-[cmd] syncinfo.fw=1.4.1
+[cmd] syncinfo.fw=<version>
 > wifi scan
 [cmd] wifi.scan=started
 [cmd] wifi.net=rssi=-41 sec=wpa2 ssid_hex=486f6d654e6574

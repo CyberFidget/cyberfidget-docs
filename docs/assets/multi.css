@@ -1,5 +1,29 @@
 /* SPDX-License-Identifier: CC-BY-SA-4.0 */
 /* multi.css - minimal hover-to-swap gallery for step images */
+/* Standalone media, including lightbox links and raw HTML video blocks. */
+.md-typeset p > img:only-child:not(.inline):not(.icon):not(.badge),
+.md-typeset p > video:only-child,
+.md-typeset p > a.glightbox:only-child > img,
+.md-typeset > img,
+.md-typeset > a.glightbox > img,
+.md-typeset > video,
+.md-typeset figure img,
+.md-typeset figure video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+}
+
+/* Keep gallery thumbnails at their authored size when wrapped by a lightbox. */
+.cf-step-gallery .cf-thumbs > a.glightbox {
+  width: var(--cf-thumb-w, 72px);
+}
+
+.md-typeset .cf-step-gallery > .cf-zoom {
+  justify-self: center;
+}
+
 .cf-step-gallery .cf-main img { max-width: 100%; height: auto; display:block; }
 
 /* Visible firmware detail, distinct from cyan information blocks. */
