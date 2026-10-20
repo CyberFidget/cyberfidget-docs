@@ -59,7 +59,7 @@ After this page you will know where to find each part of using and looking after
 
     ---
 
-    Plug in a USB-C cable to charge. It sleeps after about a minute without use; press the bottom-right button to wake it.
+    Plug in a USB-C cable to charge. When it runs on battery, it sleeps after about a minute without use; press the bottom-right button to wake it.
 
     [Battery and Power](../product/battery-and-power.md)
 
@@ -139,7 +139,7 @@ After this page you will know where to find each part of using and looking after
 
     ---
 
-    When your Fidget checks for new apps and firmware (its built-in software), and how to check now.
+    When your Fidget checks for app changes and firmware updates (its built-in software), and how to check manually.
 
     [Updates](../software/updates.md)
 
