@@ -73,6 +73,8 @@ nav:
     - Motion Sensing: concepts/accelerometer.md
     - Tools:
       - App Builder: software/ota-builder.md
+      - Code generator: software/code-generator.md
+      - "Generator: free use, credits and privacy": software/credits.md
       - Browser Emulator: software/emulator.md
   - Your Fidget:
     - Built-in apps and features:

@@ -1292,6 +1292,38 @@ scenes['2d-animation-frames'] = async (r) => {
   await rec.finish({ from: start, to: end, region: STUDIO_PANEL, posterAt: 0.2, width: 700 });
 };
 
+// 14. The Generate tab, signed out, without generating anything (nothing is
+// sent to a code generator). Stills: the start panel of a new project; the
+// Generation settings it links to; and the How it works view of a demo app,
+// whose explanation ships with the demo. Labels verified in
+// inc/studio-body.php ("Make your first app", "Modify a Demo App",
+// "Generator settings", "How it works") and builder.js.
+scenes['generate-tab'] = async (r) => {
+  const page = await r.plainPage();
+  await newEmptyProject(page, r.base);
+  await r.shot(page, 'generate-start', STUDIO_PANEL);
+
+  await page.locator('#builder-generator-settings').click();
+  await page.getByText('Choose how app generation runs for your account.').waitFor();
+  await sleep(900);
+  await r.shot(page, 'generate-settings', { x: 350, y: 410, width: 500, height: 210 });
+  await page.__context.close();
+
+  // A fresh browser, so the studio opens its landing page again.
+  const demo = await r.plainPage();
+  await newEmptyProject(demo, r.base);
+  await demo.locator('#builder-try-demo').click();
+  await sleep(600);
+  await demo.locator('#builder-modify-demo-list').getByText('Spaceship', { exact: true }).click();
+  await demo.locator('.builder-surface-tab[data-builder-view="explanation"]').waitFor();
+  await sleep(3500);
+  await demo.locator('.builder-surface-tab[data-builder-view="explanation"]').click();
+  await demo.getByText('Explain Deeper').waitFor();
+  await sleep(900);
+  await r.shot(demo, 'generate-how-it-works', STUDIO_PANEL);
+  await demo.__context.close();
+};
+
 // ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------

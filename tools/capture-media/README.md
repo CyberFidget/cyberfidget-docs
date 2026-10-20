@@ -20,6 +20,7 @@ Drives the studio in a headless browser and writes the documentation's screensho
 | `2d-drawing-tools` | `2d-drawing-tools.webm` + `.png`: Draw, Line, Rectangle, Oval, Fill and Erase on a new sprite; `2d-tool-bar.png`, `2d-drawing-tools-done.png` |
 | `2d-layers` | `2d-layers.webm` + `.png`: **New layer**, drawing on it, hiding and showing a layer, picking a layer, the layer's menu; `2d-layers-menu.png` |
 | `2d-animation-frames` | `2d-animation-frames.webm` + `.png`: **+ Frame** and **Move** to make a ball roll, then the preview and **Speed**; `2d-animation-frames-preview.png` |
+| `generate-tab` | `generate-start.png` (a new project's Generate tab), `generate-settings.png` (**Generator settings**), `generate-how-it-works.png` (the How it works view of the Spaceship demo). Nothing is generated or sent. |
 
 Clips are WebM (VP8), cropped to the relevant region and kept short. Each clip has a poster PNG with the same base name.
 

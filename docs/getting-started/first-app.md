@@ -203,4 +203,5 @@ Looking for more functions to try? See the [function reference](../reference/fun
 - The concept pages: [buttons](../concepts/buttons.md), [the screen](../concepts/display.md), [sound](../concepts/audio.md), [LEDs](../concepts/leds.md), [the slider](../concepts/slider.md) and [motion sensing](../concepts/accelerometer.md).
 - Learn from real apps: in the studio's start panel, **Modify a Demo App** loads one of 16 demos (Spaceship, Dino Run, Breakout and more) that you can read, change and rebuild.
 - Make your own pictures and animations: [Studio overview](../studio/overview.md).
+- Optional: the studio's [code generator](../software/code-generator.md) can explain how an app works, or draft a change you then read and finish yourself.
 - Want full control of the firmware? The [Arduino route](first-flash-arduino.md) is the advanced path.
