@@ -1,5 +1,24 @@
 # Hardware Specs
 
+<div class="cf-hero" markdown>
+<div class="cf-hero__media" markdown>
+
+![A Cyber Fidget with its buttons removed, showing the switches underneath, two lights glowing blue and red, and a slider test on the screen](../assets/product/buttons-removed.webp){ width="240" height="360" }
+
+</div>
+<div class="cf-hero__text" markdown>
+
+<p class="cf-hero__lead"><strong>What's inside Cyber Fidget, part by part: the chips, the power system, and which pin does what.</strong></p>
+
+After this page you can name each part on the board, see how they connect, and find the part numbers for your own projects.
+
+[Full specifications](#full-specifications){ .md-button .md-button--primary }
+[Pinout](pinout.md){ .md-button }
+[Component reference](../reference/hardware-specs.md){ .md-button }
+
+</div>
+</div>
+
 !!! note "PCB rev 1.x"
     Specs reflect the current production revision (PCB rev 1.2). Minor physical changes may occur within the 1.x series; any compatibility-breaking changes will increment the major revision.
 
