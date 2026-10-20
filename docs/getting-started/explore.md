@@ -167,7 +167,7 @@ More: [Motion Sensing](../concepts/accelerometer.md).
 
 A sprite is a small picture for a character or object. An animation shows several sprites one after another. Draw sprites in the studio, or try the blinking face below.
 
-![Frame 0, eyes open: an 8 x 8 face with tall eyes](../assets/sprites/eyes-open.png){ width="81" } ![Frame 1, eyes shut: the same face with short eyes](../assets/sprites/eyes-shut.png){ width="81" }
+![Frame 0, eyes open: an 8 x 8 face with tall eyes](../assets/sprites/eyes-open.png){ .no-lightbox width="81" } ![Frame 1, eyes shut: the same face with short eyes](../assets/sprites/eyes-shut.png){ .no-lightbox width="81" }
 
 ??? example "Try it"
 
@@ -209,7 +209,7 @@ More: [Sprites & Animation](../concepts/sprites.md), and for artists, the [Studi
 
 ## 3D models
 
-The screen can show spinning 3D wireframe models: shapes made of points joined by straight lines. The example in **Try it** spins a box, described by its 8 corners and 12 edges. The picture shows a model drawn in the studio, running the same way.
+The screen can show spinning 3D wireframe models: shapes made of points joined by straight lines. Everyone can use the Studio's **3D** tab to draw a model or [import an OBJ or STL file](../studio/3d-models.md#importing-a-model-file). The example in **Try it** spins a box, described by its 8 corners and 12 edges. The picture shows a model drawn in the studio, running the same way.
 
 ![A wireframe model on the emulator screen](../assets/media/3d-try-in-app-emulator.png){ width="180" }
 

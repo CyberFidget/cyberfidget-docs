@@ -102,8 +102,6 @@ const WORKSPACE = { x: 0, y: 112, width: 940, height: 668 };
 const STUDIO_PANEL = { x: 0, y: 112, width: 862, height: 640 };
 // Everything below the site header: workspace and emulator side by side.
 const WHOLE_STUDIO = { x: 0, y: 112, width: 1280, height: 668 };
-// The emulator device only.
-const DEVICE = { x: 920, y: 200, width: 300, height: 400 };
 // The whole emulator column: device, status line and REBUILD box.
 const EMU_COLUMN = { x: 862, y: 160, width: 418, height: 620 };
 
@@ -127,6 +125,53 @@ const CURSOR_SCRIPT = `
 
 function even(n) { return Math.round(n / 2) * 2; }
 
+// The docs site's page background (Material "slate" scheme,
+// --md-default-bg-color, hsl(225, 15%, 14%)). Measured from the built docs
+// site, not guessed: body background-color computed to rgb(30, 33, 41).
+// If the docs theme colour changes, update this and re-capture every
+// emulator clip (see README, "Driving the emulator").
+const DOCS_BG = 'rgb(30, 33, 41)';
+
+// Capture browser only: paint the area behind the emulator device in the
+// docs page colour, so the device's LED glow fades into the docs page
+// instead of into the studio's own dark purple (which showed as a dark frame
+// around the device). Takes a browser context or a page; the style is added
+// to every page that loads afterwards. Nothing on the server changes.
+async function matchDocsBackground(target) {
+  await target.addInitScript((bg) => {
+    const add = () => {
+      if (document.getElementById('cf-capture-docs-bg')) return;
+      const style = document.createElement('style');
+      style.id = 'cf-capture-docs-bg';
+      style.textContent = '#studio-emulator-column, #studio-emulator-mount, #panel-builder-emulator, .studio-emulator-column, .builder-emu-main, .builder-emu-device-row, .builder-emu-device, #builder-emulator-container { background: ' + bg + ' !important; }';
+      document.documentElement.appendChild(style);
+    };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', add); else add();
+  }, DOCS_BG);
+}
+
+// For clips that show the device alone: hide (but keep the space of) the
+// "EMULATOR" label above it and the RESTART / sound row below it, so the crop
+// with its glow margin shows only the device. Call after the app is running
+// and before the clip starts.
+async function hideEmulatorChrome(page) {
+  return page.addStyleTag({ content: '.studio-emulator-stamp, .cf-device-controls, .builder-emulator-volume-wrap { visibility: hidden !important; }' });
+}
+
+// Crop rectangle (page pixels) around the emulator device: the chassis picture
+// plus a margin for the LED glow (the glow layer is blurred, so it fades out
+// within about 24 px of the body). Measure after the app is running, so
+// the layout is settled, and use the same region for the whole clip.
+async function deviceRegion(page, pad = 24) {
+  const b = await page.evaluate(() => {
+    const r = document.querySelector('.cf-device-chassis').getBoundingClientRect();
+    return { x1: r.left, y1: r.top, x2: r.right, y2: r.bottom };
+  });
+  const x = Math.max(0, Math.floor(b.x1 - pad));
+  const y = Math.max(0, Math.floor(b.y1 - pad));
+  return { x: even(x), y: even(y), width: even(Math.min(VIEW.width, Math.ceil(b.x2 + pad)) - even(x)), height: even(Math.min(VIEW.height, Math.ceil(b.y2 + pad)) - even(y)) };
+}
+
 // Browser-context options shared by recorded and plain pages. `models: true`
 // turns the studio's 3D tab on for this browser only (see enableModels).
 async function newContext(browser, { video = null, cursor = false, models = false } = {}) {
@@ -136,6 +181,7 @@ async function newContext(browser, { video = null, cursor = false, models = fals
     permissions: ['clipboard-read', 'clipboard-write'],
     ...(video ? { recordVideo: { dir: video, size: VIEW } } : {}),
   });
+  await matchDocsBackground(context);
   if (cursor) await context.addInitScript(CURSOR_SCRIPT);
   if (models) await enableModels(context);
   return context;
@@ -765,6 +811,7 @@ scenes['emulator-catcher'] = async (r) => {
 
   // Start a fresh game so the loop starts at Score 0 Lives 3.
   await page.getByRole('button', { name: /restart/i }).click();
+  await hideEmulatorChrome(page);
   await sleep(250);
   const start = rec.now();
 
@@ -821,7 +868,7 @@ scenes['emulator-catcher'] = async (r) => {
   await sleep(600);
   await page.mouse.up();
   const end = Math.min(rec.now(), start + 10);
-  await rec.finish({ from: start, to: end, region: DEVICE, posterAt: 1.0 });
+  await rec.finish({ from: start, to: end, region: await deviceRegion(page), posterAt: 1.0 });
 };
 
 // 5. A short sprite app: an actor moved with the slider and buttons.
@@ -835,6 +882,7 @@ scenes['emulator-sprites'] = async (r) => {
   await rebuildAndRun(page);
   await sleep(800);
   await page.evaluate(() => document.activeElement && document.activeElement.blur());
+  await hideEmulatorChrome(page);
   await sliderGrab(page, 50);
   await sleep(300);
   const start = rec.now();
@@ -852,7 +900,7 @@ scenes['emulator-sprites'] = async (r) => {
   await sleep(300);
   await page.mouse.up();
   const end = Math.min(rec.now(), start + 8);
-  await rec.finish({ from: start, to: end, region: DEVICE, posterAt: 0.2 });
+  await rec.finish({ from: start, to: end, region: await deviceRegion(page), posterAt: 0.2 });
 };
 
 // 6. The first build: REBUILD & RUN, then the emulator shows the text.
@@ -1060,6 +1108,7 @@ scenes['3d-try-in-app'] = async (r) => {
   await waitForApp(page);
   await sleep(500);
   await page.evaluate(() => document.activeElement && document.activeElement.blur());
+  const chromeHidden = await hideEmulatorChrome(page);
   const emuStart = rec.now();
   await sleep(1500);
 
@@ -1072,12 +1121,14 @@ scenes['3d-try-in-app'] = async (r) => {
   for (let v = 0; v <= 50; v += 3) { await sliderTo(page, v, 1); await sleep(40); }
   await page.mouse.up();
   await sleep(800);
-  await r.shot(page, '3d-try-in-app-running', WHOLE_STUDIO);
   const end = rec.now();
+  // The whole-studio still keeps the label and the RESTART row.
+  await chromeHidden.evaluate((e) => e.remove());
+  await r.shot(page, '3d-try-in-app-running', WHOLE_STUDIO);
   // Two clips around the build: the click path, then the running app.
   await rec.finish([
     { from: start, to: clickEnd, region: WHOLE_STUDIO, posterAt: 0.2, width: 900 },
-    { name: '3d-try-in-app-emulator', from: emuStart, to: end, region: DEVICE, posterAt: 1.0 },
+    { name: '3d-try-in-app-emulator', from: emuStart, to: end, region: await deviceRegion(page), posterAt: 1.0 },
   ]);
 };
 
@@ -1239,6 +1290,38 @@ scenes['2d-animation-frames'] = async (r) => {
   await r.shot(page, '2d-animation-frames-preview', { x: 622, y: 160, width: 240, height: 186 });
   const end = rec.now();
   await rec.finish({ from: start, to: end, region: STUDIO_PANEL, posterAt: 0.2, width: 700 });
+};
+
+// 14. The Generate tab, signed out, without generating anything (nothing is
+// sent to a code generator). Stills: the start panel of a new project; the
+// Generation settings it links to; and the How it works view of a demo app,
+// whose explanation ships with the demo. Labels verified in
+// inc/studio-body.php ("Make your first app", "Modify a Demo App",
+// "Generator settings", "How it works") and builder.js.
+scenes['generate-tab'] = async (r) => {
+  const page = await r.plainPage();
+  await newEmptyProject(page, r.base);
+  await r.shot(page, 'generate-start', STUDIO_PANEL);
+
+  await page.locator('#builder-generator-settings').click();
+  await page.getByText('Choose how app generation runs for your account.').waitFor();
+  await sleep(900);
+  await r.shot(page, 'generate-settings', { x: 350, y: 410, width: 500, height: 210 });
+  await page.__context.close();
+
+  // A fresh browser, so the studio opens its landing page again.
+  const demo = await r.plainPage();
+  await newEmptyProject(demo, r.base);
+  await demo.locator('#builder-try-demo').click();
+  await sleep(600);
+  await demo.locator('#builder-modify-demo-list').getByText('Spaceship', { exact: true }).click();
+  await demo.locator('.builder-surface-tab[data-builder-view="explanation"]').waitFor();
+  await sleep(3500);
+  await demo.locator('.builder-surface-tab[data-builder-view="explanation"]').click();
+  await demo.getByText('Explain Deeper').waitFor();
+  await sleep(900);
+  await r.shot(demo, 'generate-how-it-works', STUDIO_PANEL);
+  await demo.__context.close();
 };
 
 // ---------------------------------------------------------------------------

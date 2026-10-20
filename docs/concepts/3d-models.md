@@ -30,9 +30,9 @@ Every example on this page goes into a fresh [blank template](../getting-started
 
 ## Getting a model into your code
 
-There are two ways.
+There are three ways.
 
-**1. Make it in the Studio's 3D tab.** The 3D tab lets you place points, join them with lines, and watch the result spin in a preview that uses the same drawing as the Fidget. The next section, [Draw a wireframe model in the Studio](#draw-a-wireframe-model-in-the-studio), walks through it step by step; [3D Models in the Studio](../studio/3d-models.md) lists every control. The 3D tab is available to selected accounts: if you don't see a **3D** button next to **Code** and **2D**, use the second way.
+**1. Make it in the Studio's 3D tab.** The 3D tab is available to everyone. It lets you place points, join them with lines, and watch the result spin in a preview that uses the same drawing as the Fidget. [Draw a wireframe model in the Studio](#draw-a-wireframe-model-in-the-studio) walks through it step by step; [3D Models in the Studio](../studio/3d-models.md) lists every control.
 
 When you build the app, the Studio turns every model in the project into code and adds it to your app for you. While a model is open, the 3D tab shows a **Use in code** line with a **Copy** button. It looks like this, for a model called `ship`:
 
@@ -45,7 +45,9 @@ The model's name appears twice: once as the name of its group and once as the me
 
 **Try it in an app** in the 3D tab starts a small app that shows your model spinning, if the project has no code (see step 6 below).
 
-**2. Write the points and lines yourself.** For a simple shape this is quick, and it is what the examples on this page do. [Drawing a model](#drawing-a-model) shows how.
+**2. Import a model file.** In the **3D** tab, choose **Add art > Import from a file** and pick an OBJ (`.obj`) or STL (`.stl`) file from another 3D program. Studio converts its faces into lines and fits it to the model grid. Start with a simple shape: each model can have up to 96 points and 160 lines. [Importing a model file](../studio/3d-models.md#importing-a-model-file) explains the steps and limits. Imported models use the same **Use in code** line and **Try it in an app** button as models drawn in the Studio.
+
+**3. Write the points and lines yourself.** For a simple shape this is quick, and it is what the examples on this page do. [Drawing a model](#drawing-a-model) shows how.
 
 !!! note "Short names for the 3D functions"
     The 3D functions live in `cf_gfx.h`, and their full names start with `cf::gfx::`, as in `cf::gfx::MeshActor`. That is how the [function reference](../reference/functions.md) lists them.
@@ -63,9 +65,6 @@ By the end of this section you will have drawn a model with the mouse in the Stu
 <video src="../../assets/media/3d-try-in-app-emulator.webm" poster="../../assets/media/3d-try-in-app-emulator.png" autoplay loop muted playsinline width="300"></video>
 
 *The result: a model spinning on the emulator. Moving the slider makes it bigger or smaller.*
-
-!!! note "3D tab access"
-    The **3D** button in the Studio's tab rail only appears for accounts it has been turned on for. If you don't see it, you can still make models in code: skip to [Drawing a model](#drawing-a-model).
 
 **1. Start a project without code.** Open the [Studio](https://cyberfidget.com/create/) and choose **Create an app**. Leave the starter unselected, so step 6 can write a small app for you.
 

@@ -20,6 +20,7 @@ Drives the studio in a headless browser and writes the documentation's screensho
 | `2d-drawing-tools` | `2d-drawing-tools.webm` + `.png`: Draw, Line, Rectangle, Oval, Fill and Erase on a new sprite; `2d-tool-bar.png`, `2d-drawing-tools-done.png` |
 | `2d-layers` | `2d-layers.webm` + `.png`: **New layer**, drawing on it, hiding and showing a layer, picking a layer, the layer's menu; `2d-layers-menu.png` |
 | `2d-animation-frames` | `2d-animation-frames.webm` + `.png`: **+ Frame** and **Move** to make a ball roll, then the preview and **Speed**; `2d-animation-frames-preview.png` |
+| `generate-tab` | `generate-start.png` (a new project's Generate tab), `generate-settings.png` (**Generator settings**), `generate-how-it-works.png` (the How it works view of the Spaceship demo). Nothing is generated or sent. |
 
 Clips are WebM (VP8), cropped to the relevant region and kept short. Each clip has a poster PNG with the same base name.
 
@@ -100,9 +101,17 @@ Headless video does not draw the mouse. Recorded pages get a yellow dot that fol
 
 For the 2D canvas, `tool2d(page, 'Line')` finds a tool, and `pixelAt(page, x, y)` and `drawPixels(page, [[x, y], ...])` work in sprite pixels. For the 3D stage, `modelPoint`, `modelLineMiddle`, `stageSpotFor`, `orbitTo` and `zoomTo` work in model units and view angles, using the editor state the studio exposes for its own tests (`window.__cfModelEditor.debugState()`).
 
+### Match the docs background
+
+The studio paints the area behind the emulator device in its own dark purple, which shows as a dark frame around the device when the picture sits on the docs page. Every browser the tool opens therefore runs `matchDocsBackground`, which paints the emulator column in the docs page colour (`DOCS_BG` in `capture.mjs`, `rgb(30, 33, 41)`), so the LED glow around the device fades into the page. It only changes that browser; nothing on the server changes.
+
+- `DOCS_BG` is the docs theme's page colour (Material "slate", `--md-default-bg-color`, `hsl(225, 15%, 14%)`). It was read from the built docs site, not guessed: build the site (`mkdocs build -d <dir>`), open a page in Playwright and read `getComputedStyle(document.body).backgroundColor`. **If the docs theme colour changes, update `DOCS_BG` and re-capture every emulator clip and still** (`emulator-catcher`, `emulator-sprites`, `rebuild-and-run`, `3d-try-in-app`).
+- `hideEmulatorChrome(page)` hides (keeping the space) the "EMULATOR" label above the device and the RESTART and sound row below it. Call it after the app is running and before the clip starts, for clips of the device alone.
+- `deviceRegion(page)` measures the device picture and returns a crop rectangle with a 24 px margin for the glow (the glow layer is blurred and fades out within that margin). Call it once the app is running, and use the same rectangle for the whole clip: `rec.finish({ from, to, region: await deviceRegion(page) })`.
+
 ### Cut, crop and time a clip
 
-- `rec.finish({ from, to, region, width, posterAt })` keeps `from` to `to` seconds of the recording, crops it to `region` and scales it to `width` pixels wide. The ready-made regions are `WORKSPACE`, `STUDIO_PANEL` (rail and 2D or 3D workspace), `WHOLE_STUDIO`, `DEVICE` and `EMU_COLUMN`.
+- `rec.finish({ from, to, region, width, posterAt })` keeps `from` to `to` seconds of the recording, crops it to `region` and scales it to `width` pixels wide. The ready-made regions are `WORKSPACE`, `STUDIO_PANEL` (rail and 2D or 3D workspace), `WHOLE_STUDIO` and `EMU_COLUMN`. For the device alone, measure the crop with `await deviceRegion(page)` instead of a fixed rectangle (see "Match the docs background").
 - Pass an array to cut several clips from one recording; each extra one has its own `name`. `3d-try-in-app` does this to leave out the build: one clip up to the click, one of the running app.
 - The poster PNG is the frame at `posterAt` seconds. Pick a frame that shows the result (often `end - start - 0.3`), or the starting state when the clip is about a click path.
 - Aim for 4 to 15 seconds. Pause (`sleep`) 300 to 900 ms after each step so a viewer can follow. End close to where the clip started, so the loop doesn't jump.

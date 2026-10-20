@@ -17,6 +17,17 @@ theme:
 extra_css:
   - assets/guide.css
   - assets/multi.css
+  - assets/landing.css
+
+plugins:
+  - search
+  - glightbox:
+      skip_classes:
+        - inline
+        - icon
+        - badge
+        - cf-badge
+        - no-lightbox
 
 hooks:
   - tools/full-code/full_code.py
@@ -62,8 +73,11 @@ nav:
     - Motion Sensing: concepts/accelerometer.md
     - Tools:
       - App Builder: software/ota-builder.md
+      - Code generator: software/code-generator.md
+      - "Generator: free use, credits and privacy": software/credits.md
       - Browser Emulator: software/emulator.md
   - Your Fidget:
+    - Overview: your-fidget/index.md
     - Built-in apps and features:
       - Built-in apps: software/apps.md
       - Voice Notes: firmware/voice-recorder.md
@@ -71,9 +85,11 @@ nav:
       - Web Portal: firmware/web-portal.md
       - Awake & dev mode: software/awake-and-dev-mode.md
       - Storage & SD: software/storage.md
+    - The Archives:
+      - Get apps from The Archives: software/sharing-apps.md
+      - Submit your app to The Archives: software/submit-to-archives.md
     - Keep and share your work:
       - Keeping and sharing your work: software/import-export.md
-      - Sharing from The Archives: software/sharing-apps.md
     - Update your Fidget:
       - Updates: software/updates.md
       - Update or reset your Fidget: software/updating.md
@@ -104,6 +120,7 @@ nav:
   - Reference:
     - Glossary: reference/glossary.md
     - Serial commands: reference/serial-commands.md
+    - Set up WiFi over USB: reference/usb-wifi-setup.md
   - Contributors:
     - Contribute: contribute/contribute.md
     - Firmware internals:

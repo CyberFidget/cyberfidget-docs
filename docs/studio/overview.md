@@ -1,16 +1,75 @@
 # Studio Overview
 
+<div class="cf-hero" markdown>
+<div class="cf-hero__media" markdown>
+
+<video src="../../assets/media/2d-animation-frames.webm" poster="../../assets/media/2d-animation-frames.png" autoplay loop muted playsinline width="420" height="312"></video>
+
+</div>
+<div class="cf-hero__text" markdown>
+
+<p class="cf-hero__lead"><strong>Make apps, pixel art, animations and 3D models for your Cyber Fidget, in your browser.</strong></p>
+
 Studio is where you make things for your Cyber Fidget -- apps, artwork, and 3D models. It opens at [cyberfidget.com/create/](https://cyberfidget.com/create/).
 
 This page is a map of the surface. Each tool has its own page, linked at the bottom.
+
+*In the clip: adding frames to a ball sprite in the 2D editor, moving the ball in each frame, and changing the preview speed.*
+
+[Open the studio](https://cyberfidget.com/create/){ .md-button .md-button--primary }
+
+</div>
+</div>
+
+<div class="grid cards" markdown>
+
+-   **Draw**
+
+    ---
+
+    Draw, brush, line and shape tools, fill and selection, for pixel art made for the 128 x 64 screen.
+
+    [Tools](tools.md) | [Layers](layers.md)
+
+-   **Animate**
+
+    ---
+
+    Add frames, name animations, and preview them at the speed they will play.
+
+    [Animations and frames](animations-and-frames.md) | [Preview and Speed](preview.md)
+
+-   **Reuse and share**
+
+    ---
+
+    Keep art in your library, start from free starters, and share links to your work.
+
+    [Your Sprite Library](your-sprite-library.md) | [Sharing](sharing.md)
+
+-   **Build in 3D**
+
+    ---
+
+    Make wireframe models from points and lines and try them in an app.
+
+    [3D Models](3d-models.md)
+
+</div>
 
 ---
 
 ## Starting something
 
-Studio opens on a landing page with one starting point: **Create an app**. Describe what you want, and the code generator builds a working first version you can run and edit straight away.
+On the Studio landing page, choose **+ Create an app**. The workspace offers three ways to start:
 
-Below it, **Draw a screensaver** opens [Quick Draw](#quick-draw) if you would rather just doodle than write an app, and **Open a project file** loads a project you saved to your computer earlier.
+- **Make your first app** puts an example description in the box. Change it or describe your own idea, then use the optional [code generator](../software/code-generator.md) to generate code you can build, test and edit.
+- **Modify a Demo App** loads a demo you can edit by hand or change with the code generator.
+- **Code from Blank Template** opens starter code for you to write your app by hand.
+
+The code generator is optional. You can write code, draw art, build and test without it.
+
+Below **+ Create an app**, **Draw a screensaver** opens [Quick Draw](#quick-draw) if you would rather just doodle than write an app, and **Open a project file** loads a project you saved to your computer earlier.
 
 Further down, **MY STUFF** lists the projects you already have. Choosing one opens it. The landing page is replaced by the workspace -- you see one or the other, never both.
 
@@ -18,14 +77,14 @@ Further down, **MY STUFF** lists the projects you already have. Choosing one ope
 
 ## The workspace tabs
 
-Once a project is open, a strip of tabs switches between the tools. On a desktop they run down the left edge: Generate, Code, 2D, 3D (when available) and Settings. On a phone they sit along the bottom, and **Test** is a tab there; on a desktop the emulator sits beside the workspace instead. On a phone, Settings is the gear icon in the top bar.
+Once a project is open, a strip of tabs switches between the tools. On a desktop they run down the left edge: Generate, Code, 2D, 3D and Settings. On a phone they sit along the bottom, and **Test** is a tab there; on a desktop the emulator sits beside the workspace instead. On a phone, Settings is the gear icon in the top bar.
 
 | Tab | What it is for |
 |-----|----------------|
 | **Generate** | Describe a change in plain language and have it written for you. |
 | **Code** | The full editor, with the screen, buttons, lights, and sound available. |
 | **2D** | Draw and animate sprites. |
-| **3D** | Build wireframe models. Appears only if it is enabled for your account. |
+| **3D** | Build wireframe models. |
 | **Settings** | Project settings, including what others may copy when you share, and saving the whole project to a file. |
 | **Test** | Run the app in the emulator, a copy of the device that runs in your browser. |
 

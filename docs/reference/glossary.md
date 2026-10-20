@@ -14,7 +14,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **API** | Application Programming Interface -- how code talks to a library or service. |
 | **Binary angle** | An angle stored as a whole number from 0 to 255, where 256 steps make one full turn (64 is a quarter turn). The 3D model functions use binary angles. |
 | **BLE** | Bluetooth Low Energy -- used for wireless features on the device. |
-| **CC BY-SA** | Creative Commons Attribution-ShareAlike; reuse requires attribution and sharing adaptations under the same license. |
+| **CC BY-SA** | Creative Commons Attribution-ShareAlike - others may reuse and change the work if they credit the maker and share their version under the same license. Shared art uses version 4.0. |
 | **CC0** | Creative Commons Zero - a public-domain dedication that allows reuse without the usual copyright restrictions. |
 | **CI** | Continuous Integration -- automatic checks and builds triggered by code changes. A studio app can build on your computer or the build server. |
 | **CMake** | Cross-platform build system used to configure the WASM/Emscripten build. |
@@ -54,7 +54,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **MEMS** | Micro-Electro-Mechanical Systems -- miniaturized sensor technology used in the ICS-43434 microphone. |
 | **microSD** | Compact removable Secure Digital memory-card format. |
 | **milli-g** | One thousandth of the acceleration due to gravity; 1000 milli-g is one g. |
-| **MIT License** | Permissive code license requiring the license notice to stay with copies. |
+| **MIT License** | A short permissive license: anyone may use, change and share the code as long as the license notice stays with it. Shared app code uses it. |
 | **ms** | Millisecond - one thousandth of a second. |
 | **NeoPixel** | Adafruit's addressable RGB(W) LED product line; firmware uses a shim that matches its API. |
 | **NTP** | Network Time Protocol; a way to set a clock from a network time server. |
@@ -79,9 +79,11 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **SPI** | Serial Peripheral Interface -- serial bus used for the SD card. |
 | **SPP** | Serial Port Profile -- Bluetooth serial data streaming protocol. |
 | **SSD1306** | The display controller chip used in the Cyber Fidget OLED. |
+| **SSID** | Service Set Identifier - the name of a WiFi network. Over USB the Fidget sends it as hex; see [Set up WiFi over USB](usb-wifi-setup.md). |
 | **URL** | Uniform Resource Locator - an address for a web resource. |
 | **USB** | Universal Serial Bus -- used for charging and serial communication via USB-C. |
 | **USB-C** | USB Type-C -- the reversible connector used for charging and serial communication. |
+| **UTF-8** | The standard way of storing text of any language as bytes. |
 | **UVLO** | Under-voltage lockout - a protective shutdown that stops the device from draining its battery below a safe level. |
 | **VU** | Volume Unit -- a level meter showing how loud the microphone is hearing you (used by the Voice Notes recorder). |
 | **WASM** | WebAssembly -- binary format that runs in the browser; the emulator runs C++ apps as WASM. |
@@ -121,6 +123,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Computational thinking** | Ways of solving problems that suit computers: breaking them into pieces (decomposition), spotting patterns, leaving out detail you don't need, and writing step-by-step instructions. See [Make a game, step by step](../getting-started/make-a-game.md#step-0-plan-the-game). |
 | **const** | Marks a value that cannot be changed through this declaration; after a method signature, the method does not change its object. |
 | **const char*** | A pointer to text ending with a zero character; the characters cannot be changed through this pointer. |
+| **Core loop** | The action a player repeats all game long, such as moving a paddle to catch a dot. See [Make a game, step by step](../getting-started/make-a-game.md#2-group-the-ideas-by-what-they-do). |
 | **Decomposition** | Breaking a big problem or idea into small pieces you can solve one at a time. See [Make a game, step by step](../getting-started/make-a-game.md#step-0-plan-the-game). |
 | **Emulator** | A copy of the device that runs in your browser, so you can try an app without a Cyber Fidget. |
 | **Firmware** | The built-in software that runs on the device. |
@@ -136,6 +139,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **int16_t** | A signed whole number from -32,768 to 32,767. |
 | **int32_t** | A signed whole number from -2,147,483,648 to 2,147,483,647. |
 | **Internal storage** | Storage built into the Cyber Fidget where apps live. |
+| **Juice** | Extra feedback, such as flashes, sounds and shakes, that makes an action in a game feel good. See [Make a game, step by step](../getting-started/make-a-game.md#2-group-the-ideas-by-what-they-do). |
 | **lambda** | A short unnamed C++ function. |
 | **Layer** | Separate set of pixels in a frame, with its own drawing order and visibility. |
 | **long** | A signed whole number; on the device, -2,147,483,648 to 2,147,483,647. |
@@ -170,6 +174,11 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Viewport** | Visible area of the canvas. |
 | **void** | A return type meaning that a function returns no value. |
 | **Wireframe model** | A 3D shape built from points (nodes) connected by straight lines (struts), with no solid surfaces -- drawn as spinning line art on the device. |
+| **OBJ** | Wavefront OBJ, a plain-text 3D model file listing vertices and the faces or lines that join them. Studio can import it. |
+| **STL** | Stereolithography file, a 3D model file made of triangles, common in 3D printing. Studio can import it. |
+| **Vertex** | A corner point of a 3D model; becomes a node in Studio. |
+| **Triangle** | A flat three-cornered patch; most 3D programs build every face from triangles. |
+| **Decimate** | Reduce a 3D model to fewer triangles while keeping its overall shape. |
 
 ---
 
@@ -177,21 +186,28 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 
 | Term | Meaning |
 |------|---------|
+| **API key** | A secret code from a model provider's developer website that lets the studio's code generator use your own account with that provider; the provider charges you for what you use. See [Use your own key](../software/credits.md#use-your-own-key). |
 | **Base64** | A way of writing binary data as plain text using letters, digits, `+` and `/`; update signatures are sent this way. |
 | **Check-in** | A linked Fidget contacting the website over its own WiFi to collect waiting app changes and look for firmware updates. See [Updates](../software/updates.md#when-it-checks). |
+| **Closed beta** | A feature open only to accounts that have been given access, while it is being tried out. See [Beta Access](../software/beta-access.md). |
+| **Credits** | Units on a signed-in account that pay for code generator requests. Credits are rolling out. See [Use my credits](../software/credits.md#use-my-credits). |
 | **Digital signature** | A short code that only the holder of a private key can make for one exact file. Anyone with the matching public key can check it, and changing even one byte of the file makes the check fail. Cyber Fidget uses signatures to confirm that an update is official. |
 | **Erase everything and reinstall** | The website's clean-start install over USB: it erases the whole Fidget and installs a fresh copy of the chosen firmware version. See [Update or reset your Fidget](../software/updating.md#erase-everything-and-reinstall-on-the-website). |
+| **Free allowance** | Code generator requests you can use without sign-in or payment. The studio shows how many free generations you have and when they reset. See [Free (built-in)](../software/credits.md#free-built-in). |
 | **Host** | Firmware code that runs a studio app, on the device or in the browser emulator. |
 | **Loadout** | The collection of apps and menu choices for your Fidget. |
 | **Manifest (update manifest)** | A small JSON document that identifies a firmware download, its size and Secure Hash Algorithm 256-bit (SHA-256) hash, and the hardware it supports. See the [firmware update manifest reference](firmware-update-manifest.md). |
-| **Model (code generator)** | The service a provider (Anthropic, OpenAI, or Google) runs to write app code from your description in the App Builder. See [Choosing a model](../software/ota-builder.md#choosing-a-model). |
+| **Model (code generator)** | The program a provider runs to write app code from your description in the App Builder. See [Code generator](../software/code-generator.md) and [Choosing a model](../software/ota-builder.md#choosing-a-model). |
 | **Pairing / linking** | Establishing an association between a Cyber Fidget and an account. On the device and website, the action is called "link your Fidget." |
 | **Polyphony** | Playing several notes at the same time, such as a chord. In an app, use `playNote()`; see [Notes](../concepts/audio.md#notes-several-sounds-at-once). |
+| **Remix** | Make your own copy of something another person shared, such as an app or art from The Archives, and change it. |
 | **Reset to factory** | The **Settings > Reset to factory** item on the Fidget. It erases sent apps, saved WiFi, settings, the account link and the battery record, and keeps the firmware and the memory card. See [Update or reset your Fidget](../software/updating.md). |
+| **Share link** | An unlisted link to a copy of something you made in Studio, as it was when you shared it. Anyone holding the link can open and forward it. See [Share a link](../software/import-export.md#share-a-link). |
 | **Share sheet** | The list of apps your phone offers when you send something on to someone else. |
 | **Sync session** | A run of USB serial commands from the website (or your own program) that copies apps and the menu to the Fidget. While one is active, the Fidget holds off its WiFi check-ins. See [Serial commands](serial-commands.md#sync-sessions-and-a-busy-fidget). |
 | **Test version** | An early firmware build for trying features before general release (a release candidate). Chosen with **Settings > Updates > Versions: Test** or from the **Test versions** group on the website update page. |
-| **The Archives** | The shared collection of apps, screensavers, and sprite packs at cyberfidget.com/explore. |
+| **The Archives** | The shared collection of apps, screensavers, sprite packs and models at cyberfidget.com/explore. Makers submit their apps for review before they are listed. See [Get apps from The Archives](../software/sharing-apps.md). |
+| **Token (code generator)** | A small piece of text, often part of a word. Model providers count and charge by tokens, and **Max output tokens** limits the length of one reply. |
 
 ---
 

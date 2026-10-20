@@ -2,8 +2,10 @@
 *[ADC]: Analog-to-Digital Converter
 *[API]: Application Programming Interface
 *[BLE]: Bluetooth Low Energy
+*[CC BY-SA]: Creative Commons Attribution-ShareAlike; others may reuse and change the work if they credit the maker and share their version under the same license
 *[CC0]: Creative Commons Zero; a public-domain dedication that allows reuse without the usual copyright restrictions
 *[CI]: Continuous Integration; automated checks and builds triggered by code changes
+*[closed beta]: Open only to accounts that have been given access, while the feature is being tried out
 *[CMake]: Cross-platform Make; build system used for the WASM build
 *[CORS]: Cross-Origin Resource Sharing
 *[CP2102N]: Silicon Labs USB-to-UART bridge chip
@@ -44,6 +46,7 @@
 *[LED]: Light-Emitting Diode
 *[LiPo]: Lithium Polymer battery
 *[Li-ion]: Lithium-ion rechargeable battery
+*[MIT License]: A short permissive license: anyone may use, change and share the code as long as the license notice stays with it
 *[MCU]: Microcontroller Unit; the main processor in an embedded device
 *[MEMS]: Micro-Electro-Mechanical Systems
 *[ms]: Millisecond; one thousandth of a second
@@ -69,9 +72,11 @@
 *[SPI]: Serial Peripheral Interface
 *[SPP]: Serial Port Profile; Bluetooth serial data
 *[SSD1306]: Display controller chip used in the Cyber Fidget OLED
+*[SSID]: Service Set Identifier; the name of a WiFi network
 *[USB]: Universal Serial Bus
 *[URL]: Uniform Resource Locator; an address for a web resource
 *[USB-C]: USB Type-C; reversible connector used for charging and serial communication
+*[UTF-8]: The standard way of storing text of any language as bytes
 *[UVLO]: Under-voltage lockout - a protective shutdown that stops the device from draining its battery below a safe level.
 *[VU]: Volume Unit; a meter showing how loud the incoming sound is
 *[WASM]: WebAssembly
@@ -94,6 +99,12 @@
 *[node]: A point in a wireframe model's shape, positioned in 3D space
 *[strut]: A straight line connecting two nodes in a wireframe model
 *[wireframe model]: A 3D shape built from points (nodes) connected by straight lines (struts), with no solid surfaces
+*[OBJ]: Wavefront OBJ, a plain-text 3D model file listing vertices and the faces or lines that join them
+*[STL]: Stereolithography file, a 3D model file made of triangles, common in 3D printing
+*[vertex]: A corner point of a 3D model; becomes a node in Studio
+*[mesh]: The whole network of vertices and faces that makes up a 3D model
+*[triangle]: A flat three-cornered patch; most 3D programs build every face from triangles
+*[decimate]: Reduce a 3D model to fewer triangles while keeping its overall shape
 *[.cfapp.json]: Studio whole-project file containing code, sprites, models, captures, and settings
 *[.cfmesh.json]: Studio file containing one model
 *[.cfsprite.json]: Studio file containing one sprite
@@ -138,4 +149,6 @@
 *[decomposition]: Breaking a big problem or idea into small pieces you can solve one at a time
 *[computational thinking]: Ways of solving problems that suit computers: breaking them into pieces, spotting patterns, leaving out detail you don't need, and writing step-by-step instructions
 *[pseudo-code]: The steps of a program written in plain words, laid out like code but not in any programming language
+*[core loop]: The action a player repeats all game long, such as moving a paddle to catch a dot
+*[juice]: Extra feedback, such as flashes, sounds and shakes, that makes an action in a game feel good
 *[accelerometer]: A motion sensor that measures acceleration, including gravity, so the device can tell tilt and shakes

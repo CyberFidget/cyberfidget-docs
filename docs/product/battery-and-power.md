@@ -4,6 +4,28 @@ Cyber Fidget looks after its rechargeable battery whether you are using the devi
 
 ---
 
+## How long does a charge last?
+
+These ballparks use a 400 mAh battery capacity and current measured on a
+bench device. Typical use varies with volume, brightness, and how full the
+battery is:
+
+| What you are doing | Roughly how long |
+|---|---|
+| Playing games, watching screensavers, browsing menus | 5 to 6 hours |
+| Hosting the web portal (WiFi on, phone connected) | about 2.5 hours |
+| Asleep in your pocket or a drawer | one to two months |
+
+Two useful facts behind the table: the device draws about the same current
+whatever foreground app is running (the screen and processor dominate), and
+turning WiFi on roughly doubles the draw. Deep sleep uses about 1/270th of
+the active draw, which is why standby is measured in months, not hours.
+
+These are runtime estimates based on current draw, rather than timed
+full-battery discharge tests.
+
+---
+
 ## Going to sleep
 
 After about a minute without interaction (pressing a button or moving the slider), when running on battery, Cyber Fidget shows "Going to sleep now..." and enters deep sleep. Press the bottom-right button to wake it.
@@ -47,6 +69,6 @@ For long-term storage, follow the battery manufacturer's guidance:
 - Top up the charge roughly every 6 months.
 
 !!! note "How it works"
-    This protection is called under-voltage lockout (UVLO). The device reads the cell voltage from the onboard fuel gauge. The working thresholds are about 3.5 V for the asleep check and about 3.3 V while running. These are working values and are still being tuned against the battery's measured discharge curve.
+    This protection is called under-voltage lockout (UVLO). The device reads the cell voltage from the onboard fuel gauge. The thresholds are about 3.5 V for the asleep check and about 3.3 V while running.
 
     The brief battery check during sleep uses a negligible amount of energy, well under the battery's own self-discharge.

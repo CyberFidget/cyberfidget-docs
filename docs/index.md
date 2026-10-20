@@ -1,10 +1,22 @@
 # Cyber Fidget Docs
 
-**Cyber Fidget is a pocket-sized aluminum gadget with a screen, buttons, lights, a speaker and a slider that you can play with, and program to do new things.**
+<div class="cf-hero" markdown>
+<div class="cf-hero__media" markdown>
 
-<video src="assets/media/emulator-catcher.webm" poster="assets/media/emulator-catcher.png" autoplay loop muted playsinline width="240"></video>
+<video src="assets/media/emulator-catcher.webm" poster="assets/media/emulator-catcher.png" autoplay loop muted playsinline width="240" height="320"></video>
 
-*A small game made in the browser, running in the emulator (an on-screen copy of the device). The slider moves the paddle; catch the dots.*
+</div>
+<div class="cf-hero__text" markdown>
+
+<p class="cf-hero__lead"><strong>Cyber Fidget is a pocket-sized aluminum gadget with a screen, buttons, lights, a speaker and a slider that you can play with, and program to do new things.</strong></p>
+
+*In the clip: a small game made in the browser, running in the emulator (an on-screen copy of the device). The slider moves the paddle; catch the dots.*
+
+[See what it is](product/overview.md){ .md-button .md-button--primary }
+[Build your first app](getting-started/first-app.md){ .md-button }
+
+</div>
+</div>
 
 ## Where do you want to start?
 
@@ -46,9 +58,9 @@
 
     ---
 
-    The browser path needs no installs and no device, and the tutorials say up front what you will be able to do. A teacher guide is not available.
+    The browser path needs no installs and no device, and the tutorials say up front what you will be able to do. A teacher guide is in development, and we are looking for feedback and partners: teachers, schools, clubs and makerspaces who want to try it with learners.
 
-    [Build your first app](getting-started/first-app.md) | [Explore what it can do](getting-started/explore.md) | [Contact us](https://cyberfidget.com/contact.php)
+    [Build your first app](getting-started/first-app.md) | [Explore what it can do](getting-started/explore.md) | [Get in touch](https://cyberfidget.com/contact/)
 
 -   **Help build Cyber Fidget**
 
@@ -77,19 +89,30 @@ Hover over an underlined term, such as OLED or LED, to see what it means, or ope
 
 ## Quick links
 
-- **Buy / Pre-order:** [cyberfidget.com/buy.html](https://cyberfidget.com/buy.html)
+- **Buy / Pre-order:** [cyberfidget.com/buy](https://cyberfidget.com/buy/)
 - **Main site:** [cyberfidget.com](https://cyberfidget.com)
 - **The studio (make apps and art):** [cyberfidget.com/create/](https://cyberfidget.com/create/)
 - **Firmware updates:** [cyberfidget.com/update/](https://cyberfidget.com/update/)
-- **Contact:** [cyberfidget.com/contact.php](https://cyberfidget.com/contact.php)
+- **Contact:** [cyberfidget.com/contact](https://cyberfidget.com/contact/)
 
 ## At a glance
+
+<div class="cf-row" markdown>
+<div class="cf-row__media" markdown>
+
+![Three Cyber Fidgets in a row, their screens glowing through dark, red and teal color filters](assets/product/screen-filters.webp){ loading=lazy width="1000" height="1000" }
+
+</div>
+<div class="cf-row__text" markdown>
 
 A machined-aluminum, pocket-sized gadget built for play, tinkering, and experimentation. Designed and assembled in Michigan.
 
 It ships as a kit: no soldering, just screws. 2.2 x 1.6 x 0.8 in, about 68 g. Inside: an ESP32 chip with Wi-Fi and Bluetooth, a 0.96" OLED screen, 6 buttons, a slider, 4 RGBW LEDs, a speaker, a microphone, a motion sensor, a microSD card slot, and USB-C.
 
 See the [Product overview](product/overview.md) for the full picture, or [Hardware specs](hardware/specs.md) for part numbers and dimensions.
+
+</div>
+</div>
 
 !!! success "No device? No problem."
     You can run real Cyber Fidget apps in your browser. Write or generate an app in the [studio](https://cyberfidget.com/create/), press **REBUILD & RUN** in the welcome panel (or **REBUILD** in the emulator panel), and it runs in an on-screen emulator with the same buttons, slider, screen and lights. See the [Browser Emulator](software/emulator.md) guide.
