@@ -271,8 +271,8 @@ Your recordings belong to you, and the Cyber Fidget is built so they stay that w
   written back to the card next to each note -- your words stay in one place you own.
 - **Daily-note summaries use an account you provide** with a service you choose --
   and only ever after you say yes to that specific service, each time, with the exact
-  text shown first. The request goes straight from your phone to that service, never
-  through cyberfidget.com.
+  text shown first. See the [Privacy policy](https://cyberfidget.com/privacy/) and
+  your provider's terms for how requests are handled.
 - **Nothing about a recording** -- not the sound, not a transcript, not even the file name --
   is ever included in error reports sent back to us.
 

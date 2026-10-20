@@ -69,7 +69,7 @@ On the Studio landing page, choose **+ Create an app**. The workspace offers thr
 
 The code generator is optional. You can write code, draw art, build and test without it.
 
-Below it, **Draw a screensaver** opens [Quick Draw](#quick-draw) if you would rather just doodle than write an app, and **Open a project file** loads a project you saved to your computer earlier.
+Below **+ Create an app**, **Draw a screensaver** opens [Quick Draw](#quick-draw) if you would rather just doodle than write an app, and **Open a project file** loads a project you saved to your computer earlier.
 
 Further down, **MY STUFF** lists the projects you already have. Choosing one opens it. The landing page is replaced by the workspace -- you see one or the other, never both.
 

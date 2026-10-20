@@ -33,7 +33,7 @@ After this page you will know where to find each part of using and looking after
 
     [Turn it on](../getting-started/overview.md#2-turn-it-on-and-find-your-way-around)
 
--   ![The emulator playing a catch game: a paddle at the bottom of the screen catches falling dots](../assets/media/emulator-catcher.png){ .cf-contain .no-lightbox loading=lazy width="300" height="400" }
+-   ![The emulator playing a catch game: a paddle on the right edge catches dots flying across from the left](../assets/media/emulator-catcher.png){ .cf-contain .no-lightbox loading=lazy width="300" height="400" }
 
     **Play the built-in apps**
 

@@ -66,7 +66,7 @@ The **HOW IT WORKS** view explains the app in your project: what it does, which 
 
 ![The How it works view for the Spaceship demo: What does this app do?, the concepts it uses, a numbered step-by-step list, What to try next and an Explain Deeper button](../assets/media/generate-how-it-works.png){ width="640" }
 
-The studio shows the allowance for explanations.
+Explanations have their own allowance; the studio shows it.
 
 ---
 
