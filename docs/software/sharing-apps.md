@@ -49,7 +49,7 @@ The buttons on an item depend on what it is and on what its maker chose to share
 | **Remix the art** / **Remix the model** | Opens the sprites or the model in the Studio as your own copy. |
 | **Save the art to My Assets** | Keeps the shared art in your library for your own projects. Needs sign-in. |
 | **Start an app with this art** | Opens the shared art in a new Studio project. |
-| **Take it to GitHub** | Opens the item's repository on GitHub. Shown when the code is shared, you are signed in, and the item has a repository. It does not make a copy. |
+| **Take it to GitHub** | Opens the item's repository on GitHub. Shown for apps and screensavers (not sprite packs or models) when the code is shared, you are signed in, and the item has a repository. It does not make a copy. |
 
 When a maker kept something private, the page says so: **Code not shared - this app runs as the author built it**, or **Art not shared - copies start with stand-in art**. You can still try the app and send it to your Fidget.
 
