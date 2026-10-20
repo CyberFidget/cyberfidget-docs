@@ -92,7 +92,7 @@ Breaking a big idea into small pieces like this is called decomposition.
 
 ### 3. Put the groups in build order, and sharpen each idea
 
-Build the core loop first, so you can try it and feel whether it's fun before you add anything else. Game-jam teams call this "find the fun first". Then add the rules that make it a game, the feedback that makes it feel good, and the end, so you have a whole game you can lose and play again. Leave the challenge for last: how fast the dots should get is easier to tune once everything else works.
+Find the fun first: build the core loop so you can try it and feel whether it's fun before you add anything else. Then add the rules that make it a game, the feedback that makes it feel good, and the end, so you have a whole game you can lose and play again. Leave the challenge for last: how fast the dots should get is easier to tune once everything else works.
 
 As you put each idea in order, make vague words exact. "Flash the lights on a catch" becomes "flash green on a catch, red on a miss". A piece is the right size when you can build it in a few lines and see it change when you run the game. In the table, press a step number to jump to that step.
 

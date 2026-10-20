@@ -3,7 +3,7 @@
 <div class="cf-hero" markdown>
 <div class="cf-hero__media" markdown>
 
-![The Cyber Fidget kit laid out on a white table: the aluminum case front and two backplates, six buttons and the slider, screws, a red color filter, the screen retainer, the mainboard with its screen, and the battery](../assets/product/kit-parts.webp){ width="320" height="320" }
+![The Cyber Fidget kit laid out on a white table: the aluminum case front and two backplates, six buttons and the slider, screws, a red color filter, the screen retainer, the mainboard with its screen, and the battery](../assets/product/kit-parts.webp){ .no-lightbox width="320" height="320" }
 
 </div>
 <div class="cf-hero__text" markdown>
@@ -20,7 +20,7 @@ Cyber Fidget ships as a high-quality kit -- no soldering required, just screws. 
 
 <div class="grid cards cf-photo-cards" markdown>
 
--   ![Hands using tweezers to press a clear lens into the aluminum case front during assembly](../assets/product/assembly-lens.webp){ loading=lazy width="800" height="600" }
+-   ![Hands using tweezers to press a clear lens into the aluminum case front during assembly](../assets/product/assembly-lens.webp){ .no-lightbox loading=lazy width="800" height="600" }
 
     **1. Put it together**
 
@@ -30,7 +30,7 @@ Cyber Fidget ships as a high-quality kit -- no soldering required, just screws. 
 
     [Assembly guide](assembly/guide.md)
 
--   ![The emulator running an app with a small face on the screen that the slider and buttons move](../assets/media/emulator-sprites.png){ .cf-contain loading=lazy width="300" height="400" }
+-   ![The emulator running an app with a small face on the screen that the slider and buttons move](../assets/media/emulator-sprites.png){ .no-lightbox .cf-contain loading=lazy width="300" height="400" }
 
     **2. Explore what it can do**
 
@@ -40,7 +40,7 @@ Cyber Fidget ships as a high-quality kit -- no soldering required, just screws. 
 
     [Explore what it can do](explore.md)
 
--   ![The emulator panel in the studio running a first app that shows Hello on the screen, with the REBUILD button below it](../assets/media/rebuild-and-run-done.png){ .cf-contain loading=lazy width="418" height="620" }
+-   ![The emulator panel in the studio running a first app that shows Hello on the screen, with the REBUILD button below it](../assets/media/rebuild-and-run-done.png){ .no-lightbox .cf-contain loading=lazy width="418" height="620" }
 
     **3. Build your first app**
 
@@ -50,7 +50,7 @@ Cyber Fidget ships as a high-quality kit -- no soldering required, just screws. 
 
     [Build your first app](first-app.md)
 
--   ![The emulator playing a catch game: a paddle at the bottom of the screen catches falling dots](../assets/media/emulator-catcher.png){ .cf-contain loading=lazy width="300" height="400" }
+-   ![The emulator playing a catch game: a paddle on the right edge catches dots flying across from the left](../assets/media/emulator-catcher.png){ .no-lightbox .cf-contain loading=lazy width="300" height="400" }
 
     **4. Make a game, step by step**
 

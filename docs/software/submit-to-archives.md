@@ -11,7 +11,7 @@ Need an app to share? [Build your first app](../getting-started/first-app.md) ta
 
 | | [Share link](import-export.md#share-a-link) | The Archives |
 |---|---|---|
-| Who sees it | Only people you give the link to | Everyone who browses [cyberfidget.com/explore](https://cyberfidget.com/explore/) |
+| Who sees it | Anyone holding the unlisted link; they can open and forward it | Everyone who browses [cyberfidget.com/explore](https://cyberfidget.com/explore/) |
 | Reviewed first | No: the page says "not reviewed by Cyber Fidget" | Yes, by a person at Cyber Fidget |
 | How fast | Straight away | After review |
 | Good for | Showing friends, getting feedback | A finished app you want others to find and install |
@@ -24,8 +24,8 @@ You can do both. A share link is a good way to get feedback before you submit.
 
 ### Who can submit
 
-- You need to sign in with GitHub. Signing in and publishing to The Archives need you to be at least 13. If you are under 18, get permission from a parent or guardian.
-- Publishing to The Archives is in closed beta. If your account doesn't have access, **PUBLISH TO EXPLORE** says so when you press it, and offers a way to ask for access. See [Beta Access](beta-access.md).
+- You need to sign in with GitHub. See the [Terms of Use](https://cyberfidget.com/terms/) for the rules for publishing.
+- Publishing to The Archives is rolling out. If your account doesn't have access, **PUBLISH TO EXPLORE** says so when you press it, and offers a way to ask for access. See [Beta Access](beta-access.md).
 - You can submit up to 3 times a day.
 
 ### What makes a good entry
@@ -59,6 +59,9 @@ Then build the app one more time, and press **PUBLISH TO EXPLORE**. If something
 
     If Studio says **This build can't be published yet**, the app was built in a way The Archives can't use. In **Settings**, under **BUILDING**, set **Where to build** to **On our build server**, build again, then publish.
 
+!!! warning "Keep private information out of code"
+    Builds on your computer keep your code on your computer. If the studio uses the build server instead, that build is public. Keep personal information and secrets out of your code either way.
+
 While it sends, the button reads **Submitting...**, and Studio says **Your app was submitted for review.** when it is done.
 
 You can also start from a share link: on the page of a whole-project link you made, **Submit to the Archives** opens that project in the Studio. The submission uses the project as it is in the Studio, which may differ from what the link shows.
@@ -72,9 +75,9 @@ The **SHARING** switches decide what others may copy from your listing. They are
 | Switch | When it is on | When it is off |
 |---|---|---|
 | **Share the art** | Others may use, change and share your art, including commercially, under CC BY-SA 4.0. They must credit you and share changed art under the same license. | People can see the art in your app but can't take a copy. |
-| **Share the code** | Others may use, change and share your code, including commercially, under the MIT License. Copies keep your copyright and license notice. | Reviewers still read your code, but it isn't offered to anyone else. |
+| **Share the code** | Others may use, change and share your code, including commercially, under the MIT License. Copies keep your copyright and license notice. | Reviewers still read your code; the listing does not offer it for copying. |
 
-With both switches off, people can still try your app and send it to their Fidget.
+With both switches off, people can still try your app and send it to their Fidget. These switches control copying from the listing. They do not make a build on the build server private.
 
 When art sharing is on, **What gets shared when someone remixes** picks what others receive:
 
@@ -89,7 +92,7 @@ A license can't be taken back. Anyone who copied your work under one of these li
 
 ## Review
 
-A person at Cyber Fidget reviews every submission by hand. There is no set time for a review. A reviewer may:
+A person at Cyber Fidget reviews every submission by hand. A reviewer may:
 
 - read your code, including code you didn't share;
 - run your app in the emulator and on a real Cyber Fidget;

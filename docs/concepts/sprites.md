@@ -225,7 +225,7 @@ The copied code has four parts: a credit line, the picture as a list of bytes (`
 
 **Replace the copied lines with the top-of-file section below, rather than adding a second copy.** It includes the same picture declarations followed by the wrapper. Keep each of `heart_bmp`, `heart_w` and `heart_h` exactly once. (Copied a different starter? Keep your copied lines, and below them add only the `using namespace cf::gfx;` line and the `static const Sprite ...` line from the block, with your sprite's names in place of `heart_bmp`, `heart_w` and `heart_h`. If you give the `Sprite` a different name than `heartSprite`, use that name in `drawSprite()` too.) Then insert the `update()` section just above `display.display();`.
 
-![The heart sprite enlarged: a 16 x 16 grid with a white heart shape](../assets/sprites/heart.png){ width="97" }
+![The heart sprite enlarged: a 16 x 16 grid with a white heart shape](../assets/sprites/heart.png){ .no-lightbox width="97" }
 
 ```cpp
 // Insert at the top of the file, below the #include lines
@@ -265,7 +265,7 @@ drawSprite(display, heartSprite, 56, 24);
 
 For a tiny picture, you can write the bytes yourself. This is an 8 x 8 smiley face:
 
-![The smiley sprite enlarged: an 8 x 8 grid with a round face, two eyes and a smile](../assets/sprites/smile.png){ width="81" }
+![The smiley sprite enlarged: an 8 x 8 grid with a round face, two eyes and a smile](../assets/sprites/smile.png){ .no-lightbox width="81" }
 
 ```cpp
 // Insert at the top of the file, below the #include lines
@@ -350,7 +350,7 @@ The smiley example in [Option C](#option-c-write-it-in-code) uses a few C++ word
 
 The bytes are in **XBM** order. Each row of the picture uses one byte for every 8 pixels of width, from top to bottom. Inside a byte, the lowest bit is the leftmost pixel. So write a byte in binary, then read it from **right to left**:
 
-![The smiley sprite enlarged](../assets/sprites/smile.png){ width="81" }
+![The smiley sprite enlarged](../assets/sprites/smile.png){ .no-lightbox width="81" }
 
 | Row | Byte | Binary | Pixels, left to right (`#` is lit) |
 |-----|------|--------|------------------------------------|
@@ -373,7 +373,7 @@ A sprite 10 pixels wide needs 2 bytes per row, and the unused bits are ignored. 
 
 The **pivot** is the point on a sprite that lands on the screen position you give. With the pivot at the middle of the bottom edge, a character "stands" on the y you give, wherever its feet are. `drawSpritePivoted()` uses the pivot; `drawSprite()` ignores it.
 
-![The smiley sprite enlarged](../assets/sprites/smile.png){ width="81" }
+![The smiley sprite enlarged](../assets/sprites/smile.png){ .no-lightbox width="81" }
 
 ```cpp
 // Insert at the top of the file, below the #include lines
@@ -415,7 +415,7 @@ An **animation** is a list of **frames** (sprites), how long each one shows in m
 
 The example below blinks a face: eyes open for 1500 milliseconds (1.5 seconds), then shut for 150 milliseconds, then open again, forever.
 
-![Frame 0, eyes open: an 8 x 8 face with tall eyes and a flat mouth](../assets/sprites/eyes-open.png){ width="81" } ![Frame 1, eyes shut: the same face with short eyes](../assets/sprites/eyes-shut.png){ width="81" }
+![Frame 0, eyes open: an 8 x 8 face with tall eyes and a flat mouth](../assets/sprites/eyes-open.png){ .no-lightbox width="81" } ![Frame 1, eyes shut: the same face with short eyes](../assets/sprites/eyes-shut.png){ .no-lightbox width="81" }
 
 *Frame 0 (eyes open) and frame 1 (eyes shut), enlarged.*
 
@@ -503,7 +503,7 @@ The player hands back a pointer, `const Sprite*`, because sometimes there is no 
 
 A **sprite sheet** groups the animations of one character, so you can pick one by name. This example adds a second animation, `stare`, with a single frame.
 
-![Frame 0, eyes open](../assets/sprites/eyes-open.png){ width="81" } ![Frame 1, eyes shut](../assets/sprites/eyes-shut.png){ width="81" }
+![Frame 0, eyes open](../assets/sprites/eyes-open.png){ .no-lightbox width="81" } ![Frame 1, eyes shut](../assets/sprites/eyes-shut.png){ .no-lightbox width="81" }
 
 ```cpp
 // Insert at the top of the file, below the #include lines
@@ -570,7 +570,7 @@ A `SpriteSheet` holds four values: its name, its array of animations, how many t
 
 An **actor** is a sprite sheet, an animation player and a screen position in one object. Most game characters are actors. Its position is where its pivot lands.
 
-![Frame 0, eyes open](../assets/sprites/eyes-open.png){ width="81" } ![Frame 1, eyes shut](../assets/sprites/eyes-shut.png){ width="81" }
+![Frame 0, eyes open](../assets/sprites/eyes-open.png){ .no-lightbox width="81" } ![Frame 1, eyes shut](../assets/sprites/eyes-shut.png){ .no-lightbox width="81" }
 
 ```cpp
 // Insert at the top of the file, below the #include lines
@@ -615,7 +615,7 @@ Change the position each frame and the actor moves. `setPos()` takes whole pixel
 
 This example moves a face up and down with the slider and left and right with the middle buttons. It is the example in the clip at the top of this page.
 
-![The smiley sprite enlarged](../assets/sprites/smile.png){ width="81" }
+![The smiley sprite enlarged](../assets/sprites/smile.png){ .no-lightbox width="81" }
 
 ```cpp
 // Insert at the top of the file, below the #include lines
@@ -685,7 +685,7 @@ A frame time of 0 holds that frame forever, whatever the loop mode.
 
 This example grows a square once and holds it. Press the middle-right button to play it again. Change `LOOP_ONCE_HOLD` to each of the other modes and rebuild to compare them.
 
-![Frame 0: a small 2 x 2 square](../assets/sprites/grow-small.png){ width="81" } ![Frame 1: a 4 x 4 square](../assets/sprites/grow-middle.png){ width="81" } ![Frame 2: a 6 x 6 square](../assets/sprites/grow-big.png){ width="81" }
+![Frame 0: a small 2 x 2 square](../assets/sprites/grow-small.png){ .no-lightbox width="81" } ![Frame 1: a 4 x 4 square](../assets/sprites/grow-middle.png){ .no-lightbox width="81" } ![Frame 2: a 6 x 6 square](../assets/sprites/grow-big.png){ .no-lightbox width="81" }
 
 ```cpp
 // Insert at the top of the file, below the #include lines
@@ -749,7 +749,7 @@ There are two forms:
 
 Don't mix them: if you draw with pivots, give the sprite form top-left positions, or use the actor form.
 
-![The smiley sprite enlarged](../assets/sprites/smile.png){ width="81" } ![The block sprite enlarged: a solid 3 x 2 rectangle](../assets/sprites/block.png){ width="31" }
+![The smiley sprite enlarged](../assets/sprites/smile.png){ .no-lightbox width="81" } ![The block sprite enlarged: a solid 3 x 2 rectangle](../assets/sprites/block.png){ .no-lightbox width="31" }
 
 ```cpp
 // Insert at the top of the file, below the #include lines
@@ -783,7 +783,7 @@ if (pixelCollides(smile, 60, 28, block, blockX, 28)) {
 
 `sampleSprite(sprite, x, y)` tells you whether one pixel of a sprite is lit. The x and y count from the sprite's own top-left corner, and anything outside the sprite reads as off. This example uses it to draw the face four times bigger.
 
-![The smiley sprite enlarged](../assets/sprites/smile.png){ width="81" }
+![The smiley sprite enlarged](../assets/sprites/smile.png){ .no-lightbox width="81" }
 
 ```cpp
 // Insert at the top of the file, below the #include lines

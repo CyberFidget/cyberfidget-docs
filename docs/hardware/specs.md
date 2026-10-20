@@ -3,7 +3,7 @@
 <div class="cf-hero" markdown>
 <div class="cf-hero__media" markdown>
 
-![A Cyber Fidget with its buttons removed, showing the switches underneath, two lights glowing blue and red, and a slider test on the screen](../assets/product/buttons-removed.webp){ width="240" height="360" }
+![A Cyber Fidget with its buttons removed, showing the switches underneath, two lights glowing blue and red, and a slider test on the screen](../assets/product/buttons-removed.webp){ .no-lightbox width="240" height="360" }
 
 </div>
 <div class="cf-hero__text" markdown>

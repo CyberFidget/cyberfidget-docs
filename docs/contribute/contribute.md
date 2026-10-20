@@ -3,7 +3,7 @@
 <div class="cf-hero" markdown>
 <div class="cf-hero__media" markdown>
 
-![An empty aluminum case front and a backplate, with the triangle pattern machined into the backplate, held in an open hand](../assets/product/case-and-backplate.webp){ width="240" height="360" }
+![An empty aluminum case front and a backplate, with the triangle pattern machined into the backplate, held in an open hand](../assets/product/case-and-backplate.webp){ .no-lightbox width="240" height="360" }
 
 </div>
 <div class="cf-hero__text" markdown>

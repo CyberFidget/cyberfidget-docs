@@ -3,7 +3,7 @@
 <div class="cf-hero" markdown>
 <div class="cf-hero__media" markdown>
 
-![Case fronts in orange, blue, purple, green and red around a raw aluminum one](../assets/product/colorways.webp){ width="320" height="320" }
+![Case fronts in orange, blue, purple, green and red around a raw aluminum one](../assets/product/colorways.webp){ .no-lightbox width="320" height="320" }
 
 </div>
 <div class="cf-hero__text" markdown>

@@ -3,7 +3,7 @@
 <div class="cf-hero" markdown>
 <div class="cf-hero__media" markdown>
 
-![Cyber Fidget: a machined-aluminum case with a small glowing screen showing a retro sunset, a slider on the left and six buttons below the screen](../assets/product/cyber-fidget-render.webp){ width="300" height="350" }
+![Cyber Fidget: a machined-aluminum case with a small glowing screen showing a retro sunset, a slider on the left and six buttons below the screen](../assets/product/cyber-fidget-render.webp){ .no-lightbox width="300" height="350" }
 
 </div>
 <div class="cf-hero__text" markdown>
@@ -35,7 +35,7 @@ Cyber Fidget is two things at once:
 
 <div class="grid cards cf-photo-cards" markdown>
 
--   ![A Cyber Fidget held between finger and thumb, its screen glowing red with the Cyber Fidget logo](../assets/product/in-hand.webp){ loading=lazy width="350" height="540" }
+-   ![A Cyber Fidget held between finger and thumb, its screen glowing red with the Cyber Fidget logo](../assets/product/in-hand.webp){ .no-lightbox loading=lazy width="350" height="540" }
 
     **1. An electronic fidget toy**
 
@@ -43,7 +43,7 @@ Cyber Fidget is two things at once:
 
     Beyond a spinner or clicker: something with a screen, buttons, LEDs, and sound that's fun to hold and play with.
 
--   ![A Cyber Fidget with its buttons removed, showing the switches underneath, two lights glowing blue and red, and a slider test on the screen](../assets/product/buttons-removed.webp){ loading=lazy width="481" height="721" }
+-   ![A Cyber Fidget with its buttons removed, showing the switches underneath, two lights glowing blue and red, and a slider test on the screen](../assets/product/buttons-removed.webp){ .no-lightbox loading=lazy width="481" height="721" }
 
     **2. An approachable dev board**
 
@@ -91,7 +91,7 @@ The MCU (microcontroller) is the small computer that runs your apps. For the ful
 
 <div class="grid cards cf-photo-cards" markdown>
 
--   ![The emulator playing a catch game: a paddle at the bottom of the screen catches falling dots](../assets/media/emulator-catcher.png){ .cf-contain loading=lazy width="300" height="400" }
+-   ![The emulator playing a catch game: a paddle on the right edge catches dots flying across from the left](../assets/media/emulator-catcher.png){ .no-lightbox .cf-contain loading=lazy width="300" height="400" }
 
     **Play**
 
@@ -101,7 +101,7 @@ The MCU (microcontroller) is the small computer that runs your apps. For the ful
 
     [Built-in apps](../software/apps.md)
 
--   ![The studio's 2D editor with a ball sprite on the canvas, the drawing tools on the left and the live preview on the right](../assets/media/2d-animation-frames.png){ loading=lazy width="700" height="520" }
+-   ![The studio's 2D editor with a ball sprite on the canvas, the drawing tools on the left and the live preview on the right](../assets/media/2d-animation-frames.png){ .no-lightbox loading=lazy width="700" height="520" }
 
     **Draw and animate**
 
@@ -111,7 +111,7 @@ The MCU (microcontroller) is the small computer that runs your apps. For the ful
 
     [Studio overview](../studio/overview.md)
 
--   ![The emulator panel in the studio running a first app that shows Hello on the screen, with the REBUILD button below it](../assets/media/rebuild-and-run-done.png){ .cf-contain loading=lazy width="418" height="620" }
+-   ![The emulator panel in the studio running a first app that shows Hello on the screen, with the REBUILD button below it](../assets/media/rebuild-and-run-done.png){ .no-lightbox .cf-contain loading=lazy width="418" height="620" }
 
     **Make your own apps**
 
@@ -121,7 +121,7 @@ The MCU (microcontroller) is the small computer that runs your apps. For the ful
 
     [Build your first app](../getting-started/first-app.md)
 
--   ![The emulator running an app that draws a wireframe 3D model on the screen](../assets/media/3d-try-in-app-emulator.png){ .cf-contain loading=lazy width="300" height="400" }
+-   ![The emulator running an app that draws a wireframe 3D model on the screen](../assets/media/3d-try-in-app-emulator.png){ .no-lightbox .cf-contain loading=lazy width="300" height="400" }
 
     **Build 3D models**
 

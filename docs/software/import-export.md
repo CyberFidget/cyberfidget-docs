@@ -61,7 +61,7 @@ Studio always creates a new project alongside the projects you already have. It 
 
 ## Share a link
 
-A share link lets someone open what you made in their browser, with no download and no account. An app plays in the emulator on the page (a copy of the device that runs in your browser); a sprite plays as an animation and a model turns so it can be seen from every side. A link isn't listed anywhere: only people you give it to can open it.
+A share link lets someone open what you made in their browser, with no download and no account. An app plays in the emulator on the page (a copy of the device that runs in your browser); a sprite plays as an animation and a model turns so it can be seen from every side. Share links are unlisted, not private: anyone holding a link can open and forward it.
 
 Making a link needs you to sign in with GitHub. If you are signed out, the Share box says **Sign in with GitHub to share a link** and offers the sign-in button. Opening a link never needs an account.
 

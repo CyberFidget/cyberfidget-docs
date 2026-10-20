@@ -167,7 +167,7 @@ More: [Motion Sensing](../concepts/accelerometer.md).
 
 A sprite is a small picture for a character or object. An animation shows several sprites one after another. Draw sprites in the studio, or try the blinking face below.
 
-![Frame 0, eyes open: an 8 x 8 face with tall eyes](../assets/sprites/eyes-open.png){ width="81" } ![Frame 1, eyes shut: the same face with short eyes](../assets/sprites/eyes-shut.png){ width="81" }
+![Frame 0, eyes open: an 8 x 8 face with tall eyes](../assets/sprites/eyes-open.png){ .no-lightbox width="81" } ![Frame 1, eyes shut: the same face with short eyes](../assets/sprites/eyes-shut.png){ .no-lightbox width="81" }
 
 ??? example "Try it"
 

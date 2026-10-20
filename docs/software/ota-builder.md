@@ -71,15 +71,9 @@ it would be editing your work without asking.
 
 ### Choosing a model
 
-The studio recommends these models (a model is the code generator a provider runs; bigger ones are slower and more capable):
+A model is the program a provider runs to write code from your description. Choose from the models the studio lists; check the cost and reply limits shown for each choice.
 
-| Provider | Recommended models |
-| --- | --- |
-| Anthropic | Claude Opus 5.5, Claude Sonnet 5, Claude Haiku 4.5 |
-| OpenAI | GPT-6 Astra, GPT-6 Sol, GPT-6 Luna |
-| Google | Gemini 3.1 Pro, Gemini 3.8 Flash, Gemini 3.5 Flash Lite |
-
-If you use your own provider key (an API key from Anthropic, OpenAI, or Google), **More models from your key** lists every model that key can use, fetched live from the provider, with the recommended ones first.
+If you use your own provider key (an API key from Anthropic, OpenAI, or Google), **More models from your key** lists the models that key can use, fetched from the provider, with the recommended ones first.
 
 ---
 
@@ -145,7 +139,7 @@ Besides flat pixel art, the studio can generate wireframe models -- 3D shapes ma
 ## See also
 
 - [Code generator](code-generator.md) -- The optional Generate tab: make, change or explain an app from a description
-- [Free use, credits and privacy](credits.md) -- What the code generator costs and what is sent where
+- [Free use, credits and privacy](credits.md) -- Code generator costs, your own key and privacy rules
 - [3D Models](../studio/3d-models.md) -- Build wireframe models in the studio's 3D tab
 - [Browser Emulator](emulator.md) -- Detailed emulator guide, controls, and troubleshooting
 - [Apps](apps.md) -- Built-in app catalog and how to add your own

@@ -61,7 +61,13 @@ This page is a map of the surface. Each tool has its own page, linked at the bot
 
 ## Starting something
 
-Studio opens on a landing page with one starting point: **Create an app**. Describe what you want, and the code generator builds a working first version you can run and edit straight away.
+On the Studio landing page, choose **+ Create an app**. The workspace offers three ways to start:
+
+- **Make your first app** puts an example description in the box. Change it or describe your own idea, then use the optional [code generator](../software/code-generator.md) to generate code you can build, test and edit.
+- **Modify a Demo App** loads a demo you can edit by hand or change with the code generator.
+- **Code from Blank Template** opens starter code for you to write your app by hand.
+
+The code generator is optional. You can write code, draw art, build and test without it.
 
 Below it, **Draw a screensaver** opens [Quick Draw](#quick-draw) if you would rather just doodle than write an app, and **Open a project file** loads a project you saved to your computer earlier.
 
@@ -71,7 +77,7 @@ Further down, **MY STUFF** lists the projects you already have. Choosing one ope
 
 ## The workspace tabs
 
-Once a project is open, a strip of tabs switches between the tools. On a desktop they run down the left edge: Generate, Code, 2D, 3D (when available) and Settings. On a phone they sit along the bottom, and **Test** is a tab there; on a desktop the emulator sits beside the workspace instead. On a phone, Settings is the gear icon in the top bar.
+Once a project is open, a strip of tabs switches between the tools. On a desktop they run down the left edge: Generate, Code, 2D, 3D and Settings. On a phone they sit along the bottom, and **Test** is a tab there; on a desktop the emulator sits beside the workspace instead. On a phone, Settings is the gear icon in the top bar.
 
 | Tab | What it is for |
 |-----|----------------|

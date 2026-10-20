@@ -190,19 +190,19 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Base64** | A way of writing binary data as plain text using letters, digits, `+` and `/`; update signatures are sent this way. |
 | **Check-in** | A linked Fidget contacting the website over its own WiFi to collect waiting app changes and look for firmware updates. See [Updates](../software/updates.md#when-it-checks). |
 | **Closed beta** | A feature open only to accounts that have been given access, while it is being tried out. See [Beta Access](../software/beta-access.md). |
-| **Credits** | Units on a signed-in account that pay for code generator requests, on accounts that have them. See [Use my credits](../software/credits.md#use-my-credits). |
+| **Credits** | Units on a signed-in account that pay for code generator requests. Credits are rolling out. See [Use my credits](../software/credits.md#use-my-credits). |
 | **Digital signature** | A short code that only the holder of a private key can make for one exact file. Anyone with the matching public key can check it, and changing even one byte of the file makes the check fail. Cyber Fidget uses signatures to confirm that an update is official. |
 | **Erase everything and reinstall** | The website's clean-start install over USB: it erases the whole Fidget and installs a fresh copy of the chosen firmware version. See [Update or reset your Fidget](../software/updating.md#erase-everything-and-reinstall-on-the-website). |
-| **Free allowance** | The small number of code generator requests the studio gives each network without sign-in or payment. See [Free (built-in)](../software/credits.md#free-built-in). |
+| **Free allowance** | Code generator requests you can use without sign-in or payment. The studio shows how many free generations you have and when they reset. See [Free (built-in)](../software/credits.md#free-built-in). |
 | **Host** | Firmware code that runs a studio app, on the device or in the browser emulator. |
 | **Loadout** | The collection of apps and menu choices for your Fidget. |
 | **Manifest (update manifest)** | A small JSON document that identifies a firmware download, its size and Secure Hash Algorithm 256-bit (SHA-256) hash, and the hardware it supports. See the [firmware update manifest reference](firmware-update-manifest.md). |
-| **Model (code generator)** | The service a provider (Anthropic, OpenAI, or Google) runs to write app code from your description in the App Builder. See [Code generator](../software/code-generator.md) and [Choosing a model](../software/ota-builder.md#choosing-a-model). |
+| **Model (code generator)** | The program a provider runs to write app code from your description in the App Builder. See [Code generator](../software/code-generator.md) and [Choosing a model](../software/ota-builder.md#choosing-a-model). |
 | **Pairing / linking** | Establishing an association between a Cyber Fidget and an account. On the device and website, the action is called "link your Fidget." |
 | **Polyphony** | Playing several notes at the same time, such as a chord. In an app, use `playNote()`; see [Notes](../concepts/audio.md#notes-several-sounds-at-once). |
 | **Remix** | Make your own copy of something another person shared, such as an app or art from The Archives, and change it. |
 | **Reset to factory** | The **Settings > Reset to factory** item on the Fidget. It erases sent apps, saved WiFi, settings, the account link and the battery record, and keeps the firmware and the memory card. See [Update or reset your Fidget](../software/updating.md). |
-| **Share link** | A private link to a copy of something you made in Studio, as it was when you shared it. Only people you give it to can open it. See [Share a link](../software/import-export.md#share-a-link). |
+| **Share link** | An unlisted link to a copy of something you made in Studio, as it was when you shared it. Anyone holding the link can open and forward it. See [Share a link](../software/import-export.md#share-a-link). |
 | **Share sheet** | The list of apps your phone offers when you send something on to someone else. |
 | **Sync session** | A run of USB serial commands from the website (or your own program) that copies apps and the menu to the Fidget. While one is active, the Fidget holds off its WiFi check-ins. See [Serial commands](serial-commands.md#sync-sessions-and-a-busy-fidget). |
 | **Test version** | An early firmware build for trying features before general release (a release candidate). Chosen with **Settings > Updates > Versions: Test** or from the **Test versions** group on the website update page. |

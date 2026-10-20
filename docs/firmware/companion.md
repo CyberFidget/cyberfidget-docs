@@ -40,8 +40,7 @@ card's page unless that copy is older than the one built into the firmware.
 
 ### Building the pack
 
-There is no packaged download yet, so for now the pack is built from source in
-the firmware repository. This needs developer tools -- specifically
+Build the pack from source in the firmware repository. This needs developer tools -- specifically
 [Node.js](https://nodejs.org/):
 
 ```bash
@@ -109,12 +108,11 @@ device's own WiFi with no internet in sight.
 - The packs are kept by your browser. If the phone ever clears them (some phones
   tidy up storage that hasn't been used in a while), the companion simply offers
   the download again -- nothing is lost.
-- Live captions default to Moonshine-tiny, a compact speech-recognition model
-  designed for short, responsive captions. Saved notes default to Whisper-tiny,
-  a speech-recognition model that can process longer recordings in chunks.
-- The two choices are independent. Live captions also offer a larger multilingual
-  pack, while saved notes offer choices that trade speed for accuracy. Moonshine
-  is not offered for saved notes because it does not support long-form chunking.
+- Live captions and saved notes use separate speech-recognition models: programs
+  that turn speech into text. Choose from the packs the companion lists.
+- The two choices are independent. Live captions offer a larger multilingual
+  pack, while saved notes offer choices that trade speed for accuracy and can
+  process longer recordings in chunks.
 
 ### Transcripts for saved notes
 
@@ -139,12 +137,14 @@ names the provider and asks fresh -- there is no "always allow". The finished
 note downloads to your phone and can also be saved to the card as
 `/notes/2026-06-12.md`.
 
-!!! warning "Your key, your custody"
-    The provider key is stored only in your phone's browser, only for the
-    device's pages. It is never uploaded, and the transcripts go straight from
-    your phone to your chosen provider -- cyberfidget.com is never in the path.
-    This needs internet, so the device should be joined to your home WiFi
-    (portal **Settings**) with the phone on the same network.
+Daily notes need internet. Join the device to your home WiFi (portal
+**Settings**) with the phone on the same network.
+
+!!! warning "Keep private information out of requests"
+    Check the transcript before sending it to a summary provider. Leave out
+    passwords, keys and personal details. Read the
+    [Privacy policy](https://cyberfidget.com/privacy/) and your provider's terms
+    and privacy policy for how requests are handled.
 
 ---
 
