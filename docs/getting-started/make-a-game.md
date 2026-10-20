@@ -10,7 +10,7 @@ By the end of this page you will have planned and built a small game called Catc
 You plan it first, then build it in eight small steps. Each step adds a few lines and you run the game after each one, so you always know which change did what.
 
 !!! tip "Two ways to start"
-    **You already have an idea for a game:** this page is for you. It starts from one sentence about your game and turns that sentence into steps you can build.
+    **You already have an idea for a game:** this page is for you. It starts from your ideas for a game and turns them into steps you can build.
 
     **You'd rather see what the Fidget can do first:** start with [Explore what it can do](explore.md). Try the screen, buttons, slider, lights and sound, then come back here when an idea grabs you.
 
@@ -26,49 +26,93 @@ You plan it first, then build it in eight small steps. Each step adds a few line
 
 ## Step 0: plan the game
 
-Before any code, turn your idea into a list of small pieces, and decide which step builds each one. Then every step below has a reason: you always know which part of the game you are making. This takes five minutes with a pencil.
+Before any code, get your ideas out of your head, sort them, and decide which step builds each one. Then every step below has a reason: you always know which part of the game you are making. This takes five minutes with a pencil.
 
 *Already planned, or just want to code? Skip to [Start: a blank app called Catcher](#start-a-blank-app-called-catcher).*
 
-### 1. Write the idea as one sentence, and box each feature
+### 1. Brainstorm: write down every idea
 
-Say what the game is in one sentence, the way you'd tell a friend. A rough sentence is enough. Then draw a box around each separate thing the game does. This is the first sentence for Catcher, with each box in its own color:
+Write down everything you want in the game, in any order, as short notes. Don't sort or judge them yet; messy is fine. This is the brainstorm for Catcher:
 
-<p class="cf-vision">
-<span class="cf-piece cf-p0"><b class="cf-badge">Start</b> A game called Catcher</span> where
-<span class="cf-piece cf-p2"><b class="cf-badge">2</b> dots fly across the screen</span>,
-<span class="cf-piece cf-p1"><b class="cf-badge">1</b> you slide a paddle up and down to catch them</span>, and
-<span class="cf-piece cf-p3"><b class="cf-badge">3-4</b> the game keeps score</span>,
-<span class="cf-piece cf-p5"><b class="cf-badge">5</b> flashes the lights</span>,
-<span class="cf-piece cf-p6"><b class="cf-badge">6</b> beeps</span>, and
-<span class="cf-piece cf-p7"><b class="cf-badge">7</b> ends when you run out of lives</span>.
-</p>
+<div class="cf-brainstorm">
+<span class="cf-note">a paddle</span>
+<span class="cf-note">dots flying across</span>
+<span class="cf-note">score</span>
+<span class="cf-note">beep!</span>
+<span class="cf-note">catch them</span>
+<span class="cf-note">3 lives?</span>
+<span class="cf-note">gets faster</span>
+<span class="cf-note">flash the lights on a catch</span>
+<span class="cf-note">game over screen</span>
+<span class="cf-note">slider moves the paddle</span>
+<span class="cf-note">sad sound on a miss</span>
+<span class="cf-note">call it Catcher</span>
+<span class="cf-note">red flash on a miss</span>
+<span class="cf-note">play again button</span>
+<span class="cf-note">score at the top</span>
+</div>
 
-The number on each box is the step that builds it. In the table below, press a number to jump to that step.
+### 2. Group the ideas by what they do
 
-### 2. List the boxes as steps, and sharpen each one
+Now sort the notes into groups of ideas that do the same kind of job. These five groups work for most small games:
 
-Put the boxes in the order you'd build them: first what you need to see anything at all, then the rules, then the extras. As you write each one down, make vague words exact. "Flashes the lights" becomes "flashes green on a catch, red on a miss". A piece is the right size when you can build it in a few lines and see it change when you run the game.
+<div class="cf-groups">
+<div class="cf-group cf-g-loop"><p class="cf-group-name">The core loop <small>the one thing you do over and over</small></p>
+<span class="cf-piece">slider moves the paddle <b class="cf-badge">1</b></span>
+<span class="cf-piece">a paddle <b class="cf-badge">1</b></span>
+<span class="cf-piece">dots flying across <b class="cf-badge">2</b></span>
+</div>
+<div class="cf-group cf-g-rules"><p class="cf-group-name">Rules <small>what happens when</small></p>
+<span class="cf-piece">catch them <b class="cf-badge">3</b></span>
+<span class="cf-piece">score <b class="cf-badge">3</b></span>
+<span class="cf-piece">3 lives? <b class="cf-badge">3</b></span>
+</div>
+<div class="cf-group cf-g-feedback"><p class="cf-group-name">Feedback <small>what you see and hear</small></p>
+<span class="cf-piece">score at the top <b class="cf-badge">4</b></span>
+<span class="cf-piece">flash the lights on a catch <b class="cf-badge">5</b></span>
+<span class="cf-piece">red flash on a miss <b class="cf-badge">5</b></span>
+<span class="cf-piece">beep! <b class="cf-badge">6</b></span>
+<span class="cf-piece">sad sound on a miss <b class="cf-badge">6</b></span>
+</div>
+<div class="cf-group cf-g-ends"><p class="cf-group-name">Start and end <small>how a game begins, ends and begins again</small></p>
+<span class="cf-piece">call it Catcher <b class="cf-badge">Start</b></span>
+<span class="cf-piece">game over screen <b class="cf-badge">7</b></span>
+<span class="cf-piece">play again button <b class="cf-badge">7</b></span>
+</div>
+<div class="cf-group cf-g-challenge"><p class="cf-group-name">Challenge <small>what makes it harder as you get better</small></p>
+<span class="cf-piece">gets faster <b class="cf-badge">8</b></span>
+</div>
+</div>
 
-| Step | From the sentence | Sharpened into something you can build |
-|------|-------------------|----------------------------------------|
-| [<b class="cf-badge cf-b0">Start</b>](#start-a-blank-app-called-catcher) | a game called Catcher | A blank app named Catcher. |
-| [<b class="cf-badge cf-b1">1</b>](#step-1-a-paddle-that-follows-the-slider) | you slide a paddle up and down | A bar near the right edge that follows the slider. |
-| [<b class="cf-badge cf-b2">2</b>](#step-2-a-dot-that-flies-across) | dots fly across the screen | One dot at a time, from the left edge at a random height. |
-| [<b class="cf-badge cf-b3">3</b>](#step-3-catch-or-miss) | to catch them; keeps score | When the dot reaches the paddle: a catch scores a point, a miss costs one of three lives. |
-| [<b class="cf-badge cf-b3">4</b>](#step-4-show-the-score) | keeps score | Show the score and lives at the top of the screen. |
-| [<b class="cf-badge cf-b5">5</b>](#step-5-flash-the-lights) | flashes the lights | Green on a catch, red on a miss, off again after a fifth of a second. The last miss goes straight to the game-over screen with lights off. |
-| [<b class="cf-badge cf-b6">6</b>](#step-6-add-sound) | beeps | A short high beep on a catch, a lower, longer tone on a miss. The last miss goes straight to the game-over screen with sound off. |
-| [<b class="cf-badge cf-b7">7</b>](#step-7-game-over-and-play-again) | ends when you run out of lives | A game over screen with your score, and a button to play again. |
-| [<b class="cf-badge cf-b8">8</b>](#step-8-speed-up-as-you-score) | *(not in the sentence)* | The dots get faster the more you score, up to a top speed. |
+The number on each note is the step on this page that builds it.
 
-Step 8 isn't in the first sentence. Writing the list made it clear the game would get boring at one speed, so it gained a feature. Planning is the cheapest time to change your mind: changing a line in a list costs nothing.
+These groups are how game designers often think about a game. The **core loop** is the action the player repeats all game long; here, moving the paddle to meet a dot. Game designers call the extra feedback that makes an action feel good, like a flash and a beep on every catch, **juice**. (Some designers go further with a framework called MDA: the rules you write, what happens when someone plays by them, and how playing feels. You don't need it for this page.)
 
-Breaking a big idea into small pieces like this is called decomposition. It is one of the four parts of computational thinking that school computing classes teach, alongside spotting patterns, leaving out detail you don't need, and writing step-by-step instructions.
+Breaking a big idea into small pieces like this is called decomposition. It is one of the parts of computational thinking that school computing classes teach.
 
-### 3. Ask the same questions about each piece
+### 3. Put the groups in build order, and sharpen each idea
 
-For each piece, think about these five things. Use plain words for them:
+Build the core loop first, so you can try it and feel whether it's fun before you add anything else. Game-jam teams call this "find the fun first". Then add the rules that make it a game, the feedback that makes it feel good, and the end, so you have a whole game you can lose and play again. Leave the challenge for last: how fast the dots should get is easier to tune once everything else works.
+
+As you put each idea in order, make vague words exact. "Flash the lights on a catch" becomes "flash green on a catch, red on a miss". A piece is the right size when you can build it in a few lines and see it change when you run the game. In the table, press a step number to jump to that step.
+
+| Step and group | Ideas from the brainstorm | Sharpened into something you can build |
+|----------------|---------------------------|----------------------------------------|
+| [<b class="cf-badge cf-g-ends">Start</b>](#start-a-blank-app-called-catcher) Start and end | call it Catcher | A blank app named Catcher. |
+| [<b class="cf-badge cf-g-loop">1</b>](#step-1-a-paddle-that-follows-the-slider) Core loop | a paddle; slider moves the paddle | A bar near the right edge that follows the slider. |
+| [<b class="cf-badge cf-g-loop">2</b>](#step-2-a-dot-that-flies-across) Core loop | dots flying across | One dot at a time, from the left edge at a random height. |
+| [<b class="cf-badge cf-g-rules">3</b>](#step-3-catch-or-miss) Rules | catch them; score; 3 lives? | When the dot reaches the paddle: a catch scores a point, a miss costs one of three lives. |
+| [<b class="cf-badge cf-g-feedback">4</b>](#step-4-show-the-score) Feedback | score at the top | Show the score and lives at the top of the screen. |
+| [<b class="cf-badge cf-g-feedback">5</b>](#step-5-flash-the-lights) Feedback | flash the lights on a catch; red flash on a miss | Green on a catch, red on a miss, off again after a fifth of a second. The last miss goes straight to the game-over screen with lights off. |
+| [<b class="cf-badge cf-g-feedback">6</b>](#step-6-add-sound) Feedback | beep!; sad sound on a miss | A short high beep on a catch, a lower, longer tone on a miss. The last miss goes straight to the game-over screen with sound off. |
+| [<b class="cf-badge cf-g-ends">7</b>](#step-7-game-over-and-play-again) Start and end | game over screen; play again button | A game over screen with your score, and a button to play again. |
+| [<b class="cf-badge cf-g-challenge">8</b>](#step-8-speed-up-as-you-score) Challenge | gets faster | The dots get faster the more you score, up to a top speed. |
+
+Planning is the cheapest time to change your mind: moving a note or adding a new one costs nothing.
+
+### 4. Ask the same questions about each piece
+
+The groups tell you what to build. For each piece, also think about these five things, in plain words:
 
 - **Input:** what the player does. (The slider moves the paddle; a button restarts.)
 - **What to remember:** the numbers the game keeps from one moment to the next. (Paddle position, dot position, speed, score, lives.)
@@ -76,7 +120,7 @@ For each piece, think about these five things. Use plain words for them:
 - **Feedback:** how the player finds out. (The score on screen, a flash, a beep.)
 - **The end:** when it stops, and how to start again. (No lives left: game over; a button plays again.)
 
-### 4. Write it in plain words
+### 5. Write it in plain words
 
 Last, write the game as pseudo-code: steps written in plain English and laid out like code. Every app has three parts, which the code below calls `begin()`, `update()` and `end()`, so the outline uses them too:
 

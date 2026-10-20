@@ -146,4 +146,7 @@
 *[decomposition]: Breaking a big problem or idea into small pieces you can solve one at a time
 *[computational thinking]: Ways of solving problems that suit computers: breaking them into pieces, spotting patterns, leaving out detail you don't need, and writing step-by-step instructions
 *[pseudo-code]: The steps of a program written in plain words, laid out like code but not in any programming language
+*[core loop]: The action a player repeats all game long, such as moving a paddle to catch a dot
+*[juice]: Extra feedback, such as flashes, sounds and shakes, that makes an action in a game feel good
+*[MDA]: Mechanics, Dynamics, Aesthetics; a game-design framework: the rules you write, what happens when people play by them, and how playing feels
 *[accelerometer]: A motion sensor that measures acceleration, including gravity, so the device can tell tilt and shakes

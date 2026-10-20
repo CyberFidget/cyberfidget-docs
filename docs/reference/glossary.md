@@ -50,6 +50,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Li-ion** | Lithium-ion -- a family of rechargeable battery chemistries. |
 | **LiPo** | Lithium Polymer -- rechargeable battery type used in Cyber Fidget (400 mAh). |
 | **MCU** | Microcontroller Unit -- the processor that controls an embedded device. |
+| **MDA** | Mechanics, Dynamics, Aesthetics -- a game-design framework: the rules you write, what happens when people play by them, and how playing feels. See [Make a game, step by step](../getting-started/make-a-game.md#2-group-the-ideas-by-what-they-do). |
 | **mDNS** | Multicast DNS -- the local-network name service that makes `cyberfidget.local` resolve without any router configuration. |
 | **MEMS** | Micro-Electro-Mechanical Systems -- miniaturized sensor technology used in the ICS-43434 microphone. |
 | **microSD** | Compact removable Secure Digital memory-card format. |
@@ -123,6 +124,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Computational thinking** | Ways of solving problems that suit computers: breaking them into pieces (decomposition), spotting patterns, leaving out detail you don't need, and writing step-by-step instructions. See [Make a game, step by step](../getting-started/make-a-game.md#step-0-plan-the-game). |
 | **const** | Marks a value that cannot be changed through this declaration; after a method signature, the method does not change its object. |
 | **const char*** | A pointer to text ending with a zero character; the characters cannot be changed through this pointer. |
+| **Core loop** | The action a player repeats all game long, such as moving a paddle to catch a dot. See [Make a game, step by step](../getting-started/make-a-game.md#2-group-the-ideas-by-what-they-do). |
 | **Decomposition** | Breaking a big problem or idea into small pieces you can solve one at a time. See [Make a game, step by step](../getting-started/make-a-game.md#step-0-plan-the-game). |
 | **Emulator** | A copy of the device that runs in your browser, so you can try an app without a Cyber Fidget. |
 | **Firmware** | The built-in software that runs on the device. |
@@ -138,6 +140,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **int16_t** | A signed whole number from -32,768 to 32,767. |
 | **int32_t** | A signed whole number from -2,147,483,648 to 2,147,483,647. |
 | **Internal storage** | Storage built into the Cyber Fidget where apps live. |
+| **Juice** | Extra feedback, such as flashes, sounds and shakes, that makes an action in a game feel good. See [Make a game, step by step](../getting-started/make-a-game.md#2-group-the-ideas-by-what-they-do). |
 | **lambda** | A short unnamed C++ function. |
 | **Layer** | Separate set of pixels in a frame, with its own drawing order and visibility. |
 | **long** | A signed whole number; on the device, -2,147,483,648 to 2,147,483,647. |
