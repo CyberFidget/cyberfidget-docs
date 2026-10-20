@@ -40,7 +40,7 @@ Choose **All files** (the number beside it is how many files the project holds),
 
 ![The All files window on the In this project tab, showing the project's code file as a card](../assets/media/add-art-all-files.png)
 
-On a sprite card, **Rename** changes the sprite's name and **Remove** takes it out of the project after you confirm. Closing a tab with its **x** only closes that editor view. It never deletes the sprite.
+On a sprite card, **Rename** changes the sprite's name and **Remove** takes it out of the project after you confirm. Closing a tab with its **x** only closes that editor view. It doesn't delete the sprite.
 
 **Find by name** at the top of the window filters the cards on whichever tab is open.
 
@@ -109,7 +109,7 @@ On a phone, the 2D tab has no file strip. Tap the **Files** chip at the top of t
 
 ## Copies stay independent
 
-Using a sprite from any library copies it into your project. Editing the project copy never changes the library original.
+Using a sprite from any library copies it into your project. Editing the project copy doesn't change the library original.
 
 A small note on the copy records where it came from. This helps you recognize reused art without creating a live link back to the source.
 

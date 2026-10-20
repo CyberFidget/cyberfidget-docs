@@ -4,7 +4,7 @@
 
 After this page you know the ways the studio's [code generator](code-generator.md) can run, where to check costs and limits, and where to read the privacy rules.
 
-Nothing on this page applies if you don't use the **Generate** tab. Writing code, drawing art, building and the emulator never use the code generator.
+Nothing on this page applies if you don't use the **Generate** tab. Writing code, drawing art, building and the emulator don't use the code generator.
 
 ---
 
@@ -50,17 +50,20 @@ Check your provider's prices, limits and terms before using your key. For privac
 Credits are rolling out to signed-in accounts. If your account has them, **Generator settings** shows a third choice, **Use my credits**, and **SETTINGS > ACCOUNT** shows a **Credits** card with your balance, the typical cost for each model and your history.
 
 - **Choosing a model:** pick one in **Model for credit generations**, or press the model name in the line under the description box. That line reads, for example, the model name and how many credits you have.
-- **What a generation costs:** each model shows "about N credits for a typical generation". The real charge is worked out from what that generation used: what Cyber Fidget is billed for it, plus a small markup, rounded up. Each reply in the thread shows the model and the credits it used.
-- **What costs nothing:** a generation that fails on Cyber Fidget's side costs 0 credits and is returned automatically. The automatic fix of a failed build costs 0 credits. Free-allowance and own-key generations never use credits.
-- **Expiry:** included credits never expire. Credits from a promo code (**Have a promo code?**) expire on the date the card shows, and are spent first.
+- **What a generation costs:** each model shows "about N credits for a typical generation". The real charge is worked out from what that generation used: what Cyber Fidget is billed for it, plus a small markup to cover payment processing fees, maintenance and updates, then rounded up to the nearest whole credit. Each reply in the thread shows the model and the credits it used. Credit prices will likely change over time, to keep the service both sustainable and affordable.
+- **What costs nothing:** a generation that fails on Cyber Fidget's side costs 0 credits and is returned automatically. The automatic fix of a failed build costs 0 credits. Free-allowance and own-key generations don't use credits.
+- **Expiry:** the **Credits** card shows which of your credits expire, their expiry dates, and which are spent first. Promo codes go in **Have a promo code?** on the same card.
 - **More credits:** the card has **Request more**, with an optional message. A person at Cyber Fidget reviews each request.
-- **Buying:** buying credits is rolling out. If your account offers it, **Buy credits** shows each pack and its price, and the refund terms, before you pay. Bought credits never expire.
+- **Buying:** buying credits is rolling out. If your account offers it, **Buy credits** shows each pack and its price, and the refund terms, before you pay.
 
 ---
 
 ## Check costs and choices
 
 Choose from the models the studio lists. **Generator settings** shows your free allowance, and the **Credits** card shows your balance and model costs. With your own key, the provider decides which models your key can use and what they cost.
+
+!!! note "Tell us what you think"
+    We're still learning what works best for the code generator, the free allowance and credits. If you have an idea, or something didn't work the way you expected, tell us through the [contact page](https://cyberfidget.com/contact/).
 
 ---
 

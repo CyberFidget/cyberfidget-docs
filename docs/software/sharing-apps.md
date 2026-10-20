@@ -113,7 +113,7 @@ Pasting the link into a chat or a post shows a preview with the item's name and 
 
 ### Back and Forward
 
-Opening an item adds a step to your browser history: **Back** closes the item and returns you to the collection, and **Forward** reopens it. Closing an item with the close control also returns you to the collection. It never takes you off the site, even when you arrived from someone else's link.
+Opening an item adds a step to your browser history: **Back** closes the item and returns you to the collection, and **Forward** reopens it. Closing an item with the close control also returns you to the collection. It doesn't take you off the site, even when you arrived from someone else's link.
 
 ### Links to items that are not there
 

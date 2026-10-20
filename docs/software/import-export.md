@@ -1,6 +1,6 @@
 # Keeping and sharing your work
 
-When you bring a sprite or model in from a file, Studio adds it to the project you already have open and selects it. It never replaces or overwrites the asset you were working on.
+When you bring a sprite or model in from a file, Studio adds it to the project you already have open and selects it. It doesn't replace or overwrite the asset you were working on.
 
 Studio can save either one asset or a whole project to a file on your computer. Use these files to keep a backup, move work to another computer, send work to someone else, or bring someone else's work into Studio.
 
@@ -55,7 +55,7 @@ Studio refuses to save a very large project into a file that the browser would s
 
 Go to the **Create** launcher and choose **Open a project file** beside the list of projects. Opening a project file is how you start from that file. On a desktop you can also choose **Add art > Import from a file** inside the editor, or drop the file anywhere in Studio, and it opens as a new project.
 
-Studio always creates a new project alongside the projects you already have. It never replaces an existing project.
+Studio creates a new project alongside the projects you already have. It doesn't replace an existing project.
 
 ---
 
@@ -63,7 +63,9 @@ Studio always creates a new project alongside the projects you already have. It 
 
 A share link lets someone open what you made in their browser, with no download and no account. An app plays in the emulator on the page (a copy of the device that runs in your browser); a sprite plays as an animation and a model turns so it can be seen from every side. Share links are unlisted, not private: anyone holding a link can open and forward it.
 
-Making a link needs you to sign in with GitHub. If you are signed out, the Share box says **Sign in with GitHub to share a link** and offers the sign-in button. Opening a link never needs an account.
+A link is a snapshot: it shows your work as it was when you made the link. Changes you make afterward don't reach it. To share a newer version, make a new link and send that.
+
+Making a link needs you to sign in with GitHub. If you are signed out, the Share box says **Sign in with GitHub to share a link** and offers the sign-in button. Opening a link doesn't need an account.
 
 Sharing a link is different from [submitting to The Archives](submit-to-archives.md). The Archives is the shared collection that everyone can browse, and submissions are reviewed first. A link is just "here's a thing I made".
 

@@ -18,13 +18,13 @@ Think of it like a tiny cassette recorder:
    from your phone using the [Web Portal](web-portal.md).
 
 The app is **record-first**: it opens straight onto the recorder screen, so capturing
-a thought is always the very first thing you can do -- no menus in the way. You'll
+a thought is the very first thing you can do -- no menus in the way. You'll
 find it in the menu under **Media -> Voice Notes**.
 
 !!! note "Works completely offline"
     Recording, listening back, and deleting all work with the radios switched off.
     You only need WiFi if you want to manage notes from your phone, and even then the
-    audio never leaves your own devices -- see [Your voice data](#your-voice-data).
+    audio stays on your own devices -- see [Your voice data](#your-voice-data).
 
 ---
 ## Button reference
@@ -41,7 +41,7 @@ find it in the menu under **Media -> Voice Notes**.
 
 ## Recording a note
 
-There are two ways to record, and **both always save** -- the app never throws a
+There are two ways to record, and **both save** -- the app doesn't throw a
 recording away when you stop:
 
 | Gesture | What happens |
@@ -94,10 +94,6 @@ The recorder home screen is a 1-bit wireframe cassette. Here's the tour:
 - **Time left** -- when idle, this shows roughly how much recording time fits in the
   card's free space (for example `84m` or `27h`). While recording it counts *down* the
   remaining time.
-
-!!! tip "Corners are clipped"
-    The aluminium case hides the four corners of the screen behind small 45-degree
-    bevels, so the apps should deliberately keep text and controls away from the very corners.
 
 ---
 
@@ -261,7 +257,7 @@ audio streams straight from the card to your phone over the device's own network
 
 Your recordings belong to you, and the Cyber Fidget is built so they stay that way:
 
-- **Everything is saved on your memory card** -- never to Cyber Fidget's servers, or
+- **Everything is saved on your memory card** -- not to Cyber Fidget's servers, or
   anyone else's. The device has no cloud and no account of its own.
 - **Managing notes from your phone** sends the audio directly from the card to your phone
   over the device's own WiFi. It doesn't pass through any company server.
@@ -270,14 +266,13 @@ Your recordings belong to you, and the Cyber Fidget is built so they stay that w
   produced by your phone itself (after a one-time download), and transcripts are
   written back to the card next to each note -- your words stay in one place you own.
 - **Daily-note summaries use an account you provide** with a service you choose --
-  and only ever after you say yes to that specific service, each time, with the exact
+  and only after you say yes to that specific service, each time, with the exact
   text shown first. See the [Privacy policy](https://cyberfidget.com/privacy/) and
   your provider's terms for how requests are handled.
-- **Nothing about a recording** -- not the sound, not a transcript, not even the file name --
-  is ever included in error reports sent back to us.
+- **Error reports sent back to us don't include anything about a recording** -- not the
+  sound, not a transcript, not even the file name.
 
-In short: your voice stays on devices you control. That's a deliberate design decision, not
-just a setting.
+In short: your voice stays on devices you control.
 
 ---
 

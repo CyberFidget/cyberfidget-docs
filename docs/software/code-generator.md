@@ -41,7 +41,6 @@ The line under the box shows how the generator runs for you. The studio shows ho
 
 - Say what the player does and what they see: "Tilt to roll a ball around a maze; the LEDs turn green when you reach the exit."
 - Name the controls you want: buttons, the slider, tilt, sound, LEDs.
-- Ask for one thing at a time. A small app that works, then one change per reply, goes better than a long wish list in one go.
 
 ---
 
@@ -66,7 +65,7 @@ The **HOW IT WORKS** view explains the app in your project: what it does, which 
 
 ![The How it works view for the Spaceship demo: What does this app do?, the concepts it uses, a numbered step-by-step list, What to try next and an Explain Deeper button](../assets/media/generate-how-it-works.png){ width="640" }
 
-Explanations have their own allowance; the studio shows it.
+At the moment, explanations don't use credits or count toward your free generations.
 
 ---
 
@@ -78,7 +77,7 @@ The **HISTORY** view lists the versions of your app:
 - a successful build of code you edited by hand, when it differs from the last version;
 - any version you save yourself: type an optional name in **Label this version (optional)** and press **Save version**.
 
-Each version has **See changes** (what changed, compared with **the version before it** or **the current code**, set by **Compare each version to**) and **Load this version**. Loading an old version keeps the newer ones in the list, so you can always go forward again.
+Each version has **See changes** (what changed, compared with **the version before it** or **the current code**, set by **Compare each version to**) and **Load this version**. Loading an old version keeps the newer ones in the list, so you can go forward again.
 
 ---
 

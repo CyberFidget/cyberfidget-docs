@@ -71,7 +71,7 @@ The code generator is optional. You can write code, draw art, build and test wit
 
 Below **+ Create an app**, **Draw a screensaver** opens [Quick Draw](#quick-draw) if you would rather just doodle than write an app, and **Open a project file** loads a project you saved to your computer earlier.
 
-Further down, **MY STUFF** lists the projects you already have. Choosing one opens it. The landing page is replaced by the workspace -- you see one or the other, never both.
+Further down, **MY STUFF** lists the projects you already have. Choosing one opens it. The landing page is replaced by the workspace -- you see one or the other, not both.
 
 ---
 
@@ -128,7 +128,7 @@ Signing out hides your account projects in that browser; they come back when you
 
 Signing in also lets you keep a **My library**, an account-level library of sprites and models you can reuse across projects. You save into it with **Save to My Assets** and take art out of it from the **All files** window -- see [Your Sprite Library](your-sprite-library.md).
 
-Taking something out of a library copies it into your project. Editing that copy never changes the original.
+Taking something out of a library copies it into your project. Editing that copy doesn't change the original.
 
 ---
 

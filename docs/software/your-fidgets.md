@@ -32,13 +32,13 @@ The [My Fidget](https://cyberfidget.com/my-fidget/) page shows a card for each F
 
 If you plug in a different Fidget from the one on screen, the page says **Another Fidget (xxxx) is plugged in**, with the last four characters of its ID. Choose **Show it** to switch to that Fidget, or **Not now** to stay where you are.
 
-**Send to my Fidget** sends your changes over USB. It never restarts a Fidget the page already recognises. If the Fidget is busy with its own WiFi check-in, the page waits, then checks whether the Fidget already received the changes that way before sending them again.
+**Send to my Fidget** sends your changes over USB. It doesn't restart a Fidget the page already recognises. If the Fidget is busy with its own WiFi check-in, the page waits, then checks whether the Fidget already received the changes that way before sending them again.
 
 To use a Fidget without the cable, see [Link it from the My Fidget page](link-your-fidget.md#link-it-from-the-my-fidget-page).
 
 ### Arrange the menu
 
-The menu you arrange on **My Fidget** uses the same sections as the Fidget's own menu. Installed apps can be moved out of their section to the top level, where they appear under **Apps**. Built-in apps always stay in a section. If you place installed apps at the top level in more than one run, the later runs show as **Apps (continued)** until the Fidget regroups them.
+The menu you arrange on **My Fidget** uses the same sections as the Fidget's own menu. Installed apps can be moved out of their section to the top level, where they appear under **Apps**. Built-in apps stay in a section. If you place installed apps at the top level in more than one run, the later runs show as **Apps (continued)** until the Fidget regroups them.
 
 ## Rename
 
@@ -62,7 +62,7 @@ The file is a record of the device, not a Studio project. See [Keeping and shari
 | --- | --- | --- |
 | **Unlink** | A linked Fidget | After you confirm with **Unlink this Fidget**, the Fidget stops getting your changes until it is linked again. Changes still waiting for it are discarded; apps already on it stay. |
 | **Remove** | A linked Fidget that has not checked in for over 30 days | The page says **Not seen since** and the date. After you confirm with **Remove this Fidget**, it leaves your account, as with Unlink. |
-| **Remove** | A Fidget marked **Linked elsewhere** | Clears it from your list. The other account is never shown. |
+| **Remove** | A Fidget marked **Linked elsewhere** | Clears it from your list. The other account isn't shown. |
 | **Forget on this browser** | Any Fidget this browser has saved details for | Removes its saved apps and pending changes from this browser only. Nothing is sent to your account or the Fidget; a linked Fidget stays linked. |
 
 To link a Fidget again after unlinking or removing it, open **Settings > Link** on the Fidget. You can also unlink from the Fidget itself; see [Unlink or pass it on](link-your-fidget.md#unlink-or-pass-it-on).
