@@ -2,8 +2,10 @@
 
 By the end of this page you will have written a small app, watched it run, and (if you have a Cyber Fidget handy) installed it on your device. There is nothing for you to install. You write and test in the browser; the studio builds on your computer when available, or uses its build server.
 
+[Open the studio](https://cyberfidget.com/create/){ .md-button }
+
 !!! note "What you need"
-    - A computer with Chrome, Edge or Firefox, and an internet connection.
+    - A computer with an internet connection. See [Supported browsers](../software/supported-browsers.md) for the USB steps.
     - About 15 minutes.
     - For the last step only: a Cyber Fidget and a USB-C cable that carries data (not a charge-only cable).
 
@@ -181,7 +183,7 @@ Looking for more functions to try? See the [function reference](../reference/fun
 4. On the device, open your app from the menu. It is in the Menu Category you picked in step 2 (the default is Tools). Press the bottom-left button to go back to the menu.
 
 !!! note "If there is no Connect button"
-    When this browser cannot connect over USB, setup offers **Link with a code >** and instructions to set up WiFi from the Fidget's own screen. For the cable route, open the page on a computer with Chrome, Edge or Firefox that supports connecting over USB. For the WiFi route, follow [Link your Fidget](../software/link-your-fidget.md); it needs an account.
+    When this browser cannot connect over USB, setup offers **Link with a code >** and instructions to set up WiFi from the Fidget's own screen. For the cable route, open the page in a [supported browser](../software/supported-browsers.md) on a computer. For the WiFi route, follow [Link your Fidget](../software/link-your-fidget.md); it needs an account.
 
 !!! tip "Optional extra: updates over WiFi"
     You can also link your Fidget to your account. Once it has saved a WiFi network, it can pick up your changes without a cable. See [Link your Fidget](../software/link-your-fidget.md).

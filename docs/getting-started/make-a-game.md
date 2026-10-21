@@ -18,7 +18,7 @@ You plan it first, then build it in eight small steps. Each step adds a few line
     This page builds **one** app across all its steps. Every step adds to the code from the steps before it, so do them in order and do not skip any. (The [Make apps](../concepts/index.md) pages work differently: each of their examples stands alone and goes into a fresh blank template.)
 
 !!! note "What you need"
-    - A computer with Chrome, Edge or Firefox, and an internet connection. A Cyber Fidget is optional: the emulator, a copy of the device that runs on the page, is enough.
+    - A computer with an internet connection. See [Supported browsers](../software/supported-browsers.md) for USB features. A Cyber Fidget is optional: the emulator, a copy of the device that runs on the page, is enough.
     - About 30 minutes.
     - It helps to have done [Build your first app](first-app.md) first. This page assumes you know where **REBUILD** is.
 

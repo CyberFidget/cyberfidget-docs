@@ -2,6 +2,8 @@
 
 **Preview · live** shows how the drawing appears on the device's screen. On desktop and laptop it is at the top of the right panel. A phone has no separate preview panel: **Play**, in the bar below the canvas, loops the current animation on the canvas itself and stops when you tap **Stop** or the canvas. Playing is a view only and never changes your art.
 
+[Open the studio](https://cyberfidget.com/create/){ .md-button }
+
 | Control | What it does | Shortcut | Touch equivalent |
 |---|---|---|---|
 | Preview canvas | Show the current picture or playing animation. | None | Not shown on a phone; use Play. |

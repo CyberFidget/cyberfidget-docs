@@ -4,6 +4,8 @@
 
 After this page you know the ways the studio's [code generator](code-generator.md) can run, where to check costs and limits, and where to read the privacy rules.
 
+[Open the studio](https://cyberfidget.com/create/){ .md-button }
+
 Nothing on this page applies if you don't use the **Generate** tab. Writing code, drawing art, building and the emulator don't use the code generator.
 
 ---
@@ -12,11 +14,7 @@ Nothing on this page applies if you don't use the **Generate** tab. Writing code
 
 **Generator settings**, the small link under the **Describe your app...** box, opens **SETTINGS > ACCOUNT > Generation**, where you choose how generation runs.
 
-| Choice | Who pays | Limits | Sign-in |
-|---|---|---|---|
-| **Free (built-in)** | Cyber Fidget | The studio shows how many free generations you have and when they reset | Not needed |
-| **Use your own key** | You, through your own account with a model provider | Your provider's limits and prices | Not needed |
-| **Use my credits** | Credits on your account | Your credit balance | Needed; credits are rolling out |
+--8<-- "includes/generator-ways.md"
 
 ---
 
@@ -32,7 +30,7 @@ If you reach the allowance or the free service is busy, follow the studio's mess
 
 An API key (Application Programming Interface key) is a secret code from a model provider's developer website. It lets a program, here the studio, use your account with that provider. The provider charges your account for what you use, by its own prices, and sets its own limits.
 
-1. Get a key from one of the providers the studio supports: **Anthropic**, **OpenAI** or **Google**. The settings link to each provider's key page.
+1. Get a key from one of the providers in [Supported models](supported-models.md). The settings link to each provider's key page.
 2. Open **Generator settings** and choose **Use your own key**.
 3. Pick the **Provider**, paste the key into **API Key** and press **Save**. **Verify** checks that the provider accepts it.
 4. Pick a **Model**. **Refresh model list** asks the provider which models your key can use. See [Choosing a model](ota-builder.md#choosing-a-model).
@@ -47,10 +45,10 @@ Check your provider's prices, limits and terms before using your key. For privac
 
 ## Use my credits
 
-Credits are rolling out to signed-in accounts. If your account has them, **Generator settings** shows a third choice, **Use my credits**, and **SETTINGS > ACCOUNT** shows a **Credits** card with your balance, the typical cost for each model and your history.
+Credits are rolling out to signed-in accounts. If your account has them, **Generator settings** shows a third choice, **Use my credits**, and [My account](https://cyberfidget.com/my-fidget/account/) shows a **Credits** card with your balance, the typical cost for each model and your history.
 
 - **Choosing a model:** pick one in **Model for credit generations**, or press the model name in the line under the description box. That line reads, for example, the model name and how many credits you have.
-- **What a generation costs:** each model shows "about N credits for a typical generation". The real charge is worked out from what that generation used: what Cyber Fidget is billed for it, plus a small markup to cover payment processing fees, maintenance and updates, then rounded up to the nearest whole credit. Each reply in the thread shows the model and the credits it used. Credit prices will likely change over time, to keep the service both sustainable and affordable.
+- **What a generation costs:** each model shows "about N credits for a typical generation". The real charge is worked out from what that generation used: what Cyber Fidget is billed for it, plus a small markup to cover payment processing fees, maintenance and updates, then rounded up to the nearest whole credit. Each reply in the thread shows the model and the credits it used. Check the prices shown before generating.
 - **What costs nothing:** a generation that fails on Cyber Fidget's side costs 0 credits and is returned automatically. The automatic fix of a failed build costs 0 credits. Free-allowance and own-key generations don't use credits.
 - **Expiry:** the **Credits** card shows which of your credits expire, their expiry dates, and which are spent first. Promo codes go in **Have a promo code?** on the same card.
 - **More credits:** the card has **Request more**, with an optional message. A person at Cyber Fidget reviews each request.

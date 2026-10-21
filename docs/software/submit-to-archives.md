@@ -3,6 +3,8 @@
 
 After this page you can send an app you made in the Studio to [The Archives](sharing-apps.md) for review, know what the reviewers look for, and look after your listing once it is published.
 
+[Open the studio](https://cyberfidget.com/create/){ .md-button }
+
 Need an app to share? [Build your first app](../getting-started/first-app.md) takes a few minutes, and [Make a game, step by step](../getting-started/make-a-game.md) builds a complete game you can make your own and share.
 
 ---

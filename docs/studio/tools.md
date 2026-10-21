@@ -2,6 +2,8 @@
 
 Open a sprite in Studio's **2D** workspace. A sprite is an image or animation for an app. The canvas is the 128 by 64 pixel drawing area; edits affect the active layer of the selected frame.
 
+[Open the studio](https://cyberfidget.com/create/){ .md-button }
+
 On desktop and laptop, all twelve tools are in the tool bar to the left of the canvas. On a phone, the row of tools below the canvas shows **Draw**, **Erase**, **Fill**, **Select** and **Move**, plus the last other tool you picked, then a **More** button. **More** opens the **All tools** sheet with all twelve; choosing one there puts it in the row. Tap a tool to select it, then use the touch action below.
 
 Keyboard letters work while the editor has focus, outside text fields. For commands using Ctrl, a Mac can use Command. **None** means there is no dedicated keyboard shortcut.

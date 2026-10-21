@@ -3,6 +3,8 @@
 
 **Your Fidgets** at [cyberfidget.com/my-fidget/devices/](https://cyberfidget.com/my-fidget/devices/) lists every Cyber Fidget on your account, plus any Fidget this browser knows from a Universal Serial Bus (USB) connection. Open it from the account menu under your picture (**Your Fidgets**), or from the **Your Fidgets >** link on the **My Fidget** page. Signed out, the page asks you to sign in.
 
+[Open Your Fidgets](https://cyberfidget.com/my-fidget/devices/){ .md-button }
+
 To add a Fidget to the list, [link it](link-your-fidget.md). **Link a new Fidget** at the bottom of the page opens the link page.
 
 ## What each Fidget shows

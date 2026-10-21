@@ -33,6 +33,7 @@ hooks:
   - tools/full-code/full_code.py
 
 extra_javascript:
+  - assets/usb-check.js
   - assets/lazy-video.js
   - assets/guide.js
   - assets/multi.js
@@ -75,6 +76,7 @@ nav:
       - App Builder: software/ota-builder.md
       - Code generator: software/code-generator.md
       - "Generator: free use, credits and privacy": software/credits.md
+      - Supported models: software/supported-models.md
       - Browser Emulator: software/emulator.md
   - Your Fidget:
     - Overview: your-fidget/index.md
@@ -93,6 +95,7 @@ nav:
     - Update your Fidget:
       - Updates: software/updates.md
       - Update or reset your Fidget: software/updating.md
+      - Supported browsers: software/supported-browsers.md
     - Account and access:
       - Link your Fidget: software/link-your-fidget.md
       - Your Fidgets: software/your-fidgets.md

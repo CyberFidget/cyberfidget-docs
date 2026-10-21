@@ -2,6 +2,8 @@
 
 Share creates a link to a snapshot of your work. It does not follow edits you make after sharing.
 
+[Open the studio](https://cyberfidget.com/create/){ .md-button }
+
 | Capability | Desktop / laptop location | Phone | Shortcut | Touch equivalent |
 |---|---|---|---|---|
 | Share the project | Share in the project bar | Share control in the project header | None | Tap Share. |

@@ -2,6 +2,8 @@
 
 A layer is a separate set of pixels in a frame. Layers let you edit part of a picture without disturbing the rest. Their order determines how the drawing is assembled on the device.
 
+[Open the studio](https://cyberfidget.com/create/){ .md-button }
+
 On desktop and laptop, **Layers** is in the right panel below Preview. On a phone, tap the **Layers** chip in the bar below the canvas to open the **Layers** sheet. **New** sits in the sheet's title row.
 
 | Control | What it does | Shortcut | Touch equivalent |

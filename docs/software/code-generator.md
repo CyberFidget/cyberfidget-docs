@@ -4,6 +4,8 @@
 
 After this page you can decide whether the studio's code generator fits the way you like to work. If it does, you can use it to start an app from a description, change an app you already have, or get an explanation of how some code works.
 
+[Open the studio](https://cyberfidget.com/create/){ .md-button }
+
 !!! note "It's optional"
     You don't need the code generator for anything. Writing code on the **CODE** tab, drawing art, building, the emulator and installing on your Cyber Fidget all work without it, and nothing else in these docs depends on it. If you'd rather not use it, skip this page.
 
@@ -20,9 +22,26 @@ It can:
 - **explain code** step by step, in the **How it works** view;
 - **try to fix a build** that failed on code it wrote.
 
-It runs on a free allowance, on your own account with a model provider, or on credits. Credits are rolling out. [Free use, credits and privacy](credits.md) explains the choices and links to the privacy rules.
+Choose how to run the generator:
+
+--8<-- "includes/generator-ways.md"
+
+[Free use, credits and privacy](credits.md) explains the choices and links to the privacy rules.
 
 See the [Terms of Use](https://cyberfidget.com/terms/) for the rules for using the code generator and the [Privacy policy](https://cyberfidget.com/privacy/) for how requests are handled.
+
+---
+
+## Ways to use it alongside your own work
+
+You decide how much of an app the generator writes: none of it, one piece, or most of it. Some ways to use it as one tool among others:
+
+- **Frame it, then make it yours.** Ask for the skeleton of a game (a title screen, a score, the controls), then draw every sprite yourself in the 2D tab and write the parts that make it yours.
+- **The other way round.** Draw the art and write the rules yourself, and ask the generator for one fiddly piece you don't want to write, such as a menu or a high-score table.
+- **Try a mechanic quickly.** Before you spend an evening on an idea, ask for a rough version and play it in the emulator to see whether it's fun. Then build the real one however you like.
+- **Find a bug.** Describe what you expected and what happened instead: "the ball goes through the paddle when it moves fast - why?"
+- **Understand an algorithm.** Write or paste the code you're stuck on and use **Explain this code**, or ask why it behaves the way it does.
+- **Read what it wrote.** After a reply, find the line that sets an LED color, or the loop that moves the player, and change it by hand. Reading generated code is good practice for reading anyone's code.
 
 ---
 
@@ -98,19 +117,6 @@ If the app doesn't compile and the code came straight from the generator (you ha
 If you have edited the code since the last reply, the studio leaves your code alone.
 
 When a request itself fails, the studio keeps your description and offers **Retry** and **Copy prompt**. See [When generating does not work](ota-builder.md#when-generating-does-not-work).
-
----
-
-## Ways to use it alongside your own work
-
-You decide how much of an app the generator writes: none of it, one piece, or most of it. Some ways to use it as one tool among others:
-
-- **Frame it, then make it yours.** Ask for the skeleton of a game (a title screen, a score, the controls), then draw every sprite yourself in the 2D tab and write the parts that make it yours.
-- **The other way round.** Draw the art and write the rules yourself, and ask the generator for one fiddly piece you don't want to write, such as a menu or a high-score table.
-- **Try a mechanic quickly.** Before you spend an evening on an idea, ask for a rough version and play it in the emulator to see whether it's fun. Then build the real one however you like.
-- **Find a bug.** Describe what you expected and what happened instead: "the ball goes through the paddle when it moves fast - why?"
-- **Understand an algorithm.** Write or paste the code you're stuck on and use **Explain this code**, or ask why it behaves the way it does.
-- **Read what it wrote.** After a reply, find the line that sets an LED color, or the loop that moves the player, and change it by hand. Reading generated code is good practice for reading anyone's code.
 
 ---
 

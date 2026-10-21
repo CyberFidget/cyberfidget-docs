@@ -2,6 +2,8 @@
 
 After this page you can build an app, try its controls and investigate problems in the emulator.
 
+[Open the studio](https://cyberfidget.com/create/){ .md-button }
+
 The Cyber Fidget browser emulator runs your app in the studio, with no hardware required. It shows the screen, buttons, slider and lights, plays sound, and lets you try tilt controls. Test microphone input and physical controls on a real Cyber Fidget too.
 
 !!! tip "Who is this for?"

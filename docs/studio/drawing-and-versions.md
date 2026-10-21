@@ -2,6 +2,8 @@
 
 Every drawing in [Studio](https://cyberfidget.com/create/) keeps a version history. You can save a checkpoint yourself, and Studio also protects your work at important moments.
 
+[Open the studio](https://cyberfidget.com/create/){ .md-button }
+
 On desktop and laptop, the label field, **Save version** and **History** are in the right-panel footer. On a phone they are in the **Files** sheet (tap the **Files** chip at the top of the 2D tab). Tap the same buttons; they have no dedicated keyboard shortcuts. See [Files and versions](files-and-versions.md) for all save and download controls.
 
 ---
