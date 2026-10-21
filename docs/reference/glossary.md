@@ -253,6 +253,8 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **pioarduino** | Community-maintained PlatformIO platform fork for ESP32 (ESP-IDF 5.1.4 + Arduino ESP32 3.0.3). |
 | **PlatformIO** | IDE and build system for embedded development; recommended for Cyber Fidget via the pioarduino fork. |
 | **PROGMEM** | Program memory; marks constant data for storage with the program on embedded boards. |
+| **Scene (Home Assistant)** | Saved settings for several devices that Home Assistant applies together. Home Remote can run one. |
+| **Script (Home Assistant)** | A list of actions Home Assistant runs in order. Home Remote can start one. |
 | **SK6812** | Individually addressable RGBW LED (NeoPixel-compatible) -- four are used in Cyber Fidget. |
 | **ThingPulse** | Source of the OLED font data used in the WASM shim. |
 
