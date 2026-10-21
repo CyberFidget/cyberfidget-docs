@@ -105,19 +105,18 @@ Hover over an underlined term, such as OLED or LED, to see what it means, or ope
 </div>
 <div class="cf-row__text" markdown>
 
-A machined-aluminum, pocket-sized gadget built for play, tinkering, and experimentation. Designed and machined in Michigan.
+[Ships as a kit: no soldering, just screws](getting-started/assembly/guide.md). Designed and machined in Michigan.
 
-- Ships as a kit: no soldering, just screws.
-- 2.2 x 1.6 x 0.8 in, about 68 g.
-- Inside:
-    - an ESP32 chip with Wi-Fi and Bluetooth
-    - a 0.96" OLED screen
-    - 6 buttons and a slider
-    - 4 RGBW LEDs
-    - a speaker and a microphone
-    - a motion sensor
-    - a microSD card slot
-    - USB-C
+About 2.2 x 1.6 x 0.8 inches and 68 g.
+
+- an ESP32 chip with Wi-Fi and Bluetooth
+- a 0.96" OLED screen
+- 6 buttons and a slider
+- 4 RGBW LEDs
+- a speaker and a microphone
+- a motion sensor
+- a microSD card slot
+- USB-C
 
 See the [Product overview](product/overview.md) for the full picture, or [Hardware specs](hardware/specs.md) for part numbers and dimensions.
 
