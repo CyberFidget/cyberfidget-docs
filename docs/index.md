@@ -34,9 +34,9 @@
 
     ---
 
-    About 15 minutes with a small screwdriver. Then find your way around the built-in apps.
+    About 15 minutes with a small screwdriver. Then find your way around the built-in apps, and get more from The Archives.
 
-    [Assembly guide](getting-started/assembly/guide.md) | [Turn it on](getting-started/overview.md#2-turn-it-on-and-find-your-way-around) | [Built-in apps](software/apps.md)
+    [Assembly guide](getting-started/assembly/guide.md) | [Turn it on](getting-started/overview.md#2-turn-it-on-and-find-your-way-around) | [Built-in apps](software/apps.md) | [Get apps from The Archives](software/sharing-apps.md)
 
 -   **Make your first app**
 
@@ -105,9 +105,18 @@ Hover over an underlined term, such as OLED or LED, to see what it means, or ope
 </div>
 <div class="cf-row__text" markdown>
 
-A machined-aluminum, pocket-sized gadget built for play, tinkering, and experimentation. Designed and assembled in Michigan.
+[Ships as a kit: no soldering, just screws](getting-started/assembly/guide.md). Designed and machined in Michigan.
 
-It ships as a kit: no soldering, just screws. 2.2 x 1.6 x 0.8 in, about 68 g. Inside: an ESP32 chip with Wi-Fi and Bluetooth, a 0.96" OLED screen, 6 buttons, a slider, 4 RGBW LEDs, a speaker, a microphone, a motion sensor, a microSD card slot, and USB-C.
+About 2.2 x 1.6 x 0.8 inches and 68 g.
+
+- an ESP32 chip with Wi-Fi and Bluetooth
+- a 0.96" OLED screen
+- 6 buttons and a slider
+- 4 RGBW LEDs
+- a speaker and a microphone
+- a motion sensor
+- a microSD card slot
+- USB-C
 
 See the [Product overview](product/overview.md) for the full picture, or [Hardware specs](hardware/specs.md) for part numbers and dimensions.
 

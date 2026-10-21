@@ -23,7 +23,7 @@ After this page you will know where to find each part of using and looking after
 
 <div class="grid cards cf-photo-cards" markdown>
 
--   ![The face of Cyber Fidget: the screen at the top, the slider on the left and six buttons below it](../assets/product/cyber-fidget-face.webp){ .cf-contain .no-lightbox loading=lazy width="300" height="397" }
+-   ![The face of Cyber Fidget: the screen at the top, the slider on the left and six buttons below it](../assets/product/cyber-fidget-face-screen-off.webp){ .cf-contain .no-lightbox loading=lazy width="300" height="397" }
 
     **Turn it on and find your way around**
 
@@ -43,7 +43,7 @@ After this page you will know where to find each part of using and looking after
 
     [Built-in apps](../software/apps.md)
 
--   ![The emulator running an app with a small face on the screen that the slider and buttons move](../assets/media/emulator-sprites.png){ .cf-contain .no-lightbox loading=lazy width="300" height="400" }
+-   ![The Archives on cyberfidget.com: filter tabs and the first row of apps, each card with a moving preview, SEND TO MY FIDGET and TRY IT HERE](../assets/media/archives-browse.png){ .no-lightbox loading=lazy width="1710" height="1040" }
 
     **Get more apps**
 
@@ -53,7 +53,7 @@ After this page you will know where to find each part of using and looking after
 
     [Get apps from The Archives](../software/sharing-apps.md)
 
--   ![The Cyber Fidget mainboard with its USB-C charging port, and the battery that plugs into it](../assets/product/kit-parts.webp){ .cf-focus-end .no-lightbox loading=lazy width="1100" height="1100" }
+-   ![The Cyber Fidget battery: a small rechargeable pouch cell with a red and black lead and a white connector](../assets/product/battery.jpg){ .no-lightbox loading=lazy width="900" height="600" }
 
     **Charge it**
 

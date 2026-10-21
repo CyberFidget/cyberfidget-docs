@@ -8,7 +8,7 @@
 </div>
 <div class="cf-hero__text" markdown>
 
-<p class="cf-hero__lead"><strong>A machined-aluminum, pocket-sized gadget built for play, tinkering, and experimentation.</strong> Designed and assembled in Michigan.</p>
+<p class="cf-hero__lead"><strong>A machined-aluminum, pocket-sized gadget built for play, tinkering, and experimentation.</strong> Designed and machined in Michigan.</p>
 
 After this page you will know what Cyber Fidget is, what's inside it, what comes in the kit, and where to go next.
 
@@ -35,7 +35,7 @@ Cyber Fidget is two things at once:
 
 <div class="grid cards cf-photo-cards" markdown>
 
--   ![A Cyber Fidget held between finger and thumb, its screen glowing red with the Cyber Fidget logo](../assets/product/in-hand.webp){ .no-lightbox loading=lazy width="350" height="540" }
+-   ![A Cyber Fidget held in a hand, playing a brick-breaking game on its screen](../assets/product/brick-break.jpg){ .no-lightbox loading=lazy width="700" height="700" }
 
     **1. An electronic fidget toy**
 
@@ -43,7 +43,7 @@ Cyber Fidget is two things at once:
 
     Beyond a spinner or clicker: something with a screen, buttons, LEDs, and sound that's fun to hold and play with.
 
--   ![A Cyber Fidget with its buttons removed, showing the switches underneath, two lights glowing blue and red, and a slider test on the screen](../assets/product/buttons-removed.webp){ .no-lightbox loading=lazy width="481" height="721" }
+-   ![The Cyber Fidget mainboard on its own: the screen above it on a ribbon cable, the microSD slot, the USB-C port, the battery connector and the power switch](../assets/product/mainboard.jpg){ .no-lightbox loading=lazy width="700" height="700" }
 
     **2. An approachable dev board**
 

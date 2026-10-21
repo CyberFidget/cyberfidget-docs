@@ -13,3 +13,26 @@
 
 /* Home page journey cards: keep each link label on one line when the links wrap. */
 .md-typeset .cf-doors a { white-space: nowrap; }
+
+/* Supported browsers: the live USB check. */
+.md-typeset .cf-usb-check {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem 0.8rem;
+  padding: 0.8rem 1rem;
+  border: 0.1rem solid var(--md-default-fg-color--lighter);
+  border-left-width: 0.35rem;
+  border-radius: 0.2rem;
+}
+.md-typeset .cf-usb-check__icon svg { width: 1.6rem; height: 1.6rem; fill: currentColor; display: block; }
+.md-typeset .cf-usb-check__body { flex: 1 1 14rem; }
+.md-typeset .cf-usb-check__when { display: block; font-size: 0.7rem; opacity: 0.75; }
+.md-typeset .cf-usb-check__again { margin: 0; }
+.md-typeset .cf-usb-check--checking { opacity: 0.8; }
+.md-typeset .cf-usb-check--pass { border-left-color: #2fbf71; }
+.md-typeset .cf-usb-check--pass .cf-usb-check__icon { color: #2fbf71; }
+.md-typeset .cf-usb-check--fail { border-left-color: #e5484d; }
+.md-typeset .cf-usb-check--fail .cf-usb-check__icon { color: #e5484d; }
+.md-typeset .cf-usb-check--warn { border-left-color: #f0b429; }
+.md-typeset .cf-usb-check--warn .cf-usb-check__icon { color: #f0b429; }
