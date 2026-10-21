@@ -48,7 +48,7 @@ display.drawString(0, 0, "Hello");
 
 Any other comment line that starts with `// Insert` where a placement line could go fails as `bad-marker`. The message quotes the exact text for the slot it seems to mean (or all four, when it cannot tell).
 
-Top-of-file code holds globals, constants, helpers or sprite data. Inside the starter, `display` and `buttonManager` are members of the app class, so fragments for `begin()`, `update()` and `end()` can use them directly. Code at the top of the file is outside the class: use `HAL::displayProxy()` and `HAL::buttonManager()` there.
+Top-of-file code holds globals, constants, helpers or sprite data. Inside the starter, `display`, `buttonManager` and `audio` are members of the app class, so fragments for `begin()`, `update()` and `end()` can use them directly. Code at the top of the file is outside the class: use `HAL::displayProxy()`, `HAL::buttonManager()` and `HAL::audioManager()` there.
 
 Placement-looking lines inside block comments or C++ raw strings stay part of their surrounding section. A real placement line after either closes starts a section.
 

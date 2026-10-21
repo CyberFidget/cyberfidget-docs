@@ -3,6 +3,7 @@
 
 #include "DisplayProxy.h"
 #include "ButtonManager.h"
+#include "AudioManager.h"
 
 class MyApp {
 public:
@@ -13,6 +14,7 @@ public:
 private:
     ButtonManager& buttonManager;
     DisplayProxy& display;
+    AudioManager& audio;
     static MyApp* instance;
     void registerButtonCallbacks();
     void unregisterButtonCallbacks();
