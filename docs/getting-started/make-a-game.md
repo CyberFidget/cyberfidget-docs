@@ -532,7 +532,7 @@ Catcher catcher(HAL::buttonManager());
 Catcher* Catcher::instance = nullptr;
 
 Catcher::Catcher(ButtonManager& btnMgr) :
-    buttonManager(btnMgr), display(HAL::displayProxy()) { instance = this; }
+    buttonManager(btnMgr), display(HAL::displayProxy()), audio(HAL::audioManager()) { instance = this; }
 
 // begin() runs once when your app opens from the menu.
 // Set things up here: hook up the buttons and start with the lights off.
@@ -629,7 +629,7 @@ void Catcher::update() {
 }
 
 // end() runs when your app closes. Let go of the buttons and turn the
-// lights off (if your app plays sounds, call stopTone() here too).
+// lights off (if your app plays sounds, call audio.stopTone() here too).
 void Catcher::end() {
 
     HAL::audioManager().stopTone();
