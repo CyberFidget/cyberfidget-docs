@@ -34,9 +34,9 @@
 
     ---
 
-    About 15 minutes with a small screwdriver. Then find your way around the built-in apps.
+    About 15 minutes with a small screwdriver. Then find your way around the built-in apps, and get more from The Archives.
 
-    [Assembly guide](getting-started/assembly/guide.md) | [Turn it on](getting-started/overview.md#2-turn-it-on-and-find-your-way-around) | [Built-in apps](software/apps.md)
+    [Assembly guide](getting-started/assembly/guide.md) | [Turn it on](getting-started/overview.md#2-turn-it-on-and-find-your-way-around) | [Built-in apps](software/apps.md) | [Get apps from The Archives](software/sharing-apps.md)
 
 -   **Make your first app**
 
