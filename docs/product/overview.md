@@ -8,7 +8,7 @@
 </div>
 <div class="cf-hero__text" markdown>
 
-<p class="cf-hero__lead"><strong>A machined-aluminum, pocket-sized gadget built for play, tinkering, and experimentation.</strong> Designed and assembled in Michigan.</p>
+<p class="cf-hero__lead"><strong>A machined-aluminum, pocket-sized gadget built for play, tinkering, and experimentation.</strong> Designed and machined in Michigan.</p>
 
 After this page you will know what Cyber Fidget is, what's inside it, what comes in the kit, and where to go next.
 
