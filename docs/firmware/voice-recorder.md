@@ -67,19 +67,9 @@ While a recording is running:
 
 The recorder home screen is a 1-bit wireframe cassette. Here's the tour:
 
-```
-+=====================================+
-|   .----------- READY ------------.  |  <- status (READY, REC, STOP)
-|   |   ___                 ___     | |  <- tape reels (spin while recording)
-|   |  /   \               /   \    | |
-|   |  \___/               \___/ HQ | |  <- quality badge
-|   '-------------------------------' |
-|    0:00            |-----|::::|---| |  <- timer (left) + level meter (right)
-|                         '-good-'    |
-|                            84m      |  <- recording time left on the card
-+=====================================+
-```
-<!-- Replace with emulator screenshot -->
+![The Voice Notes recorder screen on a Cyber Fidget: a cassette with two reels and DOWN = NOTES at the top, the timer at 00:00, the level meter with its two ticks, and 271h of recording time left](../assets/media/device-voice-notes-ready.png){ width="384" }
+
+![The recorder while recording: REC at the top of the cassette, the timer at 00:03 and the time left counting down](../assets/media/device-voice-notes-recording.png){ width="384" }
 
 - **Status** -- cycles through `ENTER = REC`, `DOWN = NOTES`, and `READY` when
   idle, so the controls are always on screen. It shows `REC` with a blinking dot while
@@ -158,22 +148,11 @@ the app keeps it in step automatically whenever you record, rename, or delete.
 
 From the recorder screen, press **Down** to open your list of notes:
 
-```
-+------------------------------------+
-| RECORDINGS                  3/12   |  <- which note you're on / how many total
-|------------------------------------|
-| > REC_0003                   0:42  |  <- selected (highlighted)
-|   REC_0002                   2:15  |
-|   REC_0001                   0:08  |
-|------------------------------------|
-| 2026-06-09 14:23          [>] del  |  <- date of the selected note · delete hint
-+------------------------------------+
-```
-<!-- Replace with emulator screenshot -->
+![The RECORDINGS list on a Cyber Fidget: 1/2 in the header, REC_0002 (0:07) highlighted above REC_0001 (0:03), and the footer showing no date and [>]del](../assets/media/device-voice-notes-list.png){ width="384" }
 
 - Notes are listed **newest first**, each showing its name and length.
 - **Up / Down** move the highlight; the footer shows the selected note's date (or
-  `No date` if the clock wasn't set when it was recorded -- see [Timestamps](#timestamps-and-the-clock)).
+  `no date` if the clock wasn't set when it was recorded -- see [Timestamps](#timestamps-and-the-clock)).
 - Press **Enter** to play the selected note. The playback screen shows spinning reels,
   and the **slider sets the volume** just like the music player. **Enter** pauses and
   resumes; at the end it replays from the top. **Select** stops and goes back to the list.
@@ -191,16 +170,7 @@ From the recorder screen, press **Down** to open your list of notes:
 With a note highlighted in the list, press **Right** to delete it. A confirmation screen
 appears:
 
-```
-+------------------------------------+
-|             Delete?                |
-|                                    |
-|            REC_0003                |
-|                                    |
-|        ENTER=yes   SEL=no          |
-+------------------------------------+
-```
-<!-- Replace with emulator screenshot -->
+![The delete confirmation on a Cyber Fidget: Delete?, the note name REC_0002, and ENTER=yes SEL=no](../assets/media/device-voice-notes-delete.png){ width="384" }
 
 Press **Enter** to confirm or **Select** to cancel. Deleting removes the recording, its
 entry in the list, and any transcript saved alongside it. There's no undo, so the

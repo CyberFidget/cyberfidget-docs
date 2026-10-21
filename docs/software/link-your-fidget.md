@@ -12,6 +12,9 @@ Save a WiFi network on the Fidget: open **Settings > Setup WiFi** and follow [Se
 ## Link it
 
 1. On the Fidget, open **Settings > Link**. It shows a short code and the address `cyberfidget.com/my-fidget/link`.
+
+    ![Settings > Link on a Cyber Fidget: Type this code at, a six-character code, cyberfidget.com/my-fidget/link and the Fidget's name](../assets/media/device-link-code.png){ width="384" }
+
 2. Open [Link your Fidget](https://cyberfidget.com/my-fidget/link) while signed in. Type the code shown on the Fidget and select **Link my Fidget**.
 3. The website says **Confirm on your Fidget**. Check the account in the Fidget's `Link to @<account>?` prompt, then choose **OK**. Choose **Not me** if it is the wrong account. The code expires after 10 minutes; open **Settings > Link** for a new one if needed.
 4. The website shows **Linked to your account**. The Fidget can receive changes at its next check-in. See [Updates](updates.md) for when it checks in and how to check now.

@@ -84,6 +84,7 @@ nav:
       - Built-in apps: software/apps.md
       - Voice Notes: firmware/voice-recorder.md
       - Phone Companion: firmware/companion.md
+      - Home Remote: firmware/home-remote.md
       - Web Portal: firmware/web-portal.md
       - Awake & dev mode: software/awake-and-dev-mode.md
       - Storage & SD: software/storage.md

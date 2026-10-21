@@ -243,14 +243,18 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Emscripten** | Toolchain that compiles C/C++ to WebAssembly and JavaScript. |
 | **GitHub Actions** | GitHub service that runs automated checks and builds for a repository. Studio app builds do not require your own fork; they can run on your computer or the build server. |
 | **Home Assistant** | Free, open-source home automation software that runs on a computer on your home network and controls smart lights, speakers and other devices. The Home Remote app talks to it. |
+| **Home Remote** | The built-in app that controls Home Assistant lights, speakers, scenes and scripts. See [Home Remote](../firmware/home-remote.md). |
 | **ICS-43434** | InvenSense/TDK I2S MEMS microphone used in Cyber Fidget. |
 | **LIS2DH12** | STMicroelectronics 3-axis digital accelerometer used in Cyber Fidget. |
+| **Long-lived access token** | A key you make in your Home Assistant profile that lets another program use your Home Assistant. Home Remote calls it the access key. |
 | **MAX17048** | Analog Devices/Maxim fuel gauge IC for LiPo battery state-of-charge monitoring. |
 | **MAX98357A** | Analog Devices/Maxim I2S Class-D amplifier driving the on-board speaker. |
 | **MCP73831** | Microchip single-cell LiPo charge management controller. |
 | **pioarduino** | Community-maintained PlatformIO platform fork for ESP32 (ESP-IDF 5.1.4 + Arduino ESP32 3.0.3). |
 | **PlatformIO** | IDE and build system for embedded development; recommended for Cyber Fidget via the pioarduino fork. |
 | **PROGMEM** | Program memory; marks constant data for storage with the program on embedded boards. |
+| **Scene (Home Assistant)** | Saved settings for several devices that Home Assistant applies together. Home Remote can run one. |
+| **Script (Home Assistant)** | A list of actions Home Assistant runs in order. Home Remote can start one. |
 | **SK6812** | Individually addressable RGBW LED (NeoPixel-compatible) -- four are used in Cyber Fidget. |
 | **ThingPulse** | Source of the OLED font data used in the WASM shim. |
 
