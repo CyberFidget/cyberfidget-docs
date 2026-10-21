@@ -37,6 +37,7 @@ The two emulator clips take their code from the docs themselves: `emulator-catch
   - run `npm install` and `npx playwright install chromium` in this folder; or
   - point at a folder that already has it: set `PLAYWRIGHT_DIR` to a directory whose `node_modules` contains `playwright` (for example another project checkout).
 - A running copy of the studio site (the `--base` URL). Any PHP-served checkout of the website works, for example `php -S localhost:8481 -t .` from the website folder.
+  For `generate-examples`, start PHP's server with more than one worker (`PHP_CLI_SERVER_WORKERS=4 php -S ...`): with the default single worker, a generation never finishes, because the page waits on a second request the busy server can't answer. A generation run also uses that server's free allowance for the day.
 - Optional: ffmpeg with the libvpx encoder, for cropping and trimming clips. The tool uses the small ffmpeg that Playwright installs next to its browsers (`ms-playwright/ffmpeg-*`), or the one named by the `FFMPEG` environment variable. Without ffmpeg, clips are kept as recorded (whole page, untrimmed) and no poster is written.
 
 ## Run
