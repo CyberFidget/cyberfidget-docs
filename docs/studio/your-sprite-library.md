@@ -2,6 +2,8 @@
 
 After this page you can find every sprite in your project, add a new one, reuse art you saved earlier, and borrow free starter art. A sprite is an image or animation used by an app, often for a character, object, or effect.
 
+[Open the studio](https://cyberfidget.com/create/){ .md-button }
+
 On a desktop or laptop, all of this lives behind two buttons at the left end of the file strip above the workspace: **All files** and **Add art**. The **All files** window has three tabs: **In this project**, **My library**, and **Free starters**. Taking something out of a library copies it into your project. Editing that copy never changes the original.
 
 ![The Add art menu open above the workspace, listing Draw a new sprite, Import from a file, From my library and Pick a free starter](../assets/media/add-art-menu.png)

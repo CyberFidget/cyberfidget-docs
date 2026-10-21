@@ -2,6 +2,8 @@
 
 A frame is one picture in a sequence. An animation is a named sequence of frames for an action, such as `walk` or `jump`.
 
+[Open the studio](https://cyberfidget.com/create/){ .md-button }
+
 On desktop and laptop, the timeline sits under the canvas and scrolls sideways. On a phone, a strip of frame thumbnails sits below the canvas, between **Layers** and **Play**. The **Frames** chip (it shows the current animation and frame, such as `walk 2/4`) opens a **Frames** sheet with the animation groups, **Add animation**, the previous and next frame buttons, and **Speed**. Tap a thumbnail to select it. Tap the **...** button on the selected thumbnail, or press and hold any thumbnail, for **Duplicate frame** and **Delete frame**.
 
 | Control | What it does | Shortcut | Touch equivalent |

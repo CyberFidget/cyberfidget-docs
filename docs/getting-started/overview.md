@@ -67,7 +67,7 @@ Cyber Fidget ships as a high-quality kit -- no soldering required, just screws. 
 ## What you'll need
 
 - **USB-C cable** (data-capable, not charge-only)
-- **Computer** with a USB port (Windows, macOS, or Linux). For the browser route, use Chrome, Edge or Firefox.
+- **Computer** with a USB port. For the browser route, use a [supported browser](../software/supported-browsers.md).
 - **Small Phillips screwdriver** (for assembly)
 - **microSD card** (FAT32 formatted, optional but recommended)
 - **Internet connection** (for the browser tools, firmware and downloads)

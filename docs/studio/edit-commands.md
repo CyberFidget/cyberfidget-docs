@@ -2,6 +2,8 @@
 
 On desktop and laptop, **Edit** stays at the right end of the options bar above the canvas. On a phone, **Edit** is in the bar above the tool row, beside **Undo** and **Redo**; it opens an **Edit** sheet with the same commands. Tap **Edit**, then a command.
 
+[Open the studio](https://cyberfidget.com/create/){ .md-button }
+
 The table gives keyboard and touch equivalents. **None** means no dedicated shortcut. Ctrl commands also accept Command on a Mac. Commands can be disabled when they have nothing to act on.
 
 | Command | What it does | Shortcut | Touch equivalent |

@@ -2,6 +2,8 @@
 
 The 3D tab is Studio's tool for building wireframe models -- simple 3D shapes your app can spin and display on the Cyber Fidget's OLED screen, drawn as glowing line art like a classic vector arcade game.
 
+[Open the studio](https://cyberfidget.com/create/){ .md-button }
+
 The **3D** tab is available to everyone, alongside **Code** and **2D**.
 
 ---

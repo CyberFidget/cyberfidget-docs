@@ -3,6 +3,8 @@
 
 After this page you can find an app in The Archives, try it in your browser, and put it on your Cyber Fidget. You can also send a friend a link to one item.
 
+[Browse The Archives](https://cyberfidget.com/explore/){ .md-button }
+
 ---
 
 ## What The Archives is

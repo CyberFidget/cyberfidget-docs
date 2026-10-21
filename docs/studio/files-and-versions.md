@@ -2,6 +2,8 @@
 
 On a desktop or laptop, the version controls, **Download animation** and the **Sprite file** menu sit in the right-panel footer. On a phone they are in the **Files** sheet: tap the **Files** chip at the top of the 2D tab (it shows the open sprite's name).
 
+[Open the studio](https://cyberfidget.com/create/){ .md-button }
+
 All controls below have no dedicated keyboard shortcut. Tap them on a touch screen; tap or type in the version-label field.
 
 ![The desktop right-panel footer with Save version, History, Save to My Assets, Download animation and the Sprite file menu](../assets/media/new-sprite-drawn.png)

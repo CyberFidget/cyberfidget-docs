@@ -2,6 +2,8 @@
 
 After this page you can start a project, build it and try it in the emulator.
 
+[Open the studio](https://cyberfidget.com/create/){ .md-button }
+
 The App Builder is the [studio](https://cyberfidget.com/create/), a browser-based tool for writing, generating and testing Cyber Fidget apps. There is nothing for you to install.
 
 ---
@@ -73,7 +75,7 @@ it would be editing your work without asking.
 
 A model is the program a provider runs to write code from your description. Choose from the models the studio lists; check the cost and reply limits shown for each choice.
 
-If you use your own provider key (an API key from Anthropic, OpenAI, or Google), **More models from your key** lists the models that key can use, fetched from the provider, with the recommended ones first.
+With your own provider key, **More models from your key** lists the models that key can use, fetched from the provider, with the recommended ones first. See [Supported models](supported-models.md) for the providers and where to get a key.
 
 ---
 

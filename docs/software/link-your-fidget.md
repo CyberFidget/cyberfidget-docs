@@ -3,6 +3,8 @@
 
 Linking puts a Cyber Fidget on your account. Once it has saved WiFi, it can receive app changes from that account when it checks in, without a cable. Linking requires an account and a WiFi connection. You can still install apps and firmware from the website over a Universal Serial Bus (USB) cable without linking.
 
+[Link your Fidget](https://cyberfidget.com/my-fidget/link/){ .md-button }
+
 ## Before you start
 
 Save a WiFi network on the Fidget: open **Settings > Setup WiFi** and follow [Setting up WiFi](../firmware/web-portal.md#setting-up-wifi). A Fidget can remember up to three networks. Sign in at [cyberfidget.com](https://cyberfidget.com/). The Fidget needs to be able to reach the website using its saved network.

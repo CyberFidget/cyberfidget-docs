@@ -3,6 +3,8 @@
 
 There are several ways to change the firmware on your Cyber Fidget or to start it over. Most of the time you want a normal update, which keeps everything you saved. The others are for going back to an earlier version or for a clean start.
 
+[Open the update page](https://cyberfidget.com/update/){ .md-button }
+
 | You want to... | Use | Keeps your saved WiFi, settings and apps? |
 | --- | --- | --- |
 | Get the newest version | A [normal update](#update-normally), over WiFi or from the website | Yes |
@@ -18,7 +20,7 @@ None of these touch the memory card or anything on it.
 A normal update replaces the firmware and keeps the Fidget's saved WiFi networks, settings, installed apps and account link.
 
 - **Over WiFi.** A linked Fidget with saved WiFi finds new versions when it checks in, and offers them with **Install now**, **Remind me later** or **Skip this version**. See [Updates](updates.md) for when it checks and what each choice does.
-- **From the website over a Universal Serial Bus (USB) cable.** Open the [website update page](https://cyberfidget.com/update/) in Google Chrome or Microsoft Edge on a computer, plug in the Fidget, and choose **Install update**. This works for every Fidget, including one that cannot install an update over WiFi yet. The install takes about a minute; keep the Fidget plugged in.
+- **From the website over a Universal Serial Bus (USB) cable.** Open the [website update page](https://cyberfidget.com/update/) in a [supported browser](supported-browsers.md) on a computer, plug in the Fidget, and choose **Install update**. This works for every Fidget, including one that cannot install an update over WiFi yet. The install takes about a minute; keep the Fidget plugged in.
 
 ## Stable or test versions
 
@@ -31,7 +33,7 @@ Test versions are early builds for trying new features before everyone gets them
 
 If a new version misbehaves, you can go back to an earlier one from the [website update page](https://cyberfidget.com/update/) over USB:
 
-1. Plug the Fidget into a computer and open the update page in Chrome or Edge.
+1. Plug the Fidget into a computer and open the [website update page](https://cyberfidget.com/update/) in a [supported browser](supported-browsers.md).
 2. In the **Version** list, pick the earlier version you want.
 3. Choose **Install update**.
 
@@ -76,7 +78,7 @@ Afterward, set up WiFi again with **Settings > Setup WiFi**, and [link the Fidge
 
 ## Erase everything and reinstall (on the website)
 
-**Erase everything and reinstall** erases the whole Fidget and installs a fresh copy of the firmware you choose. It is under **Advanced** on the [website update page](https://cyberfidget.com/update/), and it needs a USB cable and Chrome or Edge on a computer. Use it when the Fidget is stuck on something it saved, when it does not start properly, or when you want a clean start on a particular version.
+**Erase everything and reinstall** erases the whole Fidget and installs a fresh copy of the firmware you choose. It is under **Advanced** on the [website update page](https://cyberfidget.com/update/), and it needs a USB cable and a [supported browser](supported-browsers.md) on a computer. Use it when the Fidget is stuck on something it saved, when it does not start properly, or when you want a clean start on a particular version.
 
 It erases saved WiFi networks, installed apps and their order, settings, the link to your account, and the battery record. It keeps the memory card and everything on it.
 

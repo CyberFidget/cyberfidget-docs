@@ -2,6 +2,8 @@
 
 The viewport is the visible area of the canvas. View controls change how you see your work; they do not change the saved pixels.
 
+[Open the studio](https://cyberfidget.com/create/){ .md-button }
+
 On desktop and laptop, view controls sit in the canvas footer, below the canvas. On a phone, **Grid**, the zoom percentage and **Fit** are in the bar at the top of the 2D tab, beside the **Files** chip; there are no - / + buttons, so pinch to zoom. **Edit** also offers Grid and Guide box on every screen size.
 
 | Control | What it does | Keyboard / mouse | Touch equivalent |

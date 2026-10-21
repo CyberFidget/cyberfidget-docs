@@ -2,6 +2,8 @@
 
 An animation is a named sequence of frames for one action, such as `run`, `duck` or `jump`. The editor calls these animations. App code may call the same concept an animation state.
 
+[Open the studio](https://cyberfidget.com/create/){ .md-button }
+
 ## When groups appear
 
 In a timeline with animation groups, each animation has a header with its name, **Play**, **+ Frame** and a **☰** menu. A frame used by more than one animation has a **shared** badge; frames outside all animations appear under **Unassigned**. Creating an animation switches the timeline to groups, and character sprites use groups whenever they have an animation. In the single-row timeline, with no animation headers, **+ Frame** copies the current frame and each frame has an inline **Delete** button.

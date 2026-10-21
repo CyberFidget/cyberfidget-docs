@@ -2,6 +2,8 @@
 
 Select a [tool](tools.md) first. On desktop and laptop its settings appear in the options bar above the canvas. On a phone, the bar above the tool row shows the tool's settings as buttons (for example **Size**, **Flow**, **Width**), each with its current value. Tap one to open the tool's options sheet. **Select** shows **Copy**, **Cut** and **Paste**; **Move** shows its nudge arrows; **Transform** shows **Apply** and **Cancel**; **Zoom** shows an **In** / **Out** button, **Fit** and **100%**.
 
+[Open the studio](https://cyberfidget.com/create/){ .md-button }
+
 Unless a shortcut is listed, a setting has no dedicated keyboard shortcut. On touch screens, tap buttons, checkboxes and lists, and drag sliders. Draw and Fill have a hint instead of settings.
 
 | Tool / setting | What it does | Shortcut | Touch equivalent |
