@@ -21,9 +21,13 @@ Connecting with a cable works from a computer with Chrome, Edge or Firefox. Thes
 - First-time setup by cable on My Fidget.
 - Setting up WiFi over USB.
 
+Connecting your Cyber Fidget over USB from an Android phone may not work, even when the browser says it can. On a phone, use the [WiFi route](#if-usb-isnt-available) instead.
+
 ## Check this browser
 
-<div class="cf-usb-check" data-cf-usb-check role="status"></div>
+This box asks your browser right now. Press **Check again** to repeat it.
+
+<div class="cf-usb-check" data-cf-usb-check role="status" aria-live="polite">Checking this browser...</div>
 <noscript>This browser check needs JavaScript. Use a computer with Chrome, Edge or Firefox for USB features, or set up your Fidget over WiFi.</noscript>
 
 ## If USB isn't available
