@@ -22,6 +22,8 @@ A normal update replaces the firmware and keeps the Fidget's saved WiFi networks
 - **Over WiFi.** A linked Fidget with saved WiFi finds new versions when it checks in, and offers them with **Install now**, **Remind me later** or **Skip this version**. See [Updates](updates.md) for when it checks and what each choice does.
 - **From the website over a Universal Serial Bus (USB) cable.** Open the [website update page](https://cyberfidget.com/update/) in a [supported browser](supported-browsers.md) on a computer, plug in the Fidget, and choose **Install update**. This works for every Fidget, including one that cannot install an update over WiFi yet. The install takes about a minute; keep the Fidget plugged in.
 
+![The website update page: Update firmware, the Before you start steps (plug in your Cyber Fidget, keep it plugged in), the Install the update card with its Version list and INSTALL UPDATE, and Advanced below](../assets/media/update-page.png){ width="440" }
+
 ## Stable or test versions
 
 Test versions are early builds for trying new features before everyone gets them. Finished releases are called stable.
@@ -36,6 +38,8 @@ If a new version misbehaves, you can go back to an earlier one from the [website
 1. Plug the Fidget into a computer and open the [website update page](https://cyberfidget.com/update/) in a [supported browser](supported-browsers.md).
 2. In the **Version** list, pick the earlier version you want.
 3. Choose **Install update**.
+
+![The Install the update card with an earlier version, v1.4.1, picked in the Version list, above INSTALL UPDATE](../assets/media/update-version.png){ width="440" }
 
 Like any normal update, this keeps your saved WiFi, settings and apps. Updates over WiFi don't go back to an earlier version, so use the website for this. Later, the Fidget may offer the newer version again; choose **Skip this version** if you want it to stop asking (see [Updates](updates.md#choose-what-to-do)).
 
@@ -83,6 +87,9 @@ Afterward, set up WiFi again with **Settings > Setup WiFi**, and [link the Fidge
 It erases saved WiFi networks, installed apps and their order, settings, the link to your account, and the battery record. It keeps the memory card and everything on it.
 
 1. Plug in the Fidget and open **Advanced** on the update page, then choose **Erase everything and reinstall**.
+
+    ![Advanced opened on the update page: a short explanation and the ERASE EVERYTHING AND REINSTALL button](../assets/media/update-advanced.png){ width="440" }
+
 2. Check the list of what it erases and keeps, and pick the **Version to install**. Its list and default match the normal **Version** list.
 3. Type `ERASE` in the box and choose **Erase and reinstall**.
 

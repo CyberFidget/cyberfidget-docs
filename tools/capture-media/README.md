@@ -21,6 +21,8 @@ Drives the studio in a headless browser and writes the documentation's screensho
 | `2d-layers` | `2d-layers.webm` + `.png`: **New layer**, drawing on it, hiding and showing a layer, picking a layer, the layer's menu; `2d-layers-menu.png` |
 | `2d-animation-frames` | `2d-animation-frames.webm` + `.png`: **+ Frame** and **Move** to make a ball roll, then the preview and **Speed**; `2d-animation-frames-preview.png` |
 | `generate-tab` | `generate-start.png` (a new project's Generate tab), `generate-settings.png` (**Generator settings**), `generate-how-it-works.png` (the How it works view of the Spaceship demo). Nothing is generated or sent. |
+| `archives` | From the public website (`--site`, signed out): `archives-browse.png` (tabs, filters and a row of cards), `archives-item.png` (an item's side panel), `archives-try-it.png` (Try it here running), `archives-report.png` (the Report a problem form, not sent), `archives-queued.png` (a card after Send to my Fidget, which signed out only queues it in the capture browser), `archives-terminal.png` (command mode with `help`). The crops keep only Cyber Fidget's own items in view. |
+| `update-page` | From the public website (`--site`): `update-page.png` (the update page as a returning owner whose Fidget isn't plugged in), `update-version.png` (the Install card with an earlier version picked), `update-advanced.png` (Advanced opened; nothing pressed). The scene stores a Fidget record and a stand-in USB port in the capture browser only, the way the website's browser tests do. |
 
 Clips are WebM (VP8), cropped to the relevant region and kept short. Each clip has a poster PNG with the same base name.
 
@@ -52,10 +54,23 @@ node capture.mjs all --out /some/other/folder
 | Option | Meaning |
 |--------|---------|
 | `--base URL` | The studio site (default `http://localhost:8000`). The tool opens `<base>/create/`. |
+| `--site URL` | The public website, for scenes that capture its pages as a signed-out visitor (default `https://cyberfidget.com`). |
 | `--out DIR` | Output folder (default `docs/assets/media`). |
 | `--headed` | Show the browser while it works. |
 
 Running a scene overwrites its files. Review the new media (open the PNGs, play the clips) before committing.
+
+## Device screens (`device_screens.py`)
+
+Captures a real Cyber Fidget's screen over USB serial and writes each one as a PNG (the 128 x 64 screen, drawn 4x). It drives the device with its serial commands: `launch <app>` and `btn <index> tap` move around, `screencap` reads the screen. `launch`, `btn` and `awake` are test commands, so the device needs a `local_test` firmware build (`-DCF_TEST_CLI=1`); `screencap` works on any build.
+
+```sh
+python device_screens.py --port COM30 --out ../../docs/assets/media "cmd:launch Voice Notes" wait:2.5 shot:voice-notes-recorder
+```
+
+Steps run in order: `shot:<name>`, `btn:<index>` (0 up, 1 down, 2 left, 3 right, 4 back, 5 enter), `wait:<seconds>`, `cmd:<serial command>`. Opening the port resets the device, so every run starts from a fresh boot; start each run with a `cmd:launch ...` rather than counting button presses from the menu. Needs pyserial (PlatformIO's Python has it). Record which firmware each capture came from: the tool prints it first.
+
+Before using any capture: the device's screens can show its name, link codes, WiFi names or the portal password. Check every picture for anything personal, and never publish a home or neighbor network name.
 
 ## Add a scene
 

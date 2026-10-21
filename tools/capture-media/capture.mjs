@@ -33,10 +33,11 @@ const DOCS_ROOT = path.resolve(HERE, '..', '..', 'docs');
 // ---------------------------------------------------------------------------
 
 function parseArgs(argv) {
-  const opts = { base: 'http://localhost:8000', out: path.join(DOCS_ROOT, 'assets', 'media'), headed: false, list: false, scenes: [] };
+  const opts = { base: 'http://localhost:8000', site: 'https://cyberfidget.com', out: path.join(DOCS_ROOT, 'assets', 'media'), headed: false, list: false, scenes: [] };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--base') opts.base = argv[++i];
+    else if (a === '--site') opts.site = argv[++i];
     else if (a === '--out') opts.out = path.resolve(argv[++i]);
     else if (a === '--headed') opts.headed = true;
     else if (a === '--list') opts.list = true;
@@ -44,6 +45,7 @@ function parseArgs(argv) {
     else opts.scenes.push(a);
   }
   opts.base = opts.base.replace(/\/+$/, '');
+  opts.site = opts.site.replace(/\/+$/, '');
   return opts;
 }
 
@@ -258,10 +260,11 @@ class Recorder {
 }
 
 class Runner {
-  constructor(browser, base, out) {
+  constructor(browser, base, out, site) {
     this.browser = browser;
     this.base = base;
     this.out = out;
+    this.site = site;
   }
 
   recorder(name) { return new Recorder(this, name); }
@@ -269,6 +272,17 @@ class Runner {
   // A plain (not recorded) page, for screenshot-only scenes.
   async plainPage({ models = false } = {}) {
     const context = await newContext(this.browser, { models });
+    const page = await context.newPage();
+    page.on('pageerror', (e) => console.log('  page error: ' + e.message));
+    page.__context = context;
+    return page;
+  }
+
+  // A page on the public website (the --site URL, signed out), drawn at twice
+  // the size so small text stays sharp in the docs. Nothing is changed on the
+  // server: signed out, the website keeps picks and settings in this browser.
+  async sitePage() {
+    const context = await this.browser.newContext({ viewport: VIEW, deviceScaleFactor: 2 });
     const page = await context.newPage();
     page.on('pageerror', (e) => console.log('  page error: ' + e.message));
     page.__context = context;
@@ -1324,6 +1338,179 @@ scenes['generate-tab'] = async (r) => {
   await demo.__context.close();
 };
 
+// 15. The Archives on the public website, signed out. Stills of browsing, an
+// item's page (it opens in a side panel), Try it here, a card after Send to my
+// Fidget (signed out, that only queues it in this browser), the Report a
+// problem form (opened, not sent) and command mode. The crops keep only
+// Cyber Fidget's own items in view, so no maker's personal name appears.
+// Labels verified on the live page (2026-10-21).
+const ARCHIVES_ITEM = 'breakout';
+const ARCHIVES_DRAWER = { x: 920, y: 0, width: 360, height: 800 };
+scenes['archives'] = async (r) => {
+  const open = async () => {
+    const page = await r.sitePage();
+    await page.goto(r.site + '/explore/', { waitUntil: 'networkidle' });
+    await page.locator('.cf-card').first().waitFor();
+    await sleep(1500);
+    return page;
+  };
+
+  let page = await open();
+  await r.shot(page, 'archives-browse', { x: 50, y: 248, width: 855, height: 520 });
+
+  // An item's page, opened by clicking its card.
+  await page.locator('.cf-card').filter({ hasText: 'Breakout' }).first().locator('.cf-card-name').click({ force: true });
+  await page.getByText('Report a problem').waitFor();
+  await sleep(1500);
+  await r.shot(page, 'archives-item', ARCHIVES_DRAWER);
+
+  // Try it here: the app runs in the panel.
+  await page.locator('button, a').filter({ hasText: /^Try it here/i }).last().click();
+  await sleep(6000);
+  await r.shot(page, 'archives-try-it', ARCHIVES_DRAWER);
+
+  // Report a problem: the form, not sent.
+  await page.getByText('Report a problem').last().click();
+  await sleep(1200);
+  await r.shot(page, 'archives-report', ARCHIVES_DRAWER);
+  await page.__context.close();
+
+  // Send to my Fidget on a card: the card says it is waiting to send.
+  page = await open();
+  const card = page.locator('.cf-card').filter({ hasText: 'Breakout' }).first();
+  await card.getByText('Send to my Fidget', { exact: false }).click();
+  await sleep(1500);
+  const box = await card.boundingBox();
+  await r.shot(page, 'archives-queued', { x: box.x - 4, y: box.y - 4, width: box.width + 8, height: box.height + 8 });
+  await page.__context.close();
+
+  // Command mode, with its help.
+  page = await open();
+  await page.setViewportSize({ width: VIEW.width, height: 960 });
+  await page.getByText('>_ terminal').first().click();
+  await sleep(1200);
+  await page.keyboard.type('help');
+  await page.keyboard.press('Enter');
+  await sleep(1200);
+  await r.shot(page, 'archives-terminal', { x: 55, y: 185, width: 845, height: 715 });
+  await page.__context.close();
+};
+
+// 16. The website's update page, as a returning owner whose Fidget isn't
+// plugged in. Signed out, the page decides that from this browser's own
+// storage, so the scene stores a Fidget record and a stand-in USB port in the
+// capture browser (the same way the website's browser tests do); nothing is
+// sent anywhere and nothing is installed. Stills: the page; the Install card
+// with an earlier version picked; the Advanced section opened (nothing in it
+// is pressed). Labels verified on the live page (2026-10-21).
+scenes['update-page'] = async (r) => {
+  const page = await r.sitePage();
+  await page.addInitScript(() => {
+    const port = { getPorts: async () => [], requestPort: async () => { throw new DOMException('none', 'NotFoundError'); },
+      addEventListener: () => {}, removeEventListener: () => {} };
+    Object.defineProperty(Navigator.prototype, 'serial', { configurable: true, get: () => port });
+    sessionStorage.setItem('cf_recognized_visit', '1');
+    localStorage.setItem('cf_loadout_v1', JSON.stringify({ schemaVersion: 1, deviceId: 'docs-fidget', deviceName: 'My Fidget',
+      pairing: { method: 'usb-only', tokenRef: null }, device: { firmware: '1.4.0', storage: { appKB: 3072, usedKB: 0, reportedAt: '2026-10-21' } },
+      installed: [], staged: [], lastSync: null }));
+  });
+  await page.setViewportSize({ width: VIEW.width, height: 1100 });
+  await page.goto(r.site + '/update/', { waitUntil: 'networkidle' });
+  await page.getByText('Install the update').waitFor();
+  await sleep(2500);
+  await r.shot(page, 'update-page', { x: 50, y: 100, width: 660, height: 880 });
+
+  // Pick the stable release before the latest one.
+  const select = page.locator('select').first();
+  const second = await select.evaluate((el) => Array.from(el.options).filter((o) => !/test version/.test(o.textContent))[1]?.value);
+  if (second) await select.selectOption(second);
+  await sleep(800);
+  const card = page.locator('h2', { hasText: 'Install the update' }).locator('xpath=..');
+  const cb = await card.boundingBox();
+  await r.shot(page, 'update-version', { x: cb.x - 2, y: cb.y - 2, width: cb.width + 4, height: cb.height + 4 });
+
+  await page.locator('summary', { hasText: 'Advanced' }).click();
+  await page.getByText('Erase everything and reinstall').first().waitFor();
+  await sleep(800);
+  const adv = page.locator('summary', { hasText: 'Advanced' }).locator('xpath=..');
+  await adv.scrollIntoViewIfNeeded();
+  await sleep(400);
+  const ab = await adv.boundingBox();
+  await r.shot(page, 'update-advanced', { x: ab.x - 2, y: ab.y - 2, width: ab.width + 4, height: ab.height + 4 });
+  await page.__context.close();
+};
+
+// 17. Real code generator examples. THIS SCENE SPENDS GENERATIONS: it uses the
+// signed-out free allowance (three generations) on the site given by --base,
+// plus one explanation. Run it on purpose, not as part of `all` on a whim.
+// It describes a small app in detail, asks for one change, opens History and
+// How it works (Explain this code), then makes a pixel-art sprite app.
+// Results differ from run to run: review every still before committing.
+const GEN_PET = 'A pocket pet called Blip. Draw a small round creature in the middle of the screen with two eyes that blink every few seconds. '
+  + 'It gets hungrier over time: show a hunger bar along the top of the screen. Press the top-right button to feed it: it does a little bounce, '
+  + 'the hunger bar refills and it plays a short happy chirp. The LEDs show its mood: green when it is well fed, yellow when it is getting hungry, '
+  + 'red when it is starving. Moving the slider changes how fast it gets hungry.';
+const GEN_PET_CHANGE = 'Add a sleep mode: when the slider is all the way down, Blip closes its eyes, small Z letters float up from its head, '
+  + 'the LEDs fade to a dim blue, and its hunger stops going down until the slider moves up again.';
+const GEN_ROCKET = 'Draw a 32 by 24 pixel-art rocket ship as a sprite, with a flame under it that flickers between two animation frames. '
+  + 'The rocket flies slowly from left to right across a starfield of twinkling dots and wraps around at the screen edge. '
+  + 'Tilting the Fidget forward and back steers it up and down.';
+// Send a description and wait for the reply: each applied reply adds a
+// "KEPT" marker to the thread.
+async function generate(page, text) {
+  const kept = () => page.evaluate(() => (document.querySelector('#panel-builder-thread')?.innerText.match(/KEPT/g) || []).length);
+  const before = await kept();
+  await page.locator('#builder-refine-input').fill(text);
+  await page.locator('#builder-refine-btn').click();
+  const end = Date.now() + 300000;
+  while ((await kept()) <= before) {
+    if (Date.now() > end) throw new Error('no reply within 5 minutes');
+    await sleep(2000);
+  }
+  await sleep(3000);
+}
+scenes['generate-examples'] = async (r) => {
+  const page = await r.plainPage();
+  await newEmptyProject(page, r.base);
+  await page.locator('#builder-project-name').fill('Blip');
+  await generate(page, GEN_PET);
+  await r.shot(page, 'gen-pet-thread', STUDIO_PANEL);
+  await rebuildAndRun(page).catch((e) => console.log('  build: ' + e.message.split('\n')[0]));
+  await sleep(5000);
+  await r.shot(page, 'gen-pet-emulator', EMU_COLUMN);
+
+  await generate(page, GEN_PET_CHANGE);
+  await r.shot(page, 'gen-pet-thread-2', STUDIO_PANEL);
+  await rebuildAndRun(page).catch((e) => console.log('  build: ' + e.message.split('\n')[0]));
+  await sleep(5000);
+  await r.shot(page, 'gen-pet-emulator-2', EMU_COLUMN);
+
+  await page.locator('.builder-surface-tab[data-builder-view="history"]').click();
+  await sleep(1500);
+  await r.shot(page, 'gen-pet-history', STUDIO_PANEL);
+
+  await page.locator('.builder-surface-tab[data-builder-view="explanation"]').click();
+  await sleep(800);
+  const explain = page.getByRole('button', { name: /Explain this code/ });
+  if (await explain.isVisible()) {
+    await explain.click();
+    await page.getByText('Explain Deeper').waitFor({ timeout: 240000 });
+    await sleep(1500);
+  }
+  await r.shot(page, 'gen-pet-explain', STUDIO_PANEL);
+  await page.__context.close();
+
+  const art = await r.plainPage();
+  await newEmptyProject(art, r.base);
+  await art.locator('#builder-project-name').fill('Rocket');
+  await generate(art, GEN_ROCKET);
+  await r.shot(art, 'gen-rocket-thread', STUDIO_PANEL);
+  await rebuildAndRun(art).catch((e) => console.log('  build: ' + e.message.split('\n')[0]));
+  await sleep(5000);
+  await r.shot(art, 'gen-rocket-emulator', EMU_COLUMN);
+  await art.__context.close();
+};
+
 // ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
@@ -1331,16 +1518,18 @@ scenes['generate-tab'] = async (r) => {
 async function main() {
   const opts = parseArgs(process.argv.slice(2));
   if (opts.list || opts.scenes.length === 0) {
-    console.log('Scenes: ' + Object.keys(scenes).join(', ') + '\nUsage: node capture.mjs <scene>... | all  [--base URL] [--out DIR] [--headed]');
+    console.log('Scenes: ' + Object.keys(scenes).join(', ') + '\nUsage: node capture.mjs <scene>... | all  [--base URL] [--site URL] [--out DIR] [--headed]');
     return;
   }
-  const names = opts.scenes.includes('all') ? Object.keys(scenes) : opts.scenes;
+  // Scenes that spend generations only run when named, never as part of `all`.
+  const costly = new Set(['generate-examples']);
+  const names = opts.scenes.includes('all') ? Object.keys(scenes).filter((n) => !costly.has(n)) : opts.scenes;
   for (const n of names) if (!scenes[n]) throw new Error('Unknown scene ' + n + '. Scenes: ' + Object.keys(scenes).join(', '));
   fs.mkdirSync(opts.out, { recursive: true });
 
   const { chromium } = await loadPlaywright();
   const browser = await chromium.launch({ headless: !opts.headed });
-  const runner = new Runner(browser, opts.base, opts.out);
+  const runner = new Runner(browser, opts.base, opts.out, opts.site);
   let failed = 0;
   for (const n of names) {
     console.log('Scene ' + n);

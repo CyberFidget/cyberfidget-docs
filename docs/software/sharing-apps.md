@@ -34,6 +34,8 @@ You don't need an account to browse, try, or report a problem.
 - **Sort**: **Featured**, **Newest**, **Top rated**, **Most downloaded** or **Name (A-Z)**.
 - The heart on a card keeps it in your favorites.
 
+![The Archives: the kind tabs, the search box, the sort menu, the [ >_ terminal ] button, the category buttons and a row of cards, each with SEND TO MY FIDGET and TRY IT HERE or PREVIEW](../assets/media/archives-browse.png){ width="640" }
+
 Each card shows the item's picture, its name, its maker and its rating (**no ratings yet** until someone rates it). Open a card to see the item's page: its description (long ones fold behind **Show more**), **Screenshots**, and **How to play** when the maker wrote one.
 
 ---
@@ -41,6 +43,8 @@ Each card shows the item's picture, its name, its maker and its rating (**no rat
 ## What you can do with an item
 
 The buttons on an item depend on what it is and on what its maker chose to share. A button that doesn't apply isn't shown.
+
+![An item's page in the side panel: its picture, name, maker and tags, then SEND TO MY FIDGET, TRY IT HERE and COPY THE CODE, the description, screenshots and Report a problem](../assets/media/archives-item.png){ width="300" }
 
 | Button | What it does |
 |---|---|
@@ -63,6 +67,8 @@ Copies follow the maker's license: shared code under the MIT License, shared art
 
 Choose **Try it here**. The app starts in the emulator on the item's page. On a computer, use the keys or click the buttons, and drag the slider; on a phone, tap the buttons. Choose **stop** to end it.
 
+![Try it here on an item's page: the emulator running the app at the top of the panel, with restart, sound and STOP below it](../assets/media/archives-try-it.png){ width="300" }
+
 If it doesn't start, the page says **Couldn't start this one in the browser**. Try again in a moment, or in another browser.
 
 ---
@@ -70,6 +76,9 @@ If it doesn't start, the page says **Couldn't start this one in the browser**. T
 ## Put it on your Fidget
 
 1. Choose **Send to my Fidget** on the card or the item's page. The card then shows **waiting to send**, with **undo** if you change your mind. This step only queues it; the next step delivers it.
+
+    ![A card after Send to my Fidget: it shows WAITING TO SEND and an UNDO button](../assets/media/archives-queued.png){ width="274" }
+
 2. Deliver it, the same way as an app you made yourself:
     - **Over the cable**: open **My Fidget**, plug the Fidget in, and press **Send to my Fidget**. The first time, follow the setup in [Build your first app, step 7](../getting-started/first-app.md#7-install-it-on-your-cyber-fidget). No account is needed.
     - **Over WiFi**: a [linked Fidget](link-your-fidget.md) collects waiting changes at its next check-in. See [Updates](updates.md#when-it-checks).
@@ -85,6 +94,8 @@ To see and manage what is waiting for each Fidget, use [Your Fidgets](your-fidge
 ## Report a problem
 
 Choose **Report a problem** on the item's page, pick **Doesn't work**, **Crashes my Fidget**, **Breaks the rules** or **Something else**, add a note if you like, and choose **Send report**. You don't need to sign in. The [Community Guidelines](https://cyberfidget.com/community-guidelines/) say what breaks the rules.
+
+![The Report a problem form: What's wrong? with Doesn't work, Crashes my Fidget, Breaks the rules and Something else, a box to tell us more, and SEND REPORT and CANCEL](../assets/media/archives-report.png){ width="300" }
 
 ---
 
@@ -135,6 +146,10 @@ The Archives also has a text-command mode, where you type commands instead of cl
 - `gui info <name>` opens the item's page.
 
 Both open the item the same way clicking does, so the address bar updates and the link is ready to share.
+
+Type `help` to see every command:
+
+![Command mode after typing help: the command reference, grouped into browse, your fidget and terminal, with [ visual ] above it to go back to the cards](../assets/media/archives-terminal.png){ width="640" }
 
 ---
 

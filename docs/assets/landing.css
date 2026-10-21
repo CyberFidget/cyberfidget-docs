@@ -21,6 +21,7 @@
 .md-typeset .cf-hero__media img,
 .md-typeset .cf-hero__media video {
   display: inline-block;
+  width: auto;
   max-width: 100%;
   height: auto;
   max-height: 22rem;
@@ -59,6 +60,10 @@
   border-radius: 0.1rem 0.1rem 0 0;
   background: #0b0f14;
 }
+/* Fitted pictures (whole device, emulator) sit on the page color, so the space around them
+   matches the emulator captures, which are painted in the same color. */
+.md-typeset .cf-photo-cards img.cf-contain,
+.md-typeset .cf-photo-cards video.cf-contain { background: var(--md-default-bg-color); }
 /* Pictures of the whole device or the emulator keep their shape instead of being cropped. */
 .md-typeset .cf-photo-cards img.cf-contain,
 .md-typeset .cf-photo-cards video.cf-contain { object-fit: contain; }
