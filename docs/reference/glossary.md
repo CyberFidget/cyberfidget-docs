@@ -243,8 +243,10 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Emscripten** | Toolchain that compiles C/C++ to WebAssembly and JavaScript. |
 | **GitHub Actions** | GitHub service that runs automated checks and builds for a repository. Studio app builds do not require your own fork; they can run on your computer or the build server. |
 | **Home Assistant** | Free, open-source home automation software that runs on a computer on your home network and controls smart lights, speakers and other devices. The Home Remote app talks to it. |
+| **Home Remote** | The built-in app that controls Home Assistant lights, speakers, scenes and scripts. See [Home Remote](../firmware/home-remote.md). |
 | **ICS-43434** | InvenSense/TDK I2S MEMS microphone used in Cyber Fidget. |
 | **LIS2DH12** | STMicroelectronics 3-axis digital accelerometer used in Cyber Fidget. |
+| **Long-lived access token** | A key you make in your Home Assistant profile that lets another program use your Home Assistant. Home Remote calls it the access key. |
 | **MAX17048** | Analog Devices/Maxim fuel gauge IC for LiPo battery state-of-charge monitoring. |
 | **MAX98357A** | Analog Devices/Maxim I2S Class-D amplifier driving the on-board speaker. |
 | **MCP73831** | Microchip single-cell LiPo charge management controller. |
