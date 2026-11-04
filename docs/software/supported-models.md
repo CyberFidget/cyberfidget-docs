@@ -8,7 +8,7 @@ After this page you know where to find the models the studio can use to write co
 
 The **App Builder** card on [My account](https://cyberfidget.com/my-fidget/account/) offers **Free**, **Use my own key** and, for accounts that have credits, **Use my credits**. The card works without signing in; signing in adds your profile and credits. See [Free use, credits and privacy](credits.md) for costs, limits and setup.
 
-Free and credit generations use the models listed in the **App Builder** card.
+Free generations use the model Cyber Fidget picks. For credit generations, choose one in **Model for credit generations** in the **App Builder** card.
 
 ## Use your own key
 

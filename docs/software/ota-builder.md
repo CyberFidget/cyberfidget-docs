@@ -77,7 +77,7 @@ For a problem you can fix, the message offers **Set up key in My account**, **Ch
 
 A model is the program a provider runs to write code from your description. Choose in the **App Builder** card on [My account](https://cyberfidget.com/my-fidget/account/); check the cost and reply limits shown for each choice. The studio's **Generator settings** link opens this card in a new tab.
 
-With **Use my own key** selected, choose a **Model** in this card. **More models from your key** lists the models that key can use, fetched from the provider, with the recommended ones first; **Refresh model list** asks the provider again. See [Supported models](supported-models.md) for the providers and where to get a key.
+With **Use my own key** selected, choose a **Model** in this card. The **Model** list starts with the recommended models; once your key's models load from the provider, more choices appear under **More models from your key**. **Refresh model list** asks the provider again. See [Supported models](supported-models.md) for the providers and where to get a key.
 
 ---
 

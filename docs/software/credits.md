@@ -34,14 +34,15 @@ An API key (Application Programming Interface key) is a secret code from a model
 
 1. Get a key from one of the providers in [Supported models](supported-models.md). The **App Builder** card links to each provider's key page.
 2. Open [My account](https://cyberfidget.com/my-fidget/account/) directly, or use the studio's **Generator settings** link. In **App Builder**, choose **Use my own key**.
-3. Pick the **Provider**, paste the key into **API Key** and press **Save**. **Verify** checks that the provider accepts it.
+3. Pick the **Provider** and paste the key into **API Key**. **Verify** checks that the provider accepts it.
 4. Pick a **Model**. **Refresh model list** asks the provider which models your key can use. See [Choosing a model](ota-builder.md#choosing-a-model).
+5. Press **Save**. **Save** keeps the key, the model, **Max output tokens** and **Auto-fix failed builds** together; **Cancel** puts back what was saved.
 
 Your key is saved only in this browser.
 
 ![The App Builder card on My account, signed out, with Use my own key selected and the key setup form visible without a key entered](../assets/media/generate-settings.png){ width="640" }
 
-The line under the description box then reads **Using your key** and names the provider or model.
+The line under the description box then shows the model name followed by **your key**.
 
 In the same card, **Auto-fix failed builds** offers **Ask me first**, **Always (uses your key for one extra call)** and **Never**. **How much explanation do you want?** sets the level of explanation.
 
@@ -59,14 +60,14 @@ Credits are rolling out to signed-in accounts. If your account has them, the **A
 - **What a generation costs:** each model shows "about N credits for a typical generation". The real charge is worked out from what that generation used: what Cyber Fidget is billed for it, plus a small markup to cover payment processing fees, maintenance and updates, then rounded up to the nearest whole credit. Each reply in the thread shows the model and the credits it used. Check the prices shown before generating.
 - **What costs nothing:** a generation that fails on Cyber Fidget's side costs 0 credits and is returned automatically. The automatic fix of a failed build costs 0 credits. Free-allowance and own-key generations don't use credits.
 - **Expiry:** the **Credits** card shows which of your credits expire, their expiry dates, and which are spent first. Promo codes go in **Have a promo code?** on the same card.
-- **More credits:** enter a reason in **Request more - reason** on the **Credits** card, then choose **Request more**. The reason cannot be empty. A person at Cyber Fidget reviews each request.
+- **More credits:** enter a reason in **Request more - reason** on the **Credits** card, then choose **Request more**. A person at Cyber Fidget reviews each request.
 - **Buying:** buying credits is rolling out. If your account offers it, **Buy credits** shows each pack and its price, and the refund terms, before you pay.
 
 ---
 
 ## Check costs and choices
 
-Choose from the models listed in **My account**'s **App Builder** card. This card shows your free allowance, and the **Credits** card shows your balance and model costs. With your own key, the provider decides which models your key can use and what they cost.
+**My account**'s **App Builder** card shows your free allowance, and the **Credits** card on the same page shows your balance and the typical cost of each model. With your own key, the provider decides which models your key can use and what they cost.
 
 !!! note "Tell us what you think"
     We're still learning what works best for the code generator, the free allowance and credits. If you have an idea, or something didn't work the way you expected, tell us through the [contact page](https://cyberfidget.com/contact/).

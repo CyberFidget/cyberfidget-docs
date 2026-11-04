@@ -1328,9 +1328,8 @@ scenes['generate-tab'] = async (r) => {
   // site to sign in" notice; hide it, and make the window tall enough that
   // the whole card fits in one shot.
   await page.evaluate(() => {
-    for (const el of document.querySelectorAll('body *')) {
-      if (getComputedStyle(el).position === 'fixed' && /to sign in/i.test(el.textContent || '')) el.style.display = 'none';
-    }
+    const notice = document.getElementById('header-auth-notice');
+    if (notice) notice.style.display = 'none';
   });
   await page.setViewportSize({ width: VIEW.width, height: 1600 });
   await builderCard.scrollIntoViewIfNeeded();
