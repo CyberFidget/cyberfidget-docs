@@ -67,15 +67,17 @@ it would be editing your work without asking.
 
 **A failed generate keeps your prompt.** The message offers **Retry** to send the same request again and **Copy prompt** to take the text elsewhere, so you don't have to retype it.
 
+For a problem you can fix, the message offers **Set up key in My account**, **Check key in My account**, **Choose model in My account** or **Request credits in My account**. The button opens **My account** in a new tab, leaving your project open in the studio. Requesting credits requires a reason.
+
 **Drafts are kept in this browser** until a generate succeeds, so closing the tab or reloading does not lose a request you were still writing.
 
 **An empty reply is explained.** If the model sends back no code, the studio says why when it can -- for example, the model used its whole budget thinking before it wrote anything. Try again, or pick a different model.
 
 ### Choosing a model
 
-A model is the program a provider runs to write code from your description. Choose from the models the studio lists; check the cost and reply limits shown for each choice.
+A model is the program a provider runs to write code from your description. Choose in the **App Builder** card on [My account](https://cyberfidget.com/my-fidget/account/); check the cost and reply limits shown for each choice. The studio's **Generator settings** link opens this card in a new tab.
 
-With your own provider key, **More models from your key** lists the models that key can use, fetched from the provider, with the recommended ones first. See [Supported models](supported-models.md) for the providers and where to get a key.
+With **Use my own key** selected, choose a **Model** in this card. **More models from your key** lists the models that key can use, fetched from the provider, with the recommended ones first; **Refresh model list** asks the provider again. See [Supported models](supported-models.md) for the providers and where to get a key.
 
 ---
 

@@ -4,7 +4,7 @@
 
 After this page you know the ways the studio's [code generator](code-generator.md) can run, where to check costs and limits, and where to read the privacy rules.
 
-[Open the studio](https://cyberfidget.com/create/){ .md-button }
+[Open My account](https://cyberfidget.com/my-fidget/account/){ .md-button }
 
 Nothing on this page applies if you don't use the **Generate** tab. Writing code, drawing art, building and the emulator don't use the code generator.
 
@@ -12,15 +12,17 @@ Nothing on this page applies if you don't use the **Generate** tab. Writing code
 
 ## Three ways to run the generator
 
-**Generator settings**, the small link under the **Describe your app...** box, opens **SETTINGS > ACCOUNT > Generation**, where you choose how generation runs.
+**My account** has an **App Builder** card: "How app generation runs for you, in every project in this browser." You can use this card without signing in; signing in adds your profile and credits.
+
+In the studio, **Generator settings** under **Describe your app...** and the small settings icons by the generator open **My account** in a new tab at this card. Your project stays open in the studio tab. The studio's **Settings** tab holds settings for the current app.
 
 --8<-- "includes/generator-ways.md"
 
 ---
 
-## Free (built-in)
+## Free { #free-built-in }
 
-The free allowance lets you try the code generator without setting anything up. The studio shows how many free generations you have and when they reset. Check **Generator settings** and the line under the description box for your allowance.
+The free allowance lets you try the code generator without setting anything up. Choose **Free** in **My account**'s **App Builder** card. The card shows your current allowance; the line under the studio's description box also shows your usage.
 
 If you reach the allowance or the free service is busy, follow the studio's message or [use your own key](#use-your-own-key).
 
@@ -30,14 +32,20 @@ If you reach the allowance or the free service is busy, follow the studio's mess
 
 An API key (Application Programming Interface key) is a secret code from a model provider's developer website. It lets a program, here the studio, use your account with that provider. The provider charges your account for what you use, by its own prices, and sets its own limits.
 
-1. Get a key from one of the providers in [Supported models](supported-models.md). The settings link to each provider's key page.
-2. Open **Generator settings** and choose **Use your own key**.
+1. Get a key from one of the providers in [Supported models](supported-models.md). The **App Builder** card links to each provider's key page.
+2. Open [My account](https://cyberfidget.com/my-fidget/account/) directly, or use the studio's **Generator settings** link. In **App Builder**, choose **Use my own key**.
 3. Pick the **Provider**, paste the key into **API Key** and press **Save**. **Verify** checks that the provider accepts it.
 4. Pick a **Model**. **Refresh model list** asks the provider which models your key can use. See [Choosing a model](ota-builder.md#choosing-a-model).
 
+Your key is saved only in this browser.
+
+![The App Builder card on My account, signed out, with Use my own key selected and the key setup form visible without a key entered](../assets/media/generate-settings.png){ width="640" }
+
 The line under the description box then reads **Using your key** and names the provider or model.
 
-**Max output tokens** limits how long one reply can be. A token is a small piece of text, often part of a word; providers count and charge by tokens. A higher limit lets the model write more code in one reply, but each reply can take longer and cost more.
+In the same card, **Auto-fix failed builds** offers **Ask me first**, **Always (uses your key for one extra call)** and **Never**. **How much explanation do you want?** sets the level of explanation.
+
+The **Max output tokens** slider limits how long one reply can be. A token is a small piece of text, often part of a word; providers count and charge by tokens. A higher limit lets the model write more code in one reply, but each reply can take longer and cost more.
 
 Check your provider's prices, limits and terms before using your key. For privacy details, read the [Privacy policy](https://cyberfidget.com/privacy/) and your provider's policy.
 
@@ -45,20 +53,20 @@ Check your provider's prices, limits and terms before using your key. For privac
 
 ## Use my credits
 
-Credits are rolling out to signed-in accounts. If your account has them, **Generator settings** shows a third choice, **Use my credits**, and [My account](https://cyberfidget.com/my-fidget/account/) shows a **Credits** card with your balance, the typical cost for each model and your history.
+Credits are rolling out to signed-in accounts. If your account has them, the **App Builder** card on **My account** shows a third choice, **Use my credits**, and **My account** also shows a **Credits** card with your balance, the typical cost for each model and your history.
 
-- **Choosing a model:** pick one in **Model for credit generations**, or press the model name in the line under the description box. That line reads, for example, the model name and how many credits you have.
+- **Choosing a model:** pick one in **Model for credit generations** in the **App Builder** card, or press the model name in the line under the studio's description box. That line reads, for example, the model name and how many credits you have.
 - **What a generation costs:** each model shows "about N credits for a typical generation". The real charge is worked out from what that generation used: what Cyber Fidget is billed for it, plus a small markup to cover payment processing fees, maintenance and updates, then rounded up to the nearest whole credit. Each reply in the thread shows the model and the credits it used. Check the prices shown before generating.
 - **What costs nothing:** a generation that fails on Cyber Fidget's side costs 0 credits and is returned automatically. The automatic fix of a failed build costs 0 credits. Free-allowance and own-key generations don't use credits.
 - **Expiry:** the **Credits** card shows which of your credits expire, their expiry dates, and which are spent first. Promo codes go in **Have a promo code?** on the same card.
-- **More credits:** the card has **Request more**, with an optional message. A person at Cyber Fidget reviews each request.
+- **More credits:** enter a reason in **Request more - reason** on the **Credits** card, then choose **Request more**. The reason cannot be empty. A person at Cyber Fidget reviews each request.
 - **Buying:** buying credits is rolling out. If your account offers it, **Buy credits** shows each pack and its price, and the refund terms, before you pay.
 
 ---
 
 ## Check costs and choices
 
-Choose from the models the studio lists. **Generator settings** shows your free allowance, and the **Credits** card shows your balance and model costs. With your own key, the provider decides which models your key can use and what they cost.
+Choose from the models listed in **My account**'s **App Builder** card. This card shows your free allowance, and the **Credits** card shows your balance and model costs. With your own key, the provider decides which models your key can use and what they cost.
 
 !!! note "Tell us what you think"
     We're still learning what works best for the code generator, the free allowance and credits. If you have an idea, or something didn't work the way you expected, tell us through the [contact page](https://cyberfidget.com/contact/).

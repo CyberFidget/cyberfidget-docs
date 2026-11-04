@@ -54,7 +54,7 @@ You decide how much of an app the generator writes: none of it, one piece, or mo
 5. Wait for the reply. It appears in the **Thread** view, and the code goes into your project's files, where you can read and edit it on the **CODE** tab.
 6. Press **REBUILD** in the emulator panel to build the app and try it. To build after every reply without pressing it, turn on **Rebuild automatically after Generate applies changes** below the emulator.
 
-The line under the box shows how the generator runs for you. The studio shows how many free generations you have and when they reset. **Generator settings** next to it opens the choices described in [Free use, credits and privacy](credits.md).
+The line under the box shows how the generator runs for you. **Generator settings** next to it, and the small settings icons by the generator, open [My account](https://cyberfidget.com/my-fidget/account/) in a new tab at the **App Builder** card. This card shows your free allowance and the choices described in [Free use, credits and privacy](credits.md). Your project stays open in the studio tab.
 
 **Tips for a description:**
 
@@ -112,11 +112,11 @@ If the app doesn't compile and the code came straight from the generator (you ha
 
 - On the free allowance, this fix doesn't count toward your free generations.
 - With credits, it costs no credits.
-- With your own key, it is one more request on your account, so the studio asks first: **Always**, **Just this once** or **Never**. You can change the answer later in **Generator settings** under **Auto-fix failed builds**.
+- With your own key, it is one more request on your account, so the studio asks first: **Always**, **Just this once** or **Never**. You can change the answer later in **My account**'s **App Builder** card under **Auto-fix failed builds**.
 
 If you have edited the code since the last reply, the studio leaves your code alone.
 
-When a request itself fails, the studio keeps your description and offers **Retry** and **Copy prompt**. See [When generating does not work](ota-builder.md#when-generating-does-not-work).
+When a request itself fails, the studio keeps your description and offers **Retry** and **Copy prompt**. For problems you can fix, it also offers **Set up key in My account**, **Check key in My account**, **Choose model in My account** or **Request credits in My account**. These open **My account** in a new tab, keeping your project open in the studio. Credit requests need a reason. See [When generating does not work](ota-builder.md#when-generating-does-not-work).
 
 ---
 
@@ -126,7 +126,7 @@ When a request itself fails, the studio keeps your description and offers **Retr
 - **You are the author.** You choose what to keep, and you're responsible for what you share or install, generated code included.
 - **Generated code is ordinary code.** It sits in the same files, follows the same rules and goes through the same compiler and emulator as code you type. You can change any line of it.
 - **It only knows what you tell it.** The more specific your description, the closer the result.
-- **Check your usage.** The studio shows your free allowance or credit balance. With your own key, check usage with your provider. See [Free use, credits and privacy](credits.md).
+- **Check your usage.** **My account**'s **App Builder** card shows your free allowance, and its **Credits** card shows your credit balance. With your own key, check usage with your provider. See [Free use, credits and privacy](credits.md).
 
 ---
 
