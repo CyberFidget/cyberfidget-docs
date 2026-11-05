@@ -14,7 +14,7 @@ Nothing on this page applies if you don't use the **Generate** tab. Writing code
 
 **My account** has an **App Builder** card: "How app generation runs for you, in every project in this browser." You can use this card without signing in; signing in adds your profile and credits.
 
-In the studio, **Generator settings** under **Describe your app...** and the small settings icons by the generator open **My account** in a new tab at this card. Your project stays open in the studio tab. The studio's **Settings** tab holds settings for the current app.
+In the studio, **Generator settings** under **Describe your app...** opens **My account** in a new tab at this card. Your project stays open in the studio tab. The studio's **Settings** tab holds settings for the current app.
 
 --8<-- "includes/generator-ways.md"
 

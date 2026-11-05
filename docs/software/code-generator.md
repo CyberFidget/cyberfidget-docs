@@ -54,7 +54,7 @@ You decide how much of an app the generator writes: none of it, one piece, or mo
 5. Wait for the reply. It appears in the **Thread** view, and the code goes into your project's files, where you can read and edit it on the **CODE** tab.
 6. Press **REBUILD** in the emulator panel to build the app and try it. To build after every reply without pressing it, turn on **Rebuild automatically after Generate applies changes** below the emulator.
 
-The line under the box shows how the generator runs for you. **Generator settings** next to it, and the small settings icons by the generator, open [My account](https://cyberfidget.com/my-fidget/account/) in a new tab at the **App Builder** card. This card shows your free allowance and the choices described in [Free use, credits and privacy](credits.md). Your project stays open in the studio tab.
+The line under the box shows how the generator runs for you. **Generator settings** next to it opens [My account](https://cyberfidget.com/my-fidget/account/) in a new tab at the **App Builder** card. This card shows your free allowance and the choices described in [Free use, credits and privacy](credits.md). Your project stays open in the studio tab.
 
 **Tips for a description:**
 
