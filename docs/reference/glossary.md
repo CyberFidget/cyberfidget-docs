@@ -193,7 +193,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Credits** | Units on a signed-in account that pay for code generator requests. Credits are rolling out. See [Use my credits](../software/credits.md#use-my-credits). |
 | **Digital signature** | A short code that only the holder of a private key can make for one exact file. Anyone with the matching public key can check it, and changing even one byte of the file makes the check fail. Cyber Fidget uses signatures to confirm that an update is official. |
 | **Erase everything and reinstall** | The website's clean-start install over USB: it erases the whole Fidget and installs a fresh copy of the chosen firmware version. See [Update or reset your Fidget](../software/updating.md#erase-everything-and-reinstall-on-the-website). |
-| **Free allowance** | Code generator requests you can use without sign-in or payment. The studio shows how many free generations you have and when they reset. See [Free (built-in)](../software/credits.md#free-built-in). |
+| **Free allowance** | Code generator requests you can use without sign-in or payment. My account's App Builder card shows your current free allowance. See [Free](../software/credits.md#free-built-in). |
 | **Host** | Firmware code that runs a studio app, on the device or in the browser emulator. |
 | **Loadout** | The collection of apps and menu choices for your Fidget. |
 | **Manifest (update manifest)** | A small JSON document that identifies a firmware download, its size and Secure Hash Algorithm 256-bit (SHA-256) hash, and the hardware it supports. See the [firmware update manifest reference](firmware-update-manifest.md). |

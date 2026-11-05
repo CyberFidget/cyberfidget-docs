@@ -1308,19 +1308,35 @@ scenes['2d-animation-frames'] = async (r) => {
 
 // 14. The Generate tab, signed out, without generating anything (nothing is
 // sent to a code generator). Stills: the start panel of a new project; the
-// Generation settings it links to; and the How it works view of a demo app,
+// App Builder card on My account with Use my own key selected; and the
+// How it works view of a demo app,
 // whose explanation ships with the demo. Labels verified in
 // inc/studio-body.php ("Make your first app", "Modify a Demo App",
-// "Generator settings", "How it works") and builder.js.
+// "Generator settings", "How it works"), builder.js,
+// my-fidget/account/index.php and own_key_settings.mjs ("App Builder",
+// "Use my own key", "API Key").
 scenes['generate-tab'] = async (r) => {
   const page = await r.plainPage();
   await newEmptyProject(page, r.base);
   await r.shot(page, 'generate-start', STUDIO_PANEL);
 
-  await page.locator('#builder-generator-settings').click();
-  await page.getByText('Choose how app generation runs for your account.').waitFor();
+  await page.goto(r.base + '/my-fidget/account/', { waitUntil: 'networkidle' });
+  const builderCard = page.locator('#acct-builder');
+  await builderCard.getByRole('button', { name: 'Use my own key', exact: false }).click();
+  await builderCard.getByLabel('API Key', { exact: true }).waitFor();
+  // A local copy of the site can't sign in, so it shows a "go to the live
+  // site to sign in" notice; hide it, and make the window tall enough that
+  // the whole card fits in one shot.
+  await page.evaluate(() => {
+    const notice = document.getElementById('header-auth-notice');
+    if (notice) notice.style.display = 'none';
+  });
+  await page.setViewportSize({ width: VIEW.width, height: 1600 });
+  await builderCard.scrollIntoViewIfNeeded();
   await sleep(900);
-  await r.shot(page, 'generate-settings', { x: 350, y: 410, width: 500, height: 210 });
+  const builderBox = await builderCard.boundingBox();
+  if (!builderBox) throw new Error('App Builder card is not visible');
+  await r.shot(page, 'generate-settings', builderBox);
   await page.__context.close();
 
   // A fresh browser, so the studio opens its landing page again.
