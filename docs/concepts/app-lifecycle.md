@@ -27,6 +27,9 @@ When you launch an app, the firmware does three things in order:
 - **update()** runs ~50 times per second -- use it for everything that happens during the app.
 - **end()** runs once on exit -- use it to leave things tidy for the next app.
 
+!!! note "Going to sleep is not an exit"
+    `end()` runs when someone leaves your app, not when the Fidget falls asleep. Waking from sleep starts the Fidget fresh: your app's variables are reset, and the next time your app opens, `begin()` runs again from the top.
+
 !!! note "Why ~50 times per second?"
     The firmware schedules app updates every 20 ms (`TASK_20MS`), which gives roughly 50 updates per second. See [The Update Loop](update-loop.md) for details.
 
