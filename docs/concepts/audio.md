@@ -54,6 +54,18 @@ The built-in speaker is tiny (13 mm across), and a speaker that small cannot pus
 - Tones are timed by the audio engine, independently of `update()`. A 100 ms tone lasts 100 ms, plus a fade-out of about 5 ms to reduce clicks. Studio apps use this engine on the device and in the browser emulator, so a tone's length does not depend on your drawing speed.
 - Several notes at once (chords) work in your own apps too, with firmware 1.5.0 or newer: see [Notes: several sounds at once](#notes-several-sounds-at-once). With older firmware, plan on one sound at a time.
 
+### Speaker EQ setting
+
+The Fidget shapes the sound of its built-in speaker with an [EQ](../reference/glossary.md) (equalizer). You choose how in **Settings > Sound > Speaker EQ**. The screen shows one preset name with a short description under it. Press Left or Right to change preset. Each change takes effect at once and plays a short rising run of tones so you can hear the difference. Press Select to go back. The choice is saved, so it is still there after the Fidget restarts.
+
+| Preset | What you hear |
+|--------|---------------|
+| **Balanced** | Clear and even. This is the default. |
+| **Loud** | Louder and punchier, and a little sharper. |
+| **Off** | Plain, no shaping. It adds no boost or cut, but it still removes the very low pitches the small speaker cannot play. |
+
+The setting changes the built-in speaker only. Bluetooth speakers and headphones are not affected.
+
 ### Playing a sequence
 
 To play a short melody or alert without writing your own timing code, describe it as an array of `ToneStep` entries and hand it to `playSequence()`:
