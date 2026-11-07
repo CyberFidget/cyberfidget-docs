@@ -24,6 +24,9 @@ Drives the studio in a headless browser and writes the documentation's screensho
 | `archives` | From the public website (`--site`, signed out): `archives-browse.png` (tabs, filters and a row of cards), `archives-item.png` (an item's side panel), `archives-try-it.png` (Try it here running), `archives-report.png` (the Report a problem form, not sent), `archives-queued.png` (a card after Send to my Fidget, which signed out only queues it in the capture browser), `archives-terminal.png` (command mode with `help`). The crops keep only Cyber Fidget's own items in view. |
 | `update-page` | From the public website (`--site`): `update-page.png` (the update page as a returning owner whose Fidget isn't plugged in), `update-version.png` (the Install card with an earlier version picked), `update-advanced.png` (Advanced opened; nothing pressed). The scene stores a Fidget record and a stand-in USB port in the capture browser only, the way the website's browser tests do. |
 
+| `firmware-sprite-save` | `firmware-sprite-save.webm` + `.png`: **Add art > Draw a new sprite** named `coin`, a filled circle, then **Sprite file > Save to file** (the download is checked and thrown away); `firmware-sprite-save-menu.png` |
+| `cfmesh-axes` | `cfmesh-axes.png`: a small app draws the +x and +y axes as an unturned model with perspective off; the emulator's screen is enlarged and labelled with the axis directions in a plain page, then saved as one picture |
+
 Clips are WebM (VP8), cropped to the relevant region and kept short. Each clip has a poster PNG with the same base name.
 
 The `3d-` scenes need the studio's 3D tab, which only appears for visitors who have it turned on. The tool turns it on inside its own browser: it answers the studio's feature lookup (`/api/user-features.php`) with "3D on" for a signed-out visitor, the same way the website's own browser tests do. Nothing on the server changes and no account is used.
@@ -69,9 +72,45 @@ Captures a real Cyber Fidget's screen over USB serial and writes each one as a P
 python device_screens.py --port COM30 --out ../../docs/assets/media "cmd:launch Voice Notes" wait:2.5 shot:voice-notes-recorder
 ```
 
-Steps run in order: `shot:<name>`, `btn:<index>` (0 up, 1 down, 2 left, 3 right, 4 back, 5 enter), `wait:<seconds>`, `cmd:<serial command>`. Opening the port resets the device, so every run starts from a fresh boot; start each run with a `cmd:launch ...` rather than counting button presses from the menu. Needs pyserial (PlatformIO's Python has it). Record which firmware each capture came from: the tool prints it first.
+Steps run in order: `shot:<name>`, `enter:<name>` (capture, check, then press Enter; see the guards below), `btn:<index>` (0 up, 1 down, 2 left, 3 right, 4 back; Enter only through `enter:`), `wait:<seconds>`, `cmd:<serial command>`. Opening the port resets the device, so every run starts from a fresh boot; start each run with a `cmd:launch ...` rather than counting button presses from the menu. Needs pyserial (PlatformIO's Python has it). Record which firmware each capture came from: the tool prints it first.
 
 Before using any capture: the device's screens can show its name, link codes, WiFi names or the portal password. Check every picture for anything personal, and never publish a home or neighbor network name.
+
+### When an update is waiting
+
+A Fidget that knows of a newer firmware shows an update popup over the menu shortly after it starts. Its first choice, **Install now**, is highlighted, so a blind Enter press installs the update. To keep the unit on its firmware:
+
+- Leave the popup without choosing: launch any app before opening the menu (`cmd:launch Clock`, then `cmd:launch menu`). The popup only opens over the menu, and launching an app first closes it with no choice saved.
+- `cmd:status clear` clears the "Update ... ready" line that otherwise scrolls across the menu's top bar for this session.
+### Guards
+
+The tool drives a real device, so a missed press or a changed menu must not open the wrong item (Settings has **Reset to factory** next to **Speaker EQ**). It checks before it acts and puts back what it changed:
+
+| Guard | What it does |
+|-------|--------------|
+| Enter needs a matching screen | `enter:<name>` captures the screen and presses Enter only if it matches the reference frame `<expect>/<name>.png` (`--expect`, default `--out`), ignoring the status row at the top. The check comes first: a passing screen is then written as `<name>.png`, and a refused one goes to `rejected/<name>.png` in the output folder, so it never replaces a reference. With no reference frame the run stops too, unless `--allow-unchecked-enter` is given, for building a new walk one screen at a time. A `shot:` and an `enter:` with the same name in one folder are refused. |
+| Never on the update popup | While the update popup is on screen only up and down are pressed: Enter, back and the middle buttons are refused. |
+| Never in an erasing app | No button at all is pressed while the running app (the device's `app` answer) is **Reset to factory**, and `cmd:launch Reset to factory` is refused. |
+| No way round | `btn:5` and every `cmd:btn ...` are refused: buttons go through `btn:<index>` or `enter:<name>`, which run the checks above. |
+| Speaker EQ put back | Left and right change the saved preset on the Speaker EQ screen. The first time they are pressed there, the tool remembers the screen; at the end of the run, also after an error or Ctrl+C, it opens Speaker EQ again and steps until the screen matches. |
+| Awake setting put back | The awake setting is read at the start (`awake`), inside the same protection as the steps. If it was off, the device is kept awake during the run and the setting is set back at the end, also after an error or Ctrl+C. Any other setting is left alone. |
+
+The checks have offline tests with a stand-in device: `python -m unittest test_device_screens` from this folder. Commit new frames only after looking at them.
+
+### Clips of device screens
+
+A clip of a click path on the device is made in two steps. `device_screens.py` captures one frame per step into `frames/<name>/`, named so they sort in order, and a `capture.mjs` scene plays the frames back in a plain page and records it (`deviceClip()` in `capture.mjs`). The frames are committed, so the clip can be remade without the device.
+
+| Scene | Frames | Files |
+|-------|--------|-------|
+| `device-speaker-eq` | `frames/speaker-eq/` | `device-speaker-eq-path.webm` + `.png`: the menu, down to **Settings**, open, down to **Speaker EQ**, open, one press right (**Loud**), one press left (**Balanced**); `device-speaker-eq.png`: the Speaker EQ screen on **Balanced** |
+
+The `speaker-eq` frames came from firmware 1.6.1, with this command (from this folder; the last two presses leave the preset where it started):
+
+```sh
+python device_screens.py --port COM30 --out frames/speaker-eq wait:4 "cmd:launch Clock" wait:1.5 "cmd:status clear" "cmd:launch menu" wait:2 shot:00 btn:1 shot:01 btn:1 shot:02 btn:1 shot:03 btn:1 shot:04 btn:1 shot:05 btn:1 enter:06 shot:07 btn:1 shot:08 btn:1 shot:09 btn:1 shot:10 btn:1 shot:11 btn:1 shot:12 btn:1 enter:13 wait:0.4 shot:14 btn:3 wait:0.8 shot:15 btn:2 wait:0.8 shot:16
+node capture.mjs device-speaker-eq
+```
 
 ## Add a scene
 
