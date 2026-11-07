@@ -26,6 +26,10 @@ A file is a JSON object with four fields. All four are required. No other top-le
 | `vertices` | list of `[x, y, z]` | The model's points, called **nodes** in the Studio. See [Vertices](#vertices). |
 | `edges` | list of `[a, b]` | The model's lines, called **struts** in the Studio. See [Edges](#edges). |
 
+Each row of `vertices` is one point, and each row of `edges` joins two points by their place in the `vertices` list, counting from 0. In the picture, point 0 and point 4 are the first and last rows of `vertices`, and the line from point 0 to point 1 is the first row of `edges`:
+
+![The pyramid from the example file drawn as a wireframe, its five points numbered 0 to 4. Arrows join point 0 to the first vertices row, [-9, -6, -9], and point 4 to the last, [0, 10, 0]. Two lines are highlighted: the line from point 0 to point 1 points to the edges row [0, 1], and the line from point 1 to point 4 points to the edges row [1, 4]](../assets/cfmesh-points-lines.svg){ width="560" }
+
 ---
 
 ## The meta object
@@ -46,9 +50,13 @@ A file is a JSON object with four fields. All four are required. No other top-le
 
 `vertices` is a list of points. Each point is a list of exactly three whole numbers, `[x, y, z]`.
 
-- **x** goes right, **y** goes up, and **z** is depth. The point `[0, 0, 0]` is the middle of the model. Put the model around the middle so it turns around its own middle.
-- Each number is a whole number from -128 to 127. Decimals are refused.
-- A model has at most **96** points.
+- **x** goes right, **y** goes up, and **z** goes into the screen, away from you. The point `[0, 0, 0]` is the middle of the model. Put the model around the middle so it turns around its own middle.
+- Each number is a whole number in the range listed under [Limits at a glance](#limits-at-a-glance). Decimals are refused.
+- The number of points a model can have is also listed there.
+
+The picture shows the directions on the emulator's screen. A small app draws two arrows as a model that is not turned, with its middle at the centre of the screen: the arrow along x points right and the arrow along y points up. Screen pixels count downward from the top, so a point with a bigger y is drawn higher on the screen, not lower. The app has [perspective](../concepts/3d-models.md#size-and-perspective) off, so z doesn't change where a point of an unturned model lands. With perspective on, a point with a bigger z is drawn closer to the model's middle, because it is further away.
+
+![The emulator's screen with two arrows drawn from its centre: one pointing right, labelled +x: right, and one pointing up, labelled +y: up. A small circle marks the centre, labelled [0, 0, 0]: the model's middle, with the note that +z points into the screen, away from you](../assets/media/cfmesh-axes.png){ width="560" }
 - The first point in the list is number 0, the second is number 1, and so on. Edges refer to points by these numbers, so reordering the list changes the model unless you update the edges.
 
 ---
@@ -59,7 +67,7 @@ A file is a JSON object with four fields. All four are required. No other top-le
 
 - Each number must be a whole number from 0 up to one less than the number of points.
 - A line from a point to itself, such as `[3, 3]`, is refused.
-- A model has at most **160** lines.
+- The number of lines a model can have is listed under [Limits at a glance](#limits-at-a-glance).
 
 Two things are allowed but flagged as warnings, because they are probably mistakes:
 
@@ -128,7 +136,7 @@ What each part does:
 | `[10, 11]`, `[10, 12]`, `[11, 12]`, `[10, 0]` | A small triangle (points 10, 11 and 12) and a line from point 10 to the nose. |
 | `[2, 13]`, `[3, 14]`, `[13, 14]` | Two lines from the body's lower points (2 and 3) to a pair of points just outside and below them (13 and 14), and a line across between those two. |
 
-This ship has 15 points and 18 lines, well inside the limits of 96 and 160.
+This ship has 15 points and 18 lines, well inside the [limits](#limits-at-a-glance).
 
 ---
 
