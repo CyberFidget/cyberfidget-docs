@@ -42,7 +42,7 @@ lib/MyApp/assets/coin.cfsprite.json     <- you add this
 lib/MyApp/generated/coin.h              <- the tool writes this
 ```
 
-The part of the file name before `.cfsprite.json` is the **symbol prefix**. It becomes the C++ namespace the header defines, so use a short lowercase name made of letters, digits and underscores. The cactus file gives `cf::gfx::cactus`.
+The part of the file name before `.cfsprite.json` is the **symbol prefix**. It becomes the C++ namespace the header defines. The compiler turns any other character into `_`, lowercases the result and puts `_` in front of a leading digit, so `Big Cactus 2` becomes `big_cactus_2`. A short lowercase name made of letters, digits and underscores keeps the namespace the same as the file name. The cactus file gives `cf::gfx::cactus`.
 
 If two sprites would write to the same `generated/` file, the build stops with an "Asset header collision" error.
 
