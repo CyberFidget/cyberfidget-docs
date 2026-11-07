@@ -46,7 +46,7 @@ Everything for a submission lives in the Studio. Open your project, open **Setti
 | Section | What to fill in | Required |
 |---|---|---|
 | **NAME** | The app's name, as people will see it. | Yes |
-| **CATEGORY** | **GAMES**, **TOOLS** or **SCREENSAVERS**. The same category places the app in the Fidget's menu. | Yes |
+| **CATEGORY** | **GAMES**, **TOOLS**, **SCREENSAVERS** or **MEDIA**. The same category places the app in the Fidget's menu. | Yes |
 | **DESCRIPTION** | What your app does, in up to 500 characters. | Yes |
 | **Tags** | Filled in for you from your code (for example buttons, sound, lights, slider, tilt), not hand-picked. | - |
 | **CAPTURES** | Pictures taken from the emulator: **CAPTURE SCREENSHOT** or **RECORD A 5S LOOP**. The capture in first position is your app's thumbnail. Keep it under 1 MB. | No, but recommended |
@@ -87,7 +87,7 @@ When art sharing is on, **What gets shared when someone remixes** picks what oth
 
 A license can't be taken back. Anyone who copied your work under one of these licenses may keep using that copy.
 
-**Your maker name.** Your listing names you as its maker using the name on your GitHub profile, or your GitHub username if your profile has no name. It is saved when the app is approved. If your GitHub profile shows your real name and you'd rather it didn't appear, change it on GitHub before you submit.
+**Your maker name.** Your listing shows the **Maker name** you choose when you publish, and anyone who opens the listing can see it. A nickname is fine; leave out real names, schools and addresses. You can change it later from **My listing**.
 
 ---
 
@@ -133,7 +133,7 @@ Open your project's **Settings** and choose **IMPROVE YOUR LISTING** (it appears
 | **Description** | Up to 2,000 characters. The page shows the start and folds the rest behind **Show more**. Aim for at least 120. |
 | **Tags** | Up to 12, used by search. |
 | **Screenshots** | Up to 8. Choose **Run it here to take screenshots** and take them from the emulator, or **Add an image** (PNG or GIF). |
-| **Card face** | Your app's thumbnail: the picture on its card. Any screenshot can be the thumbnail. |
+| **Thumbnail** | The picture on your app's card. Any screenshot can be the thumbnail. |
 | **Preview animation** | A 5-second loop recorded from the emulator. It plays on your card. |
 | **How to play** | One control per line, up to 600 characters. |
 | **Name**, **Category** | You can ask for a change; it shows once an admin approves it. |
