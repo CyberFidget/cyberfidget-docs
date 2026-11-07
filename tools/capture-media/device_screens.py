@@ -15,6 +15,12 @@ PNG. Steps come from the command line, in order:
                   Enter (5) is only pressed through enter:<name>
     wait:<sec>    pause
     cmd:<text>    send any serial command and print what it answers
+    record:on     start recording: the device streams its screen (20 a
+                  second) while the next steps run, each screen timed as
+                  it arrives
+    record:off    stop, and write every change of screen as <out>/<ms>.png,
+                  <ms> being its time from the first frame (enter: writes
+                  no frame of its own while recording, and shot: is refused)
 
 Guards, so a missed press or a changed menu can't open the wrong thing:
 
@@ -29,8 +35,9 @@ Guards, so a missed press or a changed menu can't open the wrong thing:
 - No button is pressed while the running app (the `app` command's answer)
   is one that erases or resets something, and only up and down are pressed
   while the firmware update popup is on screen (its first choice is
-  "Install now"). btn:5 and cmd:btn ... are refused: Enter goes through
-  enter:<name>. cmd:launch of an erasing app is refused too.
+  "Install now"; the firmware opens it only over the menu and a few
+  system screens, listed in PROMPT_APPS). btn:5 and cmd:btn ... are
+  refused: Enter goes through enter:<name>. cmd:launch of an erasing app is refused too.
 - Left and right change the saved preset on the Speaker EQ screen. The first
   time they are pressed there, the screen is remembered; at the end of the
   run, even after an error or Ctrl+C, the tool opens Speaker EQ again and
@@ -62,14 +69,25 @@ CHECK_ROWS = range(12, H)
 MATCH_LIMIT = 40
 # Apps whose screens erase or reset something: Enter is never pressed in them.
 REFUSE_APPS = ("Reset to factory",)
+# Apps the firmware lets a popup (such as the update popup) open over. Other
+# apps draw their own lists with the same lit title bar and lit choice, so
+# the popup check only runs while one of these is open.
+PROMPT_APPS = ("menu", "Boot Animation", "Link", "Check for updates", "Updates", "Saved WiFi")
 EQ_APP = "Speaker EQ"
 EQ_PRESETS = 3
+# Screens per second asked of the device's screen stream while recording
+# (the firmware's limit).
+STREAM_FPS = 20
 
 
 class Device:
     def __init__(self, port):
         self.s = serial.Serial(port, BAUD, timeout=0.25)
         self.buf = b""
+        # While recording: (seconds since the start, base64 screen) for each
+        # screen the device sends, timed when its line arrives.
+        self.frames = None
+        self.rec_t0 = 0.0
         # Opening the port leaves DTR/RTS undefined, which can wedge the
         # command line: reset the board, then wait until it answers.
         self.s.dtr = False
@@ -96,18 +114,49 @@ class Device:
         out = []
         end = time.time() + timeout
         while time.time() < end:
-            self.buf += self.s.read(4096)
+            # Take what has arrived, or wait (up to the port timeout) for one
+            # byte, so each line is seen as soon as it is complete: that is
+            # what times a recorded frame.
+            self.buf += self.s.read(max(1, self.s.in_waiting))
             while b"\n" in self.buf:
                 raw, self.buf = self.buf.split(b"\n", 1)
-                out.append(raw.decode("utf-8", "replace").strip())
+                line = raw.decode("utf-8", "replace").strip()
+                if self.frames is not None and line.startswith("[cmd] screencap") and "b64=" in line:
+                    self.frames.append((time.time() - self.rec_t0, line.split("b64=", 1)[1]))
+                out.append(line)
         return out
+
+    def pause(self, seconds):
+        """Wait. While recording, keep reading, so every frame is timed."""
+        if self.frames is None:
+            time.sleep(seconds)
+        else:
+            self.lines(seconds)
+
+    def record_start(self):
+        self.s.timeout = 0.01
+        self.frames = []
+        self.rec_t0 = time.time()
+        self.ask("screenstream on %d" % STREAM_FPS, "[cmd] screenstream=on")
+
+    def record_stop(self):
+        """Stop the screen stream and return the recorded frames."""
+        frames, self.frames = self.frames, None
+        self.send("screenstream off")
+        # Let the frames still on their way arrive, without recording them.
+        end = time.time() + 1.5
+        while time.time() < end:
+            if any("screenstream=off" in line for line in self.lines(0.2)):
+                break
+        self.s.timeout = 0.25
+        return frames or []
 
     def ask(self, text, want, timeout=3.0):
         self.send(text)
         end = time.time() + timeout
         seen = []
         while time.time() < end:
-            for line in self.lines(0.3):
+            for line in self.lines(0.05):
                 seen.append(line)
                 if want in line:
                     return line, seen
@@ -115,12 +164,7 @@ class Device:
 
     def screen(self):
         line, _ = self.ask("screencap", "[cmd] screencap", timeout=5.0)
-        data = base64.b64decode(line.split("b64=", 1)[1])
-        if len(data) != W * H // 8:
-            raise RuntimeError("screencap returned %d bytes" % len(data))
-        # Column pages, as the display stores them: byte i covers x = i % 128,
-        # rows (i // 128) * 8 .. + 7, lowest bit at the top.
-        return [[(data[(y // 8) * W + x] >> (y % 8)) & 1 for x in range(W)] for y in range(H)]
+        return decode_screen(line.split("b64=", 1)[1])
 
     def app(self):
         line, _ = self.ask("app", "[cmd] app.name=")
@@ -128,7 +172,16 @@ class Device:
 
     def tap(self, index, pause=0.4):
         self.ask("btn %d tap" % index, "[cmd] btn.tap")
-        time.sleep(pause)
+        self.pause(pause)
+
+
+def decode_screen(b64):
+    data = base64.b64decode(b64)
+    if len(data) != W * H // 8:
+        raise RuntimeError("screencap returned %d bytes" % len(data))
+    # Column pages, as the display stores them: byte i covers x = i % 128,
+    # rows (i // 128) * 8 .. + 7, lowest bit at the top.
+    return [[(data[(y // 8) * W + x] >> (y % 8)) & 1 for x in range(W)] for y in range(H)]
 
 
 def is_update_popup(pixels):
@@ -184,6 +237,31 @@ def read_png(path):
     return [[1 if raw[(y * scale) * stride + 1 + (x * scale) * 3] > 100 else 0 for x in range(W)] for y in range(H)]
 
 
+def write_recording(frames, out, scale=4):
+    """Write each change of screen in a recording as <out>/<ms>.png.
+
+    <ms> is the time the screen arrived, in milliseconds from the first
+    frame (six digits, so the files sort in order). A screen shows until the
+    next file's time, so a clip made from the files keeps the device's timing.
+    """
+    if not frames:
+        raise Stop("the recording has no frames")
+    t0 = frames[0][0]
+    span = frames[-1][0] - t0
+    kept = 0
+    last = None
+    for t, b64 in frames:
+        if b64 == last:
+            continue
+        last = b64
+        write_png(os.path.join(out, "%06d.png" % round((t - t0) * 1000)), decode_screen(b64), scale=scale)
+        kept += 1
+    rate = (len(frames) - 1) / span if span > 0 else 0.0
+    print("recorded %d frames in %.2f s (%.1f per second); wrote the %d changes to %s"
+          % (len(frames), span, rate, kept, out))
+    return kept
+
+
 class Stop(Exception):
     """A guard refused a step: nothing was pressed."""
 
@@ -194,12 +272,14 @@ def check_press(dev, index, pixels=None):
     No button is pressed while an app that erases or resets is open (Reset
     to factory confirms by holding Enter, and its screens are not driven at
     all). On the update popup only up and down (0, 1) are allowed: the other
-    buttons can choose "Install now". Returns the running app's name.
+    buttons can choose "Install now". The popup only opens over the apps in
+    PROMPT_APPS, so other apps' lists are not mistaken for it. Returns the
+    running app's name.
     """
     running = dev.app()
     if running in REFUSE_APPS:
         raise Stop("'%s' is open; button %d not pressed" % (running, index))
-    if index not in (0, 1):
+    if index not in (0, 1) and running in PROMPT_APPS:
         if pixels is None:
             pixels = dev.screen()
         if is_update_popup(pixels):
@@ -245,6 +325,7 @@ def run(dev, steps, out, expect=None, allow_unchecked=False, scale=4):
     awake_changed = False
     eq_start = None       # the Speaker EQ screen before the first left/right
     eq_touched = False
+    recording = False
     try:
         # The awake setting is saved on the device: note it, keep the device
         # awake for the session, and put the noted setting back at the end.
@@ -262,7 +343,19 @@ def run(dev, steps, out, expect=None, allow_unchecked=False, scale=4):
 
         for step in steps:
             kind, _, val = step.partition(":")
-            if kind in ("shot", "enter"):
+            if kind == "record" and val in ("on", "off"):
+                if (val == "on") == recording:
+                    raise Stop("record:%s while recording is %s" % (val, "on" if recording else "off"))
+                if val == "on":
+                    dev.record_start()
+                    recording = True
+                    print("recording")
+                else:
+                    recording = False
+                    write_recording(dev.record_stop(), out, scale)
+            elif kind == "shot" and recording:
+                raise Stop("shot:%s while recording: the recording already keeps every screen" % val)
+            elif kind in ("shot", "enter"):
                 path = os.path.join(out, val + ".png")
                 pixels = dev.screen()
                 if kind == "shot":
@@ -282,8 +375,9 @@ def run(dev, steps, out, expect=None, allow_unchecked=False, scale=4):
                     write_png(os.path.join(rejected, val + ".png"), pixels, scale=scale)
                     print("wrote the refused screen to " + os.path.join(rejected, val + ".png"))
                     raise
-                write_png(path, pixels, scale=scale)
-                print("wrote " + path)
+                if not recording:
+                    write_png(path, pixels, scale=scale)
+                    print("wrote " + path)
                 dev.tap(5, pause=0.5)
             elif kind == "btn":
                 index = int(val)
@@ -296,18 +390,25 @@ def run(dev, steps, out, expect=None, allow_unchecked=False, scale=4):
                     eq_touched = True
                 dev.tap(index)
             elif kind == "wait":
-                time.sleep(float(val))
+                dev.pause(float(val))
             elif kind == "cmd":
                 check_cmd(val)
                 dev.send(val)
                 for line in dev.lines(2.0):
-                    print("  " + line)
+                    if not line.startswith("[cmd] screencap"):
+                        print("  " + line)
             else:
                 raise Stop("unknown step " + step)
+        if recording:
+            raise Stop("record:on without record:off; nothing written")
     finally:
         try:
-            if eq_touched:
-                restore_eq(dev, eq_start)
+            try:
+                if recording:
+                    dev.record_stop()
+            finally:
+                if eq_touched:
+                    restore_eq(dev, eq_start)
         finally:
             if awake and awake_changed:
                 dev.ask("awake set off" + (" until" if awake[1] == "until" else ""), "[cmd] awake.set")
