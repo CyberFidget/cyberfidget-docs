@@ -68,23 +68,13 @@ stateDiagram-v2
 
 The audio chain is built from the [arduino-audio-tools](https://github.com/pschatzmann/arduino-audio-tools) library:
 
-```
-SD Card (SPI)
-    │
-    ▼
-AudioSourceIdxSD ── scans /music/*.mp3, builds file index
-    │
-    ▼
-AudioPlayer ── manages playback state, drives the pipeline
-    │
-    ▼
-MP3DecoderHelix ── real-time MP3 decoding (libhelix, runs in IRAM)
-    │
-    ▼
-SpectrumAnalyzer ── passthrough providing volumeRatio() + 16-band FFT
-    │
-    ▼
-A2DPStream ── BT Classic A2DP Source → wireless speaker
+```mermaid
+flowchart TB
+    SD["SD Card (SPI)"] --> IDX["AudioSourceIdxSD<br/>scans /music/*.mp3, builds file index"]
+    IDX --> AP["AudioPlayer<br/>manages playback state, drives the pipeline"]
+    AP --> DEC["MP3DecoderHelix<br/>real-time MP3 decoding (libhelix, runs in IRAM)"]
+    DEC --> SA["SpectrumAnalyzer<br/>passthrough providing volumeRatio() + 16-band FFT"]
+    SA --> A2["A2DPStream<br/>BT Classic A2DP Source to wireless speaker"]
 ```
 
 The pipeline is driven by calling `pPlayer->copy()` every `update()` cycle (~50Hz). Each call reads a chunk from SD, decodes MP3 frames, and writes PCM samples to the A2DP buffer. The BT stack's internal callback drains the buffer and transmits over the air.
@@ -175,16 +165,22 @@ During playback, the AudioPlayer fires a metadata callback that captures title a
 
 The Now Playing screen on the 128x64 OLED:
 
-```
-┌────────────────────────────┐
-│  ⚡ Now Playing        87 ▊│  ← Header: BT icon (x=5), battery outline (right-aligned)
-│ The Artist Name            │  ← Artist (y=8)
-│ ♫ Track Title Here ←scroll │  ← Title with marquee (y=19)
-│                            │
-│ ▶ Playing          [S]     │  ← Status + shuffle indicator (y=31)
-│ 1:23 ████████░░░░░ -2:58   │  ← Playhead with elapsed/remaining time (y=50)
-└────────────────────────────┘
-```
+<div class="cf-oled" markdown="0">
+<div class="cf-oled-row cf-oled-head"><span>BT Now Playing</span><span>87%</span></div>
+<div class="cf-oled-row"><span>The Artist Name</span></div>
+<div class="cf-oled-row"><span>Track Title Here (scrolls)</span></div>
+<div class="cf-oled-row"><span>&nbsp;</span></div>
+<div class="cf-oled-row"><span>Playing</span><span>[S]</span></div>
+<div class="cf-oled-row"><span>1:23</span><span class="cf-oled-track"><span></span></span><span>-2:58</span></div>
+</div>
+
+| Row | Shows | Position |
+|-----|-------|----------|
+| Header | BT icon at x=5, battery outline right-aligned | top |
+| Artist | Artist name | y=8 |
+| Title | Track title, scrolling as a marquee | y=19 |
+| Status | Play state and shuffle indicator `[S]` | y=31 |
+| Playhead | Progress bar with elapsed and remaining time | y=50 |
 
 - **Battery**: Programmatic outline with percentage text inside. Lightning bolt icon when charging.
 - **Marquee**: Long track titles scroll horizontally.

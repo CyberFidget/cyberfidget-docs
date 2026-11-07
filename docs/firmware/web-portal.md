@@ -30,20 +30,20 @@ The network has a password, so nobody nearby can join it without seeing your Fid
 
 ## How it works
 
-```
-Phone → Connects to "CyberFidget-xxxx" WiFi AP (xxxx = 4 characters on the screen)
-     → Captive portal auto-opens browser at 192.168.4.1
-     → SPA loads (HTML/CSS/JS served from ESP32 flash)
-     → API calls read/write files on the SD card
-     → Audio served directly from SD over HTTP
+```mermaid
+flowchart TB
+    A["Phone connects to the CyberFidget-xxxx WiFi AP<br/>(xxxx = 4 characters on the screen)"] --> B["Captive portal auto-opens the browser at 192.168.4.1"]
+    B --> C["SPA loads (HTML/CSS/JS served from ESP32 flash)"]
+    C --> D["API calls read/write files on the SD card"]
+    D --> E["Audio served directly from SD over HTTP"]
 ```
 
 Or, if connected to your home WiFi:
 
-```
-Phone → Same WiFi network as CyberFidget
-     → Browse to http://cyberfidget.local
-     → Same portal, no WiFi switching needed
+```mermaid
+flowchart TB
+    A["Phone is on the same WiFi network as the CyberFidget"] --> B["Browse to http://cyberfidget.local"]
+    B --> C["Same portal, no WiFi switching needed"]
 ```
 
 The portal is a standalone app launched from the main menu under **Tools > CyberFidget Portal**. **Settings > Setup WiFi** opens the same portal straight on its WiFi page (see [Setting up WiFi](#setting-up-wifi)). It stops Bluetooth (shared radio) and starts WiFi, so you can't play music through a BT speaker while the portal is running.
@@ -61,14 +61,14 @@ Why restart? The portal borrows resources to give the web features room to run -
 
 ### App lifecycle
 
-```
-Menu → "CyberFidget Portal" → AppManager::switchToApp(APP_WEB_PORTAL)
-  1. MusicPlayerApp::end()        — saves state, stops playback
-  2. WebPortalApp::begin()        — btStop() + BT memory release, WiFi AP+STA, mDNS, DNSServer, AsyncWebServer
-     ... user manages files via captive portal or cyberfidget.local ...
-  3. Back button                  — "Exit portal?" confirmation (Enter confirms, Back cancels)
-  4. WebPortalApp::end()          — server stop, mDNS stop, WiFi.mode(WIFI_OFF)
-  5. Restart                      — hands the BT memory back cleanly; boot animation skipped for this restart
+```mermaid
+flowchart TB
+    M["Menu: CyberFidget Portal<br/>AppManager::switchToApp(APP_WEB_PORTAL)"] --> S1["1. MusicPlayerApp::end()<br/>saves state, stops playback"]
+    S1 --> S2["2. WebPortalApp::begin()<br/>btStop() + BT memory release, WiFi AP+STA, mDNS, DNSServer, AsyncWebServer"]
+    S2 --> U["User manages files via captive portal or cyberfidget.local"]
+    U --> S3["3. Back button<br/>'Exit portal?' confirmation (Enter confirms, Back cancels)"]
+    S3 --> S4["4. WebPortalApp::end()<br/>server stop, mDNS stop, WiFi.mode(WIFI_OFF)"]
+    S4 --> S5["5. Restart<br/>hands the BT memory back cleanly; boot animation skipped for this restart"]
 ```
 
 ### WiFi modes

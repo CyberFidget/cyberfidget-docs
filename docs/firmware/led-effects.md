@@ -33,11 +33,10 @@ The pixels are indexed 0-3: **Back** (0), **Front Top** (1), **Front Middle** (2
 
 Audio analysis is performed by `SpectrumAnalyzer`, a custom `ModifyingStream` that sits in the audio pipeline:
 
-```
-SD Card → AudioPlayer → MP3DecoderHelix → SpectrumAnalyzer → A2DPStream → BT Speaker
-                                               ↓ (analysis)
-                                       volumeRatio() — peak amplitude 0.0–1.0
-                                       bands()[16]   — frequency spectrum 0.0–1.0
+```mermaid
+flowchart TB
+    SD[SD Card] --> AP[AudioPlayer] --> MP3[MP3DecoderHelix] --> SA[SpectrumAnalyzer] --> A2[A2DPStream] --> SPK[BT Speaker]
+    SA -.->|analysis| OUT["volumeRatio(): peak amplitude 0.0-1.0<br/>bands()[16]: frequency spectrum 0.0-1.0"]
 ```
 
 `SpectrumAnalyzer` replaces the original `VolumeMeter` from arduino-audio-tools. It provides the same `volumeRatio()` API for LED reactive effects, plus 16-band FFT frequency analysis for the spectrum visualizer. Audio passes through unchanged — zero latency, zero quality impact.
@@ -92,15 +91,14 @@ A gentle breathing animation independent of audio. Uses a sine wave to modulate 
 
 The main menu's "LEDs" item opens a dedicated submenu with 6 options:
 
-```
-LEDs
-├── Mode: Off / Reactive / Pulse   (Enter cycles)
-├── Back LED: On / Off             (Enter toggles)
-├── Front Top: On / Off            (Enter toggles)
-├── Front Mid: On / Off            (Enter toggles)
-├── Front Bottom: On / Off         (Enter toggles)
-└── Sync: 150ms                    (Enter cycles 0-300ms in 25ms steps)
-```
+| Item | What Enter does |
+|------|-----------------|
+| Mode: Off / Reactive / Pulse | Cycles the mode |
+| Back LED: On / Off | Toggles it |
+| Front Top: On / Off | Toggles it |
+| Front Mid: On / Off | Toggles it |
+| Front Bottom: On / Off | Toggles it |
+| Sync: 150ms | Cycles 0-300ms in 25ms steps |
 
 ### Per-LED enable mask
 
@@ -145,16 +143,16 @@ Normal playhead: elapsed M:SS + progress bar + remaining -M:SS.
 
 A 16-bar rolling amplitude graph showing the last ~1 second of audio:
 
-```
-┌────────────────────────────┐
-│  ⚡ Now Playing        87 ▊│
-│ The Artist Name            │
-│ ♫ Track Title Here ←scroll │
-│                            │
-│ ▶ Playing          [S]     │
-│ ▃▅▇█▅▃▁▃▅▇▆▄▂▁▃           │  ← Amplitude bars
-└────────────────────────────┘
-```
+<div class="cf-oled" markdown="0">
+<div class="cf-oled-row cf-oled-head"><span>BT Now Playing</span><span>87%</span></div>
+<div class="cf-oled-row"><span>The Artist Name</span></div>
+<div class="cf-oled-row"><span>Track Title Here (scrolls)</span></div>
+<div class="cf-oled-row"><span>&nbsp;</span></div>
+<div class="cf-oled-row"><span>Playing</span><span>[S]</span></div>
+<div class="cf-oled-bars"><span style="height:37.5%"></span><span style="height:62.5%"></span><span style="height:87.5%"></span><span style="height:100%"></span><span style="height:62.5%"></span><span style="height:37.5%"></span><span style="height:12.5%"></span><span style="height:37.5%"></span><span style="height:62.5%"></span><span style="height:87.5%"></span><span style="height:75%"></span><span style="height:50%"></span><span style="height:25%"></span><span style="height:12.5%"></span><span style="height:37.5%"></span><span style="height:25%"></span></div>
+</div>
+
+The bottom row is the amplitude bars.
 
 - **16 bars**, each 7px wide + 1px gap = 128px total
 - **Height**: 0–14px, proportional to amplitude at sample time
@@ -165,16 +163,16 @@ A 16-bar rolling amplitude graph showing the last ~1 second of audio:
 
 A VFD-style frequency spectrum display with 16 logarithmically-spaced bands:
 
-```
-┌────────────────────────────┐
-│  ⚡ Now Playing        87 ▊│
-│ The Artist Name            │
-│ ♫ Track Title Here ←scroll │
-│                            │
-│ ▶ Playing          [S]     │
-│ █▇▅▃▅▇█▅▃▁▂▃▅▇▆▄          │  ← Frequency bars
-└────────────────────────────┘
-```
+<div class="cf-oled" markdown="0">
+<div class="cf-oled-row cf-oled-head"><span>BT Now Playing</span><span>87%</span></div>
+<div class="cf-oled-row"><span>The Artist Name</span></div>
+<div class="cf-oled-row"><span>Track Title Here (scrolls)</span></div>
+<div class="cf-oled-row"><span>&nbsp;</span></div>
+<div class="cf-oled-row"><span>Playing</span><span>[S]</span></div>
+<div class="cf-oled-bars"><span style="height:100%"></span><span style="height:87.5%"></span><span style="height:62.5%"></span><span style="height:37.5%"></span><span style="height:62.5%"></span><span style="height:87.5%"></span><span style="height:100%"></span><span style="height:62.5%"></span><span style="height:37.5%"></span><span style="height:12.5%"></span><span style="height:25%"></span><span style="height:37.5%"></span><span style="height:62.5%"></span><span style="height:87.5%"></span><span style="height:75%"></span><span style="height:50%"></span></div>
+</div>
+
+The bottom row is the frequency bars.
 
 - **16 bars** spanning ~60 Hz to ~16 kHz, logarithmically spaced
 - **Fast attack, slow decay**: Bars snap up instantly but fade down smoothly (like classic VFD EQ displays)
@@ -256,12 +254,11 @@ The SpectrumAnalyzer analyzes audio as it enters the A2DP transmit buffer. The B
 
 The SpectrumAnalyzer maintains a **delay ring buffer** — a circular array of 16 recent analysis frames, each timestamped with `millis()`. Instead of returning the current amplitude and spectrum data, the delayed accessors (`delayedVolumeRatio()`, `delayedBands()`) walk the ring buffer and return the frame closest to `millis() - delayMs`.
 
-```
-Audio pipeline timeline:
-    t=0ms    Audio enters SpectrumAnalyzer → analysis stored in ring buffer
-    t=150ms  delayedVolumeRatio() returns the t=0 analysis → LEDs react
-    t=150ms  Speaker plays the t=0 audio → LEDs match what you hear
-```
+| Time | What happens |
+|------|--------------|
+| t=0ms | Audio enters SpectrumAnalyzer and the analysis is stored in the ring buffer. |
+| t=150ms | `delayedVolumeRatio()` returns the t=0 analysis, so the LEDs react. |
+| t=150ms | The speaker plays the t=0 audio, so the LEDs match what you hear. |
 
 ### Buffer details
 
