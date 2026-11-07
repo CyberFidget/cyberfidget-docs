@@ -273,6 +273,7 @@ def build(firmware, sidecar):
     for name, reason in upcoming.items():
         if not isinstance(reason, str) or not reason.strip(): errors.append(f'{name}: add a nonempty ignore_next reason in {sidecar}.')
         if name in described or name in ignored: errors.append(f'{name}: list it once: a description, ignore or ignore_next entry in {sidecar}.')
+        if name in common: errors.append(f'{name} is in both targets, so apps can call it. Describe it under [symbols] in {sidecar}; ignore_next is only for plumbing.')
     for name, entry in described.items():
         for key in ('section', 'use', 'does', 'see'):
             if not isinstance(entry.get(key), str) or not entry[key].strip(): errors.append(f'{name}: add nonempty {key} in {sidecar}.')

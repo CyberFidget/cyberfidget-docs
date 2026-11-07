@@ -39,7 +39,7 @@ Building an app again after it is already on your Fidget sends the new build as 
 
 ## Your app reopens after an update
 
-In Dev mode, when you install new firmware while Counter or Home Remote is open, that app opens again once the new firmware is kept. The screen shows **Updating...** and **Reloading** with the app's name while it restarts. Back returns to the menu folder the app was started from. Any other app, and any other mode, starts at the menu after an update. This needs firmware 1.7.0 or later; see [Updating](updating.md).
+In Dev mode, when you install a firmware update while Counter or Home Remote is open, that app opens again once the update is kept. The screen shows **Updating...** and **Reloading** with the app's name while it restarts. Back returns to the menu folder the app was started from. Any other app, and any other mode, starts at the menu after an update. The Fidget must already run firmware 1.7.0 or later when the update starts, so the update to 1.7.0 itself lands on the menu; see [Updating](updating.md).
 
 ## When listening pauses
 
