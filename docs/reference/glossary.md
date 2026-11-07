@@ -117,6 +117,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Callback** | A function you give the device to call for you when something happens, such as a button press. |
 | **Capture** | An item stored in a Studio project's captures. |
 | **Cel** | An animator's word for one picture of an animation; the studio names a sprite's frames `cel_0`, `cel_1` and so on in code. |
+| **cfsprite-regen** | The PlatformIO target (`pio run -t cfsprite-regen`) that rewrites every sprite header from its `.cfsprite.json` file. See [Sprite assets](../firmware/sprite-assets.md#step-3-regenerate-the-header). |
 | **Collision** | Two sprites touching, where a lit pixel of one sits on a lit pixel of the other. See [Sprites & Animation](../concepts/sprites.md#collision). |
 | **Companion page** | The phone companion's web page, built into firmware and optionally overridden from the memory card. |
 | **Compile** | Turn the code you wrote into a program the device (or the emulator) can run. |
@@ -125,6 +126,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **const char*** | A pointer to text ending with a zero character; the characters cannot be changed through this pointer. |
 | **Core loop** | The action a player repeats all game long, such as moving a paddle to catch a dot. See [Make a game, step by step](../getting-started/make-a-game.md#2-group-the-ideas-by-what-they-do). |
 | **Decomposition** | Breaking a big problem or idea into small pieces you can solve one at a time. See [Make a game, step by step](../getting-started/make-a-game.md#step-0-plan-the-game). |
+| **Drift check** | A build step that regenerates each sprite header and fails if it no longer matches the committed file. See [Sprite assets](../firmware/sprite-assets.md#the-drift-check). |
 | **Emulator** | A copy of the device that runs in your browser, so you can try an app without a Cyber Fidget. |
 | **Firmware** | The built-in software that runs on the device. |
 | **Fixed-point** | Counting in fractions with whole numbers, for example 256 units per pixel, so movement can be smoother than one pixel at a time. |
@@ -133,6 +135,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Frame** | One picture in an animation sequence. |
 | **Frame rate** | Number of frames shown each second. |
 | **framebuffer** | A buffer that stores the pixel values for a screen image. |
+| **Generated header** | A C++ header file written by a tool from a source asset, so it is never edited by hand. See [Sprite assets](../firmware/sprite-assets.md). |
 | **GIF** | Graphics Interchange Format; an image file format that can store an animation. |
 | **GRBW** | Green, Red, Blue, White; the order used to send channels to the LED hardware. |
 | **int** | A signed whole number; on the device, -2,147,483,648 to 2,147,483,647. |
@@ -267,3 +270,4 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Bridge** | `wasm_bridge.js` -- glue between the WASM module and the on-screen emulator. |
 | **Serial Monitor** | A tool for reading serial messages from firmware over a cable. The studio panel is called Console; it shows build and run messages. Studio apps cannot use `Serial.println()`. |
 | **Shim** | A stub header (e.g. `Arduino.h`, `SSD1306Wire.h`) that replaces real hardware libraries so the same app code compiles for the browser. |
+| **Symbol prefix** | The part of a sprite file name before `.cfsprite.json`; it becomes the C++ namespace of the generated header. See [Sprite assets](../firmware/sprite-assets.md#step-2-put-it-in-the-apps-assets-folder). |

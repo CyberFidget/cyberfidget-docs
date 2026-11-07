@@ -153,3 +153,7 @@
 *[core loop]: The action a player repeats all game long, such as moving a paddle to catch a dot
 *[juice]: Extra feedback, such as flashes, sounds and shakes, that makes an action in a game feel good
 *[accelerometer]: A motion sensor that measures acceleration, including gravity, so the device can tell tilt and shakes
+*[drift check]: A build step that regenerates each sprite header and fails if it no longer matches the committed file
+*[generated header]: A C++ header file written by a tool from a source asset, so it is never edited by hand
+*[cfsprite-regen]: The PlatformIO target that rewrites every sprite header from its .cfsprite.json file
+*[symbol prefix]: The part of a sprite file name before .cfsprite.json; it becomes the C++ namespace of the generated header

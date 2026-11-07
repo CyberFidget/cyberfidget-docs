@@ -70,6 +70,7 @@ See [How an App Works](../concepts/app-lifecycle.md) for the app-level view.
 - [Voice Notes](voice-recorder.md) — Record voice memos to the SD card, replay them on the device, and keep your audio in your own hands
 - [Phone Companion](companion.md) — Live listening, captions on the OLED, on-phone transcription, and daily-note summaries, served by the device itself
 - [LED Effects & Visualizer](led-effects.md) — Music-reactive NeoPixels, per-LED control, OLED amplitude and spectrum visualizers
+- [Sprite assets](sprite-assets.md) -- Add a sprite to a built-in app: where the file goes, the drift check, and `pio run -t cfsprite-regen`
 - [Bluetooth A2DP Guide](bt-a2dp-guide.md) — Hard-won lessons on ESP32-A2DP lifecycle management
 - [Web Portal](web-portal.md) — WiFi captive portal for file management and settings
 - [IRAM Optimization for Bluetooth](IRAM-overflow-solution.md) — How we fit BT A2DP into the ESP32's 128KB IRAM budget
