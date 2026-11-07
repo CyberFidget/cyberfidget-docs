@@ -231,7 +231,7 @@ class GuardTests(unittest.TestCase):
             self.assertEqual(dev.taps, [])
 
     def test_raw_enter_and_cmd_btn_refused(self):
-        for step in ("btn:5", "cmd:btn 5 tap", "cmd:btn 4 tap", "cmd:BTN 0 tap", "cmd:launch Reset to factory"):
+        for step in ("btn:5", "cmd:btn 5 tap", "cmd:btn 4 tap", "cmd:BTN 0 tap", "cmd:launch Reset to factory", "cmd:screenstream on 20"):
             dev = FakeDevice([frame("06")])
             with self.assertRaises(ds.Stop):
                 ds.run(dev, [step], self.out, self.ref)

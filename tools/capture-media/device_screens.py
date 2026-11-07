@@ -37,7 +37,8 @@ Guards, so a missed press or a changed menu can't open the wrong thing:
   while the firmware update popup is on screen (its first choice is
   "Install now"). The check is skipped only in apps the popup never
   opens over (NO_PROMPT_APPS); an unknown app name gets it. btn:5 and cmd:btn ... are
-  refused: Enter goes through enter:<name>. cmd:launch of an erasing app is refused too.
+  refused: Enter goes through enter:<name>. cmd:launch of an erasing app is refused too,
+  and so is cmd:screenstream (record:on/record:off track the stream and stop it).
 - Left and right change the saved preset on the Speaker EQ screen. The first
   time they are pressed there, the screen is remembered; at the end of the
   run, even after an error or Ctrl+C, the tool opens Speaker EQ again and
@@ -326,6 +327,8 @@ def check_cmd(text):
     verb = words[0].lower()
     if verb == "btn":
         raise Stop("'%s': press buttons with btn:<index> or enter:<name>, which check the screen first" % text)
+    if verb == "screenstream":
+        raise Stop("'%s': stream the screen with record:on and record:off, which always turn it off again" % text)
     if verb == "launch" and " ".join(words[1:]).lower() in [a.lower() for a in REFUSE_APPS]:
         raise Stop("'%s': this tool does not open apps that erase or reset" % text)
 
