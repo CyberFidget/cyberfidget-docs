@@ -87,7 +87,7 @@ When art sharing is on, **What gets shared when someone remixes** picks what oth
 
 A license can't be taken back. Anyone who copied your work under one of these licenses may keep using that copy.
 
-**Your maker name.** Your listing names you as its maker with the **Maker name** you choose when you publish. It starts as the name you gave a share link, or your GitHub username, and never your GitHub profile's real name. You can change it later from **My listing**. Listings published before this option keep the name they already show until you change it.
+**Your maker name.** Your listing shows the **Maker name** you choose when you publish, and anyone who opens the listing can see it. A nickname is fine; leave out real names, schools and addresses. You can change it later from **My listing**.
 
 ---
 
