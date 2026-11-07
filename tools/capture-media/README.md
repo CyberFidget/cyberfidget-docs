@@ -72,7 +72,7 @@ Captures a real Cyber Fidget's screen over USB serial and writes each one as a P
 python device_screens.py --port COM30 --out ../../docs/assets/media "cmd:launch Voice Notes" wait:2.5 shot:voice-notes-recorder
 ```
 
-Steps run in order: `shot:<name>`, `btn:<index>` (0 up, 1 down, 2 left, 3 right, 4 back, 5 enter), `wait:<seconds>`, `cmd:<serial command>`. Opening the port resets the device, so every run starts from a fresh boot; start each run with a `cmd:launch ...` rather than counting button presses from the menu. Needs pyserial (PlatformIO's Python has it). Record which firmware each capture came from: the tool prints it first.
+Steps run in order: `shot:<name>`, `enter:<name>` (capture, check, then press Enter; see the guards below), `btn:<index>` (0 up, 1 down, 2 left, 3 right, 4 back; Enter only through `enter:`), `wait:<seconds>`, `cmd:<serial command>`. Opening the port resets the device, so every run starts from a fresh boot; start each run with a `cmd:launch ...` rather than counting button presses from the menu. Needs pyserial (PlatformIO's Python has it). Record which firmware each capture came from: the tool prints it first.
 
 Before using any capture: the device's screens can show its name, link codes, WiFi names or the portal password. Check every picture for anything personal, and never publish a home or neighbor network name.
 
@@ -82,7 +82,19 @@ A Fidget that knows of a newer firmware shows an update popup over the menu shor
 
 - Leave the popup without choosing: launch any app before opening the menu (`cmd:launch Clock`, then `cmd:launch menu`). The popup only opens over the menu, and launching an app first closes it with no choice saved.
 - `cmd:status clear` clears the "Update ... ready" line that otherwise scrolls across the menu's top bar for this session.
-- Use `enter:<name>` instead of `btn:5` in menu walks: it captures the screen, then presses Enter only if the screen is not the update popup (it stops the run if it is). Screens with a lit title bar and a lit first row, such as the Music Player's **Audio Output** list, look the same to this check, so press `btn:5` there.
+### Guards
+
+The tool drives a real device, so a missed press or a changed menu must not open the wrong item (Settings has **Reset to factory** next to **Speaker EQ**). It checks before it acts and puts back what it changed:
+
+| Guard | What it does |
+|-------|--------------|
+| Enter needs a matching screen | `enter:<name>` captures the screen and presses Enter only if it matches the reference frame `<expect>/<name>.png` (`--expect`, default `--out`), ignoring the status row at the top. Otherwise the run stops without pressing. With no reference frame it stops too, unless `--allow-unchecked-enter` is given, for building a new walk one screen at a time. `btn:5` is refused. |
+| Never on the update popup | Enter is never pressed while the update popup is on screen. |
+| Never in an erasing app | Enter is never pressed while the running app (the device's `app` answer) is **Reset to factory**. |
+| Speaker EQ put back | Left and right change the saved preset on the Speaker EQ screen. The first time they are pressed there, the tool remembers the screen; at the end of the run, also after an error or Ctrl+C, it opens Speaker EQ again and steps until the screen matches. |
+| Awake setting put back | The awake setting is read at the start (`awake`) and set back at the end. If it was off, the device is kept awake during the run. |
+
+When the reference frames are the frames being captured (`--out` and `--expect` the same folder, as in the command below), each reference is read before the new frame is written over it. Commit new frames only after looking at them.
 
 ### Clips of device screens
 
