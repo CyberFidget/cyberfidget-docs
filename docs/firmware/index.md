@@ -39,22 +39,13 @@ Key build flags for the BT audio stack:
 
 ## Architecture overview
 
-```
-┌─────────────────────────────────────────────┐
-│             AppManager (singleton)          │
-│  Owns lifecycle: begin() → update() → end() │
-├──────────┬──────────┬───────────────────────┤
-│ MenuMgr  │ PowerMgr │ MusicPlayerApp  ...   │
-├──────────┴──────────┴───────────────────────┤
-│                   HAL                       │
-│  Display · Buttons · Slider · LEDs · Audio  │
-├─────────────────────────────────────────────┤
-│          ESP-IDF / Arduino / FreeRTOS       │
-├─────────────────────────────────────────────┤
-│                ESP32 Hardware               │
-│   OLED·Buttons·SK6812/NeoPixels·I2S·BT·SD   │
-└─────────────────────────────────────────────┘
-```
+<div class="cf-stack" markdown="0">
+<div class="cf-layer cf-l-manager"><p class="cf-layer-name">AppManager (singleton)</p><p class="cf-layer-note">Owns the app lifecycle: <code>begin()</code>, then <code>update()</code> every 20 ms, then <code>end()</code></p></div>
+<div class="cf-layer cf-l-apps"><div class="cf-cell">MenuMgr</div><div class="cf-cell">PowerMgr</div><div class="cf-cell">MusicPlayerApp and the other apps</div></div>
+<div class="cf-layer cf-l-hal"><p class="cf-layer-name">HAL (hardware abstraction layer)</p><p class="cf-layer-note">Display, buttons, slider, LEDs, audio</p></div>
+<div class="cf-layer cf-l-os"><p class="cf-layer-name">ESP-IDF / Arduino / FreeRTOS</p></div>
+<div class="cf-layer cf-l-hw"><p class="cf-layer-name">ESP32 hardware</p><p class="cf-layer-note">OLED, buttons, SK6812 (NeoPixel) LEDs, I2S, Bluetooth, SD card</p></div>
+</div>
 
 - **AppManager** schedules one active app at a time. Every 20ms, it calls the active app's `update()`.
 - **HAL** wraps all hardware access behind a consistent API.
