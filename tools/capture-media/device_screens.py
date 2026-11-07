@@ -321,6 +321,8 @@ def check_enter(pixels, reference, ref, allow_unchecked):
 
 def check_cmd(text):
     """Refuse serial commands that would get round the button guards."""
+    if "\r" in text or "\n" in text:
+        raise Stop("'%s': one command per cmd: step; a line break would send a second, unchecked command" % text.strip())
     words = text.strip().split()
     if not words:
         return
@@ -452,6 +454,14 @@ def restore_eq(dev, eq_start):
             print("Speaker EQ restored to its preset at the start")
             dev.ask("launch menu", "[cmd] launch", timeout=3.0)
             return
+        # Only step while Speaker EQ is really open, and through the same
+        # press check as every other button.
+        if dev.app() != EQ_APP:
+            break
+        try:
+            check_press(dev, 3)
+        except Stop:
+            break
         dev.tap(3, pause=0.9)
     print("WARNING: could not put Speaker EQ back to its preset at the start; check it on the device")
 
