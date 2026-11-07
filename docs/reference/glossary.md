@@ -161,6 +161,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **potentiometer** | A variable resistor; moving the slider changes the voltage read by the device. |
 | **Project** | A person's Studio work, including its code, art, captures, and settings. |
 | **Project file** | A `.cfapp.json` file containing a whole Studio project. |
+| **Projection** | The step that works out where a point in 3D space lands on the flat screen, for the model's position, turn, size and perspective. See [3D model file format](cfmesh-format.md). |
 | **Pseudo-code** | The steps of a program written in plain words, laid out like code but not in any programming language. |
 | **rig** | Connected bones and poses used to animate a figure. |
 | **ring buffer** | A queue that reuses a fixed amount of memory. |

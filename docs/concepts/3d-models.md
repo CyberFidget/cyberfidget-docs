@@ -429,6 +429,7 @@ Every line is drawn every frame, so a model with many lines takes longer to draw
 ## Where to go next
 
 - [3D Models in the Studio](../studio/3d-models.md): building a model in the 3D tab.
+- [3D model file format](../reference/cfmesh-format.md): every field in a `.cfmesh.json` file.
 - [Sprites & Animation](sprites.md): flat pictures that move and animate.
 - [Drawing to the Screen](display.md): lines, shapes and text.
 - [The Update Loop](update-loop.md): timing with `millis()`.

@@ -157,3 +157,4 @@
 *[generated header]: A C++ header file written by a tool from a source asset, so it is never edited by hand
 *[cfsprite-regen]: The PlatformIO target that rewrites every sprite header from its .cfsprite.json file
 *[symbol prefix]: The part of a sprite file name before .cfsprite.json; it becomes the C++ namespace of the generated header
+*[projection]: The step that works out where a point in 3D space lands on the flat screen

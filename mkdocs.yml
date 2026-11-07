@@ -68,6 +68,7 @@ nav:
     - Drawing to the Screen: concepts/display.md
     - Sprites & Animation: concepts/sprites.md
     - 3D Models: concepts/3d-models.md
+    - 3D model file format: reference/cfmesh-format.md
     - Sound & Music: concepts/audio.md
     - LEDs & Color: concepts/leds.md
     - The Slider: concepts/slider.md
