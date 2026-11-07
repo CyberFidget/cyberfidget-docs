@@ -1292,6 +1292,14 @@ use = "kMaxRigConstraints"
 does = "Maximum physics connections."
 see = "none"
 
+# Symbols that exist only in the firmware release being prepared. Accepted whether or not
+# the checked firmware has them; move each entry to [ignore] once that release is the latest.
+[ignore_next]
+"HAL::clearResumeRecord" = "Firmware plumbing for reopening the last app after idle sleep; apps do not manage this."
+"HAL::resumeRecord" = "Firmware plumbing for reopening the last app after idle sleep; apps do not manage this."
+"HAL::setSleepCommitHook" = "Firmware-internal hook run just before sleep; an app-facing sleep hook is not defined yet."
+"HAL::storeResumeRecord" = "Firmware plumbing for reopening the last app after idle sleep; apps do not manage this."
+
 [ignore]
 "AudioManager::AudioManager" = "Exposed only in emulator headers; outside the portable app intersection."
 "AudioManager::init" = "Exposed only in emulator headers; outside the portable app intersection."
