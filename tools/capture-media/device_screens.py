@@ -9,6 +9,9 @@ PNG. Steps come from the command line, in order:
         shot:menu-home btn:1 wait:0.6 shot:menu-second cmd:menutree
 
     shot:<name>   capture the screen to <out>/<name>.png
+    enter:<name>  capture the screen to <out>/<name>.png, then press Enter
+                  (btn 5) - unless the screen is the firmware update popup,
+                  whose first, highlighted choice is "Install now": then stop
     btn:<index>   tap a button (0 up, 1 down, 2 left, 3 right, 4 back, 5 enter)
     wait:<sec>    pause
     cmd:<text>    send any serial command and print what it answers
@@ -89,6 +92,16 @@ class Device:
         return [[(data[(y // 8) * W + x] >> (y % 8)) & 1 for x in range(W)] for y in range(H)]
 
 
+def is_update_popup(pixels):
+    # The update popup has a lit title bar (dark text on a lit band) and,
+    # right under it, its first choice, "Install now", highlighted the same
+    # way. A menu draws its highlight as an outline, and a screen such as
+    # Speaker EQ has a lit title bar but nothing lit under it.
+    band = sum(pixels[y][x] for y in range(16, 24) for x in range(W)) / (8 * W)
+    title = sum(pixels[y][x] for y in range(2, 10) for x in range(W)) / (8 * W)
+    return band > 0.7 and title > 0.5
+
+
 def write_png(path, pixels, scale=4, on=(220, 238, 255), off=(0, 0, 0)):
     rows = []
     for y in range(H):
@@ -128,10 +141,16 @@ def main():
     try:
         for step in args.steps:
             kind, _, val = step.partition(":")
-            if kind == "shot":
+            if kind in ("shot", "enter"):
                 path = os.path.join(args.out, val + ".png")
-                write_png(path, dev.screen(), scale=args.scale)
+                pixels = dev.screen()
+                write_png(path, pixels, scale=args.scale)
                 print("wrote " + path)
+                if kind == "enter":
+                    if is_update_popup(pixels):
+                        sys.exit("the update popup is on screen; not pressing Enter")
+                    dev.ask("btn 5 tap", "[cmd] btn.tap")
+                    time.sleep(0.5)
             elif kind == "btn":
                 dev.ask("btn %s tap" % val, "[cmd] btn.tap")
                 time.sleep(0.4)
