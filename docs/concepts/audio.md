@@ -56,7 +56,17 @@ The built-in speaker is tiny (13 mm across), and a speaker that small cannot pus
 
 ### Speaker EQ setting
 
-The Fidget shapes the sound of its built-in speaker with an [EQ](../reference/glossary.md) (equalizer). You choose how in **Settings > Sound > Speaker EQ**. The screen shows one preset name with a short description under it. Press Left or Right to change preset. Each change takes effect at once and plays a short rising run of tones so you can hear the difference. Press Select to go back. The choice is saved, so it is still there after the Fidget restarts.
+The Fidget shapes the sound of its built-in speaker with an [EQ](../reference/glossary.md) (equalizer). You choose how in **Settings > Speaker EQ**, the last item in the Settings menu.
+
+To get there, in the menu press the top-right button to move down to **Settings** and the bottom-right button to open it. Move down to **Speaker EQ**, below **Reset to factory**, and open it the same way. (Don't open **Reset to factory** on the way.)
+
+<video src="../../assets/media/device-speaker-eq-path.webm" poster="../../assets/media/device-speaker-eq-path.png" autoplay loop muted playsinline width="384"></video>
+
+*The menu on a Cyber Fidget: down to Settings, open it, down past Reset to factory to Speaker EQ, open it, then one press right (Loud) and one press left (back to Balanced).*
+
+The screen shows one preset name with a short description under it. Press the middle-left or middle-right button to change preset. Each change takes effect at once and plays a short rising run of tones so you can hear the difference. Press the bottom-left button (the screen calls it Select) to go back. The choice is saved, so it is still there after the Fidget restarts.
+
+![The Speaker EQ screen on a Cyber Fidget: the title Speaker EQ, the preset Balanced between a left and a right arrow, Clear and even under it, and Select: back at the bottom](../assets/media/device-speaker-eq.png){ width="384" }
 
 | Preset | What you hear |
 |--------|---------------|
