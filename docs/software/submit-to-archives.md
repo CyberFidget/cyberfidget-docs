@@ -87,7 +87,7 @@ When art sharing is on, **What gets shared when someone remixes** picks what oth
 
 A license can't be taken back. Anyone who copied your work under one of these licenses may keep using that copy.
 
-**Your maker name.** Your listing names you as its maker using the name on your GitHub profile, or your GitHub username if your profile has no name. It is saved when the app is approved. If your GitHub profile shows your real name and you'd rather it didn't appear, change it on GitHub before you submit.
+**Your maker name.** Your listing names you as its maker with the **Maker name** you choose when you publish. It starts as the name you gave a share link, or your GitHub username, and never your GitHub profile's real name. You can change it later from **My listing**. Listings published before this option keep the name they already show until you change it.
 
 ---
 
