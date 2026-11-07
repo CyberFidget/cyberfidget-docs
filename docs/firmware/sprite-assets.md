@@ -62,7 +62,7 @@ The header is written by the **sprite compiler**, the program that turns a drawi
 
 ### If you don't have the sprite compiler
 
-Most contributors don't. Commit the `.cfsprite.json` from Step 2 and say in your pull request that the sprite's header needs generating, so it can be made with the compiler before the change goes in. Until the header exists, the build can't compile code that includes it.
+Most contributors don't. Include the `.cfsprite.json` from Step 2 in your pull request, and say in its description that the sprite's header still needs generating. Until the header exists, the build can't compile code that includes it.
 
 You can still check the sprite before you send it: in a studio project, choose **Sprite file > Add from file** (the menu in Step 1) and draw the sprite from a test app, as [Sprites & Animation](../concepts/sprites.md) shows. A studio app turns the drawing into code with the same compiler, so the sprite looks and animates there as it will in the firmware.
 
