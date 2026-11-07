@@ -133,7 +133,7 @@ Open your project's **Settings** and choose **IMPROVE YOUR LISTING** (it appears
 | **Description** | Up to 2,000 characters. The page shows the start and folds the rest behind **Show more**. Aim for at least 120. |
 | **Tags** | Up to 12, used by search. |
 | **Screenshots** | Up to 8. Choose **Run it here to take screenshots** and take them from the emulator, or **Add an image** (PNG or GIF). |
-| **Card face** | Your app's thumbnail: the picture on its card. Any screenshot can be the thumbnail. |
+| **Thumbnail** | The picture on your app's card. Any screenshot can be the thumbnail. |
 | **Preview animation** | A 5-second loop recorded from the emulator. It plays on your card. |
 | **How to play** | One control per line, up to 600 characters. |
 | **Name**, **Category** | You can ask for a change; it shows once an admin approves it. |
