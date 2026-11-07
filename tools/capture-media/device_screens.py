@@ -372,8 +372,11 @@ def run(dev, steps, out, expect=None, allow_unchecked=False, scale=4):
                     dev.record_start()
                     print("recording")
                 else:
+                    # Cleared only once the stop has been sent: an interrupt
+                    # before then leaves the finally to turn the stream off.
+                    frames = dev.record_stop()
                     recording = False
-                    write_recording(dev.record_stop(), out, scale)
+                    write_recording(frames, out, scale)
             elif kind == "shot" and recording:
                 raise Stop("shot:%s while recording: the recording already keeps every screen" % val)
             elif kind in ("shot", "enter"):

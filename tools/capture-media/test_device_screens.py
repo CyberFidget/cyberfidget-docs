@@ -44,6 +44,7 @@ class FakeDevice:
         self.interrupt_after = interrupt_after
         self.recorded = []             # frames record_stop returns
         self.start_error = None        # raised by record_start, after sending
+        self.stop_error = None         # raised once by record_stop, before sending
 
     def _note(self, text):
         self.sent.append(text)
@@ -88,6 +89,9 @@ class FakeDevice:
             raise self.start_error
 
     def record_stop(self):
+        if self.stop_error:
+            error, self.stop_error = self.stop_error, None
+            raise error
         self.sent.append("screenstream off")
         return self.recorded
 
@@ -183,6 +187,16 @@ class GuardTests(unittest.TestCase):
                 ds.run(dev, ["record:on", "wait:0", "record:off"], self.out, self.ref)
             self.assertEqual(dev.sent.count("screenstream off"), 1)
             self.assertEqual(dev.sent[-1], "awake set off")
+
+    def test_stream_stopped_when_record_off_is_interrupted(self):
+        # Ctrl+C before record:off has sent its stop: the run still turns
+        # the stream off on the way out.
+        dev = FakeDevice([frame("06")])
+        dev.stop_error = KeyboardInterrupt()
+        with self.assertRaises(KeyboardInterrupt):
+            ds.run(dev, ["record:on", "wait:0", "record:off"], self.out, self.ref)
+        self.assertEqual(dev.sent.count("screenstream off"), 1)
+        self.assertEqual(dev.sent[-1], "awake set off")
 
     def test_recording_writes_each_change_with_its_time(self):
         a, b = frame("00"), frame("01")
