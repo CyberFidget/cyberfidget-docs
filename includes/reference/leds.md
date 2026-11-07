@@ -9,6 +9,7 @@
 |---|---|
 | [`void HAL::setRgbLed(int index, uint8_t r, uint8_t g, uint8_t b, uint8_t w)`](../reference/functions.md#symbol-hal--setrgbled)<br><small>*Example:* `HAL::setRgbLed(pixel_Front_Middle, 0, 0, 255, 0);`</small> | Set one RGBW LED; red, green, blue, white channels each use 0-255. |
 | [`void HAL::setRgbLedsOff()`](../reference/functions.md#symbol-hal--setrgbledsoff)<br><small>*Example:* `HAL::setRgbLedsOff();`</small> | Turn all four RGBW LEDs off. |
+| [`void setLed(int index, uint8_t r, uint8_t g, uint8_t b, uint8_t w)`](../reference/functions.md#symbol-setled)<br><small>*Example:* `setLed(pixel_Front_Middle, 0, 0, 255, 0);`</small> | Short form of HAL::setRgbLed(): set one RGBW LED; red, green, blue, white channels each use 0-255. |
 | [`void setColorsOff()`](../reference/functions.md#symbol-setcolorsoff)<br><small>*Example:* `setColorsOff();`</small> | Turn all four LEDs off; call in begin() and end(). |
 | [`void setDeterminedColorsFront(uint8_t r, uint8_t g, uint8_t b, uint8_t w)`](../reference/functions.md#symbol-setdeterminedcolorsfront)<br><small>*Example:* `setDeterminedColorsFront(0, 0, 255, 0);`</small> | Set the three front LEDs; RGBW channels each use 0-255. |
 | [`void setDeterminedColorsAll(uint8_t r, uint8_t g, uint8_t b, uint8_t w)`](../reference/functions.md#symbol-setdeterminedcolorsall)<br><small>*Example:* `setDeterminedColorsAll(0, 0, 255, 0);`</small> | Set all four LEDs; RGBW channels each use 0-255. |

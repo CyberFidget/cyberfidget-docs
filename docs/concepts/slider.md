@@ -32,6 +32,8 @@ On the device, variables with `_Inverted_` read low with the slider at the botto
 
 The studio emulator follows the same direction: moving the slider up increases the inverted values.
 
+Three small functions give the same inverted, filtered reading as a whole number that is always inside its range, 0 at the bottom and the top value at the top: `sliderPercent()` (0-100), `slider255()` (0-255) and `slider4095()` (0-4095). They need no rounding or range check in your code.
+
 !!! note "Filtered vs raw"
     The "Filtered" variants are smoothed to reduce jitter. Prefer these for UI and control logic. Unfiltered readings such as `sliderPosition_12Bits` belong to firmware internals and are not available to studio apps.
 

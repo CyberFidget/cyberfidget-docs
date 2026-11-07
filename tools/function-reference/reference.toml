@@ -172,6 +172,18 @@ use = "buttonManager.isPressed(button_RightIndex);"
 does = "Read whether the button is down right now."
 see = "../concepts/buttons.md#code-example-callback-registration"
 
+[symbols."ButtonManager::wasPressed"]
+section = "Buttons"
+use = "buttonManager.wasPressed(button_RightIndex);"
+does = "Read whether the button was pressed since the previous update(); true for one update() only."
+see = "../concepts/buttons.md#event-types"
+
+[symbols."ButtonManager::wasReleased"]
+section = "Buttons"
+use = "buttonManager.wasReleased(button_RightIndex);"
+does = "Read whether the button was released since the previous update(); true for one update() only."
+see = "../concepts/buttons.md#event-types"
+
 [symbols."ButtonManager::hasCallback"]
 section = "Buttons"
 use = "buttonManager.hasCallback(button_RightIndex);"
@@ -195,6 +207,12 @@ see = "../concepts/leds.md#setting-colors"
 section = "LEDs"
 use = "HAL::setRgbLedsOff();"
 does = "Turn all four RGBW LEDs off."
+see = "../concepts/leds.md#setting-colors"
+
+[symbols."setLed"]
+section = "LEDs"
+use = "setLed(pixel_Front_Middle, 0, 0, 255, 0);"
+does = "Short form of HAL::setRgbLed(): set one RGBW LED; red, green, blue, white channels each use 0-255."
 see = "../concepts/leds.md#setting-colors"
 
 [symbols."setColorsOff"]
@@ -343,6 +361,24 @@ see = "../concepts/slider.md#global-variables"
 section = "Slider"
 use = "sliderPosition_Percentage_Inverted_Filtered"
 does = "Slider 0-100 %. Direction reversed."
+see = "../concepts/slider.md#global-variables"
+
+[symbols."sliderPercent"]
+section = "Slider"
+use = "sliderPercent()"
+does = "Slider position as a whole number: 0 at the bottom, 100 at the top. Always within 0-100."
+see = "../concepts/slider.md#global-variables"
+
+[symbols."slider255"]
+section = "Slider"
+use = "slider255()"
+does = "Slider position as a whole number: 0 at the bottom, 255 at the top. Always within 0-255."
+see = "../concepts/slider.md#global-variables"
+
+[symbols."slider4095"]
+section = "Slider"
+use = "slider4095()"
+does = "Slider position as a whole number: 0 at the bottom, 4095 at the top. Always within 0-4095."
 see = "../concepts/slider.md#global-variables"
 
 # Motion
@@ -1268,6 +1304,8 @@ see = "none"
 "AudioManager::speakerEqPreset" = "Exposed only in emulator headers; outside the portable app intersection."
 "AudioManager::stopForSleep" = "Exposed only in emulator headers; outside the portable app intersection."
 "ButtonManager::ButtonManager" = "Exposed only in emulator headers; outside the portable app intersection."
+"ButtonManager::clearEdges" = "App runner plumbing; the runner clears press and release flags, apps read them with wasPressed and wasReleased."
+"ButtonManager::endFrame" = "App runner plumbing; the runner clears press and release flags after each update."
 "ButtonManager::dispatch" = "Host event-delivery plumbing; apps register callbacks instead."
 "ButtonManager::flushCallbacks" = "Guest entry-point plumbing; apps must not drain callbacks themselves."
 "ButtonManager::getNextEvent" = "Exposed only in emulator headers; outside the portable app intersection."
@@ -1275,6 +1313,7 @@ see = "none"
 "ButtonManager::init" = "Exposed only in emulator headers; outside the portable app intersection."
 "ButtonManager::kHoldThresholdMs" = "Exposed only in device headers; outside the portable app intersection."
 "ButtonManager::kMaxButtons" = "Exposed only in device headers; outside the portable app intersection."
+"ButtonManager::latchEdge" = "App runner plumbing; the runner records each delivered press or release for wasPressed and wasReleased."
 "ButtonManager::loadButtonCounters" = "Exposed only in emulator headers; outside the portable app intersection."
 "ButtonManager::reset" = "Guest lifecycle plumbing; host resets event state."
 "ButtonManager::saveButtonCounters" = "Exposed only in emulator headers; outside the portable app intersection."
