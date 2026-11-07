@@ -37,6 +37,10 @@ If only part of a send went across, the website says **Some changes did not go a
 
 Building an app again after it is already on your Fidget sends the new build as an update: it replaces the app in the same menu place instead of adding a second copy. Studio says **Updated your Fidget's changes. Open My Fidget to send.** when it queues the update, and **Already on your Fidget - nothing to send.** when the build has not changed. Older Fidget firmware cannot replace an app this way; for that Fidget the update stays waiting, with the note **Update your Fidget's firmware to send a new build of an app it already has.**, and goes across once you [update the firmware](updates.md). The rest of the send still goes ahead.
 
+## Your app reopens after an update
+
+In Dev mode, when you install new firmware while Counter or Home Remote is open, that app opens again once the new firmware is kept. The screen shows **Updating...** and **Reloading** with the app's name while it restarts. Back returns to the menu folder the app was started from. Any other app, and any other mode, starts at the menu after an update. This needs firmware 1.7.0 or later; see [Updating](updating.md).
+
 ## When listening pauses
 
 Some apps need more memory or use the same radio. Before opening one, the Fidget shows **Pausing dev mode...** and stops listening until you return to the menu. A send made while it is paused can arrive after listening resumes. Delivered apps normally open directly and dev mode keeps listening while they run, when there is enough memory; a new build of the app that is running relaunches it in place, without pressing Back. Only if memory is unusually short does the Fidget restart once and go straight into the app.

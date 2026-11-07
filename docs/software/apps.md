@@ -47,7 +47,7 @@ Cyber Fidget ships with 29+ built-in apps spanning games, screensavers, tools, a
 | **Power Manager** | Manually shutdown Cyber Fidget | Double-tap Bottom-Left for deep sleep |
 | **WiFi Manager** | WiFi connection and web portal | Bottom-Left/Right to navigate |
 | **Home Remote** | Controls lights, speakers, scenes and scripts through a Home Assistant server on your home network: favorites, rooms, brightness and colour, volume, play/pause and track skip. Set it up from the Web Portal; see [Home Remote](../firmware/home-remote.md) | Up/Down to choose; Enter opens a light or speaker, or runs a scene or script; hold Enter on a light, speaker, scene or script in a list to toggle the light, play or pause the speaker, or run the scene or script; Left/Right change the selected value; the slider sets brightness or volume; Back goes up a level and exits from the top list |
-| **Counter** | Two tallies side by side. Counts are kept when the Fidget is off, and Counter reopens if the Fidget fell asleep while it was open | Left buttons add to the left count, right buttons to the right; hold the top button on a side to zero it; Back to exit |
+| **Counter** | Two tallies side by side. Counts are kept when the Fidget is off, and Counter reopens if the Fidget went to sleep by itself while it was open (firmware 1.7.0 or later) | Left buttons add to the left count, right buttons to the right; hold the top button on a side to zero it; Back to exit |
 | **Serial Display** | Scrollable view of incoming serial data | Scroll buttons, toggle scroll mode |
 | **Accelerometer Demo** | Real-time raw accelerometer data with LED color feedback | Tilt device, Back to exit |
 
