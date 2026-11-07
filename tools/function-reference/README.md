@@ -49,4 +49,6 @@ When no guide explains a symbol, set `see = "none"` explicitly. The reference re
 
 For plumbing, add an explicit reason under `[ignore]`, for example `"ButtonManager::dispatch" = "Host event delivery; apps register callbacks instead."`. Each ignored name must exist in at least one input set, and reasons cannot be blank. Target-only declarations must also have explicit ignore entries. Do not silently hide a callable name in parser code. Described and ignored names cannot overlap. If a target-only name becomes shared, review its ignore reason and add a portable description when appropriate.
 
+For plumbing that exists only in an upcoming firmware release, use `[ignore_next]` with the same reason format. Its entries are accepted whether or not the checked firmware has the name, because docs CI checks the latest release while the next one is being prepared. Once that release is the latest, move its entries to `[ignore]` and regenerate the JSON against the new tag.
+
 The tests use temporary sidecars to demonstrate rejection of a bogus symbol and a removed real description, plus output-drift rejection, anchor validation, parser visibility/overloads and provenance. They leave the real sidecar and generated outputs unchanged.
