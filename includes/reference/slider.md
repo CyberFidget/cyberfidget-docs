@@ -13,5 +13,8 @@
 | [`int sliderPosition_8Bits_Inverted_Filtered`](../reference/functions.md#symbol-sliderposition-8bits-inverted-filtered)<br><small>*Example:* `sliderPosition_8Bits_Inverted_Filtered`</small> | Slider 0-255. Direction reversed. |
 | [`float sliderPosition_Percentage_Filtered`](../reference/functions.md#symbol-sliderposition-percentage-filtered)<br><small>*Example:* `sliderPosition_Percentage_Filtered`</small> | Slider 0-100 %. Smoothed on device. |
 | [`float sliderPosition_Percentage_Inverted_Filtered`](../reference/functions.md#symbol-sliderposition-percentage-inverted-filtered)<br><small>*Example:* `sliderPosition_Percentage_Inverted_Filtered`</small> | Slider 0-100 %. Direction reversed. |
+| [`int sliderPercent()`](../reference/functions.md#symbol-sliderpercent)<br><small>*Example:* `sliderPercent()`</small> | Slider position as a whole number: 0 at the bottom, 100 at the top. Always within 0-100. |
+| [`int slider255()`](../reference/functions.md#symbol-slider255)<br><small>*Example:* `slider255()`</small> | Slider position as a whole number: 0 at the bottom, 255 at the top. Always within 0-255. |
+| [`int slider4095()`](../reference/functions.md#symbol-slider4095)<br><small>*Example:* `slider4095()`</small> | Slider position as a whole number: 0 at the bottom, 4095 at the top. Always within 0-4095. |
 
 </div>

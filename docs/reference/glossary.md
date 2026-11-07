@@ -34,14 +34,14 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **FPS** | Frames Per Second -- the emulator runs at 50 FPS like the real device. |
 | **FreeRTOS** | Free Real-Time Operating System -- the RTOS layer used by ESP-IDF under the hood. |
 | **GPIO** | General-Purpose Input/Output -- physical pins used for buttons, etc. |
-| **GPU** | Graphics Processing Unit -- when the phone's browser exposes it, the companion transcribes speech much faster. |
+| **GPU** | Graphics Processing Unit -- when your browser exposes it, the companion transcribes speech much faster. |
 | **HAL** | Hardware Abstraction Layer -- the layer that swaps ESP32 drivers for browser equivalents in the emulator. |
 | **Harmonics** | Quieter extra pitches at 2x, 3x, 4x... a note's frequency, mixed into the sound. A small speaker that cannot reproduce a low note can still play its harmonics, so the note stays recognizable but quieter. |
 | **Hz / kHz** | Hertz / kilohertz -- vibrations per second (1 kHz = 1000 Hz); the unit of pitch. Higher is a higher note. |
 | **I2C** | Inter-Integrated Circuit -- serial bus used for the OLED, accelerometer, and fuel gauge. |
 | **I2S** | Inter-IC Sound -- digital audio bus used for the speaker amplifier and MEMS microphone. |
 | **IDE** | Integrated Development Environment -- e.g. the App Builder on the website. |
-| **IndexedDB** | A database built into the browser. The studio uses it for built apps; the phone companion uses it for its transcription download. |
+| **IndexedDB** | A database built into the browser. The studio uses it for built apps; the companion uses it for its transcription download. |
 | **IPv4 / IPv6** | Internet Protocol version 4 / version 6 - the two kinds of network address. IPv4 is the familiar four-number form, like `192.168.4.1`; IPv6 is the newer, longer form. |
 | **JS** | JavaScript. |
 | **JSON** | JavaScript Object Notation - a structured text format for storing data. |
@@ -90,7 +90,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **WAV** | Waveform Audio File -- uncompressed audio format; plays on nearly any phone or computer with no special software. Voice Notes recordings are saved as WAV. |
 | **Web Serial** | A browser feature that lets a web page talk to a device over a USB serial connection. Available in desktop Chromium-based browsers such as Chrome and Edge. |
 | **WebAssembly** | Binary instruction format for the web; the emulator compiles C++ to WASM. |
-| **WebSocket** | A persistent two-way connection between a browser page and a server -- the phone companion's live caption link to the device. |
+| **WebSocket** | A persistent two-way connection between a browser page and a server -- the companion's live caption link to the device. |
 | **Wi-Fi** | Wireless Fidelity -- used for OTA and network features. |
 | **Wireframe** | A 3D shape drawn only as points and the straight lines between them, with no solid sides. |
 | **XBM** | X BitMap; a one-bit image format with on/off pixels stored in bytes. |
@@ -117,14 +117,16 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Callback** | A function you give the device to call for you when something happens, such as a button press. |
 | **Capture** | An item stored in a Studio project's captures. |
 | **Cel** | An animator's word for one picture of an animation; the studio names a sprite's frames `cel_0`, `cel_1` and so on in code. |
+| **cfsprite-regen** | The PlatformIO target (`pio run -t cfsprite-regen`) that rewrites every sprite header from its `.cfsprite.json` file. See [Sprite assets](../firmware/sprite-assets.md#step-3-regenerate-the-header). |
 | **Collision** | Two sprites touching, where a lit pixel of one sits on a lit pixel of the other. See [Sprites & Animation](../concepts/sprites.md#collision). |
-| **Companion page** | The phone companion's web page, built into firmware and optionally overridden from the memory card. |
+| **Companion page** | The companion's web page, built into firmware and optionally overridden from the memory card. |
 | **Compile** | Turn the code you wrote into a program the device (or the emulator) can run. |
 | **Computational thinking** | Ways of solving problems that suit computers: breaking them into pieces (decomposition), spotting patterns, leaving out detail you don't need, and writing step-by-step instructions. See [Make a game, step by step](../getting-started/make-a-game.md#step-0-plan-the-game). |
 | **const** | Marks a value that cannot be changed through this declaration; after a method signature, the method does not change its object. |
 | **const char*** | A pointer to text ending with a zero character; the characters cannot be changed through this pointer. |
 | **Core loop** | The action a player repeats all game long, such as moving a paddle to catch a dot. See [Make a game, step by step](../getting-started/make-a-game.md#2-group-the-ideas-by-what-they-do). |
 | **Decomposition** | Breaking a big problem or idea into small pieces you can solve one at a time. See [Make a game, step by step](../getting-started/make-a-game.md#step-0-plan-the-game). |
+| **Drift check** | A build step that regenerates each sprite header and fails if it no longer matches the committed file. See [Sprite assets](../firmware/sprite-assets.md#the-drift-check). |
 | **Emulator** | A copy of the device that runs in your browser, so you can try an app without a Cyber Fidget. |
 | **Firmware** | The built-in software that runs on the device. |
 | **Fixed-point** | Counting in fractions with whole numbers, for example 256 units per pixel, so movement can be smoother than one pixel at a time. |
@@ -133,6 +135,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Frame** | One picture in an animation sequence. |
 | **Frame rate** | Number of frames shown each second. |
 | **framebuffer** | A buffer that stores the pixel values for a screen image. |
+| **Generated header** | A C++ header file written by a tool from a source asset, so it is never edited by hand. See [Sprite assets](../firmware/sprite-assets.md). |
 | **GIF** | Graphics Interchange Format; an image file format that can store an animation. |
 | **GRBW** | Green, Red, Blue, White; the order used to send channels to the LED hardware. |
 | **int** | A signed whole number; on the device, -2,147,483,648 to 2,147,483,647. |
@@ -158,6 +161,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **potentiometer** | A variable resistor; moving the slider changes the voltage read by the device. |
 | **Project** | A person's Studio work, including its code, art, captures, and settings. |
 | **Project file** | A `.cfapp.json` file containing a whole Studio project. |
+| **Projection** | The step that works out where a point in 3D space lands on the flat screen, for the model's position, turn, size and perspective. See [3D model file format](cfmesh-format.md). |
 | **Pseudo-code** | The steps of a program written in plain words, laid out like code but not in any programming language. |
 | **rig** | Connected bones and poses used to animate a figure. |
 | **ring buffer** | A queue that reuses a fixed amount of memory. |
@@ -267,3 +271,4 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Bridge** | `wasm_bridge.js` -- glue between the WASM module and the on-screen emulator. |
 | **Serial Monitor** | A tool for reading serial messages from firmware over a cable. The studio panel is called Console; it shows build and run messages. Studio apps cannot use `Serial.println()`. |
 | **Shim** | A stub header (e.g. `Arduino.h`, `SSD1306Wire.h`) that replaces real hardware libraries so the same app code compiles for the browser. |
+| **Symbol prefix** | The part of a sprite file name before `.cfsprite.json`; it becomes the C++ namespace of the generated header. See [Sprite assets](../firmware/sprite-assets.md#step-2-put-it-in-the-apps-assets-folder). |

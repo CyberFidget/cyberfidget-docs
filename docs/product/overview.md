@@ -133,7 +133,7 @@ The MCU (microcontroller) is the small computer that runs your apps. For the ful
 
 </div>
 
-It also records [voice notes](../firmware/voice-recorder.md) to the memory card, pairs with your phone through the [Phone Companion](../firmware/companion.md), and serves a [Web Portal](../firmware/web-portal.md) you can open in a browser to manage music files.
+It also records [voice notes](../firmware/voice-recorder.md) to the memory card, pairs with your phone through the [Companion](../firmware/companion.md), and serves a [Web Portal](../firmware/web-portal.md) you can open in a browser to manage music files.
 
 ---
 

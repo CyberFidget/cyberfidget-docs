@@ -36,7 +36,7 @@ We welcome pull requests (proposed changes, sent through GitHub) for:
 
     Apps built into the firmware, and small demos that show off one part of the device.
 
-    [Firmware development](../firmware/index.md) | [Built-in apps](../software/apps.md)
+    [Firmware development](../firmware/index.md) | [Sprite assets](../firmware/sprite-assets.md) | [Built-in apps](../software/apps.md)
 
 -   **HAL improvements**
 

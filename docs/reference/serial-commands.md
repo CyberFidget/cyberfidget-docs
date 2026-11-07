@@ -8,6 +8,8 @@ A command the Fidget does not recognize is answered `[err] unknown command`, wit
 !!! tip "A console in the browser"
     The website's bench page, [cyberfidget.com/dev/chassis.html](https://cyberfidget.com/dev/chassis.html), is a serial console that needs no terminal program. It connects over Web Serial from a desktop Chromium-based browser (Chrome or Edge) at 921600 baud, waits for `version` to answer, and shows the Fidget's screen live. Type commands in **Command input** (Up and Down recall earlier ones), pick from the **Commands** list (a command with placeholders is copied into the input for you to finish), or read **Device help**, which lists the commands the connected Fidget's `help` reply names.
 
+The commands that scan for networks and save your WiFi over the cable (the ones `help.wifi` lists) are described in [Set up WiFi over USB](usb-wifi-setup.md).
+
 ## Commands in every build
 
 | Command and arguments | Reply format |
@@ -27,7 +29,7 @@ A command the Fidget does not recognize is answered `[err] unknown command`, wit
 | `upd slot` | `[cmd] upd.slot=<label> state=<state> boot=<label> other=<label> other_state=<state> pend_img=<0\|1> unsig_ok=<0\|1>` |
 | `upd allow-unsigned on\|off` | `[cmd] upd.unsig_ok=<1\|0\|error>`; invalid argument: `[err] upd.usage=upd allow-unsigned on\|off` |
 
-The file commands below use paths inside `/apps/` or `/assets/`. CRC-32 is a checksum used to detect damaged bytes. `fwdata` and `lapply` require raw bytes after their command header; `fread` and `lget` return raw bytes after the header. A plain text terminal is useful for inspecting them, but file transfers need a program that handles those bytes and checksums. See the firmware's sync protocol for complete transfer and error rules.
+The file commands below use paths inside `/apps/` or `/assets/`. They work on the Fidget's internal storage, not the memory card (see [Storage & SD](../software/storage.md)). CRC-32 is a checksum used to detect damaged bytes. `fwdata` and `lapply` require raw bytes after their command header; `fread` and `lget` return raw bytes after the header. A plain text terminal is useful for inspecting them, but file transfers need a program that handles those bytes and checksums. See the firmware's sync protocol for complete transfer and error rules.
 
 | Command and arguments | Reply format |
 | --- | --- |

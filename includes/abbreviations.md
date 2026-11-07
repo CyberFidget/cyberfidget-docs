@@ -93,7 +93,7 @@
 *[share sheet]: The list of apps your phone offers when you send something on to someone else
 *[animation state]: Named sequence of sprite frames for one action
 *[built app]: The runnable copy produced when Studio builds an app
-*[companion page]: The phone companion's web page, built into firmware and optionally overridden from the memory card
+*[companion page]: The companion's web page, built into firmware and optionally overridden from the memory card
 *[internal storage]: Storage built into the Cyber Fidget where apps live
 *[project file]: A .cfapp.json file containing a whole Studio project
 *[sprite]: Image or animation used by an app for a character, object, or effect
@@ -153,3 +153,8 @@
 *[core loop]: The action a player repeats all game long, such as moving a paddle to catch a dot
 *[juice]: Extra feedback, such as flashes, sounds and shakes, that makes an action in a game feel good
 *[accelerometer]: A motion sensor that measures acceleration, including gravity, so the device can tell tilt and shakes
+*[drift check]: A build step that regenerates each sprite header and fails if it no longer matches the committed file
+*[generated header]: A C++ header file written by a tool from a source asset, so it is never edited by hand
+*[cfsprite-regen]: The PlatformIO target that rewrites every sprite header from its .cfsprite.json file
+*[symbol prefix]: The part of a sprite file name before .cfsprite.json; it becomes the C++ namespace of the generated header
+*[projection]: The step that works out where a point in 3D space lands on the flat screen

@@ -1,6 +1,6 @@
 {
   "generated_from": {
-    "firmware_commit": "c50a6c5fe54667072358146d7df3e56f97199d4e",
+    "firmware_commit": "f6605e4fb70a12f67d8fd0920d061be2dc990773",
     "headers": [
       "lib/AudioManager/AudioManager.h",
       "lib/ButtonManager/ButtonManager.h",
@@ -716,7 +716,7 @@
           "signature": "bool hasCallback(int buttonIndex) const",
           "kind": "method",
           "header": "lib/ButtonManager/ButtonManager.h",
-          "line": 113,
+          "line": 121,
           "target": "emulator"
         }
       ]
@@ -778,7 +778,7 @@
           "signature": "void registerCallback(int buttonIndex, ButtonCallback callback)",
           "kind": "method",
           "header": "lib/ButtonManager/ButtonManager.h",
-          "line": 95,
+          "line": 103,
           "target": "emulator"
         }
       ]
@@ -809,7 +809,69 @@
           "signature": "void unregisterCallback(int buttonIndex)",
           "kind": "method",
           "header": "lib/ButtonManager/ButtonManager.h",
-          "line": 96,
+          "line": 104,
+          "target": "emulator"
+        }
+      ]
+    },
+    {
+      "name": "ButtonManager::wasPressed",
+      "signature": "bool wasPressed(int buttonIndex) const",
+      "kind": "method",
+      "section": "Buttons",
+      "use": "buttonManager.wasPressed(button_RightIndex);",
+      "does": "Read whether the button was pressed since the previous update(); true for one update() only.",
+      "see": "../concepts/buttons.md#event-types",
+      "targets": [
+        "device",
+        "emulator"
+      ],
+      "declarations": [
+        {
+          "name": "ButtonManager::wasPressed",
+          "signature": "bool wasPressed(int buttonIndex) const",
+          "kind": "method",
+          "header": "wasm/device_module/shims/ButtonManager.h",
+          "line": 68,
+          "target": "device"
+        },
+        {
+          "name": "ButtonManager::wasPressed",
+          "signature": "bool wasPressed(int buttonIndex) const",
+          "kind": "method",
+          "header": "lib/ButtonManager/ButtonManager.h",
+          "line": 90,
+          "target": "emulator"
+        }
+      ]
+    },
+    {
+      "name": "ButtonManager::wasReleased",
+      "signature": "bool wasReleased(int buttonIndex) const",
+      "kind": "method",
+      "section": "Buttons",
+      "use": "buttonManager.wasReleased(button_RightIndex);",
+      "does": "Read whether the button was released since the previous update(); true for one update() only.",
+      "see": "../concepts/buttons.md#event-types",
+      "targets": [
+        "device",
+        "emulator"
+      ],
+      "declarations": [
+        {
+          "name": "ButtonManager::wasReleased",
+          "signature": "bool wasReleased(int buttonIndex) const",
+          "kind": "method",
+          "header": "wasm/device_module/shims/ButtonManager.h",
+          "line": 71,
+          "target": "device"
+        },
+        {
+          "name": "ButtonManager::wasReleased",
+          "signature": "bool wasReleased(int buttonIndex) const",
+          "kind": "method",
+          "header": "lib/ButtonManager/ButtonManager.h",
+          "line": 91,
           "target": "emulator"
         }
       ]
@@ -1468,7 +1530,7 @@
           "signature": "AudioManager& audioManager()",
           "kind": "function",
           "header": "wasm/device_module/shims/HAL.h",
-          "line": 53,
+          "line": 75,
           "target": "device"
         },
         {
@@ -1476,7 +1538,7 @@
           "signature": "AudioManager& audioManager()",
           "kind": "function",
           "header": "lib/HAL/HAL.h",
-          "line": 91,
+          "line": 113,
           "target": "emulator"
         }
       ]
@@ -1499,7 +1561,7 @@
           "signature": "ButtonManager& buttonManager()",
           "kind": "function",
           "header": "wasm/device_module/shims/HAL.h",
-          "line": 52,
+          "line": 74,
           "target": "device"
         },
         {
@@ -1507,7 +1569,7 @@
           "signature": "ButtonManager& buttonManager()",
           "kind": "function",
           "header": "lib/HAL/HAL.h",
-          "line": 92,
+          "line": 114,
           "target": "emulator"
         }
       ]
@@ -1530,7 +1592,7 @@
           "signature": "void clearDisplay()",
           "kind": "function",
           "header": "wasm/device_module/shims/HAL.h",
-          "line": 55,
+          "line": 77,
           "target": "device"
         },
         {
@@ -1538,7 +1600,7 @@
           "signature": "void clearDisplay()",
           "kind": "function",
           "header": "lib/HAL/HAL.h",
-          "line": 149,
+          "line": 171,
           "target": "emulator"
         }
       ]
@@ -1561,7 +1623,7 @@
           "signature": "DisplayProxy& displayProxy()",
           "kind": "function",
           "header": "wasm/device_module/shims/HAL.h",
-          "line": 51,
+          "line": 73,
           "target": "device"
         },
         {
@@ -1569,7 +1631,7 @@
           "signature": "DisplayProxy& displayProxy()",
           "kind": "function",
           "header": "lib/HAL/HAL.h",
-          "line": 147,
+          "line": 169,
           "target": "emulator"
         }
       ]
@@ -1592,7 +1654,7 @@
           "signature": "void drawString(int16_t x, int16_t y, const String& text)",
           "kind": "function",
           "header": "wasm/device_module/shims/HAL.h",
-          "line": 57,
+          "line": 79,
           "target": "device"
         },
         {
@@ -1600,7 +1662,7 @@
           "signature": "void drawString(int16_t x, int16_t y, const String &text)",
           "kind": "function",
           "header": "lib/HAL/HAL.h",
-          "line": 151,
+          "line": 173,
           "target": "emulator"
         }
       ]
@@ -1623,7 +1685,7 @@
           "signature": "void setRgbLed(int index, uint8_t r, uint8_t g, uint8_t b, uint8_t w)",
           "kind": "function",
           "header": "wasm/device_module/shims/HAL.h",
-          "line": 58,
+          "line": 80,
           "target": "device"
         },
         {
@@ -1631,7 +1693,7 @@
           "signature": "void setRgbLed(int index, uint8_t r, uint8_t g, uint8_t b, uint8_t w)",
           "kind": "function",
           "header": "lib/HAL/HAL.h",
-          "line": 136,
+          "line": 158,
           "target": "emulator"
         }
       ]
@@ -1654,7 +1716,7 @@
           "signature": "void setRgbLedsOff()",
           "kind": "function",
           "header": "wasm/device_module/shims/HAL.h",
-          "line": 59,
+          "line": 81,
           "target": "device"
         },
         {
@@ -1662,7 +1724,7 @@
           "signature": "void setRgbLedsOff()",
           "kind": "function",
           "header": "lib/HAL/HAL.h",
-          "line": 137,
+          "line": 159,
           "target": "emulator"
         }
       ]
@@ -1685,7 +1747,7 @@
           "signature": "void updateDisplay()",
           "kind": "function",
           "header": "wasm/device_module/shims/HAL.h",
-          "line": 56,
+          "line": 78,
           "target": "device"
         },
         {
@@ -1693,7 +1755,7 @@
           "signature": "void updateDisplay()",
           "kind": "function",
           "header": "lib/HAL/HAL.h",
-          "line": 150,
+          "line": 172,
           "target": "emulator"
         }
       ]
@@ -6422,6 +6484,37 @@
       ]
     },
     {
+      "name": "setLed",
+      "signature": "inline void setLed(int index, uint8_t r, uint8_t g, uint8_t b, uint8_t w)",
+      "kind": "function",
+      "section": "LEDs",
+      "use": "setLed(pixel_Front_Middle, 0, 0, 255, 0);",
+      "does": "Short form of HAL::setRgbLed(): set one RGBW LED; red, green, blue, white channels each use 0-255.",
+      "see": "../concepts/leds.md#setting-colors",
+      "targets": [
+        "device",
+        "emulator"
+      ],
+      "declarations": [
+        {
+          "name": "setLed",
+          "signature": "inline void setLed(int index, uint8_t r, uint8_t g, uint8_t b, uint8_t w)",
+          "kind": "function",
+          "header": "wasm/device_module/shims/HAL.h",
+          "line": 84,
+          "target": "device"
+        },
+        {
+          "name": "setLed",
+          "signature": "inline void setLed(int index, uint8_t r, uint8_t g, uint8_t b, uint8_t w)",
+          "kind": "function",
+          "header": "lib/HAL/HAL.h",
+          "line": 183,
+          "target": "emulator"
+        }
+      ]
+    },
+    {
       "name": "setRandomColors",
       "signature": "void setRandomColors()",
       "kind": "function",
@@ -6448,6 +6541,99 @@
           "kind": "function",
           "header": "lib/RGBController/RGBController.h",
           "line": 20,
+          "target": "emulator"
+        }
+      ]
+    },
+    {
+      "name": "slider255",
+      "signature": "inline int slider255()",
+      "kind": "function",
+      "section": "Slider",
+      "use": "slider255()",
+      "does": "Slider position as a whole number: 0 at the bottom, 255 at the top. Always within 0-255.",
+      "see": "../concepts/slider.md#global-variables",
+      "targets": [
+        "device",
+        "emulator"
+      ],
+      "declarations": [
+        {
+          "name": "slider255",
+          "signature": "inline int slider255()",
+          "kind": "function",
+          "header": "wasm/device_module/shims/HAL.h",
+          "line": 59,
+          "target": "device"
+        },
+        {
+          "name": "slider255",
+          "signature": "inline int slider255()",
+          "kind": "function",
+          "header": "lib/HAL/HAL.h",
+          "line": 75,
+          "target": "emulator"
+        }
+      ]
+    },
+    {
+      "name": "slider4095",
+      "signature": "inline int slider4095()",
+      "kind": "function",
+      "section": "Slider",
+      "use": "slider4095()",
+      "does": "Slider position as a whole number: 0 at the bottom, 4095 at the top. Always within 0-4095.",
+      "see": "../concepts/slider.md#global-variables",
+      "targets": [
+        "device",
+        "emulator"
+      ],
+      "declarations": [
+        {
+          "name": "slider4095",
+          "signature": "inline int slider4095()",
+          "kind": "function",
+          "header": "wasm/device_module/shims/HAL.h",
+          "line": 65,
+          "target": "device"
+        },
+        {
+          "name": "slider4095",
+          "signature": "inline int slider4095()",
+          "kind": "function",
+          "header": "lib/HAL/HAL.h",
+          "line": 81,
+          "target": "emulator"
+        }
+      ]
+    },
+    {
+      "name": "sliderPercent",
+      "signature": "inline int sliderPercent()",
+      "kind": "function",
+      "section": "Slider",
+      "use": "sliderPercent()",
+      "does": "Slider position as a whole number: 0 at the bottom, 100 at the top. Always within 0-100.",
+      "see": "../concepts/slider.md#global-variables",
+      "targets": [
+        "device",
+        "emulator"
+      ],
+      "declarations": [
+        {
+          "name": "sliderPercent",
+          "signature": "inline int sliderPercent()",
+          "kind": "function",
+          "header": "wasm/device_module/shims/HAL.h",
+          "line": 51,
+          "target": "device"
+        },
+        {
+          "name": "sliderPercent",
+          "signature": "inline int sliderPercent()",
+          "kind": "function",
+          "header": "lib/HAL/HAL.h",
+          "line": 67,
           "target": "emulator"
         }
       ]

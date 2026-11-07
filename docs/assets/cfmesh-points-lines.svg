@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 600" width="560" height="600" role="img" aria-labelledby="t d">
+  <title id="t">The pyramid model's points and lines, and where each one is listed in the file</title>
+  <desc id="d">A wireframe pyramid with its five points numbered 0 to 4. Below it are the file's vertices list (five rows, numbered 0 to 4) and edges list (eight rows, numbered 0 to 7). Arrows join point 0 to vertices row 0, point 4 to vertices row 4, the line from point 0 to point 1 to edges row 0, and the line from point 1 to point 4 to edges row 5.</desc>
+  <!-- CC BY-SA 4.0, Cyber Fidget documentation. The pyramid is the example file on the 3D model file format page, drawn turned a little so all five points show. -->
+  <defs>
+    <marker id="pt" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#ffd24a"/></marker>
+    <marker id="ln" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#4dd0e1"/></marker>
+  </defs>
+  <rect width="560" height="600" fill="#1e2129"/>
+
+  <!-- The pyramid: the lines to point 2 are at the back, so they are dashed. -->
+  <g stroke="#9aa3b2" stroke-width="2" fill="none">
+    <line x1="389.5" y1="211.7" x2="313.5" y2="167.5" stroke-dasharray="6 5"/>
+    <line x1="313.5" y1="167.5" x2="170.5" y2="191"   stroke-dasharray="6 5"/>
+    <line x1="313.5" y1="167.5" x2="280"   y2="64.4"  stroke-dasharray="6 5"/>
+    <line x1="170.5" y1="191"   x2="246.5" y2="235.2"/>
+    <line x1="246.5" y1="235.2" x2="280"   y2="64.4"/>
+    <line x1="170.5" y1="191"   x2="280"   y2="64.4"/>
+  </g>
+  <!-- The two example lines: [0, 1] and [1, 4]. -->
+  <g stroke="#4dd0e1" stroke-width="4" fill="none">
+    <line x1="246.5" y1="235.2" x2="389.5" y2="211.7"/>
+    <line x1="389.5" y1="211.7" x2="280"   y2="64.4"/>
+  </g>
+
+  <!-- The points, numbered. -->
+  <g font-family="Roboto Mono, Consolas, monospace" font-size="15" font-weight="700" text-anchor="middle">
+    <g fill="#1e2129" stroke="#9aa3b2" stroke-width="2">
+      <circle cx="389.5" cy="211.7" r="12"/>
+      <circle cx="313.5" cy="167.5" r="12"/>
+      <circle cx="170.5" cy="191"   r="12"/>
+    </g>
+    <g fill="#1e2129" stroke="#ffd24a" stroke-width="3">
+      <circle cx="246.5" cy="235.2" r="12"/>
+      <circle cx="280"   cy="64.4"  r="12"/>
+    </g>
+    <text x="246.5" y="240.5" fill="#ffd24a">0</text>
+    <text x="389.5" y="217"   fill="#ffffff">1</text>
+    <text x="313.5" y="172.8" fill="#ffffff">2</text>
+    <text x="170.5" y="196.3" fill="#ffffff">3</text>
+    <text x="280"   y="69.7"  fill="#ffd24a">4</text>
+  </g>
+
+  <!-- Arrows from the drawing to the lists. -->
+  <g fill="none" stroke-width="2">
+    <path d="M238 248 C 220 290, 200 320, 172 362" stroke="#ffd24a" marker-end="url(#pt)"/>
+    <path d="M267 58 C 150 30, 14 90, 14 300 L 14 466 Q 14 479, 26 479" stroke="#ffd24a" marker-end="url(#pt)"/>
+    <path d="M322 228 C 340 280, 425 300, 424 360" stroke="#4dd0e1" marker-end="url(#ln)"/>
+    <path d="M338 136 C 470 110, 546 200, 546 380 L 546 494 Q 546 507, 533 507 L 440 507" stroke="#4dd0e1" marker-end="url(#ln)"/>
+  </g>
+  <g font-family="Roboto, Arial, sans-serif" font-size="14" fill="#c9ced8">
+    <text x="410" y="168">line [1, 4]</text>
+    <text x="300" y="262">line [0, 1]</text>
+  </g>
+
+  <!-- The two lists, as they are in the file. -->
+  <g font-family="Roboto Mono, Consolas, monospace" font-size="17" xml:space="preserve">
+    <text x="34" y="340" fill="#ffffff" font-weight="700">"vertices"</text>
+    <text x="330" y="340" fill="#ffffff" font-weight="700">"edges"</text>
+    <g fill="#7d8594" font-size="14" text-anchor="end">
+      <text x="50" y="378">0</text><text x="50" y="406">1</text><text x="50" y="434">2</text><text x="50" y="462">3</text><text x="50" y="490">4</text>
+      <text x="346" y="378">0</text><text x="346" y="406">1</text><text x="346" y="434">2</text><text x="346" y="462">3</text>
+      <text x="346" y="490">4</text><text x="346" y="518">5</text><text x="346" y="546">6</text><text x="346" y="574">7</text>
+    </g>
+    <text x="62" y="378" fill="#ffd24a" font-weight="700">[-9, -6, -9]</text>
+    <text x="62" y="406" fill="#c9ced8">[ 9, -6, -9]</text>
+    <text x="62" y="434" fill="#c9ced8">[ 9, -6,  9]</text>
+    <text x="62" y="462" fill="#c9ced8">[-9, -6,  9]</text>
+    <text x="62" y="490" fill="#ffd24a" font-weight="700">[ 0, 10,  0]</text>
+    <text x="358" y="378" fill="#4dd0e1" font-weight="700">[0, 1]</text>
+    <text x="358" y="406" fill="#c9ced8">[1, 2]</text>
+    <text x="358" y="434" fill="#c9ced8">[2, 3]</text>
+    <text x="358" y="462" fill="#c9ced8">[3, 0]</text>
+    <text x="358" y="490" fill="#c9ced8">[0, 4]</text>
+    <text x="358" y="518" fill="#4dd0e1" font-weight="700">[1, 4]</text>
+    <text x="358" y="546" fill="#c9ced8">[2, 4]</text>
+    <text x="358" y="574" fill="#c9ced8">[3, 4]</text>
+  </g>
+  <g font-family="Roboto, Arial, sans-serif" font-size="13" fill="#7d8594">
+    <text x="34" y="530">grey numbers: each row's</text>
+    <text x="34" y="548">place in its list, counting</text>
+    <text x="34" y="566">from 0 (not in the file)</text>
+  </g>
+</svg>
