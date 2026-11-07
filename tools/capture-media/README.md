@@ -88,13 +88,14 @@ The tool drives a real device, so a missed press or a changed menu must not open
 
 | Guard | What it does |
 |-------|--------------|
-| Enter needs a matching screen | `enter:<name>` captures the screen and presses Enter only if it matches the reference frame `<expect>/<name>.png` (`--expect`, default `--out`), ignoring the status row at the top. Otherwise the run stops without pressing. With no reference frame it stops too, unless `--allow-unchecked-enter` is given, for building a new walk one screen at a time. `btn:5` is refused. |
-| Never on the update popup | Enter is never pressed while the update popup is on screen. |
-| Never in an erasing app | Enter is never pressed while the running app (the device's `app` answer) is **Reset to factory**. |
+| Enter needs a matching screen | `enter:<name>` captures the screen and presses Enter only if it matches the reference frame `<expect>/<name>.png` (`--expect`, default `--out`), ignoring the status row at the top. The check comes first: a passing screen is then written as `<name>.png`, and a refused one goes to `rejected/<name>.png` in the output folder, so it never replaces a reference. With no reference frame the run stops too, unless `--allow-unchecked-enter` is given, for building a new walk one screen at a time. A `shot:` and an `enter:` with the same name in one folder are refused. |
+| Never on the update popup | While the update popup is on screen only up and down are pressed: Enter, back and the middle buttons are refused. |
+| Never in an erasing app | No button at all is pressed while the running app (the device's `app` answer) is **Reset to factory**, and `cmd:launch Reset to factory` is refused. |
+| No way round | `btn:5` and every `cmd:btn ...` are refused: buttons go through `btn:<index>` or `enter:<name>`, which run the checks above. |
 | Speaker EQ put back | Left and right change the saved preset on the Speaker EQ screen. The first time they are pressed there, the tool remembers the screen; at the end of the run, also after an error or Ctrl+C, it opens Speaker EQ again and steps until the screen matches. |
-| Awake setting put back | The awake setting is read at the start (`awake`) and set back at the end. If it was off, the device is kept awake during the run. |
+| Awake setting put back | The awake setting is read at the start (`awake`), inside the same protection as the steps. If it was off, the device is kept awake during the run and the setting is set back at the end, also after an error or Ctrl+C. Any other setting is left alone. |
 
-When the reference frames are the frames being captured (`--out` and `--expect` the same folder, as in the command below), each reference is read before the new frame is written over it. Commit new frames only after looking at them.
+The checks have offline tests with a stand-in device: `python -m unittest test_device_screens` from this folder. Commit new frames only after looking at them.
 
 ### Clips of device screens
 
