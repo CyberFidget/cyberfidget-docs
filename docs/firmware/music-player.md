@@ -10,8 +10,8 @@ Think of it like an iPod that connects to a Bluetooth speaker:
 
 1. **Pair** with a BT speaker (scan or pick a remembered device)
 2. **Browse** your music library with ID3 metadata (artist, title)
-3. **Play** — the ESP32 decodes MP3 in real-time and streams it over Bluetooth
-4. **Control** — play/pause, next/prev, shuffle, volume via the physical slider
+3. **Play** - the ESP32 decodes MP3 in real-time and streams it over Bluetooth
+4. **Control** - play/pause, next/prev, shuffle, volume via the physical slider
 
 The player UI runs on the 128x64 OLED with a menu system inspired by the classic iPod click wheel navigation.
 
@@ -60,7 +60,7 @@ stateDiagram-v2
 ```
 
 !!! tip "Back from Now Playing keeps playing"
-    Pressing Back in the player screen returns to the main menu but **doesn't stop playback**. Music keeps streaming in the background. This matches the iPod behavior — you can browse while listening.
+    Pressing Back in the player screen returns to the main menu but **doesn't stop playback**. Music keeps streaming in the background. This matches the iPod behavior - you can browse while listening.
 
 ---
 
@@ -79,7 +79,7 @@ flowchart TB
 
 The pipeline is driven by calling `pPlayer->copy()` every `update()` cycle (~50Hz). Each call reads a chunk from SD, decodes MP3 frames, and writes PCM samples to the A2DP buffer. The BT stack's internal callback drains the buffer and transmits over the air.
 
-The `SpectrumAnalyzer` is a custom `ModifyingStream` that replaced the original `VolumeMeter`. It provides both `volumeRatio()` (0.0–1.0 peak amplitude) for LED reactive effects and `bands()[16]` (16-band FFT frequency spectrum) for the OLED visualizer. Audio passes through unchanged — zero latency, zero quality impact. See [LED Effects & Visualizer](led-effects.md) for details.
+The `SpectrumAnalyzer` is a custom `ModifyingStream` that replaced the original `VolumeMeter`. It provides both `volumeRatio()` (0.0-1.0 peak amplitude) for LED reactive effects and `bands()[16]` (16-band FFT frequency spectrum) for the OLED visualizer. Audio passes through unchanged - zero latency, zero quality impact. See [LED Effects & Visualizer](led-effects.md) for details.
 
 !!! warning "Pipeline objects are never destroyed"
     The A2DPStream, AudioPlayer, and AudioSourceIdxSD are heap-allocated once and kept alive for the entire app lifetime. Deleting them after active playback causes crashes due to internal FreeRTOS tasks and ring buffers that can't be cleanly shut down. See the [BT A2DP Guide](bt-a2dp-guide.md) for details.
@@ -111,7 +111,7 @@ Supported commands:
     AVRCP callbacks fire from the BTC FreeRTOS task, not the main Arduino loop. The callback sets a `volatile uint8_t pendingAvrcCmd` flag, which is consumed and dispatched in `update()`. This avoids cross-task race conditions on audio pipeline state.
 
 !!! note "Speaker compatibility"
-    Not all BT speakers send AVRCP commands when buttons are pressed. Some only support A2DP audio without AVRCP at all. The feature is additive — if the speaker doesn't send commands, nothing happens and physical CyberFidget buttons still work normally.
+    Not all BT speakers send AVRCP commands when buttons are pressed. Some only support A2DP audio without AVRCP at all. The feature is additive - if the speaker doesn't send commands, nothing happens and physical CyberFidget buttons still work normally.
 
 ---
 
@@ -119,7 +119,7 @@ Supported commands:
 
 ### Scanning
 
-The `BTScanner` class uses raw ESP-IDF GAP APIs (`esp_bt_gap_start_discovery()`) to find nearby Bluetooth audio devices. Results are filtered by Class of Device (COD) — specifically `ESP_BT_COD_SRVC_RENDERING` which indicates audio sink capability.
+The `BTScanner` class uses raw ESP-IDF GAP APIs (`esp_bt_gap_start_discovery()`) to find nearby Bluetooth audio devices. Results are filtered by Class of Device (COD) - specifically `ESP_BT_COD_SRVC_RENDERING` which indicates audio sink capability.
 
 Scan results show device names with signal strength bars (based on RSSI).
 
@@ -196,7 +196,7 @@ Hold the left or right button for 500ms to start scrubbing backward or forward w
 
 Tap (quick press and release < 500ms) still triggers previous/next track.
 
-The seek uses the Arduino SD `File::seek()` on the underlying stream (`pPlayer->getStream()` cast to `File*`). The MP3 decoder re-syncs automatically after the jump — there may be a brief audio artifact (~50ms) at the seek point.
+The seek uses the Arduino SD `File::seek()` on the underlying stream (`pPlayer->getStream()` cast to `File*`). The MP3 decoder re-syncs automatically after the jump - there may be a brief audio artifact (~50ms) at the seek point.
 
 ---
 

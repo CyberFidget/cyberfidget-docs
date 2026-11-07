@@ -1,6 +1,6 @@
 # Web Portal
 
-The Web Portal turns the CyberFidget into a WiFi access point with a captive portal, giving you a browser-based interface to manage music files, create playlists, and preview tracks — all from your phone. It can also join your home WiFi network for easy access at `cyberfidget.local`.
+The Web Portal turns the CyberFidget into a WiFi access point with a captive portal, giving you a browser-based interface to manage music files, create playlists, and preview tracks - all from your phone. It can also join your home WiFi network for easy access at `cyberfidget.local`.
 
 ---
 
@@ -11,7 +11,7 @@ Connect your phone to your Fidget's own WiFi network (named `CyberFidget-` plus 
 1. **Upload** MP3 files via drag-and-drop
 2. **Browse** your music library with real ID3 metadata (title, artist, album)
 3. **Play** tracks through your phone's speaker (web audio)
-4. **Manage** files — move, delete, create folders
+4. **Manage** files - move, delete, create folders
 5. **Build playlists** in M3U format that persist on the SD card
 6. **Connect to WiFi** -- save up to three networks (home, school, a phone hotspot) for check-ins, updates, and `cyberfidget.local` access
 
@@ -76,7 +76,7 @@ flowchart TB
 The portal runs in **AP+STA dual mode** (`WIFI_AP_STA`):
 
 - **Access Point** -- the Fidget's own network, `CyberFidget-` plus the 4 characters shown on its screen, is always available. Any device can connect directly and access the portal at `192.168.4.1`.
-- **Station** — If you have saved a WiFi network, the CyberFidget also joins it. This makes the portal accessible at `cyberfidget.local` or the device's LAN IP from any device on your network. The portal joins the first saved network straight away, without scanning, so its own network stays responsive while it starts.
+- **Station** - If you have saved a WiFi network, the CyberFidget also joins it. This makes the portal accessible at `cyberfidget.local` or the device's LAN IP from any device on your network. The portal joins the first saved network straight away, without scanning, so its own network stays responsive while it starts.
 
 Saved networks (up to three) are stored in NVS (non-volatile storage), the device's small settings area in flash, and survive restarts. See [Saved WiFi networks](#saved-wifi-networks) for how they are ordered and managed.
 
@@ -142,7 +142,7 @@ Media files live under `/media/` with arbitrary nesting:
     └── track.mp3                 ← user-defined folders
 ```
 
-The Music Player's `AudioSourceIdxSD` and `ID3Scanner` both scan `/media/` recursively — any `.mp3` file at any depth is discovered.
+The Music Player's `AudioSourceIdxSD` and `ID3Scanner` both scan `/media/` recursively - any `.mp3` file at any depth is discovered.
 
 The `/web/` folder is separate. It holds the companion's compressed
 speech-recognition payload (`engine.worker.js.gz` and `vendor/`) for captions
@@ -150,7 +150,7 @@ and note transcription. It may also hold a companion page override, but live
 listening uses the page built into the firmware unless the card's copy is newer.
 
 !!! tip "Organize however you want"
-    The scanner doesn't care about folder structure. Flat files, nested by artist/album, or any combination — it all works. Folders are just for your own organization.
+    The scanner doesn't care about folder structure. Flat files, nested by artist/album, or any combination - it all works. Folders are just for your own organization.
 
 ---
 
@@ -255,13 +255,13 @@ The list is built from `/recordings/index.csv` (written by the Voice Notes app, 
 The default view shows all tracks in a sortable, searchable table with columns for title, artist, album, and size. Data comes from `/api/tracks` with real ID3 metadata.
 
 Each track has action buttons (visible on hover/tap):
-- **Play** — streams audio through your browser
-- **+PL** — add to a playlist via dropdown
-- **Del** — delete with confirmation
+- **Play** - streams audio through your browser
+- **+PL** - add to a playlist via dropdown
+- **Del** - delete with confirmation
 
 ### Web audio player
 
-Tracks are served directly from the SD card via `serveStatic("/media/", SD, "/media/")`. The browser's native `<audio>` element handles decoding — zero CPU cost on the ESP32.
+Tracks are served directly from the SD card via `serveStatic("/media/", SD, "/media/")`. The browser's native `<audio>` element handles decoding - zero CPU cost on the ESP32.
 
 The player bar shows:
 - Now-playing title and artist
@@ -275,15 +275,15 @@ Playing any track auto-builds a queue from all loaded tracks, so next/prev cycle
 
 The **Voice notes** tab lists every recording made by the [Voice Notes](voice-recorder.md) app, newest first, reading metadata straight from `/recordings/index.csv`. Each note shows its date, length, and size, with:
 
-- **Play** — a native `<audio>` element streams the WAV straight from the SD card (`serveStatic("/recordings/", SD, "/recordings/")`), with scrubbing for free. WAV was chosen in part so every browser can play it with zero transcoding.
-- **Download** — saves the original `.wav` to your phone or computer.
-- **Rename** — renames the file and rewrites the matching `index.csv` row (and any transcript sidecar) in lockstep, so a note never loses its metadata. Reuses `/api/move`, constrained to flat `.wav` names within `/recordings/`.
-- **Delete** — removes the `.wav`, its `index.csv` row, and any transcript sidecar together. Reuses `/api/delete`.
+- **Play** - a native `<audio>` element streams the WAV straight from the SD card (`serveStatic("/recordings/", SD, "/recordings/")`), with scrubbing for free. WAV was chosen in part so every browser can play it with zero transcoding.
+- **Download** - saves the original `.wav` to your phone or computer.
+- **Rename** - renames the file and rewrites the matching `index.csv` row (and any transcript sidecar) in lockstep, so a note never loses its metadata. Reuses `/api/move`, constrained to flat `.wav` names within `/recordings/`.
+- **Delete** - removes the `.wav`, its `index.csv` row, and any transcript sidecar together. Reuses `/api/delete`.
 
-Everything stays on the card and in your own browser — no recording audio, filename, or transcript ever touches a project server. The tab shows "Insert a memory card..." when no card is mounted and "No voice notes yet..." when the card has none.
+Everything stays on the card and in your own browser - no recording audio, filename, or transcript ever touches a project server. The tab shows "Insert a memory card..." when no card is mounted and "No voice notes yet..." when the card has none.
 
 !!! note "Device clock and timestamps"
-    The Cyber Fidget has no battery-backed real-time clock, so on a cold boot it doesn't know the date. When the portal page loads it POSTs the browser's wall-clock to `/api/time` (`settimeofday`), so any recording made afterwards lands a real timestamp in `index.csv`. The browser sends a timezone-adjusted epoch so the device — which keeps time as UTC — records your *local* wall-clock time. Recordings made before the first portal visit of a session stay stamped "No date". In "Deep Sleep" on mainboard v1.2, the clock may drift up to ~2 seconds per day / 1 minute per month (ESP32 internal real-time clock is rated +/- 20 parts per million drift at 32kHz).
+    The Cyber Fidget has no battery-backed real-time clock, so on a cold boot it doesn't know the date. When the portal page loads it POSTs the browser's wall-clock to `/api/time` (`settimeofday`), so any recording made afterwards lands a real timestamp in `index.csv`. The browser sends a timezone-adjusted epoch so the device - which keeps time as UTC - records your *local* wall-clock time. Recordings made before the first portal visit of a session stay stamped "No date". In "Deep Sleep" on mainboard v1.2, the clock may drift up to ~2 seconds per day / 1 minute per month (ESP32 internal real-time clock is rated +/- 20 parts per million drift at 32kHz).
 
 ### Files
 
