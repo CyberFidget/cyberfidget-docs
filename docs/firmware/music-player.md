@@ -167,12 +167,15 @@ The Now Playing screen on the 128x64 OLED:
 
 ![The Now Playing screen on a Cyber Fidget playing through its speaker: spk, Now Playing and a battery reading 98 in the top bar, the song's artist and title scrolling below, > Playing under that, and the elapsed time 0:12, a progress bar and the remaining time -0:28 along the bottom](../assets/media/device-music-now-playing.png){ width="384" }
 
+In this picture the player had no artist or title from the playing song, so there is no artist row and the title row shows the song's library name, `Cyber Fidget - Demo Tones`.
+
 | Row | Shows | Position |
 |-----|-------|----------|
 | Header | `spk` (playing through the speaker) or a Bluetooth icon at the left, **Now Playing** in the middle, the battery as an outline with its percentage inside at the right (a lightning bolt beside it while charging) | top, y=0-13 |
-| Title | Artist and title (`Artist - Title`), scrolling as a marquee when too long | y=19 |
+| Artist | Artist name, when the playing song reports one (centered) | y=8 |
+| Title | Title from the playing song, scrolling as a marquee when too long. Without one: the library name (`Artist - Title` from the song's tags, the title alone, or the file name) | y=19 |
 | Status | Play state (`> Playing` or `|| Paused`), plus `[S]` when shuffle is on | y=31 |
-| Playhead | Elapsed time, progress bar, remaining time | y=47 |
+| Playhead | Elapsed time and remaining time, with the progress bar between them | y=47 (times), y=50 (bar) |
 
 - **Battery**: Programmatic outline with percentage text inside. Lightning bolt icon when charging.
 - **Marquee**: Long track titles scroll horizontally.

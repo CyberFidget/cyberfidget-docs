@@ -43,6 +43,7 @@ class FakeDevice:
         self.taps = []
         self.interrupt_after = interrupt_after
         self.recorded = []             # frames record_stop returns
+        self.start_error = None        # raised by record_start, after sending
 
     def _note(self, text):
         self.sent.append(text)
@@ -83,6 +84,8 @@ class FakeDevice:
 
     def record_start(self):
         self.sent.append("screenstream on")
+        if self.start_error:
+            raise self.start_error
 
     def record_stop(self):
         self.sent.append("screenstream off")
@@ -157,6 +160,29 @@ class GuardTests(unittest.TestCase):
         with self.assertRaises(ds.Stop):
             ds.run(dev, ["enter:list"], self.out, self.ref, allow_unchecked=True)
         self.assertEqual(dev.taps, [])
+
+    def test_popup_check_for_empty_or_unknown_app(self):
+        # Fail closed: without a known app name the popup check runs.
+        for name in ("", "Some New App"):
+            dev = FakeDevice([popup(), blank()], app=name)
+            with self.assertRaises(ds.Stop):
+                ds.run(dev, ["enter:list"], self.out, self.ref, allow_unchecked=True)
+            self.assertEqual(dev.taps, [])
+            dev = FakeDevice([popup(), blank()], app=name)
+            with self.assertRaises(ds.Stop):
+                ds.run(dev, ["btn:4"], self.out, self.ref)
+            self.assertEqual(dev.taps, [])
+
+    def test_stream_stopped_when_start_fails(self):
+        # The stream may already be on when the answer times out or Ctrl+C
+        # lands: the run still turns it off.
+        for error in (RuntimeError("no answer"), KeyboardInterrupt()):
+            dev = FakeDevice([frame("06")])
+            dev.start_error = error
+            with self.assertRaises(type(error)):
+                ds.run(dev, ["record:on", "wait:0", "record:off"], self.out, self.ref)
+            self.assertEqual(dev.sent.count("screenstream off"), 1)
+            self.assertEqual(dev.sent[-1], "awake set off")
 
     def test_recording_writes_each_change_with_its_time(self):
         a, b = frame("00"), frame("01")

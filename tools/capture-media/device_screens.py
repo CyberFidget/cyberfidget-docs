@@ -35,8 +35,8 @@ Guards, so a missed press or a changed menu can't open the wrong thing:
 - No button is pressed while the running app (the `app` command's answer)
   is one that erases or resets something, and only up and down are pressed
   while the firmware update popup is on screen (its first choice is
-  "Install now"; the firmware opens it only over the menu and a few
-  system screens, listed in PROMPT_APPS). btn:5 and cmd:btn ... are
+  "Install now"). The check is skipped only in apps the popup never
+  opens over (NO_PROMPT_APPS); an unknown app name gets it. btn:5 and cmd:btn ... are
   refused: Enter goes through enter:<name>. cmd:launch of an erasing app is refused too.
 - Left and right change the saved preset on the Speaker EQ screen. The first
   time they are pressed there, the screen is remembered; at the end of the
@@ -69,10 +69,25 @@ CHECK_ROWS = range(12, H)
 MATCH_LIMIT = 40
 # Apps whose screens erase or reset something: Enter is never pressed in them.
 REFUSE_APPS = ("Reset to factory",)
-# Apps the firmware lets a popup (such as the update popup) open over. Other
-# apps draw their own lists with the same lit title bar and lit choice, so
-# the popup check only runs while one of these is open.
-PROMPT_APPS = ("menu", "Boot Animation", "Link", "Check for updates", "Updates", "Saved WiFi")
+# Firmware 1.6.1 opens a popup (such as the update popup) only over the
+# menu, Boot Animation, Link, Check for updates, Updates and Saved WiFi.
+# The apps below (the rest of the `apps` command's list) draw their own
+# lists with the same lit title bar and lit choice, so the popup check is
+# skipped for them. Any other name, including an empty or unknown one, gets
+# the check.
+NO_PROMPT_APPS = (
+    "Booper", "Flashlight", "Power Manager", "Matrix Screensaver", "Breakout",
+    "Dino Run", "Clock", "Simon Says", "Particle Sim", "Font Face Demo",
+    "Text Flow Demo", "Text Alignment Demo", "Rect Demo", "Circle Demo",
+    "Image Demo 1", "Image Demo 2", "Image Demo 3", "Image Demo 4",
+    "Battery Level", "Slider Status", "Accelerometer Demo", "Button Counters",
+    "Time On Counter", "Progress Bar", "Reaction Time", "Serial Display",
+    "Stratagem", "Graveyard", "Ghosts", "Eye", "CyberFidgie", "Splooty",
+    "Spaceship", "Ragdoll Fidgie", "Music Player", "CyberFidget Portal",
+    "Bewilder Your Brain", "Pixel Waterfall", "Dancing Gnomes", "Cronchybird",
+    "Snake", "Voice Notes", "Starburst", "Timers", "Status",
+    "Awake & dev mode", "Setup WiFi", "Speaker EQ", "Home Remote", "Counter",
+)
 EQ_APP = "Speaker EQ"
 EQ_PRESETS = 3
 # Screens per second asked of the device's screen stream while recording
@@ -272,14 +287,17 @@ def check_press(dev, index, pixels=None):
     No button is pressed while an app that erases or resets is open (Reset
     to factory confirms by holding Enter, and its screens are not driven at
     all). On the update popup only up and down (0, 1) are allowed: the other
-    buttons can choose "Install now". The popup only opens over the apps in
-    PROMPT_APPS, so other apps' lists are not mistaken for it. Returns the
-    running app's name.
+    buttons can choose "Install now". The check is skipped in the apps of
+    NO_PROMPT_APPS, which the popup never opens over, so their own lists
+    are not mistaken for it; any other app name, also an empty or unknown
+    one, gets the check. Returns the running app's name.
     """
     running = dev.app()
     if running in REFUSE_APPS:
         raise Stop("'%s' is open; button %d not pressed" % (running, index))
-    if index not in (0, 1) and running in PROMPT_APPS:
+    # Fail closed: the check is skipped only for an app known to take no
+    # popups. A missing, empty or unknown name gets the check.
+    if index not in (0, 1) and running not in NO_PROMPT_APPS:
         if pixels is None:
             pixels = dev.screen()
         if is_update_popup(pixels):
@@ -347,8 +365,11 @@ def run(dev, steps, out, expect=None, allow_unchecked=False, scale=4):
                 if (val == "on") == recording:
                     raise Stop("record:%s while recording is %s" % (val, "on" if recording else "off"))
                 if val == "on":
-                    dev.record_start()
+                    # Marked first: if the start is interrupted or its answer
+                    # never comes, the stream may still be on, and the
+                    # finally must turn it off.
                     recording = True
+                    dev.record_start()
                     print("recording")
                 else:
                     recording = False
