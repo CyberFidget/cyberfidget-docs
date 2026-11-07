@@ -46,7 +46,7 @@ Everything for a submission lives in the Studio. Open your project, open **Setti
 | Section | What to fill in | Required |
 |---|---|---|
 | **NAME** | The app's name, as people will see it. | Yes |
-| **CATEGORY** | **GAMES**, **TOOLS** or **SCREENSAVERS**. The same category places the app in the Fidget's menu. | Yes |
+| **CATEGORY** | **GAMES**, **TOOLS**, **SCREENSAVERS** or **MEDIA**. The same category places the app in the Fidget's menu. | Yes |
 | **DESCRIPTION** | What your app does, in up to 500 characters. | Yes |
 | **Tags** | Filled in for you from your code (for example buttons, sound, lights, slider, tilt), not hand-picked. | - |
 | **CAPTURES** | Pictures taken from the emulator: **CAPTURE SCREENSHOT** or **RECORD A 5S LOOP**. The capture in first position is your app's thumbnail. Keep it under 1 MB. | No, but recommended |
