@@ -34,14 +34,14 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **FPS** | Frames Per Second -- the emulator runs at 50 FPS like the real device. |
 | **FreeRTOS** | Free Real-Time Operating System -- the RTOS layer used by ESP-IDF under the hood. |
 | **GPIO** | General-Purpose Input/Output -- physical pins used for buttons, etc. |
-| **GPU** | Graphics Processing Unit -- when the phone's browser exposes it, the companion transcribes speech much faster. |
+| **GPU** | Graphics Processing Unit -- when your browser exposes it, the companion transcribes speech much faster. |
 | **HAL** | Hardware Abstraction Layer -- the layer that swaps ESP32 drivers for browser equivalents in the emulator. |
 | **Harmonics** | Quieter extra pitches at 2x, 3x, 4x... a note's frequency, mixed into the sound. A small speaker that cannot reproduce a low note can still play its harmonics, so the note stays recognizable but quieter. |
 | **Hz / kHz** | Hertz / kilohertz -- vibrations per second (1 kHz = 1000 Hz); the unit of pitch. Higher is a higher note. |
 | **I2C** | Inter-Integrated Circuit -- serial bus used for the OLED, accelerometer, and fuel gauge. |
 | **I2S** | Inter-IC Sound -- digital audio bus used for the speaker amplifier and MEMS microphone. |
 | **IDE** | Integrated Development Environment -- e.g. the App Builder on the website. |
-| **IndexedDB** | A database built into the browser. The studio uses it for built apps; the phone companion uses it for its transcription download. |
+| **IndexedDB** | A database built into the browser. The studio uses it for built apps; the companion uses it for its transcription download. |
 | **IPv4 / IPv6** | Internet Protocol version 4 / version 6 - the two kinds of network address. IPv4 is the familiar four-number form, like `192.168.4.1`; IPv6 is the newer, longer form. |
 | **JS** | JavaScript. |
 | **JSON** | JavaScript Object Notation - a structured text format for storing data. |
@@ -90,7 +90,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **WAV** | Waveform Audio File -- uncompressed audio format; plays on nearly any phone or computer with no special software. Voice Notes recordings are saved as WAV. |
 | **Web Serial** | A browser feature that lets a web page talk to a device over a USB serial connection. Available in desktop Chromium-based browsers such as Chrome and Edge. |
 | **WebAssembly** | Binary instruction format for the web; the emulator compiles C++ to WASM. |
-| **WebSocket** | A persistent two-way connection between a browser page and a server -- the phone companion's live caption link to the device. |
+| **WebSocket** | A persistent two-way connection between a browser page and a server -- the companion's live caption link to the device. |
 | **Wi-Fi** | Wireless Fidelity -- used for OTA and network features. |
 | **Wireframe** | A 3D shape drawn only as points and the straight lines between them, with no solid sides. |
 | **XBM** | X BitMap; a one-bit image format with on/off pixels stored in bytes. |
@@ -119,7 +119,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Cel** | An animator's word for one picture of an animation; the studio names a sprite's frames `cel_0`, `cel_1` and so on in code. |
 | **cfsprite-regen** | The PlatformIO target (`pio run -t cfsprite-regen`) that rewrites every sprite header from its `.cfsprite.json` file. See [Sprite assets](../firmware/sprite-assets.md#step-3-regenerate-the-header). |
 | **Collision** | Two sprites touching, where a lit pixel of one sits on a lit pixel of the other. See [Sprites & Animation](../concepts/sprites.md#collision). |
-| **Companion page** | The phone companion's web page, built into firmware and optionally overridden from the memory card. |
+| **Companion page** | The companion's web page, built into firmware and optionally overridden from the memory card. |
 | **Compile** | Turn the code you wrote into a program the device (or the emulator) can run. |
 | **Computational thinking** | Ways of solving problems that suit computers: breaking them into pieces (decomposition), spotting patterns, leaving out detail you don't need, and writing step-by-step instructions. See [Make a game, step by step](../getting-started/make-a-game.md#step-0-plan-the-game). |
 | **const** | Marks a value that cannot be changed through this declaration; after a method signature, the method does not change its object. |

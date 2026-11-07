@@ -79,7 +79,7 @@ Every tab at the top, in one line each:
 - **[Product](product/overview.md)**: what Cyber Fidget is, battery and charging, accessories, open-source licenses.
 - **[Getting started](getting-started/overview.md)**: assemble it, explore what it can do, build your first app, make a game step by step.
 - **[Make apps](concepts/index.md)**: one page per part (screen, buttons, sound, lights, slider, motion, sprites, 3D models), plus the function reference and the emulator.
-- **[Your Fidget](software/apps.md)**: built-in apps, voice notes, phone companion, keeping and sharing your work, updates, linking your Fidget to your account.
+- **[Your Fidget](software/apps.md)**: built-in apps, voice notes, the companion, keeping and sharing your work, updates, linking your Fidget to your account.
 - **[Hardware](hardware/specs.md)**: specs, part numbers and the pinout (which chip pin does what).
 - **[Studio](studio/overview.md)**: the drawing, animation and 3D tools on cyberfidget.com.
 - **[Reference](reference/glossary.md)**: the glossary of terms and the commands you can send over a USB cable.

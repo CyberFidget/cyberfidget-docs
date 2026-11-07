@@ -163,7 +163,7 @@ All API routes are under the ESPAsyncWebServer running on port 80.
 | `/` | GET | Portal page (SPA from PROGMEM) |
 | `/media/*` | GET | Static file serving from SD (for audio playback) |
 | `/recordings/*` | GET | Static voice-note serving from SD (playback + download) |
-| `/web/*` | GET | [Phone companion](companion.md); serves the newer of the page built into firmware and an optional card copy, plus the card's speech-recognition payload when present |
+| `/web/*` | GET | [Companion](companion.md); serves the newer of the page built into firmware and an optional card copy, plus the card's speech-recognition payload when present |
 | `/ws/live` | WS | Live caption link: mic audio out as binary PCM frames, JSON `time`/`caption` frames back; single client; contract pinned in `LiveLinkProtocol.h` |
 | `/api/files` | GET | Recursive JSON folder tree (music view, MP3-filtered) |
 | `/api/tracks` | GET | Flat JSON array with ID3 metadata per track |
@@ -255,7 +255,7 @@ The list is built from `/recordings/index.csv` (written by the Voice Notes app, 
 The default view shows all tracks in a sortable, searchable table with columns for title, artist, album, and size. Data comes from `/api/tracks` with real ID3 metadata.
 
 Each track has action buttons (visible on hover/tap):
-- **Play** — streams audio through the phone's browser
+- **Play** — streams audio through your browser
 - **+PL** — add to a playlist via dropdown
 - **Del** — delete with confirmation
 
@@ -302,7 +302,7 @@ Everything stays on the card and in your own browser -- nothing is uploaded to a
 
 ### Live listening
 
-The **Live listening** entry in the sidebar opens the [phone companion](companion.md)
+The **Live listening** entry in the sidebar opens the [companion](companion.md)
 (served from the copy built into the firmware unless the card has a newer one):
 live audio streaming from the device's microphone, captions on the device's
 OLED, voice-note transcription, and daily-note summaries. Live listening needs

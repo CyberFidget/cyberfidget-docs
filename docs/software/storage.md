@@ -65,7 +65,7 @@ Format your card as **FAT32** before first use:
 
 - **Music** - The card holds music files
 - **Voice recordings** - The card holds recordings made with Voice Notes
-- **Phone companion** - The card holds its speech-recognition payload and may hold a newer page override; the device already has the companion page in its firmware
+- **Companion** - The card holds its speech-recognition payload and may hold a newer page override; the device already has the companion page in its firmware
 - **USB file commands** - The serial file commands (`fwrite`, `fdelete`, `flist` and the others in [Serial commands](../reference/serial-commands.md)) read and write the Cyber Fidget's internal storage, not the memory card
 - **File browsing** - The WiFi web portal can list, upload, and download the card's files, which is the easiest way to move music and recordings on and off
 
