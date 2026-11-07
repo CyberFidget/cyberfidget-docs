@@ -1690,7 +1690,10 @@ scenes['cfmesh-axes'] = async (r) => {
 // "Device screens"); this scene shows them one after another in a plain page
 // and records it, so the clip needs no video tools beyond Playwright's.
 // Each frame shows for `hold` seconds; frames listed in `long` stay longer.
-async function deviceClip(r, { frames, name, hold = 0.55, long = {}, still = null, posterAt = null }) {
+// With `timed`, the frames come from a device_screens.py recording, named by
+// the millisecond each screen arrived: each shows until the next one's time
+// (the last for `tail` seconds), so the clip keeps the device's own timing.
+async function deviceClip(r, { frames, name, hold = 0.55, long = {}, timed = false, tail = 1.5, still = null, posterAt = null }) {
   const dir = path.join(HERE, 'frames', frames);
   const files = fs.readdirSync(dir).filter((f) => f.endsWith('.png')).sort();
   if (!files.length) throw new Error('No frames in ' + dir + ': capture them with device_screens.py first');
@@ -1703,9 +1706,21 @@ async function deviceClip(r, { frames, name, hold = 0.55, long = {}, still = nul
     <img id="s" src="${srcs[0]}" style="position:absolute;left:40px;top:40px;width:512px;height:256px;image-rendering:pixelated;outline:2px solid #3a3f4b"></body></html>`);
   await sleep(500);
   const start = rec.now();
-  for (let i = 0; i < files.length; i++) {
-    await page.evaluate((src) => { document.getElementById('s').src = src; }, srcs[i]);
-    await sleep(1000 * (long[files[i].replace('.png', '')] ?? hold));
+  if (timed) {
+    // Show each frame at its recorded time, measured from the clip's start,
+    // so time spent swapping pictures does not add up.
+    const at = files.map((f) => Number(f.replace('.png', '')) / 1000);
+    const t0 = Date.now();
+    for (let i = 0; i < files.length; i++) {
+      await sleep(Math.max(0, 1000 * at[i] - (Date.now() - t0)));
+      await page.evaluate((src) => { document.getElementById('s').src = src; }, srcs[i]);
+    }
+    await sleep(1000 * tail);
+  } else {
+    for (let i = 0; i < files.length; i++) {
+      await page.evaluate((src) => { document.getElementById('s').src = src; }, srcs[i]);
+      await sleep(1000 * (long[files[i].replace('.png', '')] ?? hold));
+    }
   }
   const end = rec.now();
   await rec.finish({ from: start, to: end, region: { x: 30, y: 30, width: 532, height: 276 }, posterAt: posterAt ?? end - start - 0.3 });
@@ -1716,15 +1731,21 @@ async function deviceClip(r, { frames, name, hold = 0.55, long = {}, still = nul
 }
 
 // The path to Settings > Speaker EQ on a Fidget, then Right (Loud) and Left
-// (back to Balanced). Frames: frames/speaker-eq/, captured with the
-// device_screens.py command in the README.
-scenes['device-speaker-eq'] = (r) => deviceClip(r, {
-  frames: 'speaker-eq',
-  name: 'device-speaker-eq-path',
-  long: { '00': 1.2, '06': 1.0, '07': 1.0, '13': 1.0, '14': 1.6, '15': 1.6, '16': 1.6 },
-  still: { from: '16', name: 'device-speaker-eq' },
-  posterAt: 0.3,
-});
+// (back to Balanced), recorded at the device's own pace (menu slides and
+// highlight moves included): frames/speaker-eq-motion/. The still comes from
+// the step frames in frames/speaker-eq/, which are also the reference frames
+// the recording run checks before each Enter. Commands in the README.
+scenes['device-speaker-eq'] = async (r) => {
+  await deviceClip(r, {
+    frames: 'speaker-eq-motion',
+    name: 'device-speaker-eq-path',
+    timed: true,
+    tail: 1.5,
+    posterAt: 0.3,
+  });
+  fs.copyFileSync(path.join(HERE, 'frames', 'speaker-eq', '16.png'), path.join(r.out, 'device-speaker-eq.png'));
+  console.log('  wrote device-speaker-eq.png (frames/speaker-eq/16.png)');
+};
 
 async function main() {
   const opts = parseArgs(process.argv.slice(2));
