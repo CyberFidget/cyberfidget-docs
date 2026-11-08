@@ -133,7 +133,7 @@ This keeps LED updates efficient - `strip.show()` for 4 RGBW pixels takes ~120μ
 
 ## OLED visualizer modes
 
-Three modes, cycled with **Up/Down buttons** in the Now Playing screen:
+Three modes, cycled with **Up/Down buttons** in the Now Playing screen. Up goes Off, Amplitude, Spectrum, then back to Off; Down goes the other way. The player remembers the mode for next time.
 
 ### Off (VIZ_OFF)
 
@@ -143,14 +143,7 @@ Normal playhead: elapsed M:SS + progress bar + remaining -M:SS.
 
 A 16-bar rolling amplitude graph showing the last ~1 second of audio:
 
-<div class="cf-oled" markdown="0">
-<div class="cf-oled-row cf-oled-head"><span>BT Now Playing</span><span>87%</span></div>
-<div class="cf-oled-row"><span>The Artist Name</span></div>
-<div class="cf-oled-row"><span>Track Title Here (scrolls)</span></div>
-<div class="cf-oled-row"><span>&nbsp;</span></div>
-<div class="cf-oled-row"><span>Playing</span><span>[S]</span></div>
-<div class="cf-oled-bars"><span style="height:37.5%"></span><span style="height:62.5%"></span><span style="height:87.5%"></span><span style="height:100%"></span><span style="height:62.5%"></span><span style="height:37.5%"></span><span style="height:12.5%"></span><span style="height:37.5%"></span><span style="height:62.5%"></span><span style="height:87.5%"></span><span style="height:75%"></span><span style="height:50%"></span><span style="height:25%"></span><span style="height:12.5%"></span><span style="height:37.5%"></span><span style="height:25%"></span></div>
-</div>
+![The Now Playing screen on a Cyber Fidget with the amplitude visualizer: the top bar, the song's artist and title, > Playing, and a row of 16 short bars of different heights along the bottom in place of the playhead](../assets/media/device-music-amplitude.png){ width="384" }
 
 The bottom row is the amplitude bars.
 
@@ -163,14 +156,7 @@ The bottom row is the amplitude bars.
 
 A VFD-style frequency spectrum display with 16 logarithmically-spaced bands:
 
-<div class="cf-oled" markdown="0">
-<div class="cf-oled-row cf-oled-head"><span>BT Now Playing</span><span>87%</span></div>
-<div class="cf-oled-row"><span>The Artist Name</span></div>
-<div class="cf-oled-row"><span>Track Title Here (scrolls)</span></div>
-<div class="cf-oled-row"><span>&nbsp;</span></div>
-<div class="cf-oled-row"><span>Playing</span><span>[S]</span></div>
-<div class="cf-oled-bars"><span style="height:100%"></span><span style="height:87.5%"></span><span style="height:62.5%"></span><span style="height:37.5%"></span><span style="height:62.5%"></span><span style="height:87.5%"></span><span style="height:100%"></span><span style="height:62.5%"></span><span style="height:37.5%"></span><span style="height:12.5%"></span><span style="height:25%"></span><span style="height:37.5%"></span><span style="height:62.5%"></span><span style="height:87.5%"></span><span style="height:75%"></span><span style="height:50%"></span></div>
-</div>
+![The Now Playing screen on a Cyber Fidget with the spectrum visualizer: the top bar, the song's artist and title, > Playing, and 16 bars along the bottom, tall at the left (low pitches) and getting shorter to the right (high pitches)](../assets/media/device-music-spectrum.png){ width="384" }
 
 The bottom row is the frequency bars.
 

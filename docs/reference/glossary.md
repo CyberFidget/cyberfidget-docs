@@ -117,7 +117,7 @@ Hover over terms in the docs to see short definitions. This page lists terms, ac
 | **Callback** | A function you give the device to call for you when something happens, such as a button press. |
 | **Capture** | An item stored in a Studio project's captures. |
 | **Cel** | An animator's word for one picture of an animation; the studio names a sprite's frames `cel_0`, `cel_1` and so on in code. |
-| **cfsprite-regen** | The PlatformIO target (`pio run -t cfsprite-regen`) that rewrites every sprite header from its `.cfsprite.json` file. See [Sprite assets](../firmware/sprite-assets.md#step-3-regenerate-the-header). |
+| **cfsprite-regen** | The PlatformIO target (`pio run -t cfsprite-regen`) that rewrites every sprite header from its `.cfsprite.json` file. See [Sprite assets](../firmware/sprite-assets.md#if-you-have-the-sprite-compiler). |
 | **Collision** | Two sprites touching, where a lit pixel of one sits on a lit pixel of the other. See [Sprites & Animation](../concepts/sprites.md#collision). |
 | **Companion page** | The companion's web page, built into firmware and optionally overridden from the memory card. |
 | **Compile** | Turn the code you wrote into a program the device (or the emulator) can run. |

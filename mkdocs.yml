@@ -1,5 +1,12 @@
 site_name: Cyber Fidget Docs
 site_url: https://docs.cyberfidget.com/
+
+# Report links to missing pages and missing headings, so a strict build
+# (mkdocs build --strict) fails on them.
+validation:
+  links:
+    not_found: warn
+    anchors: warn
 theme:
   name: material
   palette:

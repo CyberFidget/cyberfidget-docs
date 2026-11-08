@@ -165,28 +165,23 @@ During playback, the AudioPlayer fires a metadata callback that captures title a
 
 The Now Playing screen on the 128x64 OLED:
 
-<div class="cf-oled" markdown="0">
-<div class="cf-oled-row cf-oled-head"><span>BT Now Playing</span><span>87%</span></div>
-<div class="cf-oled-row"><span>The Artist Name</span></div>
-<div class="cf-oled-row"><span>Track Title Here (scrolls)</span></div>
-<div class="cf-oled-row"><span>&nbsp;</span></div>
-<div class="cf-oled-row"><span>Playing</span><span>[S]</span></div>
-<div class="cf-oled-row"><span>1:23</span><span class="cf-oled-track"><span></span></span><span>-2:58</span></div>
-</div>
+![The Now Playing screen on a Cyber Fidget playing through its speaker: spk, Now Playing and a battery reading 98 in the top bar, the song's artist and title scrolling below, > Playing under that, and the elapsed time 0:12, a progress bar and the remaining time -0:28 along the bottom](../assets/media/device-music-now-playing.png){ width="384" }
+
+In this picture the player had no artist or title from the playing song, so there is no artist row and the title row shows the song's library name, `Cyber Fidget - Demo Tones`.
 
 | Row | Shows | Position |
 |-----|-------|----------|
-| Header | BT icon at x=5, battery outline right-aligned | top |
-| Artist | Artist name | y=8 |
-| Title | Track title, scrolling as a marquee | y=19 |
-| Status | Play state and shuffle indicator `[S]` | y=31 |
-| Playhead | Progress bar with elapsed and remaining time | y=50 |
+| Header | `spk` (playing through the speaker) or a Bluetooth icon at the left, **Now Playing** in the middle, the battery as an outline with its percentage inside at the right (a lightning bolt beside it while charging) | top, y=0-13 |
+| Artist | Artist name, when the playing song reports one (centered) | y=8 |
+| Title | Title from the playing song, scrolling as a marquee when too long. Without one: the library name (`Artist - Title` from the song's tags, the title alone, or the file name) | y=19 |
+| Status | Play state (`> Playing` or `|| Paused`), plus `[S]` when shuffle is on | y=31 |
+| Playhead | Elapsed time and remaining time, with the progress bar between them | y=47 (times), y=50 (bar) |
 
 - **Battery**: Programmatic outline with percentage text inside. Lightning bolt icon when charging.
 - **Marquee**: Long track titles scroll horizontally.
 - **Playhead**: Progress bar with elapsed (M:SS) and remaining (-M:SS) time. Time estimated from MP3 bitrate read from the first MPEG frame header.
 - **Volume overlay**: When the physical slider is moved, the playhead temporarily shows a volume bar for 2 seconds, then fades back to the playhead.
-- **Visualizer**: When enabled (Up/Down toggle), a 16-bar amplitude graph replaces the playhead. See [LED Effects & Visualizer](led-effects.md).
+- **Visualizer**: Up and Down cycle the visualizers. Amplitude or spectrum bars (16 of them) replace the playhead. See [LED Effects & Visualizer](led-effects.md#oled-visualizer-modes).
 
 ---
 

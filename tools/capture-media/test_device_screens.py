@@ -3,6 +3,7 @@
 
 Run from this folder: python -m unittest test_device_screens
 """
+import base64
 import os
 import shutil
 import tempfile
@@ -41,6 +42,9 @@ class FakeDevice:
         self.sent = []
         self.taps = []
         self.interrupt_after = interrupt_after
+        self.recorded = []             # frames record_stop returns
+        self.start_error = None        # raised by record_start, after sending
+        self.stop_error = None         # raised once by record_stop, before sending
 
     def _note(self, text):
         self.sent.append(text)
@@ -75,6 +79,30 @@ class FakeDevice:
         self.taps.append(index)
         if self.screens:
             self.current = self.screens.pop(0)
+
+    def pause(self, seconds):
+        pass
+
+    def record_start(self):
+        self.sent.append("screenstream on")
+        if self.start_error:
+            raise self.start_error
+
+    def record_stop(self):
+        if self.stop_error:
+            error, self.stop_error = self.stop_error, None
+            raise error
+        self.sent.append("screenstream off")
+        return self.recorded
+
+
+def b64(pixels):
+    data = bytearray(ds.W * ds.H // 8)
+    for y in range(ds.H):
+        for x in range(ds.W):
+            if pixels[y][x]:
+                data[(y // 8) * ds.W + x] |= 1 << (y % 8)
+    return base64.b64encode(bytes(data)).decode()
 
 
 class GuardTests(unittest.TestCase):
@@ -126,6 +154,75 @@ class GuardTests(unittest.TestCase):
         ds.run(dev, ["btn:1"], self.out, self.ref)
         self.assertEqual(dev.taps, [1])
 
+    def test_popup_check_only_where_popups_open(self):
+        # An app's own list (lit title bar, lit first row) looks like the
+        # popup, but the firmware never opens the popup over that app.
+        dev = FakeDevice([popup(), blank()], app="Music Player")
+        ds.run(dev, ["enter:list"], self.out, self.ref, allow_unchecked=True)
+        self.assertEqual(dev.taps, [5])
+        dev = FakeDevice([popup(), blank()], app="Updates")
+        with self.assertRaises(ds.Stop):
+            ds.run(dev, ["enter:list"], self.out, self.ref, allow_unchecked=True)
+        self.assertEqual(dev.taps, [])
+
+    def test_popup_check_for_empty_or_unknown_app(self):
+        # Fail closed: without a known app name the popup check runs.
+        for name in ("", "Some New App"):
+            dev = FakeDevice([popup(), blank()], app=name)
+            with self.assertRaises(ds.Stop):
+                ds.run(dev, ["enter:list"], self.out, self.ref, allow_unchecked=True)
+            self.assertEqual(dev.taps, [])
+            dev = FakeDevice([popup(), blank()], app=name)
+            with self.assertRaises(ds.Stop):
+                ds.run(dev, ["btn:4"], self.out, self.ref)
+            self.assertEqual(dev.taps, [])
+
+    def test_stream_stopped_when_start_fails(self):
+        # The stream may already be on when the answer times out or Ctrl+C
+        # lands: the run still turns it off.
+        for error in (RuntimeError("no answer"), KeyboardInterrupt()):
+            dev = FakeDevice([frame("06")])
+            dev.start_error = error
+            with self.assertRaises(type(error)):
+                ds.run(dev, ["record:on", "wait:0", "record:off"], self.out, self.ref)
+            self.assertEqual(dev.sent.count("screenstream off"), 1)
+            self.assertEqual(dev.sent[-1], "awake set off")
+
+    def test_stream_stopped_when_record_off_is_interrupted(self):
+        # Ctrl+C before record:off has sent its stop: the run still turns
+        # the stream off on the way out.
+        dev = FakeDevice([frame("06")])
+        dev.stop_error = KeyboardInterrupt()
+        with self.assertRaises(KeyboardInterrupt):
+            ds.run(dev, ["record:on", "wait:0", "record:off"], self.out, self.ref)
+        self.assertEqual(dev.sent.count("screenstream off"), 1)
+        self.assertEqual(dev.sent[-1], "awake set off")
+
+    def test_recording_writes_each_change_with_its_time(self):
+        a, b = frame("00"), frame("01")
+        dev = FakeDevice([frame("06"), frame("07")])
+        dev.recorded = [(1.00, b64(a)), (1.05, b64(a)), (1.10, b64(b)), (1.15, b64(b)), (1.30, b64(a))]
+        ds.run(dev, ["record:on", "enter:06", "wait:0.5", "record:off"], self.out, self.ref)
+        self.assertEqual(dev.taps, [5])
+        self.assertEqual(sorted(os.listdir(self.out)), ["000000.png", "000100.png", "000300.png"])
+        self.assertEqual(ds.read_png(os.path.join(self.out, "000100.png")), b)
+
+    def test_recording_stopped_after_error(self):
+        dev = FakeDevice([frame("05")])
+        with self.assertRaises(ds.Stop):
+            ds.run(dev, ["record:on", "enter:06"], self.out, self.ref)
+        self.assertIn("screenstream off", dev.sent)
+        self.assertEqual(dev.taps, [])
+        dev = FakeDevice([frame("05")])
+        with self.assertRaises(ds.Stop):
+            ds.run(dev, ["record:on", "shot:x"], self.out, self.ref)
+        self.assertIn("screenstream off", dev.sent)
+        self.assertFalse(os.path.exists(os.path.join(self.out, "x.png")))
+        dev = FakeDevice([frame("05")])
+        with self.assertRaises(ds.Stop):
+            ds.run(dev, ["record:on", "wait:0"], self.out, self.ref)
+        self.assertIn("screenstream off", dev.sent)
+
     def test_no_button_in_reset_to_factory(self):
         for step in ("btn:0", "btn:4", "enter:06"):
             dev = FakeDevice([frame("06")], app="Reset to factory")
@@ -134,7 +231,8 @@ class GuardTests(unittest.TestCase):
             self.assertEqual(dev.taps, [])
 
     def test_raw_enter_and_cmd_btn_refused(self):
-        for step in ("btn:5", "cmd:btn 5 tap", "cmd:btn 4 tap", "cmd:BTN 0 tap", "cmd:launch Reset to factory"):
+        for step in ("btn:5", "cmd:btn 5 tap", "cmd:btn 4 tap", "cmd:BTN 0 tap", "cmd:launch Reset to factory", "cmd:screenstream on 20",
+                     "cmd:version\nscreenstream on 20", "cmd:version\r\nbtn 5 tap"):
             dev = FakeDevice([frame("06")])
             with self.assertRaises(ds.Stop):
                 ds.run(dev, [step], self.out, self.ref)
