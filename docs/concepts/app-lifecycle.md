@@ -108,3 +108,12 @@ The studio adds your app to the menu using the Menu Category you choose. You do 
     ### Static instance pattern
 
     Built-in apps commonly use a single global instance (e.g. `MyApp myApp`) and pass lambdas, short unnamed functions, that call its methods. This keeps the manifest clean and lets each app own its state.
+
+    ### Reopening a built-in app after sleep
+
+    A built-in app can reopen when the Fidget wakes from idle sleep, and in Dev mode after a firmware update. Counter and Home Remote do; studio apps don't. This needs firmware 1.7.0 or later.
+
+    - **Opt in.** Add the app's enum name to `resumeEligibleApps` in `lib/AppDefs/AppDefs.h`. The firmware records the open app just before it sleeps, and opens it again on the next button wake.
+    - **Save your own state while the app runs.** Deep sleep clears memory, and `end()` doesn't run before sleep, so anything the app should remember must already be saved. Counter saves its counts to flash a couple of seconds after the last press, so a burst of taps is one write and the counts are saved long before idle sleep.
+    - **Load it in `begin()`.** A reopened app starts like any other: `begin()` runs from the top, so read the saved state there.
+    - **Nothing else changes.** The press that wakes the Fidget never reaches the app, and Back returns to the menu folder the app was opened from. An ordinary start (after switching off with Power Manager, a restart, a low battery, or a firmware update outside Dev mode) lands on the menu, not in the reopened app. A restart the firmware asks for on purpose, such as opening the Web Portal or the Music Player, still opens the app it was asked to open.

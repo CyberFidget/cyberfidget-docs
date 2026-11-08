@@ -30,14 +30,17 @@ full-battery discharge tests.
 
 After about a minute without interaction (pressing a button or moving the slider), when running on battery, Cyber Fidget shows "Going to sleep now..." and enters deep sleep. Press the bottom-right button to wake it. The press that wakes it only wakes it: it doesn't also count as a press in the menu or an app.
 
-Most apps wake to the menu. Two apps made for longer use reopen where you left them if the Fidget fell asleep while they were open:
+Most apps wake to the menu. Two apps made for longer use reopen where you left them if the Fidget went to sleep by itself while they were open:
 
 | App | After waking |
 |-----|--------------|
 | **Counter** | Reopens with your counts. |
 | **Home Remote** | Reopens and reconnects to your home WiFi. |
 
-Press **Back** to get to the menu as usual. If you switched the Fidget off with Power Manager, or it restarted for any other reason, it starts at the menu.
+Press **Back** to get to the menu as usual; the menu opens in the folder the app was started from. Every other start lands on the menu: switching the Fidget off with Power Manager, a restart, a low battery, or running different firmware than before the sleep. The hourly battery check does not change where a later button wake lands.
+
+!!! note "Reopening after sleep needs firmware 1.7.0 or later"
+    Earlier firmware always wakes to the menu. See [Updating](../software/updating.md) to get the latest firmware.
 
 While it sleeps, the device briefly wakes itself about once an hour to check the battery level, then goes right back to sleep. This takes only a fraction of a second. The screen stays dark and the lights stay off, so you will not notice the check.
 

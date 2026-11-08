@@ -258,17 +258,22 @@ def build(firmware, sidecar):
     targets, headers = inventory(firmware)
     data = tomllib.loads(sidecar.read_text(encoding='utf-8'))
     described, ignored = data.get('symbols', {}), data.get('ignore', {})
+    upcoming = data.get('ignore_next', {})
     common = set(targets['device']) & set(targets['emulator'])
     union = set(targets['device']) | set(targets['emulator'])
     errors = []
     for name in sorted(set(described) - common):
         errors.append(f'{name} is not in BOTH targets. Remove its description or correct its qualified name in {sidecar}.')
-    for name in sorted(union - set(described) - set(ignored)):
+    for name in sorted(union - set(described) - set(ignored) - set(upcoming)):
         errors.append(f'{name} is undescribed. Add [symbols."{name}"] with section/use/does/see to {sidecar}, or add an explicit ignore reason.')
     for name, reason in ignored.items():
         if name not in union: errors.append(f'{name} is not a header symbol. Remove its stale ignore entry from {sidecar}.')
         if not isinstance(reason, str) or not reason.strip(): errors.append(f'{name}: add a nonempty ignore reason in {sidecar}.')
         if name in described: errors.append(f'{name}: choose a description or an ignore entry in {sidecar}, not both.')
+    for name, reason in upcoming.items():
+        if not isinstance(reason, str) or not reason.strip(): errors.append(f'{name}: add a nonempty ignore_next reason in {sidecar}.')
+        if name in described or name in ignored: errors.append(f'{name}: list it once: a description, ignore or ignore_next entry in {sidecar}.')
+        if name in common: errors.append(f'{name} is in both targets, so apps can call it. Describe it under [symbols] in {sidecar}; ignore_next is only for plumbing.')
     for name, entry in described.items():
         for key in ('section', 'use', 'does', 'see'):
             if not isinstance(entry.get(key), str) or not entry[key].strip(): errors.append(f'{name}: add nonempty {key} in {sidecar}.')

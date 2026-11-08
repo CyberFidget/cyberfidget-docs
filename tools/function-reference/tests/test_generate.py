@@ -49,6 +49,16 @@ class ReferenceTests(unittest.TestCase):
         self.assertIn('explicit ignore reason', error)
         print('Missing description rejected:', error.strip())
 
+    def test_ignore_next_cannot_hide_an_app_facing_call(self):
+        start = self.sidecar.index('[symbols."HAL::setRgbLed"]')
+        end = self.sidecar.index('\n[symbols.', start + 1)
+        content = (self.sidecar[:start] + self.sidecar[end:]).replace(
+            '[ignore_next]\n', '[ignore_next]\n"HAL::setRgbLed" = "Trying to hide an app call."\n', 1)
+        self.assertIn('"HAL::setRgbLed" = "Trying', content)
+        error = self.check_sidecar(content)
+        self.assertIn('HAL::setRgbLed is in both targets, so apps can call it', error)
+        print('App-facing ignore_next rejected:', error.strip())
+
     def test_output_drift_is_rejected_without_writing(self):
         # Redirect outputs to a disposable root; never modify the real outputs.
         with tempfile.TemporaryDirectory() as directory:

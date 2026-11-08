@@ -133,7 +133,7 @@ Once the lists have loaded, a connection problem or an unexpected reply shows as
 - **Same home network only.** Home Remote reaches Home Assistant at an `http://` address on your home WiFi. Addresses that start with `https://`, including remote-access addresses, aren't used.
 - **WiFi only while it's open.** The Fidget turns WiFi on when you open Home Remote and off when you leave. If Bluetooth is in use (for example after the Music Player), it says **Opening Home Remote...** and restarts straight into the app.
 - **It stays awake while you use it.** On a light or speaker screen it stays awake for five minutes after you last touch it, then sleeps as usual.
-- **It reopens after sleep.** If the Fidget falls asleep while Home Remote is open, pressing the button to wake it opens Home Remote again and reconnects. The wake press doesn't select or switch anything. See [Going to sleep](../product/battery-and-power.md#going-to-sleep).
+- **It reopens after sleep.** If the Fidget falls asleep by itself while Home Remote is open, pressing the button to wake it opens Home Remote again and reconnects. This needs firmware 1.7.0 or later. The wake press doesn't select or switch anything. See [Going to sleep](../product/battery-and-power.md#going-to-sleep).
 - **The key stays private.** The Fidget doesn't show the access key on its screen, in the portal or over USB.
 
 !!! advanced "Advanced: set it up over USB instead"
