@@ -43,7 +43,7 @@ terminal's "send line ending" or "transmit CR+LF" setting. PlatformIO's
 | `help`    | Lists available commands                                        |
 
 Commands are case-insensitive. Unknown commands return `[err] unknown
-command: <input>`. Lines longer than 31 characters return `[err] line too
+command: <input>`. Lines longer than 159 bytes return `[err] line too
 long` and the buffer resets.
 
 Sample `info` output:

@@ -10,8 +10,8 @@ Think of it like an iPod that connects to a Bluetooth speaker:
 
 1. **Pair** with a BT speaker (scan or pick a remembered device)
 2. **Browse** your music library with ID3 metadata (artist, title)
-3. **Play** — the ESP32 decodes MP3 in real-time and streams it over Bluetooth
-4. **Control** — play/pause, next/prev, shuffle, volume via the physical slider
+3. **Play** - the ESP32 decodes MP3 in real-time and streams it over Bluetooth
+4. **Control** - play/pause, next/prev, shuffle, volume via the physical slider
 
 The player UI runs on the 128x64 OLED with a menu system inspired by the classic iPod click wheel navigation.
 
@@ -60,7 +60,7 @@ stateDiagram-v2
 ```
 
 !!! tip "Back from Now Playing keeps playing"
-    Pressing Back in the player screen returns to the main menu but **doesn't stop playback**. Music keeps streaming in the background. This matches the iPod behavior — you can browse while listening.
+    Pressing Back in the player screen returns to the main menu but **doesn't stop playback**. Music keeps streaming in the background. This matches the iPod behavior - you can browse while listening.
 
 ---
 
@@ -68,28 +68,18 @@ stateDiagram-v2
 
 The audio chain is built from the [arduino-audio-tools](https://github.com/pschatzmann/arduino-audio-tools) library:
 
-```
-SD Card (SPI)
-    │
-    ▼
-AudioSourceIdxSD ── scans /music/*.mp3, builds file index
-    │
-    ▼
-AudioPlayer ── manages playback state, drives the pipeline
-    │
-    ▼
-MP3DecoderHelix ── real-time MP3 decoding (libhelix, runs in IRAM)
-    │
-    ▼
-SpectrumAnalyzer ── passthrough providing volumeRatio() + 16-band FFT
-    │
-    ▼
-A2DPStream ── BT Classic A2DP Source → wireless speaker
+```mermaid
+flowchart TB
+    SD["SD Card (SPI)"] --> IDX["AudioSourceIdxSD<br/>scans /music/*.mp3, builds file index"]
+    IDX --> AP["AudioPlayer<br/>manages playback state, drives the pipeline"]
+    AP --> DEC["MP3DecoderHelix<br/>real-time MP3 decoding (libhelix, runs in IRAM)"]
+    DEC --> SA["SpectrumAnalyzer<br/>passthrough providing volumeRatio() + 16-band FFT"]
+    SA --> A2["A2DPStream<br/>BT Classic A2DP Source to wireless speaker"]
 ```
 
 The pipeline is driven by calling `pPlayer->copy()` every `update()` cycle (~50Hz). Each call reads a chunk from SD, decodes MP3 frames, and writes PCM samples to the A2DP buffer. The BT stack's internal callback drains the buffer and transmits over the air.
 
-The `SpectrumAnalyzer` is a custom `ModifyingStream` that replaced the original `VolumeMeter`. It provides both `volumeRatio()` (0.0–1.0 peak amplitude) for LED reactive effects and `bands()[16]` (16-band FFT frequency spectrum) for the OLED visualizer. Audio passes through unchanged — zero latency, zero quality impact. See [LED Effects & Visualizer](led-effects.md) for details.
+The `SpectrumAnalyzer` is a custom `ModifyingStream` that replaced the original `VolumeMeter`. It provides both `volumeRatio()` (0.0-1.0 peak amplitude) for LED reactive effects and `bands()[16]` (16-band FFT frequency spectrum) for the OLED visualizer. Audio passes through unchanged - zero latency, zero quality impact. See [LED Effects & Visualizer](led-effects.md) for details.
 
 !!! warning "Pipeline objects are never destroyed"
     The A2DPStream, AudioPlayer, and AudioSourceIdxSD are heap-allocated once and kept alive for the entire app lifetime. Deleting them after active playback causes crashes due to internal FreeRTOS tasks and ring buffers that can't be cleanly shut down. See the [BT A2DP Guide](bt-a2dp-guide.md) for details.
@@ -121,7 +111,7 @@ Supported commands:
     AVRCP callbacks fire from the BTC FreeRTOS task, not the main Arduino loop. The callback sets a `volatile uint8_t pendingAvrcCmd` flag, which is consumed and dispatched in `update()`. This avoids cross-task race conditions on audio pipeline state.
 
 !!! note "Speaker compatibility"
-    Not all BT speakers send AVRCP commands when buttons are pressed. Some only support A2DP audio without AVRCP at all. The feature is additive — if the speaker doesn't send commands, nothing happens and physical CyberFidget buttons still work normally.
+    Not all BT speakers send AVRCP commands when buttons are pressed. Some only support A2DP audio without AVRCP at all. The feature is additive - if the speaker doesn't send commands, nothing happens and physical CyberFidget buttons still work normally.
 
 ---
 
@@ -129,7 +119,7 @@ Supported commands:
 
 ### Scanning
 
-The `BTScanner` class uses raw ESP-IDF GAP APIs (`esp_bt_gap_start_discovery()`) to find nearby Bluetooth audio devices. Results are filtered by Class of Device (COD) — specifically `ESP_BT_COD_SRVC_RENDERING` which indicates audio sink capability.
+The `BTScanner` class uses raw ESP-IDF GAP APIs (`esp_bt_gap_start_discovery()`) to find nearby Bluetooth audio devices. Results are filtered by Class of Device (COD) - specifically `ESP_BT_COD_SRVC_RENDERING` which indicates audio sink capability.
 
 Scan results show device names with signal strength bars (based on RSSI).
 
@@ -175,22 +165,23 @@ During playback, the AudioPlayer fires a metadata callback that captures title a
 
 The Now Playing screen on the 128x64 OLED:
 
-```
-┌────────────────────────────┐
-│  ⚡ Now Playing        87 ▊│  ← Header: BT icon (x=5), battery outline (right-aligned)
-│ The Artist Name            │  ← Artist (y=8)
-│ ♫ Track Title Here ←scroll │  ← Title with marquee (y=19)
-│                            │
-│ ▶ Playing          [S]     │  ← Status + shuffle indicator (y=31)
-│ 1:23 ████████░░░░░ -2:58   │  ← Playhead with elapsed/remaining time (y=50)
-└────────────────────────────┘
-```
+![The Now Playing screen on a Cyber Fidget playing through its speaker: spk, Now Playing and a battery reading 98 in the top bar, the song's artist and title scrolling below, > Playing under that, and the elapsed time 0:12, a progress bar and the remaining time -0:28 along the bottom](../assets/media/device-music-now-playing.png){ width="384" }
+
+In this picture the player had no artist or title from the playing song, so there is no artist row and the title row shows the song's library name, `Cyber Fidget - Demo Tones`.
+
+| Row | Shows | Position |
+|-----|-------|----------|
+| Header | `spk` (playing through the speaker) or a Bluetooth icon at the left, **Now Playing** in the middle, the battery as an outline with its percentage inside at the right (a lightning bolt beside it while charging) | top, y=0-13 |
+| Artist | Artist name, when the playing song reports one (centered) | y=8 |
+| Title | Title from the playing song, scrolling as a marquee when too long. Without one: the library name (`Artist - Title` from the song's tags, the title alone, or the file name) | y=19 |
+| Status | Play state (`> Playing` or `|| Paused`), plus `[S]` when shuffle is on | y=31 |
+| Playhead | Elapsed time and remaining time, with the progress bar between them | y=47 (times), y=50 (bar) |
 
 - **Battery**: Programmatic outline with percentage text inside. Lightning bolt icon when charging.
 - **Marquee**: Long track titles scroll horizontally.
 - **Playhead**: Progress bar with elapsed (M:SS) and remaining (-M:SS) time. Time estimated from MP3 bitrate read from the first MPEG frame header.
 - **Volume overlay**: When the physical slider is moved, the playhead temporarily shows a volume bar for 2 seconds, then fades back to the playhead.
-- **Visualizer**: When enabled (Up/Down toggle), a 16-bar amplitude graph replaces the playhead. See [LED Effects & Visualizer](led-effects.md).
+- **Visualizer**: Up and Down cycle the visualizers. Amplitude or spectrum bars (16 of them) replace the playhead. See [LED Effects & Visualizer](led-effects.md#oled-visualizer-modes).
 
 ---
 
@@ -200,7 +191,7 @@ Hold the left or right button for 500ms to start scrubbing backward or forward w
 
 Tap (quick press and release < 500ms) still triggers previous/next track.
 
-The seek uses the Arduino SD `File::seek()` on the underlying stream (`pPlayer->getStream()` cast to `File*`). The MP3 decoder re-syncs automatically after the jump — there may be a brief audio artifact (~50ms) at the seek point.
+The seek uses the Arduino SD `File::seek()` on the underlying stream (`pPlayer->getStream()` cast to `File*`). The MP3 decoder re-syncs automatically after the jump - there may be a brief audio artifact (~50ms) at the seek point.
 
 ---
 

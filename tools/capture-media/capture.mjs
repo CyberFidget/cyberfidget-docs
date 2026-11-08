@@ -1531,6 +1531,222 @@ scenes['generate-examples'] = async (r) => {
 // Main
 // ---------------------------------------------------------------------------
 
+// 18. A sprite for an app built into the firmware: draw it, then Sprite file >
+// Save to file, which downloads <name>.cfsprite.json. Labels verified in
+// inc/studio-body.php and assets/js/pixel_sandbox.js (Sprite file menu:
+// Save to file, Add from file, Load demo). The download is checked and thrown
+// away; only the media is kept.
+scenes['firmware-sprite-save'] = async (r) => {
+  const rec = r.recorder('firmware-sprite-save');
+  const page = await rec.open();
+  await newBlankApp(page, r.base, 'Hello');
+  await sleep(600);
+  const start = rec.now();
+
+  await newSprite(page, 'coin');
+  // Draw a coin: a ring, then fill it.
+  const grid = await page.locator('#pixel-grid').boundingBox();
+  const cx = grid.x + grid.width / 2;
+  const cy = grid.y + grid.height / 2;
+  const radius = 26;
+  await glide(page, cx + radius, cy, 8);
+  await page.mouse.down();
+  for (let a = 0; a <= 360; a += 8) {
+    await page.mouse.move(cx + radius * Math.cos((a * Math.PI) / 180), cy + radius * Math.sin((a * Math.PI) / 180));
+    await sleep(12);
+  }
+  await page.mouse.up();
+  await sleep(300);
+  await clickCentre(page, page.getByRole('button', { name: /^fill/i }).first());
+  await glide(page, cx, cy, 6);
+  await page.mouse.click(cx, cy);
+  await sleep(700);
+
+  await clickCentre(page, page.locator('#art-sprite-file-button'));
+  await sleep(900);
+  await r.shot(page, 'firmware-sprite-save-menu', WORKSPACE);
+  const download = page.waitForEvent('download');
+  await clickCentre(page, page.locator('#btn-save-project'));
+  const file = await download;
+  const saved = JSON.parse(fs.readFileSync(await file.path(), 'utf8'));
+  console.log('  Save to file downloaded ' + file.suggestedFilename() + ' (meta.name ' + JSON.stringify(saved.meta?.name) + ')');
+  await file.delete();
+  await sleep(1200);
+  const end = rec.now();
+  await rec.finish({ from: start, to: end, region: WORKSPACE, width: 800, posterAt: end - start - 0.3 });
+};
+
+// 19. The model coordinate system on the emulator's screen. A small app draws
+// three axis arrows as a mesh, unturned and with perspective off, so +x and +y
+// land exactly where they point. The still of the device is then labelled in
+// a plain page and saved as one picture: cfmesh-axes.png.
+const AXES_APP = `// Insert at the top of the file, below the #include lines
+#include "cf_gfx.h"
+using namespace cf::gfx;
+
+static const MeshVertex axisPoints[] = {
+    {0, 0, 0},
+    {44, 0, 0}, {39, 4, 0}, {39, -4, 0},
+    {0, 26, 0}, {-4, 21, 0}, {4, 21, 0},
+};
+static const uint8_t axisLines[][2] = {
+    {0, 1}, {1, 2}, {1, 3},
+    {0, 4}, {4, 5}, {4, 6},
+};
+static const Mesh axisMesh = {"axes", axisPoints, 7, axisLines, 6};
+static MeshActor axisModel;
+
+// Insert inside begin(), below setColorsOff();
+axisModel.setMesh(&axisMesh);
+axisModel.setPos(64, 32);
+axisModel.setPerspective(0);
+
+// Insert inside update(), just above display.display();
+display.clear();
+axisModel.draw(display);
+display.drawCircle(64, 32, 3);
+`;
+
+scenes['cfmesh-axes'] = async (r) => {
+  const context = await r.browser.newContext({ viewport: VIEW, deviceScaleFactor: 2 });
+  await matchDocsBackground(context);
+  const page = await context.newPage();
+  page.on('pageerror', (e) => console.log('  page error: ' + e.message));
+  await newBlankApp(page, r.base, 'Axes');
+  await setCode(page, assembleFragments(await readEditorCode(page), AXES_APP));
+  try {
+    await rebuildAndRun(page);
+  } catch (e) {
+    console.log('  emulator status: ' + await page.locator('#builder-emulator-status').innerText().catch(() => '?'));
+    throw e;
+  }
+  await sleep(1200);
+  await page.evaluate(() => document.activeElement && document.activeElement.blur());
+  await hideEmulatorChrome(page);
+  await sleep(300);
+  const lit = await readScreen(page);
+  if (!lit(108, 32) || !lit(64, 6)) throw new Error('the axes are not on the emulator screen');
+  // Keep the screen and its frame on the device picture, and show it twice
+  // as large, so the arrows on the screen are easy to see.
+  const scr = await page.evaluate(() => {
+    const b = document.querySelector('.cf-device-screen').getBoundingClientRect();
+    return { x: b.left, y: b.top, w: b.width, h: b.height };
+  });
+  const pad = 22;
+  const region = { x: Math.floor(scr.x - pad), y: Math.floor(scr.y - pad), width: Math.ceil(scr.w + 2 * pad), height: Math.ceil(scr.h + 2 * pad) };
+  const device = await page.screenshot({ clip: region });
+  await context.close();
+
+  const k = 2;
+  // Device pixel (px, py) -> position in the enlarged picture.
+  const at = (px, py) => ({ x: (scr.x - region.x + ((px + 0.5) * scr.w) / 128) * k, y: (scr.y - region.y + ((py + 0.5) * scr.h) / 64) * k });
+  const padL = 30;
+  const padR = 330;
+  const padT = 96;
+  const padB = 110;
+  const iw = region.width * k;
+  const ih = region.height * k;
+  const W = iw + padL + padR;
+  const H = ih + padT + padB;
+  const P = (p) => ({ x: p.x + padL, y: p.y + padT });
+  const O = P(at(64, 32));
+  const X = P(at(108, 32));
+  const Y = P(at(64, 6));
+  const right = padL + iw + 30;
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" font-family="Roboto, Arial, sans-serif">
+      <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#ffd24a"/></marker></defs>
+      <g stroke="#ffd24a" stroke-width="2.5" fill="none">
+        <path d="M${X.x + 14} ${X.y} L${right - 10} ${X.y}" marker-end="url(#a)"/>
+        <path d="M${Y.x} ${Y.y - 14} L${Y.x} ${padT - 26}" marker-end="url(#a)"/>
+        <path d="M${O.x} ${O.y + 16} L${O.x} ${H - 56} L${O.x + 24} ${H - 56}"/>
+      </g>
+      <g fill="#ffffff">
+        <text x="${right}" y="${X.y - 6}" font-size="28" font-weight="700">+x: right</text>
+        <text x="${right}" y="${X.y + 24}" font-size="19" fill="#c9ced8">bigger x is further right</text>
+        <text x="${Y.x + 16}" y="${padT - 52}" font-size="28" font-weight="700">+y: up</text>
+        <text x="${Y.x + 16}" y="${padT - 24}" font-size="19" fill="#c9ced8">bigger y is higher on the screen</text>
+        <text x="${O.x + 34}" y="${H - 64}" font-size="24" font-weight="700">[0, 0, 0]: the model's middle (the small circle)</text>
+        <text x="${O.x + 34}" y="${H - 36}" font-size="19" fill="#c9ced8">+z points into the screen, away from you</text>
+      </g>
+    </svg>`;
+  const html = `<!doctype html><html><body style="margin:0;background:${DOCS_BG}">
+    <div id="fig" style="position:relative;width:${W}px;height:${H}px;background:${DOCS_BG}">
+      <img src="data:image/png;base64,${device.toString('base64')}" style="position:absolute;left:${padL}px;top:${padT}px;width:${iw}px;height:${ih}px;image-rendering:pixelated">
+      <div style="position:absolute;left:0;top:0">${svg}</div>
+    </div></body></html>`;
+  const fig = await r.browser.newContext({ viewport: { width: W, height: H }, deviceScaleFactor: 2 });
+  const fp = await fig.newPage();
+  await fp.setContent(html);
+  await sleep(300);
+  const file = path.join(r.out, 'cfmesh-axes.png');
+  await fp.locator('#fig').screenshot({ path: file });
+  console.log(`  wrote cfmesh-axes.png (${Math.round(fs.statSync(file).size / 1024)} KB)`);
+  await fig.close();
+};
+
+// 20. A real Fidget's screens, played back as a clip. device_screens.py
+// captures the screens from a bench unit into frames/<name>/ (see README,
+// "Device screens"); this scene shows them one after another in a plain page
+// and records it, so the clip needs no video tools beyond Playwright's.
+// Each frame shows for `hold` seconds; frames listed in `long` stay longer.
+// With `timed`, the frames come from a device_screens.py recording, named by
+// the millisecond each screen arrived: each shows until the next one's time
+// (the last for `tail` seconds), so the clip keeps the device's own timing.
+async function deviceClip(r, { frames, name, hold = 0.55, long = {}, timed = false, tail = 1.5, still = null, posterAt = null }) {
+  const dir = path.join(HERE, 'frames', frames);
+  const files = fs.readdirSync(dir).filter((f) => f.endsWith('.png')).sort();
+  if (!files.length) throw new Error('No frames in ' + dir + ': capture them with device_screens.py first');
+  const srcs = files.map((f) => 'data:image/png;base64,' + fs.readFileSync(path.join(dir, f)).toString('base64'));
+  const rec = r.recorder(name);
+  const page = await rec.open({ cursor: false });
+  // The screen drawn at 4 device pixels per pixel (512 x 256), on the docs
+  // background with a thin frame, like the device stills on the same pages.
+  await page.setContent(`<!doctype html><html><body style="margin:0;background:${DOCS_BG}">
+    <img id="s" src="${srcs[0]}" style="position:absolute;left:40px;top:40px;width:512px;height:256px;image-rendering:pixelated;outline:2px solid #3a3f4b"></body></html>`);
+  await sleep(500);
+  const start = rec.now();
+  if (timed) {
+    // Show each frame at its recorded time, measured from the clip's start,
+    // so time spent swapping pictures does not add up.
+    const at = files.map((f) => Number(f.replace('.png', '')) / 1000);
+    const t0 = Date.now();
+    for (let i = 0; i < files.length; i++) {
+      await sleep(Math.max(0, 1000 * at[i] - (Date.now() - t0)));
+      await page.evaluate((src) => { document.getElementById('s').src = src; }, srcs[i]);
+    }
+    await sleep(1000 * tail);
+  } else {
+    for (let i = 0; i < files.length; i++) {
+      await page.evaluate((src) => { document.getElementById('s').src = src; }, srcs[i]);
+      await sleep(1000 * (long[files[i].replace('.png', '')] ?? hold));
+    }
+  }
+  const end = rec.now();
+  await rec.finish({ from: start, to: end, region: { x: 30, y: 30, width: 532, height: 276 }, posterAt: posterAt ?? end - start - 0.3 });
+  if (still) {
+    fs.copyFileSync(path.join(dir, still.from + '.png'), path.join(r.out, still.name + '.png'));
+    console.log(`  wrote ${still.name}.png (frame ${still.from})`);
+  }
+}
+
+// The path to Settings > Speaker EQ on a Fidget, then Right (Loud) and Left
+// (back to Balanced), recorded at the device's own pace (menu slides and
+// highlight moves included): frames/speaker-eq-motion/. The still comes from
+// the step frames in frames/speaker-eq/, which are also the reference frames
+// the recording run checks before each Enter. Commands in the README.
+scenes['device-speaker-eq'] = async (r) => {
+  await deviceClip(r, {
+    frames: 'speaker-eq-motion',
+    name: 'device-speaker-eq-path',
+    timed: true,
+    tail: 1.5,
+    posterAt: 0.3,
+  });
+  fs.copyFileSync(path.join(HERE, 'frames', 'speaker-eq', '16.png'), path.join(r.out, 'device-speaker-eq.png'));
+  console.log('  wrote device-speaker-eq.png (frames/speaker-eq/16.png)');
+};
+
 async function main() {
   const opts = parseArgs(process.argv.slice(2));
   if (opts.list || opts.scenes.length === 0) {

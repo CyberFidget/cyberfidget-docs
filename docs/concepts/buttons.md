@@ -27,6 +27,8 @@ The `ButtonManager` generates three event types:
 
 You choose which events to handle. Many apps use **Pressed** for "do the thing" and **Released** for "back". A release event also follows a hold; it does not distinguish a tap from a long press by itself.
 
+If you would rather check buttons inside `update()` than register callbacks, `buttonManager.wasPressed(button_RightIndex)` is true in the one `update()` that follows a press, and `wasReleased()` is true in the one that follows a release. `isPressed()` stays true for as long as the button is held.
+
 ---
 
 ## The 6 buttons: positions and names

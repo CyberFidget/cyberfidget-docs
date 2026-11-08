@@ -1,6 +1,6 @@
 # Firmware Development
 
-This section covers the internals of the Cyber Fidget firmware — how to build it, how it's structured, and the design decisions behind the major subsystems.
+This section covers the internals of the Cyber Fidget firmware - how to build it, how it's structured, and the design decisions behind the major subsystems.
 
 ---
 
@@ -12,7 +12,7 @@ The Cyber Fidget runs custom firmware on an ESP32 microcontroller. The firmware 
 
 ## Firmware
 
-The firmware ships as a single unified build on `main` — all apps (games, screensavers, tools, music player, web portal) are included. The BT A2DP audio stack initially caused an IRAM overflow, but this was solved by [patching the linker script](IRAM-overflow-solution.md) to move unused libc functions out of IRAM. No apps needed to be removed.
+The firmware ships as a single unified build on `main` - all apps (games, screensavers, tools, music player, web portal) are included. The BT A2DP audio stack initially caused an IRAM overflow, but this was solved by [patching the linker script](IRAM-overflow-solution.md) to move unused libc functions out of IRAM. No apps needed to be removed.
 
 To read the firmware source in your browser, open the [firmware code viewer](https://cyberfidget.com/firmware/). A few sample files are open to everyone; browsing the full source is read-only and needs a GitHub sign-in; editing, compiling, and installing firmware from the browser are in closed beta.
 
@@ -30,31 +30,22 @@ framework = arduino
 
 Key build flags for the BT audio stack:
 
-- `-DAUDIOTOOLS_NO_ANALOG` / `NO_PWM` / `NO_ADC` / `NO_DAC` — Strip unused audio backends
-- `-DCONFIG_ESP32_WIFI_IRAM_OPT=0` — Move WiFi fast-path code out of IRAM
-- `-DA2DP_SPP_SUPPORT=1` — Enable SPP alongside A2DP on IDF 5.x
-- `build_type = release` — Debug builds add ~4KB of IRAM overhead
+- `-DAUDIOTOOLS_NO_ANALOG` / `NO_PWM` / `NO_ADC` / `NO_DAC` - Strip unused audio backends
+- `-DCONFIG_ESP32_WIFI_IRAM_OPT=0` - Move WiFi fast-path code out of IRAM
+- `-DA2DP_SPP_SUPPORT=1` - Enable SPP alongside A2DP on IDF 5.x
+- `build_type = release` - Debug builds add ~4KB of IRAM overhead
 
 ---
 
 ## Architecture overview
 
-```
-┌─────────────────────────────────────────────┐
-│             AppManager (singleton)          │
-│  Owns lifecycle: begin() → update() → end() │
-├──────────┬──────────┬───────────────────────┤
-│ MenuMgr  │ PowerMgr │ MusicPlayerApp  ...   │
-├──────────┴──────────┴───────────────────────┤
-│                   HAL                       │
-│  Display · Buttons · Slider · LEDs · Audio  │
-├─────────────────────────────────────────────┤
-│          ESP-IDF / Arduino / FreeRTOS       │
-├─────────────────────────────────────────────┤
-│                ESP32 Hardware               │
-│   OLED·Buttons·SK6812/NeoPixels·I2S·BT·SD   │
-└─────────────────────────────────────────────┘
-```
+<div class="cf-stack" markdown="0">
+<div class="cf-layer cf-l-manager"><p class="cf-layer-name">AppManager (singleton)</p><p class="cf-layer-note">Owns the app lifecycle: <code>begin()</code>, then <code>update()</code> every 20 ms, then <code>end()</code></p></div>
+<div class="cf-layer cf-l-apps"><div class="cf-cell">MenuMgr</div><div class="cf-cell">PowerMgr</div><div class="cf-cell">MusicPlayerApp and the other apps</div></div>
+<div class="cf-layer cf-l-hal"><p class="cf-layer-name">HAL (hardware abstraction layer)</p><p class="cf-layer-note">Display, buttons, slider, LEDs, audio</p></div>
+<div class="cf-layer cf-l-os"><p class="cf-layer-name">ESP-IDF / Arduino / FreeRTOS</p></div>
+<div class="cf-layer cf-l-hw"><p class="cf-layer-name">ESP32 hardware</p><p class="cf-layer-note">OLED, buttons, SK6812 (NeoPixel) LEDs, I2S, Bluetooth, SD card</p></div>
+</div>
 
 - **AppManager** schedules one active app at a time. Every 20ms, it calls the active app's `update()`.
 - **HAL** wraps all hardware access behind a consistent API.
@@ -66,10 +57,11 @@ See [How an App Works](../concepts/app-lifecycle.md) for the app-level view.
 
 ## In this section
 
-- [Music Player Architecture](music-player.md) — How the BT A2DP music player works
-- [Voice Notes](voice-recorder.md) — Record voice memos to the SD card, replay them on the device, and keep your audio in your own hands
-- [Phone Companion](companion.md) — Live listening, captions on the OLED, on-phone transcription, and daily-note summaries, served by the device itself
-- [LED Effects & Visualizer](led-effects.md) — Music-reactive NeoPixels, per-LED control, OLED amplitude and spectrum visualizers
-- [Bluetooth A2DP Guide](bt-a2dp-guide.md) — Hard-won lessons on ESP32-A2DP lifecycle management
-- [Web Portal](web-portal.md) — WiFi captive portal for file management and settings
-- [IRAM Optimization for Bluetooth](IRAM-overflow-solution.md) — How we fit BT A2DP into the ESP32's 128KB IRAM budget
+- [Music Player Architecture](music-player.md) - How the BT A2DP music player works
+- [Voice Notes](voice-recorder.md) - Record voice memos to the SD card, replay them on the device, and keep your audio in your own hands
+- [Companion](companion.md) -- Live listening, captions on the OLED, in-browser transcription, and daily-note summaries, served by the device itself
+- [LED Effects & Visualizer](led-effects.md) - Music-reactive NeoPixels, per-LED control, OLED amplitude and spectrum visualizers
+- [Sprite assets](sprite-assets.md) -- Add a sprite to a built-in app: where the file goes, the drift check, and `pio run -t cfsprite-regen`
+- [Bluetooth A2DP Guide](bt-a2dp-guide.md) - Hard-won lessons on ESP32-A2DP lifecycle management
+- [Web Portal](web-portal.md) - WiFi captive portal for file management and settings
+- [IRAM Optimization for Bluetooth](IRAM-overflow-solution.md) - How we fit BT A2DP into the ESP32's 128KB IRAM budget

@@ -1,5 +1,12 @@
 site_name: Cyber Fidget Docs
 site_url: https://docs.cyberfidget.com/
+
+# Report links to missing pages and missing headings, so a strict build
+# (mkdocs build --strict) fails on them.
+validation:
+  links:
+    not_found: warn
+    anchors: warn
 theme:
   name: material
   palette:
@@ -68,6 +75,7 @@ nav:
     - Drawing to the Screen: concepts/display.md
     - Sprites & Animation: concepts/sprites.md
     - 3D Models: concepts/3d-models.md
+    - 3D model file format: reference/cfmesh-format.md
     - Sound & Music: concepts/audio.md
     - LEDs & Color: concepts/leds.md
     - The Slider: concepts/slider.md
@@ -83,7 +91,7 @@ nav:
     - Built-in apps and features:
       - Built-in apps: software/apps.md
       - Voice Notes: firmware/voice-recorder.md
-      - Phone Companion: firmware/companion.md
+      - Companion: firmware/companion.md
       - Home Remote: firmware/home-remote.md
       - Web Portal: firmware/web-portal.md
       - Awake & dev mode: software/awake-and-dev-mode.md
@@ -131,6 +139,7 @@ nav:
       - Firmware development: firmware/index.md
       - Music Player architecture: firmware/music-player.md
       - LED Effects & Visualizer: firmware/led-effects.md
+      - Sprite assets: firmware/sprite-assets.md
       - BT A2DP Guide: firmware/bt-a2dp-guide.md
       - IRAM Optimization: firmware/IRAM-overflow-solution.md
       - Deep-sleep current investigation: firmware/deep-sleep-current-investigation.md

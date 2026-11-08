@@ -54,6 +54,28 @@ The built-in speaker is tiny (13 mm across), and a speaker that small cannot pus
 - Tones are timed by the audio engine, independently of `update()`. A 100 ms tone lasts 100 ms, plus a fade-out of about 5 ms to reduce clicks. Studio apps use this engine on the device and in the browser emulator, so a tone's length does not depend on your drawing speed.
 - Several notes at once (chords) work in your own apps too, with firmware 1.5.0 or newer: see [Notes: several sounds at once](#notes-several-sounds-at-once). With older firmware, plan on one sound at a time.
 
+### Speaker EQ setting
+
+The Fidget shapes the sound of its built-in speaker with an [EQ](../reference/glossary.md) (equalizer). You choose how in **Settings > Speaker EQ**, the last item in the Settings menu.
+
+To get there, in the menu press the top-right button to move down to **Settings** and the bottom-right button to open it. Move down to **Speaker EQ**, below **Reset to factory**, and open it the same way. (Don't open **Reset to factory** on the way.)
+
+<video src="../../assets/media/device-speaker-eq-path.webm" poster="../../assets/media/device-speaker-eq-path.png" autoplay loop muted playsinline width="384"></video>
+
+*The menu on a Cyber Fidget: down to Settings, open it, down past Reset to factory to Speaker EQ, open it, then one press right (Loud) and one press left (back to Balanced).*
+
+The screen shows one preset name with a short description under it. Press the middle-left or middle-right button to change preset. Each change takes effect at once and plays a short rising run of tones so you can hear the difference. Press the bottom-left button (the screen calls it Select) to go back. The choice is saved, so it is still there after the Fidget restarts.
+
+![The Speaker EQ screen on a Cyber Fidget: the title Speaker EQ, the preset Balanced between a left and a right arrow, Clear and even under it, and Select: back at the bottom](../assets/media/device-speaker-eq.png){ width="384" }
+
+| Preset | What you hear |
+|--------|---------------|
+| **Balanced** | Clear and even. This is the default. |
+| **Loud** | Louder and punchier, and a little sharper. |
+| **Off** | Plain, no shaping. It adds no boost or cut, but it still removes the very low pitches the small speaker cannot play. |
+
+The setting changes the built-in speaker only. Bluetooth speakers and headphones are not affected.
+
 ### Playing a sequence
 
 To play a short melody or alert without writing your own timing code, describe it as an array of `ToneStep` entries and hand it to `playSequence()`:

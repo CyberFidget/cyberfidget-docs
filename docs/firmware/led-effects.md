@@ -1,12 +1,12 @@
 # LED Effects & Visualizer
 
-The Music Player drives the Cyber Fidget's 4 RGBW NeoPixel LEDs in sync with audio playback, plus OLED visualizers on the Now Playing screen — a rolling amplitude graph and a VFD-style frequency spectrum display.
+The Music Player drives the Cyber Fidget's 4 RGBW NeoPixel LEDs in sync with audio playback, plus OLED visualizers on the Now Playing screen - a rolling amplitude graph and a VFD-style frequency spectrum display.
 
 ---
 
 ## What is this?
 
-When music plays, the LEDs react to the audio in real-time — quiet passages produce a gentle blue pulse, medium levels shift to cyan/green, and loud peaks flash red with a white burst. There's also a "Pulse" mode that breathes independently of audio, and "Off" for when you want dark. Individual LEDs can be toggled on/off from a dedicated submenu.
+When music plays, the LEDs react to the audio in real-time - quiet passages produce a gentle blue pulse, medium levels shift to cyan/green, and loud peaks flash red with a white burst. There's also a "Pulse" mode that breathes independently of audio, and "Off" for when you want dark. Individual LEDs can be toggled on/off from a dedicated submenu.
 
 The OLED screen has three visualizer modes: a time-domain amplitude graph (rolling waveform), a frequency-domain spectrum analyzer (like classic 80s VFD equalizer displays), or just the normal playhead with elapsed/remaining time.
 
@@ -33,14 +33,13 @@ The pixels are indexed 0-3: **Back** (0), **Front Top** (1), **Front Middle** (2
 
 Audio analysis is performed by `SpectrumAnalyzer`, a custom `ModifyingStream` that sits in the audio pipeline:
 
-```
-SD Card → AudioPlayer → MP3DecoderHelix → SpectrumAnalyzer → A2DPStream → BT Speaker
-                                               ↓ (analysis)
-                                       volumeRatio() — peak amplitude 0.0–1.0
-                                       bands()[16]   — frequency spectrum 0.0–1.0
+```mermaid
+flowchart TB
+    SD[SD Card] --> AP[AudioPlayer] --> MP3[MP3DecoderHelix] --> SA[SpectrumAnalyzer] --> A2[A2DPStream] --> SPK[BT Speaker]
+    SA -.->|analysis| OUT["volumeRatio(): peak amplitude 0.0-1.0<br/>bands()[16]: frequency spectrum 0.0-1.0"]
 ```
 
-`SpectrumAnalyzer` replaces the original `VolumeMeter` from arduino-audio-tools. It provides the same `volumeRatio()` API for LED reactive effects, plus 16-band FFT frequency analysis for the spectrum visualizer. Audio passes through unchanged — zero latency, zero quality impact.
+`SpectrumAnalyzer` replaces the original `VolumeMeter` from arduino-audio-tools. It provides the same `volumeRatio()` API for LED reactive effects, plus 16-band FFT frequency analysis for the spectrum visualizer. Audio passes through unchanged - zero latency, zero quality impact.
 
 <!-- check-examples: skip - firmware source excerpt, not a studio app -->
 ```cpp
@@ -76,7 +75,7 @@ LEDs respond to the current audio amplitude with smoothed, perceptually-correcte
 | Amplitude | Color | Behavior |
 |-----------|-------|----------|
 | < 0.15 | Dim blue | Gentle sine-wave breathing pulse |
-| 0.15 – 0.5 | Cyan → Green | Intensity scales linearly with amplitude |
+| 0.15 - 0.5 | Cyan → Green | Intensity scales linearly with amplitude |
 | ≥ 0.5 | Red + White flash | Both channels scale with amplitude |
 
 !!! tip "Booper pattern"
@@ -92,15 +91,14 @@ A gentle breathing animation independent of audio. Uses a sine wave to modulate 
 
 The main menu's "LEDs" item opens a dedicated submenu with 6 options:
 
-```
-LEDs
-├── Mode: Off / Reactive / Pulse   (Enter cycles)
-├── Back LED: On / Off             (Enter toggles)
-├── Front Top: On / Off            (Enter toggles)
-├── Front Mid: On / Off            (Enter toggles)
-├── Front Bottom: On / Off         (Enter toggles)
-└── Sync: 150ms                    (Enter cycles 0-300ms in 25ms steps)
-```
+| Item | What Enter does |
+|------|-----------------|
+| Mode: Off / Reactive / Pulse | Cycles the mode |
+| Back LED: On / Off | Toggles it |
+| Front Top: On / Off | Toggles it |
+| Front Mid: On / Off | Toggles it |
+| Front Bottom: On / Off | Toggles it |
+| Sync: 150ms | Cycles 0-300ms in 25ms steps |
 
 ### Per-LED enable mask
 
@@ -127,7 +125,7 @@ The `RGBController` module manages the NeoPixel strip with a dirty-flag + thrott
 - **Throttled show**: `updateStrip()` is called every `loopHardware()` cycle. It only calls `strip.show()` when dirty AND ≥33ms since last show (~30fps cap).
 - **Dedup cache**: `setDeterminedColorsAll()` stores the last RGBW values and skips if identical. Prevents redundant SPI transactions when the color hasn't changed.
 
-This keeps LED updates efficient — `strip.show()` for 4 RGBW pixels takes ~120μs, and it only fires when something actually changed.
+This keeps LED updates efficient - `strip.show()` for 4 RGBW pixels takes ~120μs, and it only fires when something actually changed.
 
 `markDirty()` is exported from RGBController so that per-pixel `HAL::setRgbLed()` calls (used by the per-LED mask system) can trigger `strip.show()` on the next `updateStrip()` cycle.
 
@@ -135,7 +133,7 @@ This keeps LED updates efficient — `strip.show()` for 4 RGBW pixels takes ~120
 
 ## OLED visualizer modes
 
-Three modes, cycled with **Up/Down buttons** in the Now Playing screen:
+Three modes, cycled with **Up/Down buttons** in the Now Playing screen. Up goes Off, Amplitude, Spectrum, then back to Off; Down goes the other way. The player remembers the mode for next time.
 
 ### Off (VIZ_OFF)
 
@@ -145,19 +143,12 @@ Normal playhead: elapsed M:SS + progress bar + remaining -M:SS.
 
 A 16-bar rolling amplitude graph showing the last ~1 second of audio:
 
-```
-┌────────────────────────────┐
-│  ⚡ Now Playing        87 ▊│
-│ The Artist Name            │
-│ ♫ Track Title Here ←scroll │
-│                            │
-│ ▶ Playing          [S]     │
-│ ▃▅▇█▅▃▁▃▅▇▆▄▂▁▃           │  ← Amplitude bars
-└────────────────────────────┘
-```
+![The Now Playing screen on a Cyber Fidget with the amplitude visualizer: the top bar, the song's artist and title, > Playing, and a row of 16 short bars of different heights along the bottom in place of the playhead](../assets/media/device-music-amplitude.png){ width="384" }
+
+The bottom row is the amplitude bars.
 
 - **16 bars**, each 7px wide + 1px gap = 128px total
-- **Height**: 0–14px, proportional to amplitude at sample time
+- **Height**: 0-14px, proportional to amplitude at sample time
 - **Sample rate**: ~60ms intervals → last ~1 second of audio history
 - **Rolling buffer**: Circular array `amplitudeHistory[16]`, oldest sample drawn leftmost
 
@@ -165,16 +156,9 @@ A 16-bar rolling amplitude graph showing the last ~1 second of audio:
 
 A VFD-style frequency spectrum display with 16 logarithmically-spaced bands:
 
-```
-┌────────────────────────────┐
-│  ⚡ Now Playing        87 ▊│
-│ The Artist Name            │
-│ ♫ Track Title Here ←scroll │
-│                            │
-│ ▶ Playing          [S]     │
-│ █▇▅▃▅▇█▅▃▁▂▃▅▇▆▄          │  ← Frequency bars
-└────────────────────────────┘
-```
+![The Now Playing screen on a Cyber Fidget with the spectrum visualizer: the top bar, the song's artist and title, > Playing, and 16 bars along the bottom, tall at the left (low pitches) and getting shorter to the right (high pitches)](../assets/media/device-music-spectrum.png){ width="384" }
+
+The bottom row is the frequency bars.
 
 - **16 bars** spanning ~60 Hz to ~16 kHz, logarithmically spaced
 - **Fast attack, slow decay**: Bars snap up instantly but fade down smoothly (like classic VFD EQ displays)
@@ -205,9 +189,9 @@ Each sample is multiplied by its corresponding Hann coefficient before the FFT.
 
 ### 3. Run the FFT
 
-A **radix-2 Cooley-Tukey FFT** transforms the 512 time-domain samples into 256 frequency bins. Each bin represents a ~86 Hz range (44100 / 512). The FFT is a self-contained implementation (~25 lines of C) that runs in-place — no external library dependencies.
+A **radix-2 Cooley-Tukey FFT** transforms the 512 time-domain samples into 256 frequency bins. Each bin represents a ~86 Hz range (44100 / 512). The FFT is a self-contained implementation (~25 lines of C) that runs in-place - no external library dependencies.
 
-The FFT runs from the **main loop** via `processFFT()`, not inside the audio `write()` path. This is critical — running FFT inside `write()` would block the Bluetooth audio stream and cause audible stuttering.
+The FFT runs from the **main loop** via `processFFT()`, not inside the audio `write()` path. This is critical - running FFT inside `write()` would block the Bluetooth audio stream and cause audible stuttering.
 
 ### 4. Map bins to bands
 
@@ -215,31 +199,31 @@ The 256 frequency bins are grouped into 16 logarithmically-spaced bands:
 
 | Band | Frequency Range | What you hear |
 |------|----------------|---------------|
-| 0 | ~60–90 Hz | Sub-bass (kick drum) |
-| 1 | ~90–130 Hz | Bass |
-| 2–3 | ~130–265 Hz | Low-mid |
-| 4–6 | ~265–770 Hz | Midrange (vocals) |
-| 7–9 | ~770–2.2 kHz | Upper-mid (guitar, snare) |
-| 10–12 | ~2.2–6.4 kHz | Presence/brilliance |
-| 13–15 | ~6.4–16 kHz | Air (hi-hat, cymbals) |
+| 0 | ~60-90 Hz | Sub-bass (kick drum) |
+| 1 | ~90-130 Hz | Bass |
+| 2-3 | ~130-265 Hz | Low-mid |
+| 4-6 | ~265-770 Hz | Midrange (vocals) |
+| 7-9 | ~770-2.2 kHz | Upper-mid (guitar, snare) |
+| 10-12 | ~2.2-6.4 kHz | Presence/brilliance |
+| 13-15 | ~6.4-16 kHz | Air (hi-hat, cymbals) |
 
 The formula for band edges: `edge[i] = 60 × (16000/60)^(i/16)`
 
-Logarithmic spacing is used because human hearing is logarithmic — the difference between 100 Hz and 200 Hz sounds the same as 1000 Hz and 2000 Hz. Equal-width bins would cram all the bass into one bar and waste 200+ bars on inaudible ultrasonic frequencies.
+Logarithmic spacing is used because human hearing is logarithmic - the difference between 100 Hz and 200 Hz sounds the same as 1000 Hz and 2000 Hz. Equal-width bins would cram all the bass into one bar and waste 200+ bars on inaudible ultrasonic frequencies.
 
 ### 5. Per-band AGC (Automatic Gain Control)
 
 Each band tracks its own maximum magnitude independently. The displayed value is `bandPeak / bandMax`, where `bandMax` slowly decays over time (~3 seconds to halve). This means:
 
-- **Bass** normalizes to bass levels — a loud kick drum drives band 0 to 1.0
-- **Treble** normalizes to treble levels — a hi-hat drives band 15 to 1.0
+- **Bass** normalizes to bass levels - a loud kick drum drives band 0 to 1.0
+- **Treble** normalizes to treble levels - a hi-hat drives band 15 to 1.0
 - Neither can flatten the other
 
-Without per-band AGC, a heavy bass line would dominate the normalization and make all the treble bars appear flat — a common problem in naive spectrum analyzers.
+Without per-band AGC, a heavy bass line would dominate the normalization and make all the treble bars appear flat - a common problem in naive spectrum analyzers.
 
 ### 6. Frame skipping
 
-At 44,100 Hz with 512-sample windows, the raw FFT rate would be ~86 Hz — that's a lot of FFT computation per second. The `SKIP_FRAMES` constant (currently 1) tells the analyzer to process every other window, yielding ~43 Hz update rate. This balances visual smoothness against CPU overhead.
+At 44,100 Hz with 512-sample windows, the raw FFT rate would be ~86 Hz - that's a lot of FFT computation per second. The `SKIP_FRAMES` constant (currently 1) tells the analyzer to process every other window, yielding ~43 Hz update rate. This balances visual smoothness against CPU overhead.
 
 !!! warning "LED + FFT micro-stutter"
     When both music-reactive LEDs and the spectrum visualizer are active simultaneously, occasional micro-stutters may occur. This is because NeoPixel `strip.show()` uses the RMT peripheral (~120μs) which can compete with the audio write path. LEDs default to Off to avoid this. This is earmarked for future investigation (potential fix: reduce LED update rate when FFT is active, or move LEDs to a separate FreeRTOS task).
@@ -250,18 +234,17 @@ At 44,100 Hz with 512-sample windows, the raw FFT rate would be ~86 Hz — that'
 
 ### The problem
 
-The SpectrumAnalyzer analyzes audio as it enters the A2DP transmit buffer. The BT speaker plays that audio ~200–500ms later (A2DP buffering + codec + link latency + speaker's own buffer). Without compensation, LEDs flash *before* the corresponding sound is heard.
+The SpectrumAnalyzer analyzes audio as it enters the A2DP transmit buffer. The BT speaker plays that audio ~200-500ms later (A2DP buffering + codec + link latency + speaker's own buffer). Without compensation, LEDs flash *before* the corresponding sound is heard.
 
 ### How it works
 
-The SpectrumAnalyzer maintains a **delay ring buffer** — a circular array of 16 recent analysis frames, each timestamped with `millis()`. Instead of returning the current amplitude and spectrum data, the delayed accessors (`delayedVolumeRatio()`, `delayedBands()`) walk the ring buffer and return the frame closest to `millis() - delayMs`.
+The SpectrumAnalyzer maintains a **delay ring buffer** - a circular array of 16 recent analysis frames, each timestamped with `millis()`. Instead of returning the current amplitude and spectrum data, the delayed accessors (`delayedVolumeRatio()`, `delayedBands()`) walk the ring buffer and return the frame closest to `millis() - delayMs`.
 
-```
-Audio pipeline timeline:
-    t=0ms    Audio enters SpectrumAnalyzer → analysis stored in ring buffer
-    t=150ms  delayedVolumeRatio() returns the t=0 analysis → LEDs react
-    t=150ms  Speaker plays the t=0 audio → LEDs match what you hear
-```
+| Time | What happens |
+|------|--------------|
+| t=0ms | Audio enters SpectrumAnalyzer and the analysis is stored in the ring buffer. |
+| t=150ms | `delayedVolumeRatio()` returns the t=0 analysis, so the LEDs react. |
+| t=150ms | The speaker plays the t=0 audio, so the LEDs match what you hear. |
 
 ### Buffer details
 
@@ -280,7 +263,7 @@ The ring buffer is populated from two paths:
 
 ### User-tunable delay
 
-The **Sync** setting in the LED submenu adjusts the delay from 0–300ms in 25ms steps. The default is 150ms, which works well for most BT speakers. Speakers with larger internal buffers may need 200–300ms; wired or low-latency codecs may work best at 50–100ms.
+The **Sync** setting in the LED submenu adjusts the delay from 0-300ms in 25ms steps. The default is 150ms, which works well for most BT speakers. Speakers with larger internal buffers may need 200-300ms; wired or low-latency codecs may work best at 50-100ms.
 
 !!! tip "Finding the right delay"
     Play a track with a strong beat (kick drum on every beat). Watch the LEDs flash red on the kick. If the flash comes before the sound, increase the delay. If after, decrease it. The sweet spot is when the flash and the thump feel simultaneous.
@@ -297,7 +280,7 @@ User preferences survive reboots via NVS namespace `"mpsettings"`:
 | `ledmode` | uint8_t | 0 (Off) | 0=Off, 1=Reactive, 2=Pulse |
 | `vizmode` | uint8_t | 0 (Off) | 0=Off, 1=Amplitude, 2=Spectrum |
 | `ledmask` | uint8_t | 0x0F (all on) | Bitmask: bit0=Back, bit1=FrontTop, bit2=FrontMid, bit3=FrontBot |
-| `leddelay` | uint16_t | 150 | BT latency compensation in ms (0–300) |
+| `leddelay` | uint16_t | 150 | BT latency compensation in ms (0-300) |
 
 Settings are loaded in `begin()` after `loadPlaybackState()` and saved in `end()` before `savePlaybackState()`.
 

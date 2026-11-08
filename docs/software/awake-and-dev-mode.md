@@ -30,6 +30,7 @@ When a send over the USB cable fails, the website names what went wrong. In ever
 | **Your Fidget didn't answer.** | The Fidget did not reply over the cable. | Press a button on it or plug it in again, then try again. |
 | **Your Fidget is busy.** | The Fidget was in the middle of something else. The website already waits and retries once before saying this. | Wait a moment, then try again. |
 | **The connection dropped mid-send.** (or **The cable may have been unplugged mid-send.**) | The cable or connection was lost during the send. | Check the cable and try again. |
+| **Your Cyber Fidget changed while sending. Try again.** | Something else kept changing the Fidget's app list while the page was sending, for example another browser tab or an update over WiFi. The page read the Fidget again and retried once, then stopped instead of overwriting the other change. Your Fidget's menu was not updated, and your changes are still waiting to send. | Close other tabs that are sending to this Fidget, then press Send again. |
 | **Your changes could not be sent.** (or `<name> didn't make it across.`) | Any other failure. | Try again. |
 
 If only part of a send went across, the website says **Some changes did not go across.**, lists what made it, and keeps the rest to try again.

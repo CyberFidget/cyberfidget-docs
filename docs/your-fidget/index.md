@@ -111,13 +111,13 @@ After this page you will know where to find each part of using and looking after
 
     [Web Portal](../firmware/web-portal.md)
 
--   **Phone Companion**
+-   **Companion**
 
     ---
 
-    Hear what the Fidget hears on your phone, with live captions on its screen.
+    Hear what the Fidget hears in your browser, with live captions on its screen.
 
-    [Phone Companion](../firmware/companion.md)
+    [Companion](../firmware/companion.md)
 
 -   **Awake & dev mode**
 
@@ -229,5 +229,5 @@ After this page you will know where to find each part of using and looking after
 | An update check fails | [If a check does not work](../software/updates.md#if-a-check-does-not-work) |
 | Linking to your account doesn't finish | [If linking does not finish](../software/link-your-fidget.md#if-linking-does-not-finish) |
 | Sending an app over the cable fails | [If a send does not work](../software/awake-and-dev-mode.md#if-a-send-does-not-work) |
-| The Phone Companion misbehaves | [Phone Companion troubleshooting](../firmware/companion.md#troubleshooting) |
+| The Companion misbehaves | [Companion troubleshooting](../firmware/companion.md#troubleshooting) |
 | An app from The Archives doesn't work | [Report a problem](../software/sharing-apps.md#report-a-problem) |

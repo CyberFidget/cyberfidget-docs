@@ -1,14 +1,14 @@
-# Phone Companion
+# Companion
 
-The phone companion turns your phone into an accessory for the Cyber Fidget: hear
+The companion turns your phone or computer into an accessory for the Cyber Fidget: hear
 what the device hears, watch live captions appear on the device's screen, turn
 saved voice notes into text, and write up a whole day as a tidy note -- all served
 by the device itself, with your audio staying on hardware you own.
 
 It is a small web app built into the device's firmware. The device's
-[Web Portal](web-portal.md) serves it at `/web/`, so the phone needs nothing
+[Web Portal](web-portal.md) serves it at `/web/`, so your browser needs nothing
 installed: join the device's WiFi with the password on its screen (see [the portal's WiFi password](web-portal.md#the-portals-wifi-password)), or have both on your home network, open the
-portal, and tap **Live listening**.
+portal in your browser, and tap **Live listening**.
 
 ---
 
@@ -27,7 +27,7 @@ Open **Live listening** and it loads even with no memory card inserted.
 | From the pack | Size | What it enables |
 |---|---|---|
 | `engine.worker.js.gz` | ~1 KB | (with `vendor/`) starts speech recognition |
-| `vendor/` | ~7.8 MB compressed | the on-phone speech runtime for captions and note transcription |
+| `vendor/` | ~7.8 MB compressed | the speech runtime that runs in your browser for captions and note transcription |
 
 Copy both onto the memory card under `/web/`, so the card contains
 `/web/engine.worker.js.gz` and the complete `/web/vendor/` tree. Use a card
@@ -61,26 +61,26 @@ exactly which files are needed for which feature. See
 Tap **Start live session** and the companion asks for your OK first:
 
 > Sound from your device streams over its WiFi to this page and is turned into
-> text right here on your phone. Nothing is uploaded anywhere.
+> text right here in your browser. Nothing is uploaded anywhere.
 
 Once connected you get a phosphor-style waveform of what the microphone hears.
 Two buttons matter:
 
-- **Hear it** -- plays the audio on your phone. It starts *muted* on purpose: with
-  the phone next to the device you'd get feedback. Use earbuds, or listen from
+- **Hear it** -- plays the audio in your browser. It starts *muted* on purpose: with
+  your phone or computer next to the device you'd get feedback. Use earbuds, or listen from
   another room (this is the "remote microphone" trick).
-- **Start captions** -- speech becomes text on your phone *and* on the device's
+- **Start captions** -- speech becomes text in your browser *and* on the device's
   OLED screen. The first time, you'll be asked to download the transcription pack
   (see below).
 
-Only one phone can listen at a time -- a second connection is politely refused and
+Only one browser can listen at a time -- a second connection is politely refused and
 told why. Stopping the session, closing the page, leaving the network, or leaving
 the portal app on the device all end the stream immediately.
 
 !!! note "Keep the screen on"
-    Phones pause background pages aggressively, so a live session is a
+    Phones and tablets pause background pages aggressively, so a live session on one is a
     screen-on activity. Where the browser allows it the companion holds a screen
-    wake lock; on most phones (the device serves plain `http://`, which browsers
+    wake lock; on most phones and tablets (the device serves plain `http://`, which browsers
     treat as a limited context) you may need to raise your screen timeout for
     long sessions. The UI says which case you're in.
 
@@ -90,13 +90,13 @@ While captions run, the device's OLED becomes a caption display -- the wearable
 half of the accessibility use case. In-progress phrases update in place; finished
 phrases commit and scroll up. Press **Up** on the device to toggle a larger,
 3-line text size. Captions may lag a few seconds behind speech depending on the
-phone doing the transcribing.
+computer or phone doing the transcribing.
 
 ---
 
-## Transcription -- on your phone, not a server
+## Transcription -- in your browser, not a server
 
-Turning speech into text happens entirely on the phone, powered by two separately
+Turning speech into text happens entirely in your browser, powered by two separately
 chosen *transcription packs*. The standard live-captions pack is about 30 MB, and
 the standard saved-notes pack is about 40 MB. After those one-time downloads the
 companion works fully offline -- the usual flow is to download them once at home,
@@ -105,7 +105,7 @@ device's own WiFi with no internet in sight.
 
 - A download doesn't start on its own: you get the size of every needed pack and
   a "best on WiFi" prompt first.
-- The packs are kept by your browser. If the phone ever clears them (some phones
+- The packs are kept by your browser. If your browser ever clears them (some phones
   tidy up storage that hasn't been used in a while), the companion simply offers
   the download again -- nothing is lost.
 - Live captions and saved notes use separate speech-recognition models: programs
@@ -116,8 +116,8 @@ device's own WiFi with no internet in sight.
 
 ### Transcripts for saved notes
 
-The **Notes** destination lists every voice note on the card. Tap **Transcribe** and the
-phone reads the recording from the card, transcribes it locally, shows the text
+The **Notes** destination lists every voice note on the card. Tap **Transcribe** and your
+browser reads the recording from the card, transcribes it locally, shows the text
 in a retro terminal view -- and writes it back to the card as a sidecar text file
 next to the note (`REC_0042.txt` beside `REC_0042.wav`). Your words stay
 consolidated in one user-owned place: the card.
@@ -134,11 +134,11 @@ generator to write a markdown daily note.
 The summary generator runs on an account **you** bring: Anthropic, OpenAI, or
 Google, configured under **Settings > Your data** with your own key. Every send
 names the provider and asks fresh -- there is no "always allow". The finished
-note downloads to your phone and can also be saved to the card as
+note downloads to your device and can also be saved to the card as
 `/notes/2026-06-12.md`.
 
 Daily notes need internet. Join the device to your home WiFi (portal
-**Settings**) with the phone on the same network.
+**Settings**) with your phone or computer on the same network.
 
 !!! warning "Keep private information out of requests"
     Check the transcript before sending it to a summary provider. Leave out
@@ -161,15 +161,15 @@ For the curious:
   version claimed by a declined card copy, when there is one.
 - The live stream is a single WebSocket at `/ws/live` on the device. The device
   sends raw PCM audio (16 kHz, 16-bit mono, 5,120-byte frames -- 160 ms each);
-  the phone sends small JSON messages back: a clock sync on connect, and caption
+  your browser sends small JSON messages back: a clock sync on connect, and caption
   text as it transcribes. The exact contract lives in the firmware source
   (`lib/WebPortalApp/LiveLinkProtocol.h`) so both ends evolve together.
-- If WiFi hiccups and the phone can't drain audio fast enough, the device drops
+- If WiFi hiccups and your browser can't drain audio fast enough, the device drops
   the *oldest* unsent audio rather than stalling -- you lose a moment of sound,
   never the connection. Drops are counted in `/api/status`.
 - Transcription uses an open speech model running in the browser via
-  [transformers.js](https://github.com/huggingface/transformers.js), with the
-  phone's GPU when the browser offers it and plain CPU otherwise. The model files
+  [transformers.js](https://github.com/huggingface/transformers.js), with your
+  device's GPU when the browser offers it and plain CPU otherwise. The model files
   are cached in IndexedDB, which is why the one-time download survives offline use.
 - The microphone pipeline (capture task, ring buffer) is shared firmware code
   (`lib/MicCapture/`) -- the same path the [Voice Notes](voice-recorder.md) app
@@ -182,12 +182,12 @@ For the curious:
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| "Another phone is already listening" | One listener at a time | Stop the session on the other phone |
+| "Someone else is already listening to this device" | One listener at a time | Stop the session in the other browser |
 | Captions never start | Transcription pack not downloaded | **Settings > Transcription** -> Download (needs internet once) |
 | Captions fail right after the download starts, with a complaint about a script or module type | Device firmware predates the companion file-type fix | Reflash the device with current firmware -- this is the device's serving, so recopying the pack won't help |
 | Captions unavailable but live listening works | Speech-recognition payload missing from the card | Copy `engine.worker.js.gz` and the complete `vendor/` tree (see the table above) |
 | "Your Fidget is showing its own built-in companion" notice | The companion page on the card is older than the copy in firmware; nothing is broken | In **Settings > Your data**, compare **Companion** with **On your card**. Put a current companion pack on the card, or remove only the card's companion page override and keep the speech payload so the built-in page continues to serve |
-| Captions lag badly | Phone transcribing slower than real time | The standard live pack is already the fastest. Re-select it under **Settings > Transcription** if you chose a bigger live pack, close other tabs, or use a newer phone |
-| First transcription is slow after switching between live captions and saved notes | The phone rebuilds and warms up the newly selected pack | Let the first transcription finish; following work with that pack is faster |
-| Daily note fails to send | Phone has no internet (device AP only) | Join the device to home WiFi in portal **Settings**, keep the phone on that WiFi |
-| Session drops when the phone locks | Browsers pause background pages | Keep the screen on during sessions |
+| Captions lag badly | Your device transcribing slower than real time | The standard live pack is already the fastest. Re-select it under **Settings > Transcription** if you chose a bigger live pack, close other tabs, or use a newer device |
+| First transcription is slow after switching between live captions and saved notes | Your browser rebuilds and warms up the newly selected pack | Let the first transcription finish; following work with that pack is faster |
+| Daily note fails to send | Your browser has no internet (device AP only) | Join the device to home WiFi in portal **Settings**, keep your phone or computer on that WiFi |
+| Session drops when your phone locks | Browsers pause background pages | Keep the screen on during sessions |
